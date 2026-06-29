@@ -1216,6 +1216,28 @@ function setAccent(subject) {
 // ═══════════════════════════════════════════════════════
 // CALCULATOR
 // ═══════════════════════════════════════════════════════
+// Tracks the last textarea the user explicitly focused.
+// Calculator buttons steal document.activeElement, so we
+// cannot rely on that — we track focus ourselves instead.
+let lastFocusedTextarea = null;
+
+function setLastFocused(ta) {
+  lastFocusedTextarea = ta;
+  // Update the "sending to" indicator inside any open calc
+  const indicator = document.getElementById('calc-target-indicator');
+  if (indicator) {
+    const tas = getAnswerTextareas();
+    if (tas.length > 1) {
+      const idx = tas.indexOf(ta);
+      const labels = ['(a)', '(b)', '(c)', '(d)', '(e)'];
+      indicator.textContent = 'Adding to: ' + (labels[idx] || 'answer');
+      indicator.style.display = 'block';
+    } else {
+      indicator.style.display = 'none';
+    }
+  }
+}
+
 // getAnswerTextareas — returns textareas currently in the answer area
 function getAnswerTextareas() {
   return Array.from(document.querySelectorAll('#question-card textarea.answer-input'));
@@ -1245,7 +1267,12 @@ function buildCalc() {
   resultEl.setAttribute('aria-live', 'polite');
   resultEl.setAttribute('aria-label', 'Result');
   resultEl.textContent = '0';
-  display.append(exprEl, resultEl);
+  // Target indicator — only visible on multi-part questions
+  const targetIndicator = document.createElement('div');
+  targetIndicator.id = 'calc-target-indicator';
+  targetIndicator.setAttribute('aria-live', 'polite');
+  targetIndicator.style.cssText = 'display:none;font-size:0.7rem;color:#888;text-align:right;margin-top:4px;';
+  display.append(exprEl, resultEl, targetIndicator);
 
   const grid = document.createElement('div');
   grid.className = 'calc-grid';
@@ -1470,9 +1497,9 @@ function buildCalc() {
     if (!history || !history.length) return;
     const tas = getAnswerTextareas();
     if (!tas.length) return;
-    const focused = document.activeElement;
-    const target = (focused && focused.tagName === 'TEXTAREA' && tas.includes(focused))
-      ? focused : tas[tas.length - 1];
+    // Use the explicitly tracked last-focused textarea; fall back to first
+    const target = (lastFocusedTextarea && tas.includes(lastFocusedTextarea))
+      ? lastFocusedTextarea : tas[0];
     const lines = history.join('\n');
     target.value = target.value ? target.value + '\n' + lines : lines;
     target.dispatchEvent(new Event('input', { bubbles: true }));
@@ -1501,9 +1528,8 @@ function buildCalc() {
   clearAnswerBtn.addEventListener('click', function() {
     const tas = getAnswerTextareas();
     if (!tas.length) return;
-    // target = whichever textarea had focus before this button was clicked,
-    // or the last one as fallback
-    const target = tas[tas.length - 1];
+    const target = (lastFocusedTextarea && tas.includes(lastFocusedTextarea))
+      ? lastFocusedTextarea : tas[0];
 
     if (!target.value) return; // nothing to clear
 
@@ -1621,6 +1647,7 @@ function buildGraph(cfg) {
 // BUILD QUESTION CARD
 // ═══════════════════════════════════════════════════════
 function buildQuestionCard(q, chunkData) {
+  lastFocusedTextarea = null; // reset on each new question
   const card = document.getElementById('question-card');
   card.innerHTML = '';
   card.setAttribute('data-q', q.id);
@@ -1699,10 +1726,23 @@ function buildQuestionCard(q, chunkData) {
     hintBody.setAttribute('role', 'note');
     hintBody.textContent = q.hint;
 
+    // Restore hint open state from saved answers
+    const savedHint = state.answers[q.id];
+    if (savedHint && savedHint._hintOpen) {
+      hintBody.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Hide hint <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
+    }
+
     toggle.addEventListener('click', () => {
       const open = hintBody.classList.toggle('open');
       toggle.setAttribute('aria-expanded', open);
       toggle.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> ${open?'Hide':'Show'} hint <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
+      // Save hint open state into the answer object
+      const cur = typeof state.answers[q.id] === 'object' ? {...state.answers[q.id]} : {};
+      cur._hintOpen = open;
+      state.answers[q.id] = cur;
+      saveState(state);
     });
 
     const hintWrap = document.createElement('div');
@@ -1746,6 +1786,7 @@ function buildQuestionCard(q, chunkData) {
         saveState(state);
         updateDots();
       });
+      ta.addEventListener('focus', function() { setLastFocused(ta); });
       li.append(lbl, txt, areaLabel, ta);
       list.appendChild(li);
     });
@@ -1765,6 +1806,7 @@ function buildQuestionCard(q, chunkData) {
       saveState(state);
       updateDots();
     });
+    ta.addEventListener('focus', function() { setLastFocused(ta); });
     const skipBtn = document.createElement('button');
     skipBtn.className = 'skip-btn';
     skipBtn.textContent = 'Mark as skip';
@@ -1786,7 +1828,7 @@ function buildQuestionCard(q, chunkData) {
 
   // Focus management — target the first textarea so the caret is immediately visible
   const firstTextarea = card.querySelector('textarea');
-  if (firstTextarea) setTimeout(() => firstTextarea.focus(), 50);
+  if (firstTextarea) setTimeout(() => { firstTextarea.focus(); setLastFocused(firstTextarea); }, 50);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1808,7 +1850,7 @@ function updateDots() {
     dot.setAttribute('role', 'listitem');
     const isActive = cq.id === q.id;
     const ans = state.answers[cq.id];
-    const hasAns = ans && (typeof ans === 'string' ? ans : Object.values(ans).some(v=>v));
+    const hasAns = ans && (typeof ans === 'string' ? ans : Object.entries(ans).some(([k,v]) => !k.startsWith('_') && v));
     const isSkip = ans && (typeof ans === 'object' && ans._ === 'skip');
     if (isActive) { dot.setAttribute('aria-current', 'true'); }
     if (hasAns && !isActive) dot.classList.add(isSkip ? 'skipped' : 'answered');
@@ -1917,7 +1959,7 @@ function showBreak(completedChunkId, nextIndex) {
     const ans = state.answers[cq.id];
     let ansText = 'not answered';
     if (ans && typeof ans === 'object') {
-      const parts = Object.values(ans).filter(v=>v);
+      const parts = Object.entries(ans).filter(([k,v]) => !k.startsWith('_') && v).map(([k,v]) => v);
       if (parts.length) ansText = parts.join(' / ');
     }
     const qIndex = ALL_QUESTIONS.indexOf(cq);
@@ -1987,7 +2029,7 @@ function showDone() {
       const ans = state.answers[q.id];
       let ansText = 'not answered';
       if (ans && typeof ans === 'object') {
-        const parts = Object.values(ans).filter(v=>v);
+        const parts = Object.entries(ans).filter(([k,v]) => !k.startsWith('_') && v).map(([k,v]) => v);
         if (parts.length) ansText = parts.join(' / ');
       }
       const qIndex = ALL_QUESTIONS.indexOf(q);
