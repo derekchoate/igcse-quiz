@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGCSE Diagnostic — Friendly Version</title>
+<meta name="description" content="A gentle diagnostic quiz covering English, Maths and Combined Science. One question at a time, no time limit, skip anything that doesn't click.">
+
+<!-- Preconnect for fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+
+<style>
+/* ── TOKENS ─────────────────────────────────────────── */
+:root {
+  --bg:          #F7F6F3;
+  --surface:     #FFFFFF;
+  --text:        #1A1A1A;
+  --text-muted:  #5A5A5A;
+  --border:      #DDDBD6;
+  --focus:       #2E5A87;
+
+  --eng:         #1F6F54;
+  --eng-light:   #E8F4EF;
+  --mat:         #8A5A1E;
+  --mat-light:   #F5EDE0;
+  --sci:         #5A3E8C;
+  --sci-light:   #EDE8F6;
+  --ui:          #2E5A87;
+  --ui-light:    #E8EFF6;
+
+  --radius:      12px;
+  --radius-sm:   6px;
+  --shadow:      0 2px 12px rgba(0,0,0,0.07);
+
+  --font-body:   'Inter', system-ui, sans-serif;
+  --font-serif:  'Lora', Georgia, serif;
+
+  --accent:      var(--ui);
+  --accent-light:var(--ui-light);
+}
+
+/* ── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 1rem;
+  min-height: 100vh;
+}
+img, svg { display: block; max-width: 100%; }
+
+/* ── ACCESSIBILITY ───────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── SKIP LINK ───────────────────────────────────────── */
+.skip-link {
+  position: absolute; top: -100%; left: 1rem;
+  background: var(--focus); color: #fff;
+  padding: 0.5rem 1rem; border-radius: var(--radius-sm);
+  font-weight: 600; text-decoration: none; z-index: 9999;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ── COLOUR BAR ──────────────────────────────────────── */
+#colour-bar {
+  height: 5px;
+  background: var(--accent);
+  transition: background 0.8s ease;
+  position: sticky; top: 0; z-index: 100;
+}
+
+/* ── LAYOUT ──────────────────────────────────────────── */
+#app {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 5rem;
+}
+
+/* ── HEADER ──────────────────────────────────────────── */
+#site-header {
+  text-align: center;
+  padding: 2.5rem 0 2rem;
+}
+#site-header h1 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  line-height: 1.3;
+  color: var(--text);
+}
+#site-header p {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ── PROGRESS ────────────────────────────────────────── */
+#progress-area {
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#chunk-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+#dot-trail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.dot[aria-current="true"] {
+  background: var(--accent);
+  width: 10px; height: 10px;
+}
+.dot.answered { background: var(--accent); opacity: 0.45; }
+.dot.skipped  { background: var(--text-muted); opacity: 0.35; }
+
+/* ── QUESTION CARD ───────────────────────────────────── */
+#question-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2rem 2rem 1.75rem;
+  position: relative;
+  animation: fadeIn 0.25s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── QUESTION META ───────────────────────────────────── */
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+.q-number {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.q-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--accent-light);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── QUESTION BODY ───────────────────────────────────── */
+.q-text {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+}
+.q-text strong { font-weight: 600; }
+.q-text em { font-style: italic; }
+
+/* Passage block (English reading passage) */
+.passage-details {
+  margin-bottom: 1.25rem;
+}
+.passage-summary {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--eng);
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 0.2rem 0 0.4rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  user-select: none;
+}
+.passage-summary::-webkit-details-marker { display: none; }
+.passage-summary::before {
+  content: '▼';
+  font-size: 0.6rem;
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.passage-details:not([open]) .passage-summary::before { transform: rotate(-90deg); }
+.passage-details:not([open]) .passage-summary { padding-bottom: 0; }
+.passage {
+  border-left: 4px solid var(--eng);
+  background: var(--eng-light);
+  padding: 1rem 1.2rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 0.4rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  line-height: 1.8;
+  color: #1A1A1A;
+}
+
+/* Sub-parts (a), (b), (c) */
+.sub-parts {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+.sub-part {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.sub-part-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.sub-part-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* ── HINT ────────────────────────────────────────────── */
+.hint-toggle {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  margin-bottom: 0.75rem;
+}
+.hint-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+.hint-toggle[aria-expanded="true"] {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.hint-toggle svg { flex-shrink: 0; transition: transform 0.2s; }
+.hint-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+.hint-body {
+  background: var(--accent-light);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+  display: none;
+}
+.hint-body.open { display: block; animation: fadeIn 0.2s ease; }
+
+/* ── ANSWER AREA ─────────────────────────────────────── */
+.answer-area {
+  margin-top: 0.75rem;
+}
+.answer-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+textarea.answer-input {
+  width: 100%;
+  min-height: 90px;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  resize: vertical;
+  transition: border-color 0.2s;
+  cursor: text;
+  caret-color: var(--text);
+  -webkit-text-fill-color: var(--text);
+}
+textarea.answer-input:focus {
+  border-color: var(--accent);
+  background: #fff;
+}
+textarea.answer-input::placeholder { color: #AAAAAA; }
+
+.skip-btn {
+  background: none;
+  border: none;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.25rem 0;
+  margin-top: 0.5rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+.skip-btn:hover { color: var(--text); }
+
+/* ── CANVAS (graph / calc) ───────────────────────────── */
+.canvas-wrap {
+  margin: 1rem 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+canvas { display: block; width: 100%; height: auto; }
+
+/* ── CALCULATOR ──────────────────────────────────────── */
+.calc-wrap {
+  margin: 1rem 0;
+  background: #1A1A1A;
+  border-radius: var(--radius);
+  padding: 1rem;
+  user-select: none;
+}
+.calc-display {
+  background: #0D0D0D;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  text-align: right;
+  margin-bottom: 0.75rem;
+}
+.calc-expr {
+  font-size: 0.78rem;
+  color: #666;
+  min-height: 1em;
+  word-break: break-all;
+}
+.calc-result {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  min-height: 1.6rem;
+  word-break: break-all;
+}
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.calc-btn {
+  padding: 0.7rem 0.4rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #2A2A2A;
+  color: #FFFFFF;
+  transition: background 0.15s, transform 0.1s;
+  font-family: var(--font-body);
+}
+.calc-btn:hover  { background: #3A3A3A; }
+.calc-btn:active { transform: scale(0.94); }
+.calc-btn.op     { background: #3A3060; color: #C4B5F8; }
+.calc-btn.action { background: #2E3A2E; color: #86EFAC; }
+.calc-btn.equals { background: #1F6F54; color: #fff; grid-column: span 2; }
+.calc-btn.clear  { background: #5A1E1E; color: #FCA5A5; }
+
+/* ── CALCULATOR ACTION BAR ───────────────────────────── */
+.calc-action-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.calc-action-btn {
+  flex: 1;
+  padding: 0.6rem 0.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: opacity 0.15s, background 0.15s;
+}
+.calc-action-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.calc-add-btn {
+  background: #1F4A2E;
+  color: #86EFAC;
+}
+.calc-add-btn:not(:disabled):hover { background: #2A6040; }
+.calc-add-confirm {
+  background: #2F7A3F !important;
+  color: #fff !important;
+}
+.calc-clear-ans-btn {
+  background: #3A2020;
+  color: #FCA5A5;
+}
+.calc-clear-ans-btn:hover { background: #4A2828; }
+.calc-clear-armed {
+  background: #7A2020 !important;
+  color: #fff !important;
+  font-size: 0.76rem !important;
+}
+
+/* ── NAV BUTTONS ─────────────────────────────────────── */
+.nav-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  align-items: center;
+}
+.nav-btn {
+  padding: 0.65rem 1.4rem;
+  border-radius: 99px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  font-family: var(--font-body);
+}
+.nav-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.nav-btn.primary:hover {
+  filter: brightness(1.1);
+}
+.nav-btn.secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+.nav-btn.secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── CHUNK BREAK CARD ────────────────────────────────── */
+#break-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+#break-card.visible { display: block; }
+.break-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+#break-card h2 {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+#break-card p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.summary-list {
+  text-align: left;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.summary-list h3 {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+.summary-item {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.summary-item:last-child { border-bottom: none; }
+.summary-qnum {
+  font-weight: 600;
+  min-width: 2.2rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.summary-ans {
+  color: var(--text-muted);
+  font-style: italic;
+  word-break: break-word;
+}
+.summary-skipped { color: #AAA; }
+
+/* Clickable summary items */
+.summary-item-btn {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.4rem 0.5rem;
+  margin: 0 -0.5rem;
+  border-radius: var(--radius-sm);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  cursor: pointer;
+  width: calc(100% + 1rem);
+  transition: background 0.15s;
+}
+/* Restore text cursor and caret on inputs — guards against inheritance issues */
+textarea, input[type="text"], input[type="file"], input {
+  cursor: text;
+  caret-color: var(--text);
+}
+.summary-item-btn:last-child { border-bottom: none; }
+.summary-item-btn:hover,
+.summary-item-btn:focus-visible {
+  background: var(--accent-light);
+}
+.summary-item-btn:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 0;
+}
+.summary-item-btn .summary-qnum {
+  font-weight: 600;
+  min-width: 2.2rem;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.summary-item-btn .summary-ans {
+  color: var(--text-muted);
+  font-style: italic;
+  word-break: break-word;
+  flex: 1;
+}
+.summary-item-btn .summary-edit-hint {
+  font-size: 0.72rem;
+  color: var(--border);
+  flex-shrink: 0;
+  align-self: center;
+  transition: color 0.15s;
+}
+.summary-item-btn:hover .summary-edit-hint,
+.summary-item-btn:focus-visible .summary-edit-hint {
+  color: var(--accent);
+}
+
+/* ── WELCOME / DONE SCREENS ──────────────────────────── */
+#welcome-screen, #done-screen {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5rem 2rem;
+  animation: fadeIn 0.3s ease;
+}
+#welcome-screen h2, #done-screen h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+#welcome-screen ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+#welcome-screen li {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+#welcome-screen li::before {
+  content: "→";
+  color: var(--accent);
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.chunks-overview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+}
+.chunk-pill {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+  letter-spacing: 0.04em;
+}
+.pill-eng { background: var(--eng-light); color: var(--eng); }
+.pill-mat { background: var(--mat-light); color: var(--mat); }
+.pill-sci { background: var(--sci-light); color: var(--sci); }
+
+/* ── DONE SCREEN ─────────────────────────────────────── */
+#done-screen p { color: var(--text-muted); margin-bottom: 1rem; line-height: 1.7; }
+.full-summary { margin-top: 1rem; }
+.full-summary-chunk {
+  margin-bottom: 1.5rem;
+}
+.full-summary-chunk h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  #app { padding: 1.5rem 1rem 5rem; }
+  #question-card { padding: 1.5rem 1.25rem; }
+  .calc-btn { padding: 0.65rem 0.2rem; font-size: 0.88rem; }
+}
+
+/* ── DATA BAR (reset / import / export) ─────────────── */
+#data-bar {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+#data-bar-quiz {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+.data-btn {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  height: 2rem;
+  padding: 0 0.85rem;
+  border-radius: 99px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+.data-btn:hover { border-color: var(--accent); color: var(--accent); }
+.data-btn.danger { border-color: #DDBBBB; color: #8B3A3A; }
+.data-btn.danger:hover { background: #FDF0F0; border-color: #8B3A3A; }
+.data-btn.confirm-armed {
+  background: #8B3A3A !important;
+  color: #fff !important;
+  border-color: #8B3A3A !important;
+}
+.data-bar-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  flex-basis: 100%;
+  margin-bottom: 0.1rem;
+}
+/* Hidden file input for import */
+#import-input { display: none; }
+
+/* ── LIVE REGION ─────────────────────────────────────── */
+#live-region {
+  position: absolute; left: -9999px;
+  width: 1px; height: 1px; overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+<a href="#main-content" class="skip-link">Skip to question</a>
+<div id="colour-bar" role="presentation" aria-hidden="true"></div>
+<div id="live-region" aria-live="polite" aria-atomic="true"></div>
+
+<div id="app">
+  <header id="site-header">
+    <h1>IGCSE Diagnostic</h1>
+    <p>Friendly version &nbsp;·&nbsp; no time limit &nbsp;·&nbsp; skip anything that doesn't click</p>
+  </header>
+
+  <main id="main-content">
+    <!-- Welcome -->
+    <section id="welcome-screen" aria-labelledby="welcome-h2">
+      <h2 id="welcome-h2">Before you start</h2>
+      <ul>
+        <li><strong>This is not a test.</strong> Nobody is being graded. It helps me plan lessons that fit you.</li>
+        <li><strong>"Skip" is a real answer.</strong> Just leave the box empty and move on — that's useful data.</li>
+        <li><strong>One question at a time.</strong> Come back whenever you like — your answers are saved automatically.</li>
+        <li><strong>Calculators and graphs</strong> appear when you need them. Hints are hidden by default — tap to reveal.</li>
+        <li><strong>Take the breaks.</strong> After each chunk a summary appears. Use it.</li>
+      </ul>
+      <div class="chunks-overview" aria-label="Quiz sections">
+        <span class="chunk-pill pill-eng">English · Chunks 1–4</span>
+        <span class="chunk-pill pill-mat">Maths · Chunks 5–8</span>
+        <span class="chunk-pill pill-sci">Science · Chunk 9</span>
+      </div>
+      <div class="nav-row">
+        <button class="nav-btn primary" id="start-btn">Start</button>
+        <button class="nav-btn secondary" id="resume-btn" style="display:none">Resume where I left off</button>
+      </div>
+      <div id="data-bar" role="group" aria-label="Data management">
+        <span class="data-bar-label">Manage your answers</span>
+        <button class="data-btn" id="export-btn-welcome" aria-label="Export answers as a file">Export answers</button>
+        <label class="data-btn" for="import-input" role="button" tabindex="0" aria-label="Import answers from a file">Import answers</label>
+        <input type="file" id="import-input" accept=".json" aria-label="Choose a file to import answers from">
+        <button class="data-btn danger" id="reset-btn-welcome" aria-label="Reset all answers and clear saved progress">Reset all answers</button>
+      </div>
+    </section>
+
+    <!-- Question view -->
+    <section id="quiz-view" aria-labelledby="chunk-label" style="display:none">
+      <div id="progress-area" role="navigation" aria-label="Question navigation">
+        <div id="chunk-label" aria-live="polite"></div>
+        <div id="dot-trail" role="list" aria-label="Questions in this chunk"></div>
+      </div>
+      <div id="question-card" role="main"></div>
+      <nav class="nav-row" aria-label="Move between questions">
+        <button class="nav-btn secondary" id="prev-btn" aria-label="Previous question">← Back</button>
+        <button class="nav-btn primary"   id="next-btn" aria-label="Next question">Next →</button>
+      </nav>
+      <div id="data-bar-quiz" role="group" aria-label="Data management">
+        <button class="data-btn" id="export-btn-quiz" aria-label="Export answers as a file">Export answers</button>
+      </div>
+    </section>
+
+    <!-- Chunk break -->
+    <section id="break-card" aria-labelledby="break-title" role="region"></section>
+
+    <!-- Done -->
+    <section id="done-screen" aria-labelledby="done-h2" style="display:none">
+      <h2 id="done-h2">That's everything. Well done.</h2>
+      <p>Thank you for working through this. Your answers are saved and your tutor will use them to plan your first lessons. There's nothing more to do here.</p>
+      <div id="full-summary-area" class="full-summary"></div>
+      <div class="nav-row" style="margin-top:1.5rem">
+        <button class="nav-btn secondary" id="back-btn-done" aria-label="Go back to the last question">← Back to last question</button>
+        <button class="nav-btn secondary" id="restart-btn">Start again (clears all answers)</button>
+      </div>
+      <div id="data-bar-done" role="group" aria-label="Data management" style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;">
+        <span class="data-bar-label">Save or share your answers</span>
+        <button class="data-btn" id="export-btn-done" aria-label="Export answers as a file">Export answers</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// QUIZ DATA
+// ═══════════════════════════════════════════════════════
+const CHUNKS = [
+  {
+    id: 1, label: "Chunk 1 of 9 — Reading: the story", subject: "eng",
+    prelude: "About 5 minutes. Read this slowly — no rush.",
+    passage: "The bus shelter offered little against the wind. Priya checked her phone again — 7:52, and still no sign of the 14. She had promised herself she wouldn't be late, not today of all days, and now the minutes were peeling away one by one. An elderly man beside her hummed something tuneless, entirely untroubled, as though buses were a thing that happened to other people.",
+    questions: [
+      {
+        id: "1", num: "1",
+        showPassage: true,
+        text: "Two quick facts from the text:",
+        parts: [
+          { label: "(a)", text: "What time is it?" },
+          { label: "(b)", text: "Which bus number is Priya waiting for?" }
+        ]
+      },
+      {
+        id: "2", num: "2",
+        showPassage: true,
+        text: "Find one word or phrase in the passage that shows Priya is worried or anxious. Just copy it out."
+      },
+      {
+        id: "3", num: "3",
+        showPassage: true,
+        text: "Say it back in your own words: in one sentence, what is happening in this scene?",
+        hint: "Example of 'your own words': instead of copying 'the minutes were peeling away,' you might write 'she's waiting and getting stressed.'"
+      }
+    ]
+  },
+  {
+    id: 2, label: "Chunk 2 of 9 — Reading: a bit deeper", subject: "eng",
+    prelude: "About 5–7 minutes. These ask what you think — there isn't one perfect answer.",
+    questions: [
+      {
+        id: "4", num: "4",
+        showPassage: true,
+        text: "Two people are waiting for the same late bus:",
+        parts: [
+          { label: "(a)", text: "How does Priya feel about the bus being late?" },
+          { label: "(b)", text: "How does the elderly man feel about it?" },
+          { label: "(c)", text: "What do you notice when you put those two side by side?" }
+        ]
+      },
+      {
+        id: "5", num: "5",
+        showPassage: true,
+        text: "The writer wrote that the minutes were \"peeling away\" instead of just \"passing.\"",
+        parts: [
+          { label: "(a)", text: "What does the word 'peeling' make you picture or feel?" },
+          { label: "(b)", text: "Does it make the time feel like it's going slowly, painfully, quickly, or some other way?" }
+        ],
+        hint: "Any answer you can explain is a good answer."
+      }
+    ]
+  },
+  {
+    id: 3, label: "Chunk 3 of 9 — Writing", subject: "eng",
+    prelude: "About 7–10 minutes. This is the longest chunk — feel free to split it.",
+    questions: [
+      {
+        id: "6", num: "6",
+        text: "Describe a place you know well (your room, a shop, a park — anything), in 4–6 sentences, so a reader could picture it.",
+        hint: "Try to include what you can see, hear, or smell."
+      },
+      {
+        id: "7", num: "7",
+        showPassage: true,
+        text: "Carry on Priya's story. Write what happens next in 4–6 sentences. Pick one of these and run with it:\n• the bus finally arrives\n• she gives up and starts walking\n• something unexpected happens",
+      }
+    ]
+  },
+  {
+    id: 4, label: "Chunk 4 of 9 — Spelling, punctuation & grammar", subject: "eng",
+    prelude: "About 5 minutes. Short ones.",
+    questions: [
+      {
+        id: "8", num: "8",
+        text: "Rewrite this so it's correct:",
+        quote: '\u201cme and my freind we was waiting for ages but the bus never come so we just walked\u201d',
+      },
+      {
+        id: "9", num: "9",
+        text: "Add the missing punctuation (commas and a full stop):",
+        quote: "the bag held everything she needed a notebook two pens and her keys"
+      },
+      {
+        id: "10", num: "10",
+        text: "Pick the right word and write the completed sentence:",
+        quote: "Their / There / They're not coming after all."
+      }
+    ]
+  },
+  {
+    id: 5, label: "Chunk 5 of 9 — Maths: numbers", subject: "mat",
+    prelude: "About 7 minutes. Calculator is available below — just mention if you used it.",
+    questions: [
+      {
+        id: "11", num: "11",
+        text: "Work out:  7 + 6 × 2",
+        hint: "Remember: do the × before the +.",
+        calc: true
+      },
+      {
+        id: "12", num: "12",
+        text: "Work out:  −5 + 8 − 3",
+        calc: true
+      },
+      {
+        id: "13", num: "13",
+        text: "Simplify the fraction 18/24 down to its smallest form.",
+        hint: "What number divides into both 18 and 24?"
+      },
+      {
+        id: "14", num: "14",
+        text: "A jacket costs £60 and is reduced by 15%. Two steps:",
+        parts: [
+          { label: "(a)", text: "What is 15% of £60?" },
+          { label: "(b)", text: "Take that amount off the £60. What's the new price?" }
+        ],
+        calc: true
+      },
+      {
+        id: "15", num: "15",
+        text: 'Two people share £200. For every £3 the first person gets, the second person gets £2. (This is called sharing \u201cin the ratio 3\u00a0:\u00a02.\u201d)',
+        parts: [
+          { label: "(a)", text: "Add the parts: 3 + 2 = ? That's how many equal shares £200 splits into." },
+          { label: "(b)", text: "How much is one share worth?" },
+          { label: "(c)", text: "So how much does each person get?" }
+        ],
+        calc: true
+      },
+      {
+        id: "16", num: "16",
+        text: "Write 0.00042 in standard form.",
+        hint: "Standard form looks like A × 10ⁿ, where A is between 1 and 10. Example: 0.003 = 3 × 10⁻³."
+      }
+    ]
+  },
+  {
+    id: 6, label: "Chunk 6 of 9 — Maths: algebra", subject: "mat",
+    prelude: "About 7 minutes.",
+    questions: [
+      {
+        id: "17", num: "17",
+        text: "Solve for x:  3x + 5 = 20",
+        hint: "Get x on its own. Step 1: take 5 off both sides.",
+        calc: true
+      },
+      {
+        id: "18", num: "18",
+        text: "If y = 2x − 1, find y when x = 4.",
+        hint: "Swap the x for a 4, then work it out.",
+        calc: true
+      },
+      {
+        id: "19", num: "19",
+        text: "Expand and simplify:  3(x + 2) + 2(x − 1)",
+        hint: "Multiply out each bracket first, then collect the matching terms."
+      },
+      {
+        id: "20", num: "20",
+        text: 'Rearrange the equation C = 2πr so that it reads \u201cr = …\u201d — in other words, get r on its own on one side.',
+        hint: "Step 1: what's r being multiplied by? Undo that."
+      },
+      {
+        id: "21", num: "21",
+        text: "Factorise:  x² + 5x + 6",
+        hint: "You're looking for two numbers that multiply to make 6 and add to make 5. Answer will look like (x + ?)(x + ?)."
+      }
+    ]
+  },
+  {
+    id: 7, label: "Chunk 7 of 9 — Maths: shapes & angles", subject: "mat",
+    prelude: "About 7 minutes.",
+    questions: [
+      {
+        id: "22", num: "22",
+        text: "A straight line passes through the points (0, 1) and (2, 5). Find its gradient (its steepness).",
+        hint: "Gradient = how much it goes UP ÷ how much it goes ACROSS. Up: 5 − 1. Across: 2 − 0.",
+        graph: { points: [{x:0,y:1,label:"(0,1)"},{x:2,y:5,label:"(2,5)"}], xRange:[-1,4], yRange:[-1,7], showLine: true },
+        calc: true
+      },
+      {
+        id: "23", num: "23",
+        text: "A rectangle is 8 cm long and 5 cm wide.",
+        parts: [
+          { label: "(a)", text: "What is its area? (area = length × width)" },
+          { label: "(b)", text: "What is its perimeter? (perimeter = all four sides added up)" }
+        ],
+        calc: true
+      },
+      {
+        id: "24", num: "24",
+        text: "A triangle has angles of 90° and 35°. What is the third angle?",
+        hint: "All three angles in a triangle add up to 180°.",
+        calc: true
+      },
+      {
+        id: "25", num: "25",
+        text: "Find the area of a circle with radius 4 cm.",
+        hint: "area = π × radius × radius. Use π ≈ 3.14, or leave your answer in terms of π.",
+        calc: true
+      },
+      {
+        id: "26", num: "26",
+        text: "In a right-angled triangle, the side directly across from one of the angles is 3 cm, and the longest side (the one across from the right angle) is 5 cm. Find the size of that angle.",
+        hint: "Use the ratio that links the side across from the angle with the longest side — the 'S' in 'SOH CAH TOA': sin = opposite ÷ hypotenuse. Then use sin⁻¹ on your calculator.",
+        calc: true
+      }
+    ]
+  },
+  {
+    id: 8, label: "Chunk 8 of 9 — Maths: chance & averages", subject: "mat",
+    prelude: "About 5 minutes. Last of the maths.",
+    questions: [
+      {
+        id: "27", num: "27",
+        text: "Find the mean (the average) of:  4, 8, 6, 2, 10",
+        hint: "Add them all up, then divide by how many numbers there are — there are 5.",
+        calc: true
+      },
+      {
+        id: "28", num: "28",
+        text: "A normal six-sided die is rolled. What's the probability of getting an even number?",
+        hint: "Which faces are even? How many out of 6?"
+      },
+      {
+        id: "29", num: "29",
+        text: "For this list:  3, 7, 2, 9, 5, 7",
+        parts: [
+          { label: "(a)", text: "Median — the middle value. First put the numbers in order, then find the middle." },
+          { label: "(b)", text: "Range = biggest number − smallest number." }
+        ],
+        calc: true
+      }
+    ]
+  },
+  {
+    id: 9, label: "Chunk 9 of 9 — Combined Science", subject: "sci",
+    prelude: "Split into Biology, Chemistry, Physics and Working Scientifically. Treat each as its own mini-burst — rest between them if you need to.",
+    questions: [
+      {
+        id: "30", num: "30", section: "Biology",
+        text: "All living things share seven characteristics (things like growing, moving, reproducing…). Name any three you can think of."
+      },
+      {
+        id: "31", num: "31", section: "Biology",
+        text: "Name two things found in a plant cell that an animal cell does not have.",
+        hint: "One helps it stand stiff, one makes it green."
+      },
+      {
+        id: "32", num: "32", section: "Biology",
+        text: "For photosynthesis:",
+        parts: [
+          { label: "(a)", text: "Which gas do plants take in?" },
+          { label: "(b)", text: "Which gas do plants give out?" }
+        ]
+      },
+      {
+        id: "33", num: "33", section: "Biology",
+        text: "Diffusion is when particles spread out from where there are lots of them to where there are fewer.",
+        parts: [
+          { label: "(a)", text: "In your own words, what is diffusion?" },
+          { label: "(b)", text: "Can you give one example in the human body?" }
+        ],
+        hint: "Example to get you thinking: gases moving in the lungs."
+      },
+      {
+        id: "34", num: "34", section: "Biology",
+        text: "Enzymes are 'biological catalysts.'",
+        parts: [
+          { label: "(a)", text: "A catalyst speeds up a reaction. So what do you think an enzyme does in the body?" },
+          { label: "(b)", text: "What do you think happens to most enzymes if they get too hot?" }
+        ]
+      },
+      {
+        id: "35", num: "35", section: "Chemistry",
+        text: "Name the three states of matter, and give an everyday example of each.",
+        hint: "One's started for you: solid → ice. Now liquid → ? and gas → ?"
+      },
+      {
+        id: "36", num: "36", section: "Chemistry",
+        text: "When salt dissolves in water, is that a physical change or a chemical change? Briefly, why do you think so?",
+        hint: "Could you get the salt back again?"
+      },
+      {
+        id: "37", num: "37", section: "Chemistry",
+        text: "The pH scale:",
+        parts: [
+          { label: "(a)", text: "What does it measure? (acids and …?)" },
+          { label: "(b)", text: "Which pH number is neutral (neither acid nor alkali)?" }
+        ]
+      },
+      {
+        id: "38", num: "38", section: "Chemistry",
+        text: "An atom has 11 protons in its centre (nucleus).",
+        parts: [
+          { label: "(a)", text: "The atomic number is just the number of protons. So what is this atom's atomic number?" },
+          { label: "(b)", text: "Metals sit on the left and middle of the Periodic Table; non-metals on the right. Would you expect this element to be a metal or a non-metal?" },
+          { label: "(c)", text: "Bonus, only if you fancy it: can you name the element?" }
+        ]
+      },
+      {
+        id: "39", num: "39", section: "Chemistry",
+        text: "Balance this equation so each side has the same number of each atom:  H₂ + O₂ → H₂O",
+        hint: "Try putting numbers in front so the oxygens and hydrogens match on both sides."
+      },
+      {
+        id: "40", num: "40", section: "Physics",
+        text: "A car travels 100 m in 20 s. Calculate its speed, and include the units.",
+        hint: "speed = distance ÷ time. Units will be metres per second, m/s.",
+        calc: true
+      },
+      {
+        id: "41", num: "41", section: "Physics",
+        text: "Name two types of energy, and give an example of each.",
+        hint: "One to start you off: heat energy → a radiator. Now name two of your own."
+      },
+      {
+        id: "42", num: "42", section: "Physics",
+        text: "When a ball falls from a height, its energy changes form. Fill in the blanks:",
+        quote: '\u201cFrom __________ energy (because it was up high) to __________ energy (because it\'s now moving).\u201d',
+      },
+      {
+        id: "43", num: "43", section: "Physics",
+        text: "A force of 10 N pushes on a mass of 2 kg. Calculate the acceleration.",
+        hint: "Use: acceleration = force ÷ mass.",
+        calc: true
+      },
+      {
+        id: "44", num: "44", section: "Physics",
+        text: "Name the three main types of nuclear radiation.",
+        hint: "They're named after the first three letters of the Greek alphabet: alpha, b…, g…?"
+      },
+      {
+        id: "45", num: "45", section: "Working Scientifically",
+        text: "Imagine you want to test whether plants grow taller when music is played to them. You have two groups: one with music, one without.",
+        parts: [
+          { label: "•", text: "Name one thing you should keep exactly the same for both groups (e.g. amount of water)." },
+          { label: "•", text: "Why does keeping it the same matter?" }
+        ],
+        hint: "If too many things are different, how would you know it was the music that mattered?"
+      },
+      {
+        id: "46", num: "46", section: "Working Scientifically",
+        text: "In that same plant experiment:",
+        parts: [
+          { label: "(a)", text: "The independent variable is the thing you deliberately change. What is it here?" },
+          { label: "(b)", text: "The dependent variable is the thing you measure at the end. What is it here?" }
+        ]
+      }
+    ]
+  }
+];
+
+// Flat list for easy lookup
+const ALL_QUESTIONS = CHUNKS.flatMap(c => c.questions.map(q => ({...q, chunkId: c.id, subject: c.subject})));
+
+// ═══════════════════════════════════════════════════════
+// STATE & STORAGE
+// ═══════════════════════════════════════════════════════
+const LS_KEY = 'igcse_diagnostic_v2';
+
+function loadState() {
+  try {
+    const s = localStorage.getItem(LS_KEY);
+    return s ? JSON.parse(s) : { answers: {}, currentQIndex: 0, started: false };
+  } catch(e) { return { answers: {}, currentQIndex: 0, started: false }; }
+}
+
+function saveState(state) {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+let state = loadState();
+
+// ═══════════════════════════════════════════════════════
+// COLOUR BAR
+// ═══════════════════════════════════════════════════════
+const subjectColours = { eng: '#1F6F54', mat: '#8A5A1E', sci: '#5A3E8C', ui: '#2E5A87' };
+
+function setAccent(subject) {
+  const colour = subjectColours[subject] || subjectColours.ui;
+  const lightMap = { eng: '#E8F4EF', mat: '#F5EDE0', sci: '#EDE8F6', ui: '#E8EFF6' };
+  const light = lightMap[subject] || lightMap.ui;
+  document.getElementById('colour-bar').style.background = colour;
+  document.documentElement.style.setProperty('--accent', colour);
+  document.documentElement.style.setProperty('--accent-light', light);
+}
+
+// ═══════════════════════════════════════════════════════
+// CALCULATOR
+// ═══════════════════════════════════════════════════════
+// getAnswerTextareas — returns textareas currently in the answer area
+function getAnswerTextareas() {
+  return Array.from(document.querySelectorAll('#question-card textarea.answer-input'));
+}
+
+function buildCalc() {
+  // Simple left-to-right calculator — no operator precedence.
+  let accumulator = null;   // running total
+  let pendingOp   = null;   // '+' '-' '*' '/'
+  let currentStr  = '';     // digits being typed
+  let justEvaled  = false;  // true after '=' — next digit starts fresh
+  let calcHistory = [];     // each completed step as a display string
+
+  const wrap = document.createElement('div');
+  wrap.className = 'calc-wrap';
+  wrap.setAttribute('role', 'group');
+  wrap.setAttribute('aria-label', 'On-screen calculator');
+
+  const display = document.createElement('div');
+  display.className = 'calc-display';
+  const exprEl = document.createElement('div');
+  exprEl.className = 'calc-expr';
+  exprEl.setAttribute('aria-live', 'polite');
+  exprEl.setAttribute('aria-label', 'Expression');
+  const resultEl = document.createElement('div');
+  resultEl.className = 'calc-result';
+  resultEl.setAttribute('aria-live', 'polite');
+  resultEl.setAttribute('aria-label', 'Result');
+  resultEl.textContent = '0';
+  display.append(exprEl, resultEl);
+
+  const grid = document.createElement('div');
+  grid.className = 'calc-grid';
+
+  const buttons = [
+    ['sin', 'op'], ['cos', 'op'], ['tan', 'op'], ['\u221a', 'op'],
+    ['sin\u207b\u00b9','op'], ['\u03c0', 'op'], ['%', 'op'], ['+/-', 'op'],
+    ['7',''], ['8',''], ['9',''], ['\u00f7','op'],
+    ['4',''], ['5',''], ['6',''], ['\u00d7','op'],
+    ['1',''], ['2',''], ['3',''], ['\u2212','op'],
+    ['0',''], ['.',''], ['\u232b','action'], ['+','op'],
+    ['C','clear'], ['=', 'equals']
+  ];
+
+  function applyOp(a, op, b) {
+    if (op === '+') return a + b;
+    if (op === '-') return a - b;
+    if (op === '*') return a * b;
+    if (op === '/') return b === 0 ? null : a / b;
+    return b;
+  }
+
+  function fmt(n) {
+    if (n === null || !isFinite(n)) return 'Error';
+    return parseFloat(n.toFixed(10)).toString();
+  }
+
+  function currentVal() {
+    return currentStr === '' ? 0 : parseFloat(currentStr);
+  }
+
+  const opDisplay = { '+': '+', '-': '\u2212', '*': '\u00d7', '/': '\u00f7' };
+
+  // forward-declare so update() can reference buttons
+  let addToAnswerBtn;
+
+  function refreshAddBtn() {
+    if (addToAnswerBtn) addToAnswerBtn.disabled = (calcHistory.length === 0);
+  }
+
+  function update(btn) {
+    const opMap = {'\u00d7':'*', '\u00f7':'/', '\u2212':'-', '+':'+'};
+
+    // ── Clear (resets everything including history) ────────────────────
+    if (btn === 'C') {
+      accumulator = null; pendingOp = null; currentStr = '';
+      justEvaled = false; calcHistory = [];
+      wrap._calcHistory = calcHistory;
+      exprEl.textContent = '';
+      resultEl.textContent = '0';
+      refreshAddBtn();
+      return;
+    }
+
+    // ── Backspace ──────────────────────────────────────────────────────
+    if (btn === '\u232b') {
+      if (justEvaled) return;
+      currentStr = currentStr.slice(0, -1);
+      resultEl.textContent = currentStr === ''
+        ? (accumulator !== null ? fmt(accumulator) : '0')
+        : currentStr;
+      return;
+    }
+
+    // ── Digits and decimal ─────────────────────────────────────────────
+    if (/^[0-9]$/.test(btn) || btn === '.') {
+      if (justEvaled) {
+        // Start a new chain — keep history intact, reset operand state only
+        accumulator = null; pendingOp = null; currentStr = ''; justEvaled = false;
+      }
+      if (btn === '.' && currentStr.includes('.')) return;
+      currentStr += btn;
+      resultEl.textContent = currentStr;
+      return;
+    }
+
+    // ── Pi ─────────────────────────────────────────────────────────────
+    if (btn === '\u03c0') {
+      if (justEvaled) { accumulator = null; pendingOp = null; justEvaled = false; }
+      currentStr = String(Math.PI);
+      resultEl.textContent = currentStr;
+      return;
+    }
+
+    // ── Toggle sign ────────────────────────────────────────────────────
+    if (btn === '+/-') {
+      if (currentStr !== '') {
+        currentStr = currentStr.startsWith('-') ? currentStr.slice(1) : '-' + currentStr;
+        resultEl.textContent = currentStr;
+      } else if (accumulator !== null) {
+        accumulator = -accumulator;
+        resultEl.textContent = fmt(accumulator);
+      }
+      return;
+    }
+
+    // ── Percentage ─────────────────────────────────────────────────────
+    if (btn === '%') {
+      const v = currentStr !== '' ? currentVal() : (accumulator !== null ? accumulator : 0);
+      currentStr = String(v / 100);
+      resultEl.textContent = currentStr;
+      return;
+    }
+
+    // ── Unary functions ────────────────────────────────────────────────
+    const unaryFns = {
+      '\u221a':          function(v){ return Math.sqrt(v); },
+      'sin':             function(v){ return Math.sin(v * Math.PI / 180); },
+      'cos':             function(v){ return Math.cos(v * Math.PI / 180); },
+      'tan':             function(v){ return Math.tan(v * Math.PI / 180); },
+      'sin\u207b\u00b9': function(v){ return Math.asin(v) * 180 / Math.PI; },
+      'cos\u207b\u00b9': function(v){ return Math.acos(v) * 180 / Math.PI; },
+      'tan\u207b\u00b9': function(v){ return Math.atan(v) * 180 / Math.PI; }
+    };
+    if (unaryFns[btn]) {
+      const v = currentStr !== '' ? currentVal() : (accumulator !== null ? accumulator : 0);
+      const r = unaryFns[btn](v);
+      const rFmt = fmt(r);
+      const line = btn + '(' + fmt(v) + ') = ' + rFmt;
+      if (rFmt !== 'Error') {
+        calcHistory.push(line);
+        wrap._calcHistory = calcHistory;
+      }
+      currentStr = rFmt === 'Error' ? '' : rFmt;
+      resultEl.textContent = rFmt;
+      exprEl.textContent = btn + '(' + fmt(v) + ') =';
+      refreshAddBtn();
+      return;
+    }
+
+    // ── Binary operators ───────────────────────────────────────────────
+    if (opMap[btn]) {
+      // After '=': result already in accumulator, just chain the new op
+      if (justEvaled) {
+        justEvaled = false;
+        pendingOp = opMap[btn];
+        currentStr = '';
+        resultEl.textContent = fmt(accumulator);
+        exprEl.textContent = fmt(accumulator) + ' ' + btn;
+        return;
+      }
+      // Mid-chain: apply the pending op and record the step in history
+      if (pendingOp !== null && currentStr !== '') {
+        var prevA = accumulator;
+        var prevB = currentVal();
+        var prevOp = pendingOp;
+        accumulator = applyOp(prevA, prevOp, prevB);
+        var midFmt = fmt(accumulator);
+        if (midFmt !== 'Error') {
+          var midLine = fmt(prevA) + ' ' + (opDisplay[prevOp] || prevOp) + ' ' + fmt(prevB) + ' = ' + midFmt;
+          calcHistory.push(midLine);
+          wrap._calcHistory = calcHistory;
+          refreshAddBtn();
+        }
+      } else if (accumulator === null) {
+        accumulator = currentStr !== '' ? currentVal() : 0;
+      }
+      resultEl.textContent = fmt(accumulator);
+      exprEl.textContent = fmt(accumulator) + ' ' + btn;
+      pendingOp = opMap[btn];
+      currentStr = '';
+      return;
+    }
+
+    // ── Equals ─────────────────────────────────────────────────────────
+    if (btn === '=') {
+      var b = currentStr !== '' ? currentVal() : (accumulator !== null ? accumulator : 0);
+      var a = accumulator !== null ? accumulator : b;
+      var result = pendingOp ? applyOp(a, pendingOp, b) : b;
+      var resultFmt = fmt(result);
+      var opSym = pendingOp ? (opDisplay[pendingOp] || pendingOp) : '';
+
+      exprEl.textContent = pendingOp
+        ? fmt(a) + ' ' + opSym + ' ' + fmt(b) + ' ='
+        : '';
+      resultEl.textContent = resultFmt;
+
+      // Record this step in history
+      if (resultFmt !== 'Error' && pendingOp) {
+        var line = fmt(a) + ' ' + opSym + ' ' + fmt(b) + ' = ' + resultFmt;
+        calcHistory.push(line);
+        wrap._calcHistory = calcHistory;
+        refreshAddBtn();
+      }
+
+      accumulator = (result !== null && isFinite(result)) ? result : null;
+      pendingOp = null;
+      currentStr = '';
+      justEvaled = true;
+      return;
+    }
+  }
+
+  buttons.forEach(function(pair) {
+    var label = pair[0], cls = pair[1];
+    const btn = document.createElement('button');
+    btn.className = 'calc-btn ' + cls;
+    btn.textContent = label;
+    btn.setAttribute('aria-label',
+      label === '\u232b' ? 'Backspace' :
+      label === 'C'      ? 'Clear calculator' :
+      label === '+/-'    ? 'Toggle positive or negative' :
+      label === '%'      ? 'Percent' : label);
+    if (label === '=' || label === 'C') {
+      btn.className = 'calc-btn ' + (label === '=' ? 'equals' : 'clear');
+    }
+    btn.addEventListener('click', function(){ update(label); });
+    grid.appendChild(btn);
+  });
+
+  // ── Action bar ────────────────────────────────────────────────────────
+  const actionBar = document.createElement('div');
+  actionBar.className = 'calc-action-bar';
+
+  addToAnswerBtn = document.createElement('button');
+  addToAnswerBtn.className = 'calc-action-btn calc-add-btn';
+  addToAnswerBtn.innerHTML = '\u2192 Add to answer';
+  addToAnswerBtn.setAttribute('aria-label', 'Add calculator working to your answer');
+  addToAnswerBtn.disabled = true;
+  addToAnswerBtn.addEventListener('click', function() {
+    const history = wrap._calcHistory;
+    if (!history || !history.length) return;
+    const tas = getAnswerTextareas();
+    if (!tas.length) return;
+    const focused = document.activeElement;
+    const target = (focused && focused.tagName === 'TEXTAREA' && tas.includes(focused))
+      ? focused : tas[tas.length - 1];
+    const lines = history.join('\n');
+    target.value = target.value ? target.value + '\n' + lines : lines;
+    target.dispatchEvent(new Event('input', { bubbles: true }));
+    // Clear history so a second press doesn't duplicate
+    calcHistory = [];
+    wrap._calcHistory = calcHistory;
+    refreshAddBtn();
+    addToAnswerBtn.textContent = '\u2713 Added';
+    addToAnswerBtn.classList.add('calc-add-confirm');
+    setTimeout(function() {
+      addToAnswerBtn.innerHTML = '\u2192 Add to answer';
+      addToAnswerBtn.classList.remove('calc-add-confirm');
+    }, 1200);
+    announce('Calculator working added to answer.');
+  });
+
+  // ── Clear answer — no confirm() dialog (unreliable in some hosts) ─────
+  const clearAnswerBtn = document.createElement('button');
+  clearAnswerBtn.className = 'calc-action-btn calc-clear-ans-btn';
+  clearAnswerBtn.innerHTML = '\u2715 Clear answer';
+  clearAnswerBtn.setAttribute('aria-label', 'Clear the answer field');
+
+  // Two-tap confirm: first tap arms it, second tap fires
+  let clearArmed = false;
+  let clearTimer = null;
+  clearAnswerBtn.addEventListener('click', function() {
+    const tas = getAnswerTextareas();
+    if (!tas.length) return;
+    // target = whichever textarea had focus before this button was clicked,
+    // or the last one as fallback
+    const target = tas[tas.length - 1];
+
+    if (!target.value) return; // nothing to clear
+
+    if (!clearArmed) {
+      // First tap: arm it and show warning
+      clearArmed = true;
+      clearAnswerBtn.textContent = 'Tap again to clear';
+      clearAnswerBtn.classList.add('calc-clear-armed');
+      clearTimer = setTimeout(function() {
+        clearArmed = false;
+        clearAnswerBtn.innerHTML = '\u2715 Clear answer';
+        clearAnswerBtn.classList.remove('calc-clear-armed');
+      }, 2500);
+      return;
+    }
+
+    // Second tap: fire
+    clearTimeout(clearTimer);
+    clearArmed = false;
+    clearAnswerBtn.innerHTML = '\u2715 Clear answer';
+    clearAnswerBtn.classList.remove('calc-clear-armed');
+    target.value = '';
+    target.dispatchEvent(new Event('input', { bubbles: true }));
+    target.focus();
+    announce('Answer cleared.');
+  });
+
+  actionBar.append(addToAnswerBtn, clearAnswerBtn);
+  wrap.append(display, grid, actionBar);
+  return wrap;
+}
+
+
+
+// ═══════════════════════════════════════════════════════
+// GRAPH RENDERER
+// ═══════════════════════════════════════════════════════
+function buildGraph(cfg) {
+  const wrap = document.createElement('div');
+  wrap.className = 'canvas-wrap';
+  const canvas = document.createElement('canvas');
+  const W = 360, H = 280;
+  canvas.width = W; canvas.height = H;
+  canvas.setAttribute('role', 'img');
+  canvas.setAttribute('aria-label', 'Cartesian graph showing points ' +
+    cfg.points.map(p => p.label).join(' and '));
+  wrap.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  const [xMin, xMax] = cfg.xRange;
+  const [yMin, yMax] = cfg.yRange;
+  const pad = 40;
+  const plotW = W - pad*2, plotH = H - pad*2;
+
+  function tx(x) { return pad + (x - xMin) / (xMax - xMin) * plotW; }
+  function ty(y) { return H - pad - (y - yMin) / (yMax - yMin) * plotH; }
+
+  // Background
+  ctx.fillStyle = '#FAFAF9';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid
+  ctx.strokeStyle = '#E5E3DE'; ctx.lineWidth = 1;
+  for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
+    ctx.beginPath(); ctx.moveTo(tx(x), pad); ctx.lineTo(tx(x), H-pad); ctx.stroke();
+  }
+  for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y++) {
+    ctx.beginPath(); ctx.moveTo(pad, ty(y)); ctx.lineTo(W-pad, ty(y)); ctx.stroke();
+  }
+
+  // Axes
+  ctx.strokeStyle = '#AAAAAA'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(tx(0), pad); ctx.lineTo(tx(0), H-pad); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad, ty(0)); ctx.lineTo(W-pad, ty(0)); ctx.stroke();
+
+  // Axis labels
+  ctx.fillStyle = '#999'; ctx.font = '10px Inter, sans-serif'; ctx.textAlign = 'center';
+  for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
+    if (x !== 0) ctx.fillText(x, tx(x), ty(0)+14);
+  }
+  ctx.textAlign = 'right';
+  for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y++) {
+    if (y !== 0) ctx.fillText(y, tx(0)-4, ty(y)+4);
+  }
+
+  // Line through points (if requested)
+  if (cfg.showLine && cfg.points.length === 2) {
+    const [p1, p2] = cfg.points;
+    const m = (p2.y - p1.y) / (p2.x - p1.x);
+    const b = p1.y - m * p1.x;
+    ctx.strokeStyle = 'rgba(46, 90, 135, 0.35)'; ctx.lineWidth = 1.5;
+    ctx.setLineDash([4,3]);
+    ctx.beginPath();
+    ctx.moveTo(tx(xMin), ty(m*xMin+b));
+    ctx.lineTo(tx(xMax), ty(m*xMax+b));
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+
+  // Points
+  cfg.points.forEach((pt, i) => {
+    ctx.fillStyle = i === 0 ? '#1F6F54' : '#5A3E8C';
+    ctx.beginPath();
+    ctx.arc(tx(pt.x), ty(pt.y), 5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#1A1A1A';
+    ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(pt.label, tx(pt.x)+8, ty(pt.y)-6);
+  });
+
+  return wrap;
+}
+
+// ═══════════════════════════════════════════════════════
+// BUILD QUESTION CARD
+// ═══════════════════════════════════════════════════════
+function buildQuestionCard(q, chunkData) {
+  const card = document.getElementById('question-card');
+  card.innerHTML = '';
+  card.setAttribute('data-q', q.id);
+
+  // Meta row
+  const meta = document.createElement('div');
+  meta.className = 'q-meta';
+  const num = document.createElement('span');
+  num.className = 'q-number';
+  num.textContent = 'Question ' + q.num + ' of 46';
+  const badge = document.createElement('span');
+  badge.className = 'q-badge';
+  const subjectNames = { eng: 'English', mat: 'Maths', sci: 'Science' };
+  badge.textContent = q.section || subjectNames[q.subject] || q.subject;
+  meta.append(num, badge);
+  card.appendChild(meta);
+
+  // Section subheading (for science)
+  if (q.section && q.section !== badge.textContent) {
+    const sec = document.createElement('p');
+    sec.style.cssText = 'font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.6rem;';
+    sec.textContent = q.section;
+    card.appendChild(sec);
+  }
+
+  // Passage — shown on any question flagged showPassage: true
+  if (q.showPassage) {
+    const passageChunk = CHUNKS.find(c => c.passage);
+    const passageText = passageChunk && passageChunk.passage;
+    if (passageText) {
+      const passageWrap = document.createElement('details');
+      passageWrap.className = 'passage-details';
+      passageWrap.open = true;
+      const summary = document.createElement('summary');
+      summary.className = 'passage-summary';
+      summary.textContent = 'The passage — tap to hide';
+      const pg = document.createElement('blockquote');
+      pg.className = 'passage';
+      pg.textContent = passageText;
+      passageWrap.append(summary, pg);
+      card.appendChild(passageWrap);
+    }
+  }
+
+  // Question text
+  const qt = document.createElement('div');
+  qt.className = 'q-text';
+  qt.innerHTML = q.text.replace(/\n/g,'<br>');
+  card.appendChild(qt);
+
+  // Quote block
+  if (q.quote) {
+    const qb = document.createElement('div');
+    qb.style.cssText = 'background:var(--bg);border-left:3px solid var(--border);padding:.6rem 1rem;margin:.5rem 0 1rem;font-style:italic;border-radius:0 4px 4px 0;font-size:.95rem;';
+    qb.textContent = q.quote;
+    card.appendChild(qb);
+  }
+
+  // Graph
+  if (q.graph) {
+    card.appendChild(buildGraph(q.graph));
+  }
+
+  // Hint
+  if (q.hint) {
+    const hintId = 'hint-' + q.id;
+    const toggle = document.createElement('button');
+    toggle.className = 'hint-toggle';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-controls', hintId);
+    toggle.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Show hint <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
+
+    const hintBody = document.createElement('div');
+    hintBody.className = 'hint-body';
+    hintBody.id = hintId;
+    hintBody.setAttribute('role', 'note');
+    hintBody.textContent = q.hint;
+
+    toggle.addEventListener('click', () => {
+      const open = hintBody.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> ${open?'Hide':'Show'} hint <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`;
+    });
+
+    const hintWrap = document.createElement('div');
+    hintWrap.style.cssText = 'display:block;width:100%;';
+    hintWrap.append(toggle, hintBody);
+    card.appendChild(hintWrap);
+  }
+
+  // Sub-parts or simple answer
+  const savedRaw = state.answers[q.id] || {};
+  const saved = typeof savedRaw === 'string' ? { _: savedRaw } : savedRaw;
+
+  if (q.parts) {
+    const list = document.createElement('ul');
+    list.className = 'sub-parts';
+    list.setAttribute('role', 'list');
+    q.parts.forEach((part, i) => {
+      const li = document.createElement('li');
+      li.className = 'sub-part';
+      const lbl = document.createElement('span');
+      lbl.className = 'sub-part-label';
+      lbl.textContent = part.label;
+      const txt = document.createElement('span');
+      txt.className = 'sub-part-text';
+      txt.textContent = part.text;
+      const areaLabel = document.createElement('label');
+      const areaId = 'ans-' + q.id + '-' + i;
+      areaLabel.htmlFor = areaId;
+      areaLabel.className = 'sr-only';
+      areaLabel.textContent = part.label + ' ' + part.text;
+      const ta = document.createElement('textarea');
+      ta.className = 'answer-input';
+      ta.id = areaId;
+      ta.placeholder = 'Your answer…';
+      ta.setAttribute('rows', '2');
+      ta.value = saved['part_'+i] || '';
+      ta.addEventListener('input', () => {
+        const cur = typeof state.answers[q.id] === 'object' ? {...state.answers[q.id]} : {};
+        cur['part_'+i] = ta.value;
+        state.answers[q.id] = cur;
+        saveState(state);
+        updateDots();
+      });
+      li.append(lbl, txt, areaLabel, ta);
+      list.appendChild(li);
+    });
+    card.appendChild(list);
+  } else {
+    const lbl = document.createElement('label');
+    lbl.className = 'answer-label';
+    lbl.htmlFor = 'ans-' + q.id;
+    lbl.textContent = 'Your answer';
+    const ta = document.createElement('textarea');
+    ta.className = 'answer-input';
+    ta.id = 'ans-' + q.id;
+    ta.placeholder = 'Write here, or leave empty to skip…';
+    ta.value = saved._ || '';
+    ta.addEventListener('input', () => {
+      state.answers[q.id] = { _: ta.value };
+      saveState(state);
+      updateDots();
+    });
+    const skipBtn = document.createElement('button');
+    skipBtn.className = 'skip-btn';
+    skipBtn.textContent = 'Mark as skip';
+    skipBtn.setAttribute('aria-label', 'Mark this question as skipped and move on');
+    skipBtn.addEventListener('click', () => {
+      ta.value = 'skip';
+      state.answers[q.id] = { _: 'skip' };
+      saveState(state);
+      updateDots();
+      announce('Question marked as skip.');
+    });
+    card.append(lbl, ta, skipBtn);
+  }
+
+  // Calculator
+  if (q.calc) {
+    card.appendChild(buildCalc());
+  }
+
+  // Focus management — target the first textarea so the caret is immediately visible
+  const firstTextarea = card.querySelector('textarea');
+  if (firstTextarea) setTimeout(() => firstTextarea.focus(), 50);
+}
+
+// ═══════════════════════════════════════════════════════
+// DOT TRAIL
+// ═══════════════════════════════════════════════════════
+function getChunkQuestions(chunkId) {
+  return ALL_QUESTIONS.filter(q => q.chunkId === chunkId);
+}
+
+function updateDots() {
+  const q = ALL_QUESTIONS[state.currentQIndex];
+  if (!q) return;
+  const chunkQs = getChunkQuestions(q.chunkId);
+  const trail = document.getElementById('dot-trail');
+  trail.innerHTML = '';
+  chunkQs.forEach((cq, i) => {
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    dot.setAttribute('role', 'listitem');
+    const isActive = cq.id === q.id;
+    const ans = state.answers[cq.id];
+    const hasAns = ans && (typeof ans === 'string' ? ans : Object.values(ans).some(v=>v));
+    const isSkip = ans && (typeof ans === 'object' && ans._ === 'skip');
+    if (isActive) { dot.setAttribute('aria-current', 'true'); }
+    if (hasAns && !isActive) dot.classList.add(isSkip ? 'skipped' : 'answered');
+    dot.setAttribute('aria-label', `Question ${cq.num}${isActive?' (current)':''}`);
+    dot.setAttribute('tabindex', '0');
+    dot.addEventListener('click', () => goToQuestion(ALL_QUESTIONS.indexOf(cq)));
+    dot.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); goToQuestion(ALL_QUESTIONS.indexOf(cq)); }});
+    trail.appendChild(dot);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════
+function goToQuestion(index) {
+  if (index < 0 || index >= ALL_QUESTIONS.length) return;
+  const q = ALL_QUESTIONS[index];
+  const chunk = CHUNKS.find(c => c.id === q.chunkId);
+
+  // Crossed a chunk boundary going forward — show break first
+  const prevQ = ALL_QUESTIONS[state.currentQIndex];
+  const prevChunkId = prevQ ? prevQ.chunkId : null;
+  if (prevChunkId && q.chunkId !== prevChunkId && index > state.currentQIndex) {
+    state.currentQIndex = index;
+    saveState(state);
+    showBreak(prevChunkId, index);
+    return;
+  }
+
+  state.currentQIndex = index;
+  saveState(state);
+  setAccent(q.subject);
+  document.getElementById('chunk-label').textContent = chunk.label;
+  buildQuestionCard(q, chunk);
+  updateDots();
+  document.getElementById('prev-btn').disabled = index === 0;
+  document.getElementById('next-btn').textContent = index === ALL_QUESTIONS.length - 1 ? 'Finish ✓' : 'Next →';
+  document.getElementById('next-btn').setAttribute('aria-label', index === ALL_QUESTIONS.length - 1 ? 'Finish quiz' : 'Next question');
+  announce(chunk.label + ', question ' + q.num);
+}
+
+// ═══════════════════════════════════════════════════════
+// NAVIGATE FROM SUMMARY TO QUESTION
+// ═══════════════════════════════════════════════════════
+function goToQuestionFromSummary(qIndex) {
+  // Hide all summary screens
+  const breakCard = document.getElementById('break-card');
+  breakCard.classList.remove('visible');
+  breakCard.innerHTML = '';
+  document.getElementById('done-screen').style.display = 'none';
+  // Show quiz view and go to the question
+  document.getElementById('quiz-view').style.display = 'block';
+  const q = ALL_QUESTIONS[qIndex];
+  const chunk = CHUNKS.find(c => c.id === q.chunkId);
+  state.currentQIndex = qIndex;
+  saveState(state);
+  setAccent(q.subject);
+  document.getElementById('chunk-label').textContent = chunk.label;
+  buildQuestionCard(q, chunk);
+  updateDots();
+  document.getElementById('prev-btn').disabled = qIndex === 0;
+  document.getElementById('next-btn').textContent = qIndex === ALL_QUESTIONS.length - 1 ? 'Finish ✓' : 'Next →';
+  document.getElementById('next-btn').setAttribute('aria-label', qIndex === ALL_QUESTIONS.length - 1 ? 'Finish quiz' : 'Next question');
+  announce('Returned to question ' + q.num);
+}
+
+// ═══════════════════════════════════════════════════════
+// CHUNK BREAK
+// ═══════════════════════════════════════════════════════
+function showBreak(completedChunkId, nextIndex) {
+  const chunk = CHUNKS.find(c => c.id === completedChunkId);
+  const card = document.getElementById('break-card');
+  document.getElementById('quiz-view').style.display = 'none';
+
+  const icons = { eng: '📖', mat: '🔢', sci: '🔬' };
+  const messages = {
+    eng: "That's all the English questions done.",
+    mat: "Last maths chunk done.",
+    sci: "Science complete.",
+    default: "End of chunk."
+  };
+
+  const chunkQs = getChunkQuestions(completedChunkId);
+  const subj = chunk.subject;
+
+  // Build innerHTML with a placeholder for the summary list
+  card.innerHTML = `
+    <div class="break-icon">${icons[subj]||'✋'}</div>
+    <h2 id="break-title">End of Chunk ${completedChunkId}</h2>
+    <p>${messages[subj]||messages.default} Good place to take a break — even 2 minutes helps. Click any answer below to go back and edit it, or continue when you\'re ready.</p>
+    <div class="summary-list" id="break-summary-list" role="region" aria-label="Your answers for chunk ${completedChunkId}">
+      <h3>Your answers — Chunk ${completedChunkId} <span style="font-weight:400;font-size:.8em;opacity:.6;">(tap to edit)</span></h3>
+    </div>
+    <div class="nav-row" style="margin-top:1.25rem;">
+      <button class="nav-btn secondary" id="back-btn-break" aria-label="Go back to the previous question">← Back</button>
+      <button class="nav-btn primary" id="continue-btn">${nextIndex >= ALL_QUESTIONS.length ? 'See final summary' : 'Continue to Chunk '+(completedChunkId+1)}</button>
+    </div>
+    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:.5rem;">
+      <button class="data-btn" id="export-btn-break" aria-label="Export answers as a file">Export answers</button>
+    </div>
+  `;
+
+  // Populate clickable summary items via JS (safer than innerHTML for user content)
+  const summaryList = document.getElementById('break-summary-list');
+  chunkQs.forEach(cq => {
+    const ans = state.answers[cq.id];
+    let ansText = 'not answered';
+    if (ans && typeof ans === 'object') {
+      const parts = Object.values(ans).filter(v=>v);
+      if (parts.length) ansText = parts.join(' / ');
+    }
+    const qIndex = ALL_QUESTIONS.indexOf(cq);
+    const btn = document.createElement('button');
+    btn.className = 'summary-item-btn';
+    btn.setAttribute('aria-label', 'Go to question ' + cq.num + ': ' + (ansText === 'not answered' ? 'not answered' : ansText.slice(0,60)));
+    const skipped = ansText === 'not answered' || ansText === 'skip';
+    btn.innerHTML =
+      '<span class="summary-qnum">Q' + cq.num + '</span>' +
+      '<span class="summary-ans' + (skipped ? ' summary-skipped' : '') + '">' +
+        (ansText === 'not answered' ? 'not answered' : ansText) +
+      '</span>' +
+      '<span class="summary-edit-hint" aria-hidden="true">✎</span>';
+    btn.addEventListener('click', function() { goToQuestionFromSummary(qIndex); });
+    summaryList.appendChild(btn);
+  });
+
+  card.classList.add('visible');
+  setAccent(subj);
+  document.getElementById('export-btn-break').addEventListener('click', exportAnswers);
+
+  // Back button — go to the last question of the completed chunk
+  const lastQIndex = ALL_QUESTIONS.indexOf(chunkQs[chunkQs.length - 1]);
+  document.getElementById('back-btn-break').addEventListener('click', function() {
+    goToQuestionFromSummary(lastQIndex);
+  });
+
+  document.getElementById('continue-btn').addEventListener('click', () => {
+    card.classList.remove('visible');
+    card.innerHTML = '';
+    if (nextIndex >= ALL_QUESTIONS.length) {
+      showDone();
+    } else {
+      document.getElementById('quiz-view').style.display = 'block';
+      const q = ALL_QUESTIONS[nextIndex];
+      const nextChunk = CHUNKS.find(c => c.id === q.chunkId);
+      setAccent(q.subject);
+      document.getElementById('chunk-label').textContent = nextChunk.label;
+      buildQuestionCard(q, nextChunk);
+      updateDots();
+      document.getElementById('prev-btn').disabled = nextIndex === 0;
+    }
+  });
+
+  announce(`End of chunk ${completedChunkId}. Summary shown. Take a break when you're ready.`);
+  document.getElementById('continue-btn').focus();
+}
+
+// ═══════════════════════════════════════════════════════
+// DONE SCREEN
+// ═══════════════════════════════════════════════════════
+function showDone() {
+  document.getElementById('quiz-view').style.display = 'none';
+  document.getElementById('done-screen').style.display = 'block';
+  setAccent('ui');
+  const area = document.getElementById('full-summary-area');
+  area.innerHTML = '';
+
+  CHUNKS.forEach(chunk => {
+    const div = document.createElement('div');
+    div.className = 'full-summary-chunk';
+    const h3 = document.createElement('h3');
+    h3.innerHTML = chunk.label + ' <span style="font-weight:400;font-size:.8em;opacity:.6;">(tap any answer to edit)</span>';
+    div.appendChild(h3);
+
+    chunk.questions.forEach(q => {
+      const ans = state.answers[q.id];
+      let ansText = 'not answered';
+      if (ans && typeof ans === 'object') {
+        const parts = Object.values(ans).filter(v=>v);
+        if (parts.length) ansText = parts.join(' / ');
+      }
+      const qIndex = ALL_QUESTIONS.indexOf(q);
+      const btn = document.createElement('button');
+      btn.className = 'summary-item-btn';
+      btn.setAttribute('aria-label', 'Go to question ' + q.num + ': ' + (ansText === 'not answered' ? 'not answered' : ansText.slice(0,60)));
+      const skipped = ansText === 'not answered' || ansText === 'skip';
+      btn.innerHTML =
+        '<span class="summary-qnum">Q' + q.num + '</span>' +
+        '<span class="summary-ans' + (skipped ? ' summary-skipped' : '') + '">' +
+          (ansText === 'not answered' ? 'not answered' : ansText) +
+        '</span>' +
+        '<span class="summary-edit-hint" aria-hidden="true">✎</span>';
+      btn.addEventListener('click', function() { goToQuestionFromSummary(qIndex); });
+      div.appendChild(btn);
+    });
+    area.appendChild(div);
+  });
+
+  // Back button — go to the very last question
+  const lastIndex = ALL_QUESTIONS.length - 1;
+  const backBtn = document.getElementById('back-btn-done');
+  if (backBtn) {
+    backBtn.addEventListener('click', function() {
+      goToQuestionFromSummary(lastIndex);
+    });
+  }
+
+  document.getElementById('done-h2').focus();
+  announce('Quiz complete. Full summary shown. Tap any answer to go back and edit it.');
+}
+
+// ═══════════════════════════════════════════════════════
+// ANNOUNCE (ARIA LIVE)
+// ═══════════════════════════════════════════════════════
+function announce(msg) {
+  const r = document.getElementById('live-region');
+  r.textContent = '';
+  setTimeout(() => { r.textContent = msg; }, 50);
+}
+
+// ═══════════════════════════════════════════════════════
+// WELCOME / START
+// ═══════════════════════════════════════════════════════
+function startQuiz(index) {
+  index = index || 0;
+  document.getElementById('welcome-screen').style.display = 'none';
+  document.getElementById('quiz-view').style.display = 'block';
+  state.started = true;
+  saveState(state);
+  goToQuestion(index);
+}
+
+// ═══════════════════════════════════════════════════════
+// EXPORT / IMPORT / RESET
+// ═══════════════════════════════════════════════════════
+
+function exportAnswers() {
+  const payload = JSON.stringify(state, null, 2);
+  const blob = new Blob([payload], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const now = new Date();
+  const stamp = now.getFullYear() + '-'
+    + String(now.getMonth()+1).padStart(2,'0') + '-'
+    + String(now.getDate()).padStart(2,'0') + '_'
+    + String(now.getHours()).padStart(2,'0')
+    + String(now.getMinutes()).padStart(2,'0');
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'igcse-answers-' + stamp + '.json';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 500);
+  announce('Answers exported as a JSON file.');
+}
+
+function importAnswers(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      // Validate shape: must have answers object
+      if (typeof parsed !== 'object' || typeof parsed.answers !== 'object') {
+        throw new Error('Invalid file format');
+      }
+      state = parsed;
+      saveState(state);
+      // Return to welcome screen so they choose what to do next
+      document.getElementById('quiz-view').style.display = 'none';
+      document.getElementById('break-card').classList.remove('visible');
+      document.getElementById('done-screen').style.display = 'none';
+      document.getElementById('welcome-screen').style.display = 'block';
+      setAccent('ui');
+      // Show resume button if imported state has progress
+      if (state.started && state.currentQIndex > 0) {
+        document.getElementById('resume-btn').style.display = 'inline-flex';
+      }
+      announce('Answers imported. You can resume where you left off or start again.');
+    } catch(err) {
+      alert('Sorry — that file could not be read. Make sure it is a JSON file exported from this quiz.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// Two-tap reset — no confirm() dialog
+function wireResetBtn(btn) {
+  if (!btn) return;
+  let armed = false, timer = null;
+  btn.addEventListener('click', function() {
+    if (!armed) {
+      armed = true;
+      btn.textContent = 'Tap again to confirm reset';
+      btn.classList.add('confirm-armed');
+      timer = setTimeout(function() {
+        armed = false;
+        btn.textContent = btn.dataset.label || 'Reset all answers';
+        btn.classList.remove('confirm-armed');
+      }, 2500);
+    } else {
+      clearTimeout(timer);
+      armed = false;
+      btn.textContent = btn.dataset.label || 'Reset all answers';
+      btn.classList.remove('confirm-armed');
+      state = { answers: {}, currentQIndex: 0, started: false };
+      saveState(state);
+      document.getElementById('quiz-view').style.display = 'none';
+      document.getElementById('break-card').classList.remove('visible');
+      document.getElementById('done-screen').style.display = 'none';
+      document.getElementById('welcome-screen').style.display = 'block';
+      document.getElementById('resume-btn').style.display = 'none';
+      setAccent('ui');
+      announce('All answers have been reset.');
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+function init() {
+  const hasProgress = state.started && state.currentQIndex > 0;
+  if (hasProgress) {
+    document.getElementById('resume-btn').style.display = 'inline-flex';
+    document.getElementById('resume-btn').addEventListener('click', () => startQuiz(state.currentQIndex));
+  }
+
+  document.getElementById('start-btn').addEventListener('click', () => {
+    state = { answers: {}, currentQIndex: 0, started: false };
+    saveState(state);
+    startQuiz(0);
+  });
+
+  document.getElementById('prev-btn').addEventListener('click', () => {
+    const prev = state.currentQIndex - 1;
+    if (prev >= 0) goToQuestion(prev);
+  });
+
+  document.getElementById('next-btn').addEventListener('click', () => {
+    const next = state.currentQIndex + 1;
+    if (next >= ALL_QUESTIONS.length) {
+      showBreak(ALL_QUESTIONS[state.currentQIndex].chunkId, ALL_QUESTIONS.length);
+    } else {
+      goToQuestion(next);
+    }
+  });
+
+  document.getElementById('restart-btn').addEventListener('click', () => {
+    if (confirm('This will clear all your saved answers and start again. Are you sure?')) {
+      state = { answers: {}, currentQIndex: 0, started: false };
+      saveState(state);
+      document.getElementById('done-screen').style.display = 'none';
+      document.getElementById('welcome-screen').style.display = 'block';
+      setAccent('ui');
+    }
+  });
+
+  // ── Export buttons (all screens) ────────────────────────────────────
+  ['export-btn-welcome', 'export-btn-quiz', 'export-btn-done'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.addEventListener('click', exportAnswers);
+  });
+
+  // ── Import (welcome screen only) ────────────────────────────────────
+  const importInput = document.getElementById('import-input');
+  if (importInput) {
+    importInput.addEventListener('change', function() {
+      importAnswers(this.files[0]);
+      this.value = ''; // reset so same file can be re-imported
+    });
+    // Allow keyboard activation of the label
+    const importLabel = document.querySelector('label[for="import-input"]');
+    if (importLabel) {
+      importLabel.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); importInput.click(); }
+      });
+    }
+  }
+
+  // ── Reset button (welcome screen only) ──────────────────────────────
+  const resetWelcome = document.getElementById('reset-btn-welcome');
+  if (resetWelcome) { resetWelcome.dataset.label = 'Reset all answers'; wireResetBtn(resetWelcome); }
+}
+
+init();
+</script>
+</body>
+</html>
