@@ -1,0 +1,26 @@
+{
+  "name": "igcse-quiz",
+  "version": "1.0.0",
+  "description": "Quiz to understand where a student is at in their IGCSE journey",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derekchoate/igcse-quiz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/derekchoate/igcse-quiz/issues"
+  },
+  "homepage": "https://github.com/derekchoate/igcse-quiz#readme",
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "playwright": "^1.61.1"
+  }
+}

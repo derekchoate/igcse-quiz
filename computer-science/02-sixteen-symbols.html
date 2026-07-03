@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sixteen Symbols</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10182B; --card:#1A2440; --card-edge:#28345A;
+    --ink:#EAE6DC; --ink-soft:#8D97B0;
+    --glow:#FFB84D; --glow-deep:#E0932A; --teal:#7BC4B4;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Atkinson Hyperlegible',system-ui,sans-serif;
+    font-size:18px;line-height:1.65;min-height:100vh;
+    background-image:radial-gradient(ellipse 900px 500px at 70% -10%, #1B2646 0%, transparent 60%);
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 20px 120px}
+  header{position:sticky;top:0;z-index:50;background:rgba(16,24,43,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--card-edge)}
+  .head-inner{max-width:680px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .head-title{font-family:'Sora',sans-serif;font-weight:600;font-size:16px}
+  .stars{font-family:'Sora',sans-serif;font-size:15px;color:var(--glow);display:flex;align-items:center;gap:7px;white-space:nowrap}
+  .stars .hint-txt{color:var(--ink-soft);font-size:13px;font-family:'Atkinson Hyperlegible',sans-serif}
+
+  .hero{padding:64px 0 40px}
+  .hero h1{font-family:'Sora',sans-serif;font-weight:700;font-size:clamp(32px,7vw,46px);line-height:1.14;letter-spacing:-.5px;margin-bottom:20px}
+  .hero h1 .lit{color:var(--glow);text-shadow:0 0 24px rgba(255,184,77,.45)}
+  .hero p{color:var(--ink-soft);max-width:52ch;margin-bottom:14px}
+  .hero .promise{margin-top:26px;padding:18px 20px;background:var(--card);border:1px solid var(--card-edge);border-radius:var(--radius);font-size:16.5px}
+  .hero .promise strong{color:var(--teal)}
+
+  .disc{background:var(--card);border:1px solid var(--card-edge);border-radius:var(--radius);margin:26px 0;overflow:hidden;transition:border-color .4s}
+  .disc.done{border-color:rgba(255,184,77,.45)}
+  .disc-head{width:100%;display:flex;align-items:center;gap:14px;padding:20px 22px;background:none;border:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .disc-head:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;border-radius:var(--radius)}
+  .disc-star{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .5s}
+  .disc.done .disc-star{background:var(--glow);color:#3A2606;border-color:var(--glow);box-shadow:0 0 18px rgba(255,184,77,.5)}
+  .disc-title{font-family:'Sora',sans-serif;font-weight:600;font-size:18px;flex:1}
+  .disc-sub{display:block;font-weight:400;font-size:14px;color:var(--ink-soft);margin-top:2px;font-family:'Atkinson Hyperlegible',sans-serif}
+  .chev{color:var(--ink-soft);transition:transform .3s;flex:0 0 auto}
+  .disc.open .chev{transform:rotate(180deg)}
+  .disc-body{display:none;padding:2px 22px 26px}
+  .disc.open .disc-body{display:block}
+  .disc-body p{margin-bottom:14px}
+  .disc-body p.soft{color:var(--ink-soft);font-size:16px}
+
+  .board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:22px 12px 18px;margin:18px 0}
+  .bulb-row{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
+  .nibble-gap{width:22px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#33406B;font-size:22px}
+  .bit{background:none;border:none;cursor:pointer;padding:5px 3px;display:flex;flex-direction:column;align-items:center;gap:7px;border-radius:12px}
+  .bit:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .bulb{width:38px;height:38px;border-radius:50%;background:#1C2748;border:2px solid #33406B;transition:all .25s}
+  .bit[aria-pressed="true"] .bulb{
+    background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 55%, var(--glow-deep));
+    border-color:var(--glow);
+    box-shadow:0 0 20px rgba(255,184,77,.6), 0 0 42px rgba(255,184,77,.22);
+  }
+  .bit-val{font-family:'Sora',sans-serif;font-size:12px;color:var(--ink-soft)}
+  .bit[aria-pressed="true"] .bit-val{color:var(--glow)}
+  .bit-val-nibble{font-family:'Sora',sans-serif;font-size:11px;color:var(--teal);opacity:.85}
+  .bit[aria-pressed="true"] .bit-val-nibble{color:var(--glow)}
+  @media (max-width:520px){.bulb{width:31px;height:31px}.bulb-row{gap:2px}.nibble-gap{width:14px}}
+
+  .readout{display:flex;justify-content:center;gap:26px;margin-top:16px;flex-wrap:wrap}
+  .readout .cell{text-align:center;font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft)}
+  .readout .cell b{display:block;font-size:27px;color:var(--ink);font-weight:700;margin-top:2px;letter-spacing:2px;transition:color .3s}
+  .readout .cell.matched b{color:var(--glow);text-shadow:0 0 18px rgba(255,184,77,.5)}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
+  .chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
+  .chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
+  .chip.hit::after{content:" ✦"}
+  .chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
+
+  .nudge-zone{margin-top:14px}
+  .nudge-btn{font:inherit;font-size:15px;color:var(--teal);background:none;border:1px solid rgba(123,196,180,.4);border-radius:999px;padding:8px 16px;cursor:pointer}
+  .nudge-btn:hover{background:rgba(123,196,180,.08)}
+  .nudge-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .nudge{margin-top:12px;padding:14px 16px;font-size:16px;background:rgba(123,196,180,.07);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;display:none}
+  .nudge.shown{display:block}
+
+  .action-btn{
+    font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);
+    background:#22305A;border:1px solid var(--card-edge);border-radius:999px;
+    padding:10px 20px;cursor:pointer;display:block;margin:14px auto 0;
+  }
+  .action-btn:hover{border-color:var(--teal)}
+  .action-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+  .symbol-table{
+    display:grid;grid-template-columns:repeat(8,1fr);gap:6px;
+    margin:16px 0;font-family:'Sora',sans-serif;text-align:center;
+  }
+  .sym{background:#121A32;border:1px solid var(--card-edge);border-radius:10px;padding:8px 2px}
+  .sym .s-hex{font-size:18px;font-weight:700;color:var(--glow)}
+  .sym .s-den{font-size:12px;color:var(--ink-soft);margin-top:2px}
+  @media (max-width:520px){.symbol-table{grid-template-columns:repeat(4,1fr)}}
+
+  .swatch-zone{display:flex;align-items:center;gap:18px;justify-content:center;margin:6px 0 14px;flex-wrap:wrap}
+  .swatch{
+    width:110px;height:110px;border-radius:20px;border:2px solid var(--card-edge);
+    background:#000;transition:background .3s, box-shadow .3s;flex:0 0 auto;
+  }
+  .swatch-hex{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;letter-spacing:2px}
+  .rgb-rows{margin-top:4px}
+  .rgb-label{font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft);text-align:center;margin:12px 0 4px}
+  .rgb-label b{font-size:15px;letter-spacing:1px}
+  .rgb-label.r b{color:#FF7A7A}.rgb-label.g b{color:#7ADf9B}.rgb-label.b b{color:#7AAAFF}
+
+  .wild{background:#121A32;border:1px solid var(--card-edge);border-radius:12px;padding:16px 18px;margin:14px 0;font-family:'Sora',sans-serif}
+  .wild .w-what{font-size:13px;color:var(--ink-soft);font-family:'Atkinson Hyperlegible',sans-serif;margin-bottom:6px}
+  .wild .w-hex{font-size:17px;letter-spacing:2px;color:var(--ink);word-break:break-all}
+  .wild .w-hex .hl{color:var(--glow)}
+
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#1E2A4E;border:1px solid var(--glow);color:var(--ink);padding:13px 22px;border-radius:999px;font-size:16px;opacity:0;pointer-events:none;transition:all .45s;z-index:99;box-shadow:0 6px 30px rgba(0,0,0,.45);max-width:88vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast .star{color:var(--glow)}
+  .spark{position:fixed;font-size:18px;color:var(--glow);pointer-events:none;z-index:98;animation:rise 1.4s ease-out forwards}
+  @keyframes rise{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-90px) scale(.6)}}
+  @media (prefers-reduced-motion:reduce){.spark{animation:none;opacity:0}html{scroll-behavior:auto}*{transition-duration:.01ms !important}}
+
+  .reflect{margin:40px 0 0;padding:26px 24px;background:linear-gradient(160deg,#1A2440,#16203E);border:1px solid rgba(255,184,77,.3);border-radius:var(--radius)}
+  .reflect h2{font-family:'Sora',sans-serif;font-size:22px;margin-bottom:14px}
+  .reflect p{margin-bottom:13px}
+  .reflect p.soft{color:var(--ink-soft);font-size:16px}
+
+  .module-nav{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .nav-link{font-family:'Sora',sans-serif;font-size:14.5px;color:var(--ink-soft);text-decoration:none;padding:10px 18px;border:1px solid var(--card-edge);border-radius:999px;background:#121A32;transition:all .3s}
+  .nav-link:hover{border-color:var(--teal);color:var(--teal)}
+  .nav-link:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .nav-link.next{margin-left:auto}
+  .nav-soft{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);opacity:.65;padding:10px 18px;margin-left:auto}
+
+  footer{margin-top:48px;text-align:center;color:var(--ink-soft);font-size:14.5px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="head-title">Sixteen Symbols</div>
+    <div class="stars" aria-live="polite">
+      <span id="starCount">✦ 0</span>
+      <span class="hint-txt">stars only ever go up</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Programmers got tired of reading bulbs. So they invented <span class="lit">a shorthand.</span></h1>
+    <p>You can already read binary — that's Module 1 in your pocket forever. But eight bulbs is a lot of squinting, and real machines deal in millions of them. This module is the professional trick: one symbol that stands for four bulbs at once. It's called hexadecimal, and by the end you'll be mixing colours with it.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip switches, follow curiosity, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">First: feel the problem
+        <span class="disc-sub">binary is honest but exhausting</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below is a byte. Press the shuffle button a few times and try — just for a second each time — to hold the pattern in your head, the way you'd remember a phone number.</p>
+      <div class="board">
+        <div class="bulb-row" id="row1"></div>
+        <div class="readout"><div class="cell">as digits<b id="bin1">00000000</b></div></div>
+        <button class="action-btn" id="shuffleBtn">Shuffle the byte</button>
+      </div>
+      <p class="soft" id="d1msg">Hard, isn't it? Even people who do this for a living can't sight-read long runs of 1s and 0s. They needed something kinder to human eyes…</p>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Split the byte in half
+        <span class="disc-sub">two groups of four, each just a small number</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>The trick starts here: cut the byte down the middle into two groups of four bulbs — each group is called a <b>nibble</b> (genuinely the real word). Four bulbs can only say 0 to 15, and you mastered exactly that board in Module 1.</p>
+      <div class="board">
+        <div class="bulb-row" id="row2"></div>
+        <div class="readout">
+          <div class="cell" id="left2">left nibble<b>0</b></div>
+          <div class="cell" id="right2">right nibble<b>0</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Set the nibbles so that…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2">Want a nudge?</button>
+        <div class="nudge" id="n2">Each nibble is its own little Module 1 board: 8 · 4 · 2 · 1. Ignore the other half completely while you work on one side — that independence is the whole point of the split.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The sixteen symbols
+        <span class="disc-sub">why the alphabet suddenly appears in numbers</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Each nibble says a number from 0 to 15 — sixteen possibilities. Give every one of those a <i>single symbol</i> and a whole nibble collapses into one character. Digits cover 0–9… then we run out, so ten to fifteen borrow the letters <b>A to F</b>.</p>
+      <div class="symbol-table" id="symTable"></div>
+      <p>Now the same byte board — but watch the new readout. Two nibbles, two symbols. A whole byte in two characters.</p>
+      <div class="board">
+        <div class="bulb-row" id="row3"></div>
+        <div class="readout"><div class="cell" id="hex3">in hexadecimal<b>00</b></div></div>
+      </div>
+      <p class="chips-label">Make the readout say…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Work one symbol at a time. For 2A: the left nibble must say 2, and A is the symbol for… check the chart above. Then build each side like a Module 1 puzzle.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">A stands for 10, which is 8 + 2. So 2A is: left nibble 0010, right nibble 1010. Light those and watch the readout agree.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Colour is hexadecimal
+        <span class="disc-sub">every colour on every screen is six of your symbols</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's where the shorthand becomes visible. Every colour a screen can show is three bytes — how much <b>red</b>, how much <b>green</b>, how much <b>blue</b>, each from 00 (none) to FF (full blast). Designers write it as six hex symbols with a # in front. You have three byte boards below. Paint with them.</p>
+      <div class="swatch-zone">
+        <div class="swatch" id="swatch"></div>
+        <div class="swatch-hex" id="swatchHex">#000000</div>
+      </div>
+      <div class="board rgb-rows">
+        <div class="rgb-label r"><b>R</b> red</div>
+        <div class="bulb-row" id="rowR"></div>
+        <div class="rgb-label g"><b>G</b> green</div>
+        <div class="bulb-row" id="rowG"></div>
+        <div class="rgb-label b"><b>B</b> blue</div>
+        <div class="bulb-row" id="rowB"></div>
+      </div>
+      <p class="chips-label">Colours worth mixing…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4">Want a nudge?</button>
+        <div class="nudge" id="n4">FF means every bulb in that row lit — you made 255 in Module 1, this is it wearing its work clothes. For yellow, think about which two paints of <i>light</i> add together (it's not the same as mixing paint in a pot — try it and see).</div>
+      </div>
+      <p class="soft">When the set colours are found, keep going — mix something that's yours. The swatch doesn't judge.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Hex in the wild
+        <span class="disc-sub">now you'll see it everywhere</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One honest thing before the safari: computers don't <i>use</i> hexadecimal. Deep down it's bulbs all the way — hex exists purely for <b>human eyes</b>, because 4D beats 01001101 every single time. Places you'll now spot it:</p>
+      <div class="wild">
+        <div class="w-what">Every network device's permanent serial number (its MAC address — a later module):</div>
+        <div class="w-hex">3C:<span class="hl">4D</span>:BE:07:F2:<span class="hl">A7</span></div>
+      </div>
+      <div class="wild">
+        <div class="w-what">Raw memory, as a programmer sees it when hunting a bug:</div>
+        <div class="w-hex">48 65 6C 6C 6F 20 44 65 72 65 6B</div>
+      </div>
+      <p>Two symbols from that MAC address are glowing. Prove you can read them — set this byte to match each one:</p>
+      <div class="board">
+        <div class="bulb-row" id="row5"></div>
+        <div class="readout"><div class="cell" id="hex5">this byte in hex<b>00</b></div></div>
+      </div>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5">Want a nudge?</button>
+        <div class="nudge" id="n5">4D: the 4 is easy — left nibble 0100. D is the symbol for 13, and 13 = 8 + 4 + 1. Two nibbles, done. A7 works the same way.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — again</h2>
+    <p>You now read <b>two</b> number systems that most adults can't. Nobody drilled you; you split a byte in half, borrowed six letters, and mixed colours until it stuck. The MAC address in that panel above was gibberish twenty minutes ago. Now it's just… readable.</p>
+    <p class="soft">Whenever you're curious, the next discovery is binary arithmetic — making the bulbs actually <i>add</i>, with sparks that carry. No rush at all. The stars keep.</p>
+  </section>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="01-the-secret-language.html">← Module 1 · The Secret Language</a>
+    <a class="nav-link next" href="03-switch-arithmetic.html">Module 3 · Switch Arithmetic →</a>
+  </nav>
+
+  <footer>Module 2 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  const state={stars:0,done:{}};
+  const $=(s,el)=>(el||document).querySelector(s);
+  const $$=(s,el)=>Array.from((el||document).querySelectorAll(s));
+  const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let toastTimer=null;
+  function toast(msg){
+    const t=$("#toast");t.innerHTML=msg;t.classList.add("show");
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),3400);
+  }
+  function sparks(x,y){
+    if(reduceMotion)return;
+    for(let i=0;i<7;i++){
+      const s=document.createElement("span");
+      s.className="spark";s.textContent="✦";
+      s.style.left=(x+(Math.random()*80-40))+"px";
+      s.style.top=(y+(Math.random()*20-10))+"px";
+      s.style.animationDelay=(Math.random()*.25)+"s";
+      document.body.appendChild(s);setTimeout(()=>s.remove(),1800);
+    }
+  }
+  function awardStar(id,message){
+    if(state.done[id])return;
+    state.done[id]=true;state.stars++;
+    $("#starCount").textContent="✦ "+state.stars;
+    const disc=$("#"+id);disc.classList.add("done");
+    const r=disc.getBoundingClientRect();
+    sparks(r.left+r.width/2,r.top+60);
+    toast('<span class="star">✦</span> '+message);
+    if(state.stars>=5)$("#reflect").hidden=false;
+  }
+
+  $$(".disc-head").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const d=$("#"+btn.dataset.toggle);
+      const open=d.classList.toggle("open");
+      btn.setAttribute("aria-expanded",open?"true":"false");
+    });
+  });
+  $$(".nudge-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      $("#"+btn.dataset.nudge).classList.add("shown");
+      btn.style.display="none";
+    });
+  });
+
+  const HEX="0123456789ABCDEF";
+
+  /* board factory: byte with optional nibble gap; returns setters/getters */
+  function makeByte(rowEl,opts,onChange){
+    const values=[128,64,32,16,8,4,2,1];
+    const bits=[];
+    values.forEach((v,i)=>{
+      if(i===4&&opts.gap){
+        const g=document.createElement("span");
+        g.className="nibble-gap";g.textContent="·";g.setAttribute("aria-hidden","true");
+        rowEl.appendChild(g);
+      }
+      const nibbleVal=i<4?v/16:v;
+      const b=document.createElement("button");
+      b.className="bit";b.type="button";
+      b.setAttribute("aria-pressed","false");
+      b.setAttribute("aria-label",opts.gap?"switch worth "+v+" in the byte, "+nibbleVal+" in its nibble":"switch worth "+v);
+      let labelHtml="";
+      if(opts.labels){
+        labelHtml='<span class="bit-val">'+v+'</span>';
+        if(opts.gap)labelHtml+='<span class="bit-val-nibble">'+nibbleVal+'</span>';
+      }
+      b.innerHTML='<span class="bulb"></span>'+labelHtml;
+      b.addEventListener("click",()=>{
+        const on=b.getAttribute("aria-pressed")!=="true";
+        b.setAttribute("aria-pressed",on?"true":"false");
+        onChange(api);
+      });
+      rowEl.appendChild(b);bits.push(b);
+    });
+    const api={
+      total(){return bits.reduce((s,b,i)=>s+(b.getAttribute("aria-pressed")==="true"?values[i]:0),0);},
+      nibbles(){const t=api.total();return[t>>4,t&15];},
+      hex(){const[hi,lo]=api.nibbles();return HEX[hi]+HEX[lo];},
+      bin(){return bits.map(b=>b.getAttribute("aria-pressed")==="true"?"1":"0").join("");},
+      set(n){bits.forEach((b,i)=>{const on=!!(n&values[i]);b.setAttribute("aria-pressed",on?"true":"false");});onChange(api);}
+    };
+    return api;
+  }
+
+  function makeChips(containerEl,targets,onAllHit,formatFn){
+    const hit={};
+    targets.forEach(t=>{
+      const c=document.createElement("span");
+      c.className="chip";c.dataset.target=t;
+      c.textContent=formatFn?formatFn(t):t;
+      containerEl.appendChild(c);
+    });
+    return function check(current){
+      if(targets.includes(current)&&!hit[current]){
+        hit[current]=true;
+        const chip=$('.chip[data-target="'+current+'"]',containerEl);
+        chip.classList.add("hit");
+        const r=chip.getBoundingClientRect();
+        sparks(r.left+r.width/2,r.top);
+        const remaining=targets.filter(t=>!hit[t]).length;
+        if(remaining>0)toast("Found "+(formatFn?formatFn(current):current)+" — lovely. "+remaining+" more if you fancy it.");
+        else onAllHit();
+      }
+    };
+  }
+
+  /* ═══ D1: shuffle & squint ═══ */
+  let shuffles=0;
+  const byte1=makeByte($("#row1"),{gap:false,labels:false},api=>{
+    $("#bin1").textContent=api.bin();
+  });
+  $("#shuffleBtn").addEventListener("click",()=>{
+    byte1.set(Math.floor(Math.random()*256));
+    shuffles++;
+    if(shuffles===3){
+      $("#d1msg").innerHTML="Hard, isn't it? <b>That struggle is the reason this module exists.</b> The fix is two moves away.";
+      awardStar("d1","Problem properly felt. That's where every good invention starts.");
+    }
+  });
+
+  /* ═══ D2: nibbles ═══ */
+  const targets2=["L12","R5","L3R14"];
+  const labels2={L12:"left says 12",R5:"right says 5",L3R14:"left 3 AND right 14"};
+  const check2=makeChips($("#chips2"),targets2,
+    ()=>awardStar("d2","Nibbles conquered. Each half is just Module 1 wearing a smaller coat."),
+    t=>labels2[t]);
+  const byte2=makeByte($("#row2"),{gap:true,labels:true},api=>{
+    const[hi,lo]=api.nibbles();
+    $("#left2 b").textContent=hi;$("#right2 b").textContent=lo;
+    $("#left2").classList.toggle("matched",hi===12||hi===3);
+    $("#right2").classList.toggle("matched",lo===5||lo===14);
+    if(hi===12)check2("L12");
+    if(lo===5)check2("R5");
+    if(hi===3&&lo===14)check2("L3R14");
+  });
+
+  /* ═══ D3: symbols ═══ */
+  $("#symTable").innerHTML=Array.from({length:16},(_,i)=>
+    '<div class="sym"><div class="s-hex">'+HEX[i]+'</div><div class="s-den">'+i+'</div></div>').join("");
+  const check3=makeChips($("#chips3"),["2A","FF","C3"],
+    ()=>awardStar("d3","Three hex bytes read and written. The letters hold no fear now."));
+  const byte3=makeByte($("#row3"),{gap:true,labels:true},api=>{
+    const h=api.hex();
+    $("#hex3 b").textContent=h;
+    $("#hex3").classList.toggle("matched",["2A","FF","C3"].includes(h));
+    check3(h);
+  });
+
+  /* ═══ D4: colour mixer ═══ */
+  const colourTargets=["FF0000","00FF00","FFFF00","FFFFFF"];
+  const colourNames={FF0000:"pure red #FF0000","00FF00":"pure green #00FF00",FFFF00:"yellow #FFFF00",FFFFFF:"white #FFFFFF"};
+  const check4=makeChips($("#chips4"),colourTargets,
+    ()=>awardStar("d4","A palette of your own. Light mixes differently to paint — and now you know."),
+    t=>colourNames[t]);
+  function paint(){
+    const hexStr=byteR.hex()+byteG.hex()+byteB.hex();
+    $("#swatchHex").textContent="#"+hexStr;
+    $("#swatch").style.background="#"+hexStr;
+    $("#swatch").style.boxShadow="0 0 34px #"+hexStr+"55";
+    check4(hexStr);
+  }
+  const byteR=makeByte($("#rowR"),{gap:true,labels:false},paint);
+  const byteG=makeByte($("#rowG"),{gap:true,labels:false},paint);
+  const byteB=makeByte($("#rowB"),{gap:true,labels:false},paint);
+
+  /* ═══ D5: read the wild ═══ */
+  const check5=makeChips($("#chips5"),["4D","A7"],
+    ()=>awardStar("d5","You just read a real device address. Hex is officially yours."),
+    t=>"match "+t);
+  const byte5=makeByte($("#row5"),{gap:true,labels:true},api=>{
+    const h=api.hex();
+    $("#hex5 b").textContent=h;
+    $("#hex5").classList.toggle("matched",["4D","A7"].includes(h));
+    check5(h);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Secret Language — Course Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10182B; --card:#1A2440; --card-edge:#28345A;
+    --ink:#EAE6DC; --ink-soft:#8D97B0;
+    --glow:#FFB84D; --glow-deep:#E0932A; --teal:#7BC4B4;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Atkinson Hyperlegible',system-ui,sans-serif;
+    font-size:18px;line-height:1.65;min-height:100vh;
+    background-image:radial-gradient(ellipse 900px 500px at 70% -10%, #1B2646 0%, transparent 60%);
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 20px 80px}
+  header{position:sticky;top:0;z-index:50;background:rgba(16,24,43,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--card-edge)}
+  .head-inner{max-width:680px;margin:0 auto;padding:14px 20px}
+  .head-title{font-family:'Sora',sans-serif;font-weight:600;font-size:16px}
+
+  .hero{padding:56px 0 36px}
+  .hero h1{font-family:'Sora',sans-serif;font-weight:700;font-size:clamp(30px,7vw,42px);line-height:1.16;letter-spacing:-.5px;margin-bottom:18px}
+  .hero h1 .lit{color:var(--glow);text-shadow:0 0 24px rgba(255,184,77,.45)}
+  .hero p{color:var(--ink-soft);max-width:56ch;margin-bottom:14px}
+
+  .legend{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin:22px 0 8px;font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft)}
+  .legend-item{display:flex;align-items:center;gap:8px}
+  .legend .module-star{width:22px;height:22px;font-size:11px}
+
+  .module-list{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+
+  .module-card{
+    display:flex;gap:16px;align-items:flex-start;
+    padding:18px 20px;background:var(--card);border:1px solid var(--card-edge);
+    border-radius:var(--radius);text-decoration:none;color:inherit;
+    transition:border-color .25s, transform .25s;
+  }
+  a.module-card:hover{border-color:var(--teal);transform:translateY(-1px)}
+  a.module-card:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .module-card.pending{opacity:.58}
+
+  .module-star{
+    flex:0 0 auto;width:36px;height:36px;border-radius:50%;
+    display:grid;place-items:center;font-size:17px;
+    background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);
+  }
+  .module-star.done{
+    background:var(--glow);color:#3A2606;border-color:var(--glow);
+    box-shadow:0 0 16px rgba(255,184,77,.5);
+  }
+
+  .module-body{flex:1;min-width:0}
+  .module-title{font-family:'Sora',sans-serif;font-weight:600;font-size:17px;display:block;margin-bottom:5px}
+  .module-title .num{color:var(--ink-soft);font-weight:400;margin-right:2px}
+  .module-desc{font-size:15.5px;color:var(--ink-soft);display:block;line-height:1.55}
+  .module-status{display:inline-block;margin-top:9px;font-family:'Sora',sans-serif;font-size:12.5px;color:var(--teal);letter-spacing:.2px}
+
+  footer{margin-top:48px;text-align:center;color:var(--ink-soft);font-size:14.5px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="head-title">The Secret Language</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Thirty-six discoveries. <span class="lit">Start wherever you like.</span></h1>
+    <p>This is the whole map — every module in the course, numbered in the order they were planned, though that order was always meant to be a suggestion, not a rule. A handful exist already and are ready to open right now. The rest aren't written yet, but here's what's coming, so you always know what's next if you go looking for it.</p>
+
+    <div class="legend">
+      <span class="legend-item"><span class="module-star done" aria-hidden="true">✦</span> ready now</span>
+      <span class="legend-item"><span class="module-star" aria-hidden="true">✦</span> not written yet</span>
+    </div>
+  </section>
+
+  <div class="module-list" id="moduleList"></div>
+
+  <footer>The Secret Language · Made for one particular learner · No marks were given in the making of this page.</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var modules = [
+    { n:1, title:"The Secret Language", desc:"Every computer on Earth speaks one language. Tonight, you learn it.", file:"01-the-secret-language.html" },
+    { n:2, title:"Sixteen Symbols", desc:"Programmers got tired of writing eight bulbs. So they invented a shorthand where one symbol replaces four.", file:"02-sixteen-symbols.html" },
+    { n:3, title:"Switch Arithmetic", desc:"You can read the language. Can you make it do maths?", file:"03-switch-arithmetic.html" },
+    { n:4, title:"Letters in the Wire", desc:"In Module 1 a byte spelled YOU. Here's the real system the whole world agreed on.", file:"04-letters-in-the-wire.html" },
+    { n:5, title:"Pictures & Sound from Numbers", desc:"Every photo you've ever taken is a spreadsheet of numbers wearing a costume.", file:"05-pictures-and-sound-from-numbers.html" },
+    { n:6, title:"How Big Is a Song?", desc:"Your phone says 128 GB. You're about to know exactly what that means — and why a song squashes to a tenth of its size.", file:"06-how-big-is-a-song.html" },
+    { n:7, title:"The Recipe Idea", desc:"Before a single line of code: how do you get a fuzzy wish — 'I want an app that…' — into steps a machine can follow?" },
+    { n:8, title:"Reading the Map", desc:"An algorithm you can walk through with your finger." },
+    { n:9, title:"The House Style", desc:"Cambridge has an exact dialect for writing algorithms. It's not real code — it's tidier. Learn to read it here; you'll write it soon." },
+    { n:10, title:"Boxes with Names", desc:"Time to stop reading the language and start commanding it." },
+    { n:11, title:"The Fork in the Road", desc:"Programs feel intelligent for exactly one reason: they can take a different path." },
+    { n:12, title:"Round and Round", desc:"Everything computers are feared and admired for comes down to this: they repeat without getting bored." },
+    { n:13, title:"The Journey of a Message", desc:"When you send a photo, it's torn into pieces, the pieces travel different roads, and they still arrive as your photo. Here's how." },
+    { n:14, title:"Did It Arrive Intact?", desc:"Wires are noisy places. One bulb flips in transit and 'HELLO' becomes 'HALLO'. Computers catch this millions of times a second." },
+    { n:15, title:"Locked Letters", desc:"Two strangers who have never met agree a secret in full view of everyone listening. This should be impossible. It happens every time you open a website." },
+    { n:16, title:"X-Ray the Machine", desc:"Everything since Module 1 runs on one loop that never stops: fetch, decode, execute. You're about to watch it happen in slow motion." },
+    { n:17, title:"Faster, Smaller, Everywhere", desc:"Why does a £1,200 phone feel fast? And why does your washing machine — also a computer — cost less than the phone case?" },
+    { n:18, title:"Senses and Voices", desc:"A computer in a box is deaf and mute. Devices are its senses and its voice — and your phone has more senses than you do." },
+    { n:19, title:"Where Things Live", desc:"Close an unsaved document and it's gone. Save it and it survives a power cut. Two different worlds of memory — plus a third that lives on someone else's computer." },
+    { n:20, title:"The Detective's Table", desc:"You can now predict what any short program does before it runs — like reading a suspect's plan from their notes. This is the single most powerful skill in the whole course." },
+    { n:21, title:"Words Under the Microscope", desc:"Your name is data. Time to slice it, flip it, and measure it." },
+    { n:22, title:"Many Boxes, One Name", desc:"Storing 30 scores in 30 separately named boxes would be misery. So: one name, many numbered compartments." },
+    { n:23, title:"The Classics", desc:"Five little algorithms run the world's paperwork. You already have every piece they're made of." },
+    { n:24, title:"Gatekeepers", desc:"Every form you've ever filled in had a bouncer. Meet the bouncer." },
+    { n:25, title:"Building Blocks", desc:"Real programs aren't one long scroll. They're built from named, reusable blocks — write once, use forever." },
+    { n:26, title:"Talking to the Network", desc:"Your device has two names: one burned in at the factory forever, one borrowed for the afternoon." },
+    { n:27, title:"The Software Layers", desc:"Between you tapping the screen and the transistors doing physics sits a stack of software layers, each translating for the one below." },
+    { n:28, title:"From Human to Machine", desc:"You've been writing in a language for humans. The CPU from Module 16 only eats bulbs. Somebody has to translate." },
+    { n:29, title:"Filing Cabinets that Answer Back", desc:"A spreadsheet you can interrogate in something close to English — and it answers instantly, every time, without sighing." },
+    { n:30, title:"The Logic Machines", desc:"Underneath every IF statement, every ADD, every pixel: six tiny machines that each answer one yes/no question. Meet all six." },
+    { n:31, title:"Circuits from Sentences", desc:"Now wire the six machines together. A safety alarm, a vending machine, a greenhouse fan — every rule you can say in a sentence, you can build in gates." },
+    { n:32, title:"The Web Beneath the Web", desc:"The internet and the web are not the same thing — one is roads, one is what's delivered on them." },
+    { n:33, title:"Money Made of Maths", desc:"A currency with no bank, no vault, no country — kept honest by everyone watching everyone, and by mathematics that makes lying spectacularly expensive." },
+    { n:34, title:"The Defenders", desc:"Every attack on a computer system targets the same weak point — and it's usually not the computer." },
+    { n:35, title:"Machines that Act Alone", desc:"Sensor, brain, muscle. Every automated system on Earth — greenhouse fans to self-driving cars — is those three words in a loop." },
+    { n:36, title:"Machines that Learn", desc:"The last module. Two ways to make a machine seem clever: give it every rule, or give it every example. Then: one small ceremony." }
+  ];
+
+  var list = document.getElementById("moduleList");
+
+  modules.forEach(function(m){
+    var done = !!m.file;
+    var el = document.createElement(done ? "a" : "div");
+    el.className = "module-card" + (done ? "" : " pending");
+    if (done) el.href = m.file;
+
+    var star = document.createElement("span");
+    star.className = "module-star" + (done ? " done" : "");
+    star.setAttribute("aria-hidden", "true");
+    star.textContent = "✦";
+
+    var body = document.createElement("span");
+    body.className = "module-body";
+
+    var title = document.createElement("span");
+    title.className = "module-title";
+    title.innerHTML = '<span class="num">' + m.n + ' ·</span> ' + m.title;
+
+    var desc = document.createElement("span");
+    desc.className = "module-desc";
+    desc.textContent = m.desc;
+
+    body.appendChild(title);
+    body.appendChild(desc);
+
+    if (!done) {
+      var status = document.createElement("span");
+      status.className = "module-status";
+      status.textContent = "not written yet";
+      body.appendChild(document.createElement("br"));
+      body.appendChild(status);
+    }
+
+    el.appendChild(star);
+    el.appendChild(body);
+    list.appendChild(el);
+  });
+})();
+</script>
+</body>
+</html>
