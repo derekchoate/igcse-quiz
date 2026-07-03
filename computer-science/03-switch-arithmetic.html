@@ -76,6 +76,9 @@
   .carry-slot .dot{width:8px;height:8px;border-radius:50%;background:#1C2748;border:1px solid #33406B;transition:all .3s}
   .carry-slot.lit .dot{background:var(--glow);box-shadow:0 0 10px rgba(255,184,77,.7);border-color:var(--glow)}
   .carry-slot.spill .dot{background:#FF9466;box-shadow:0 0 14px rgba(255,148,102,.85);border-color:#FF9466}
+  .carry-fly{position:fixed;z-index:60;font-family:'Sora',sans-serif;font-size:17px;font-weight:700;line-height:1;color:var(--glow);text-shadow:0 0 10px rgba(255,184,77,.9);pointer-events:none;opacity:0;transition:transform .55s cubic-bezier(.34,0,.2,1),opacity .3s ease}
+  .carry-fly.dig-stay{color:var(--ink-soft);text-shadow:none;font-weight:600}
+  .carry-fly.spill-fly{color:#FF9466;text-shadow:0 0 10px rgba(255,148,102,.9)}
   @media (max-width:520px){.carry-lane{margin-left:0}.carry-slot{width:31px}}
 
   .readout{display:flex;justify-content:center;gap:22px;margin-top:14px;flex-wrap:wrap}
@@ -469,11 +472,48 @@
       rowEl.appendChild(s);
       return s;
     });
-    return {setBitsArr(arr){spans.forEach((s,i)=>s.classList.toggle("lit",!!arr[i]));}};
+    return {spans,setBitsArr(arr){spans.forEach((s,i)=>s.classList.toggle("lit",!!arr[i]));}};
   }
 
   /* ---------- carry lane ---------- */
-  function makeCarryLane(rowEl){
+  // When a column adds up to two or three, it can't fit in one bulb — it writes
+  // itself in binary: "10" or "11". The right-hand digit (this column's own sum)
+  // stays put; the leading 1 is carried into the column on its left. This shows
+  // that split at the moment it happens: a two-digit number forms over the
+  // column, its sum digit drops down into that column's own sum bulb, and the
+  // carried 1 glides left into the next column (or off the edge, if it's lost).
+  function splitCarry(srcDot,leftDot,sumSpan,stayDigit,delay,spill){
+    if(reduceMotion)return;
+    const s=srcDot.getBoundingClientRect();
+    const cx=s.left+s.width/2, cy=s.top+s.height/2;
+    // leading "1" (the carry) sits on the left; the staying digit sits on its right,
+    // so together they read "10" (or "11") before they split apart.
+    const one=document.createElement("span");
+    one.className="carry-fly"+(spill?" spill-fly":"");one.textContent="1";
+    one.style.left=(cx-12)+"px";one.style.top=(cy-9)+"px";
+    const stay=document.createElement("span");
+    stay.className="carry-fly dig-stay";stay.textContent=stayDigit?"1":"0";
+    stay.style.left=(cx+1)+"px";stay.style.top=(cy-9)+"px";
+    document.body.appendChild(one);document.body.appendChild(stay);
+    // the carried 1 travels left into the next column (or drifts off the edge)
+    let dx1,dy1;
+    if(leftDot){const L=leftDot.getBoundingClientRect();dx1=(L.left+L.width/2-5)-(cx-12);dy1=(L.top+L.height/2-9)-(cy-9);}
+    else{dx1=-48;dy1=0;}
+    // the sum digit drops straight down into this column's own sum bulb
+    let dx0=0,dy0=30;
+    if(sumSpan){const q=sumSpan.getBoundingClientRect();dx0=(q.left+q.width/2-4)-(cx+1);dy0=(q.top+q.height/2-9)-(cy-9);}
+    setTimeout(()=>{
+      requestAnimationFrame(()=>{one.style.opacity="1";stay.style.opacity="1";}); // "10" forms
+      setTimeout(()=>{
+        one.style.transform="translate("+dx1+"px,"+dy1+"px)";  // 1 carries left
+        stay.style.transform="translate("+dx0+"px,"+dy0+"px)"; // digit stays, drops into sum
+        setTimeout(()=>{one.style.opacity="0";stay.style.opacity="0";},400);
+      },440);
+    },delay);
+    setTimeout(()=>{one.remove();stay.remove();},delay+1200);
+  }
+
+  function makeCarryLane(rowEl,sumSpans){
     const dots=W.map((v,i)=>{
       if(i===4){
         const brk=document.createElement("span");
@@ -488,13 +528,14 @@
     });
     let last=[0,0,0,0,0,0,0,0];
     return {
-      set(carryOut,spill){
+      set(carryOut,spill,sumBits){
         dots.forEach((d,i)=>{
           const lit=!!carryOut[i];
           d.classList.toggle("lit",lit);
+          // newly-made carry: split this column's total into its two binary digits.
+          // stagger by column so a chain of carries ripples leftward, one after another.
           if(lit&&!last[i]){
-            const r=d.getBoundingClientRect();
-            sparks(r.left+r.width/2,r.top);
+            splitCarry(d, i>0?dots[i-1]:null, sumSpans&&sumSpans[i], sumBits?sumBits[i]:0, (7-i)*110, i===0);
           }
         });
         dots[0].classList.toggle("spill",!!spill);
@@ -559,12 +600,13 @@
     const byteA=makeByte($("#"+ids.rowA),true,recalc);
     const byteB=makeByte($("#"+ids.rowB),true,recalc);
     const sumRow=makeReadout($("#"+ids.rowSum));
-    const carryLane=makeCarryLane($("#"+ids.carry));
+    const carryLane=makeCarryLane($("#"+ids.carry),sumRow.spans);
     function recalc(){
       const a=byteA.total(),b=byteB.total();
       const trueSum=a+b;
       const byteSum=trueSum&255;
-      sumRow.setBitsArr(W.map(v=>(byteSum&v)?1:0));
+      const sumArr=W.map(v=>(byteSum&v)?1:0);
+      sumRow.setBitsArr(sumArr);
       const bitsA=byteA.bitsArr(),bitsB=byteB.bitsArr();
       let carry=0;const carryOut=[0,0,0,0,0,0,0,0];
       for(let i=7;i>=0;i--){
@@ -573,7 +615,7 @@
         carryOut[i]=carry;
       }
       const spill=carryOut[0]===1;
-      carryLane.set(carryOut,spill);
+      carryLane.set(carryOut,spill,sumArr);
       onUpdate(a,b,trueSum,byteSum,spill);
     }
     recalc();
