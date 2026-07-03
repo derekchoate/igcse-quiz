@@ -19,9 +19,14 @@ describe("Module 3: Switch Arithmetic", () => {
     loadModule("03-switch-arithmetic.html");
   });
 
-  test("starts at zero stars", () => {
+  test("starts at zero stars, with no chip pre-completed by the initial 0+0 render", () => {
     expect(starCount()).toBe("✦ 0");
     expect(reflectVisible()).toBe(false);
+    // discovery 1's readout renders once at load (a1=0, b1=0), which is itself
+    // a valid "0 + 0" target — must not auto-fire before a real click.
+    ["chips1", "chips2", "chips3", "chips4", "chips5"].forEach(id => {
+      expect(hitChips(id)).toBe(0);
+    });
   });
 
   test("discovery 1: all four addition facts are reachable, including the carry", () => {

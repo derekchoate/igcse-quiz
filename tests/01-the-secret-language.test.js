@@ -12,10 +12,13 @@ describe("Module 1: The Secret Language", () => {
     loadModule("01-the-secret-language.html");
   });
 
-  test("starts at zero stars with the reflection card hidden", () => {
+  test("starts at zero stars with the reflection card hidden, and no chip pre-completed", () => {
     expect(starCount()).toBe("✦ 0");
     expect(reflectVisible()).toBe(false);
     expect(isDiscoveryDone("d1")).toBe(false);
+    ["chips2", "chips3", "chips4"].forEach(id => {
+      expect(hitChips(id)).toBe(0);
+    });
   });
 
   test("discovery 1: three flips of the single switch awards a star", () => {

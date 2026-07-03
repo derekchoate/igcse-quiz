@@ -13,9 +13,12 @@ describe("Module 2: Sixteen Symbols", () => {
     loadModule("02-sixteen-symbols.html");
   });
 
-  test("starts at zero stars", () => {
+  test("starts at zero stars, with no chip pre-completed", () => {
     expect(starCount()).toBe("✦ 0");
     expect(reflectVisible()).toBe(false);
+    ["chips2", "chips3", "chips4", "chips5"].forEach(id => {
+      expect(hitChips(id)).toBe(0);
+    });
   });
 
   test("discovery 1: shuffling three times awards a star and shows an 8-bit binary readout", () => {
