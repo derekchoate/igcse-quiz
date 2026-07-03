@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letters in the Wire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10182B; --card:#1A2440; --card-edge:#28345A;
+    --ink:#EAE6DC; --ink-soft:#8D97B0;
+    --glow:#FFB84D; --glow-deep:#E0932A; --teal:#7BC4B4;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Atkinson Hyperlegible',system-ui,sans-serif;
+    font-size:18px;line-height:1.65;min-height:100vh;
+    background-image:radial-gradient(ellipse 900px 500px at 70% -10%, #1B2646 0%, transparent 60%);
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 20px 120px}
+  header{position:sticky;top:0;z-index:50;background:rgba(16,24,43,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--card-edge)}
+  .head-inner{max-width:680px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .head-title{font-family:'Sora',sans-serif;font-weight:600;font-size:16px}
+  .stars{font-family:'Sora',sans-serif;font-size:15px;color:var(--glow);display:flex;align-items:center;gap:7px;white-space:nowrap}
+  .stars .hint-txt{color:var(--ink-soft);font-size:13px;font-family:'Atkinson Hyperlegible',sans-serif}
+
+  .hero{padding:64px 0 40px}
+  .hero h1{font-family:'Sora',sans-serif;font-weight:700;font-size:clamp(32px,7vw,46px);line-height:1.14;letter-spacing:-.5px;margin-bottom:20px}
+  .hero h1 .lit{color:var(--glow);text-shadow:0 0 24px rgba(255,184,77,.45)}
+  .hero p{color:var(--ink-soft);max-width:52ch;margin-bottom:14px}
+  .hero .promise{margin-top:26px;padding:18px 20px;background:var(--card);border:1px solid var(--card-edge);border-radius:var(--radius);font-size:16.5px}
+  .hero .promise strong{color:var(--teal)}
+
+  .disc{background:var(--card);border:1px solid var(--card-edge);border-radius:var(--radius);margin:26px 0;overflow:hidden;transition:border-color .4s}
+  .disc.done{border-color:rgba(255,184,77,.45)}
+  .disc-head{width:100%;display:flex;align-items:center;gap:14px;padding:20px 22px;background:none;border:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .disc-head:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;border-radius:var(--radius)}
+  .disc-star{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .5s}
+  .disc.done .disc-star{background:var(--glow);color:#3A2606;border-color:var(--glow);box-shadow:0 0 18px rgba(255,184,77,.5)}
+  .disc-title{font-family:'Sora',sans-serif;font-weight:600;font-size:18px;flex:1}
+  .disc-sub{display:block;font-weight:400;font-size:14px;color:var(--ink-soft);margin-top:2px;font-family:'Atkinson Hyperlegible',sans-serif}
+  .chev{color:var(--ink-soft);transition:transform .3s;flex:0 0 auto}
+  .disc.open .chev{transform:rotate(180deg)}
+  .disc-body{display:none;padding:2px 22px 26px}
+  .disc.open .disc-body{display:block}
+  .disc-body p{margin-bottom:14px}
+  .disc-body p.soft{color:var(--ink-soft);font-size:16px}
+
+  .board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:22px 12px 18px;margin:18px 0}
+  .bulb-row{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
+  .bit{background:none;border:none;cursor:pointer;padding:5px 3px;display:flex;flex-direction:column;align-items:center;gap:7px;border-radius:12px}
+  .bit:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .bulb{width:38px;height:38px;border-radius:50%;background:#1C2748;border:2px solid #33406B;transition:all .25s}
+  .bit[aria-pressed="true"] .bulb{
+    background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 55%, var(--glow-deep));
+    border-color:var(--glow);
+    box-shadow:0 0 20px rgba(255,184,77,.6), 0 0 42px rgba(255,184,77,.22);
+  }
+  .bit-val{font-family:'Sora',sans-serif;font-size:12px;color:var(--ink-soft)}
+  .bit[aria-pressed="true"] .bit-val{color:var(--glow)}
+  .case-bulb .bulb{outline:2px solid var(--teal);outline-offset:2px}
+  @media (max-width:520px){.bulb{width:31px;height:31px}.bulb-row{gap:2px}}
+
+  .readout{display:flex;justify-content:center;gap:22px;margin-top:14px;flex-wrap:wrap}
+  .readout .cell{text-align:center;font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft)}
+  .readout .cell b{display:block;font-size:22px;color:var(--ink);font-weight:700;margin-top:2px;transition:color .3s}
+  .readout .cell.letter-cell b{font-size:30px;letter-spacing:1px}
+  .readout .cell.matched b{color:var(--glow);text-shadow:0 0 18px rgba(255,184,77,.5)}
+
+  .ascii-map{position:relative;height:30px;background:#0D1426;border:1px solid var(--card-edge);border-radius:10px;margin:16px 0 6px;overflow:hidden}
+  .ascii-band{position:absolute;top:0;bottom:0;background:rgba(123,196,180,.22)}
+  .ascii-band.digits{left:18.8%;width:3.5%}
+  .ascii-band.capitals{left:25.5%;width:9.8%}
+  .ascii-band.lower{left:38%;width:9.8%}
+  .ascii-marker{position:absolute;top:-2px;bottom:-2px;width:3px;background:var(--glow);box-shadow:0 0 10px rgba(255,184,77,.7);transition:left .25s;left:0}
+  .ascii-legend{text-align:center;font-family:'Sora',sans-serif;font-size:12px;color:var(--ink-soft);margin-bottom:10px}
+
+  .text-input{width:100%;font:inherit;font-family:'Sora',sans-serif;font-size:18px;background:#121A32;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:10px 14px}
+  .text-input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+  .encode-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;justify-content:center}
+  .encode-col{width:70px;display:flex;flex-direction:column;align-items:center;gap:5px}
+  .encode-char{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--glow)}
+  .encode-col .mini-bulbs{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;max-width:64px}
+  .encode-col .mini.small{width:9px;height:9px}
+  .encode-code{font-family:'Sora',sans-serif;font-size:11px;color:var(--ink-soft)}
+  .encode-toobig{font-size:11px;color:var(--teal);text-align:center;max-width:64px}
+
+  .mini-bulbs{display:flex;gap:4px}
+  .mini{width:22px;height:22px;border-radius:50%;background:#1C2748;border:1.5px solid #33406B}
+  .mini.on{background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 60%);border-color:var(--glow);box-shadow:0 0 10px rgba(255,184,77,.55)}
+  .decode-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0;border-bottom:1px dashed #28345A}
+  .decode-row:last-of-type{border-bottom:none}
+  .decode-val{font-family:'Sora',sans-serif;color:var(--ink-soft);font-size:14px;min-width:56px}
+  .letter-pick{font:inherit;font-family:'Sora',sans-serif;font-size:17px;background:#121A32;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:8px 12px}
+  .letter-pick.locked{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow);pointer-events:none}
+  .alphabet{margin:16px 0;padding:14px 16px;background:#121A32;border-radius:12px;font-family:'Sora',sans-serif;font-size:13.5px;color:var(--ink-soft);line-height:2;letter-spacing:.3px}
+  .alphabet b{color:var(--ink)}
+  .decoded-word{font-family:'Sora',sans-serif;font-size:30px;font-weight:700;letter-spacing:10px;text-align:center;margin:18px 0 6px;min-height:44px;color:var(--glow);text-shadow:0 0 26px rgba(255,184,77,.4)}
+  .decode-note{display:none;text-align:center;color:var(--teal);font-size:16.5px}
+  .decode-note.shown{display:block}
+  .sub-label{font-family:'Sora',sans-serif;font-size:14px;color:var(--teal);margin:22px 0 4px;text-transform:uppercase;letter-spacing:.6px}
+  .sub-label:first-child{margin-top:0}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
+  .chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
+  .chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
+  .chip.hit::after{content:" ✦"}
+  .chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
+
+  .nudge-zone{margin-top:14px}
+  .nudge-btn{font:inherit;font-size:15px;color:var(--teal);background:none;border:1px solid rgba(123,196,180,.4);border-radius:999px;padding:8px 16px;cursor:pointer}
+  .nudge-btn:hover{background:rgba(123,196,180,.08)}
+  .nudge-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .nudge{margin-top:12px;padding:14px 16px;font-size:16px;background:rgba(123,196,180,.07);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;display:none}
+  .nudge.shown{display:block}
+
+  .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .action-btn{font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);background:#22305A;border:1px solid var(--card-edge);border-radius:999px;padding:10px 20px;cursor:pointer}
+  .action-btn:hover{border-color:var(--teal)}
+  .action-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#1E2A4E;border:1px solid var(--glow);color:var(--ink);padding:13px 22px;border-radius:999px;font-size:16px;opacity:0;pointer-events:none;transition:all .45s;z-index:99;box-shadow:0 6px 30px rgba(0,0,0,.45);max-width:88vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast .star{color:var(--glow)}
+  .spark{position:fixed;font-size:18px;color:var(--glow);pointer-events:none;z-index:98;animation:rise 1.4s ease-out forwards}
+  @keyframes rise{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-90px) scale(.6)}}
+  @media (prefers-reduced-motion:reduce){.spark{animation:none;opacity:0}html{scroll-behavior:auto}*{transition-duration:.01ms !important}}
+
+  .reflect{margin:40px 0 0;padding:26px 24px;background:linear-gradient(160deg,#1A2440,#16203E);border:1px solid rgba(255,184,77,.3);border-radius:var(--radius)}
+  .reflect h2{font-family:'Sora',sans-serif;font-size:22px;margin-bottom:14px}
+  .reflect p{margin-bottom:13px}
+  .reflect p.soft{color:var(--ink-soft);font-size:16px}
+
+  .module-nav{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .nav-link{font-family:'Sora',sans-serif;font-size:14.5px;color:var(--ink-soft);text-decoration:none;padding:10px 18px;border:1px solid var(--card-edge);border-radius:999px;background:#121A32;transition:all .3s}
+  .nav-link:hover{border-color:var(--teal);color:var(--teal)}
+  .nav-link:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .nav-link.next{margin-left:auto}
+  .nav-soft{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);opacity:.65;padding:10px 18px;margin-left:auto}
+
+  footer{margin-top:48px;text-align:center;color:var(--ink-soft);font-size:14.5px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="head-title">Letters in the Wire</div>
+    <div class="stars" aria-live="polite">
+      <span id="starCount">✦ 0</span>
+      <span class="hint-txt">stars only ever go up</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>A byte once spelled YOU. Here's <span class="lit">the system the whole world agreed on.</span></h1>
+    <p>Numbers standing for letters isn't new — you did that in Module 1. What's new is that every computer on Earth uses the exact same numbering, agreed decades ago, so a byte sent from one machine means the same letter on any other. It's called a character set, and by the end you'll type on a real keyboard and watch the bytes light themselves — including the oddly satisfying trick that separates a capital letter from its lowercase twin by exactly one bulb.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip switches, follow curiosity, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">First: why everyone has to agree
+        <span class="disc-sub">the same byte, two different letters</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Flip a few bulbs and you get a number — that part's settled. But a number only becomes a <i>letter</i> if whoever reads it agrees on the same table. Decades ago, different machines used different numbering for letters, and nobody had told them to agree. Below is one byte and two rival codebooks reading it at once.</p>
+      <div class="board">
+        <div class="bulb-row" id="row1"></div>
+        <div class="readout">
+          <div class="cell letter-cell">Card A says<b id="cardA1">·</b></div>
+          <div class="cell letter-cell">Card B says<b id="cardB1">·</b></div>
+        </div>
+      </div>
+      <p class="soft">Card A is ASCII — the table everyone eventually agreed on. Card B is a rival's table, from before that agreement. Try values from 65 to 90 and watch them disagree.</p>
+      <p class="chips-label">Keep comparing…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Set the byte to 72 — that's ASCII's H. Now check what Card B says it is.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Try 65 too. Card A calls it A. What does Card B call it?</div>
+        <button class="nudge-btn" data-nudge="n1c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1c">Both cards see the exact same bulbs. The letter only exists because of which table reads it — that's the whole problem the rest of this module solves.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The ASCII neighbourhood
+        <span class="disc-sub">digits, capitals and lowercase each keep to their own street</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>ASCII isn't a random list — it's a street map. Digits live in one stretch of numbers, capital letters in another, lowercase in a third, with gaps for punctuation in between. Once you know the edges of each neighbourhood, you can predict what kind of character a byte holds before you even look it up.</p>
+      <div class="board">
+        <div class="bulb-row" id="row2"></div>
+        <div class="ascii-map"><span class="ascii-band digits"></span><span class="ascii-band capitals"></span><span class="ascii-band lower"></span><span class="ascii-marker" id="asciiMarker"></span></div>
+        <p class="ascii-legend">digits · capitals · lowercase, left to right</p>
+        <div class="readout">
+          <div class="cell letter-cell">character<b id="char2">·</b></div>
+          <div class="cell" id="hood2">neighbourhood<b>—</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Find a home in…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Three neighbourhoods, three ranges. Digits are the smallest block — try values just under 60.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Digits run 48 to 57, capitals 65 to 90, lowercase 97 to 122. Land anywhere inside a range and that whole neighbourhood counts.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">One bulb between A and a
+        <span class="disc-sub">the case bit, caught in the act</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's the trick that makes ASCII genuinely elegant: a capital letter and its lowercase twin are exactly one bulb apart — the one worth 32, ringed in teal below. Set any capital, light that single bulb, and watch it become lowercase without touching anything else.</p>
+      <div class="board">
+        <div class="bulb-row" id="row3"></div>
+        <div class="readout"><div class="cell letter-cell">character<b id="char3">A</b></div></div>
+      </div>
+      <p class="chips-label">Prove the case bit…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Set any capital letter, then find the one bulb worth 32 — try switching just that one.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">A is 65 (01000001). Light the 32-bulb too and the total becomes 97 — which is lowercase a. Same letter, one different bulb.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">128 isn't enough
+        <span class="disc-sub">type something ASCII has never seen</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>ASCII has exactly 128 slots — plenty for English letters, digits and punctuation, and not one slot more. Type an ordinary letter below and watch its number sit comfortably inside that range. Then try a character ASCII was never built for, and watch it simply run out of room. That gap is why Unicode exists — same idea, just with far more slots.</p>
+      <div class="board">
+        <input type="text" id="d4input" class="text-input" maxlength="4" placeholder="type a character…" aria-label="character to check">
+        <div class="btn-row">
+          <button class="action-btn" id="fillAccent" type="button">type é</button>
+          <button class="action-btn" id="fillHan" type="button">type 中</button>
+        </div>
+        <div class="readout">
+          <div class="cell letter-cell">character<b id="d4char">·</b></div>
+          <div class="cell" id="d4cell">code point<b id="d4code">—</b></div>
+        </div>
+        <p class="soft" id="d4verdict"></p>
+      </div>
+      <p class="chips-label">Along the way, find…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">Type an ordinary letter first and check its number — comfortably under 128.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Now use one of the buttons above. Its number won't fit in a single ASCII byte at all — that's exactly the wall Unicode was built to knock down. It's still bytes underneath, just more of them per character.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Write something. Read something.
+        <span class="disc-sub">encode your own word, then decode a message left for you</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Time to use the wire both directions. Type any word up top and watch it turn into bytes, live — no checking, this bit's just yours. Below, someone left you a message the same way — five bytes, already lit. Read each one's total, find its letter, and see what it says.</p>
+      <div class="sub-label">write something</div>
+      <div class="board">
+        <input type="text" id="encodeInput" class="text-input" maxlength="12" placeholder="type a word…" aria-label="word to encode">
+        <div class="encode-row" id="encodeRow"></div>
+      </div>
+      <div class="sub-label">read something</div>
+      <div class="alphabet" id="alpha"></div>
+      <div class="board" id="decodeBoard"></div>
+      <div class="decoded-word" id="decodedWord">· · · · ·</div>
+      <div class="decode-note" id="decodeNote">That's not just a nice word — you decoded real ASCII to read it.</div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Add up only the lit bulbs in a row, same trick as always.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">The first row's lit values are 64 + 16 + 2 + 1 — that's 83, and 83 is the code for S.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a fourth time</h2>
+    <p>Twenty minutes ago, ASCII was probably just a word you'd half-heard. Now you've caught two computers disagreeing over a single byte, mapped the neighbourhoods of an entire character set, isolated the exact bulb that separates upper and lower case, watched ASCII run clean out of room, and used the wire both ways — your own word out, a message back in.</p>
+    <p class="soft">Whenever you're curious, the next discovery is where pictures and sound hide inside these same kinds of numbers. No rush at all — the stars keep.</p>
+  </section>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="03-switch-arithmetic.html">← Module 3 · Switch Arithmetic</a>
+    <a class="nav-link next" href="05-pictures-and-sound-from-numbers.html">Module 5 · Pictures & Sound from Numbers →</a>
+  </nav>
+
+  <footer>Module 4 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  const state={stars:0,done:{}};
+  const $=(s,el)=>(el||document).querySelector(s);
+  const $$=(s,el)=>Array.from((el||document).querySelectorAll(s));
+  const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const W=[128,64,32,16,8,4,2,1];
+
+  let toastTimer=null;
+  function toast(msg){
+    const t=$("#toast");t.innerHTML=msg;t.classList.add("show");
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),3400);
+  }
+  function sparks(x,y){
+    if(reduceMotion)return;
+    for(let i=0;i<7;i++){
+      const s=document.createElement("span");
+      s.className="spark";s.textContent="✦";
+      s.style.left=(x+(Math.random()*80-40))+"px";
+      s.style.top=(y+(Math.random()*20-10))+"px";
+      s.style.animationDelay=(Math.random()*.25)+"s";
+      document.body.appendChild(s);setTimeout(()=>s.remove(),1800);
+    }
+  }
+  function awardStar(id,message){
+    if(state.done[id])return;
+    state.done[id]=true;state.stars++;
+    $("#starCount").textContent="✦ "+state.stars;
+    const disc=$("#"+id);disc.classList.add("done");
+    const r=disc.getBoundingClientRect();
+    sparks(r.left+r.width/2,r.top+60);
+    toast('<span class="star">✦</span> '+message);
+    if(state.stars>=5)$("#reflect").hidden=false;
+  }
+
+  $$(".disc-head").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const d=$("#"+btn.dataset.toggle);
+      const open=d.classList.toggle("open");
+      btn.setAttribute("aria-expanded",open?"true":"false");
+    });
+  });
+  $$(".nudge-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      $("#"+btn.dataset.nudge).classList.add("shown");
+      btn.style.display="none";
+    });
+  });
+
+  /* ---------- byte board factory (shared engine) ---------- */
+  function makeByte(rowEl,labeled,onChange){
+    const bits=W.map(v=>{
+      const b=document.createElement("button");
+      b.type="button";b.className="bit";
+      b.setAttribute("aria-pressed","false");
+      b.setAttribute("aria-label","switch worth "+v);
+      b.innerHTML='<span class="bulb"></span>'+(labeled?'<span class="bit-val">'+v+'</span>':"");
+      b.addEventListener("click",()=>{
+        const on=b.getAttribute("aria-pressed")!=="true";
+        b.setAttribute("aria-pressed",on?"true":"false");
+        onChange(api);
+      });
+      rowEl.appendChild(b);
+      return b;
+    });
+    const api={
+      bits,
+      total(){return bits.reduce((s,b,i)=>s+(b.getAttribute("aria-pressed")==="true"?W[i]:0),0);},
+      set(n){bits.forEach((b,i)=>b.setAttribute("aria-pressed",(n&W[i])?"true":"false"));onChange(api);}
+    };
+    return api;
+  }
+
+  /* ---------- chip sets (shared engine) ---------- */
+  function makeChips(containerEl,targets,onAllHit,formatFn){
+    const hit={};
+    targets.forEach(t=>{
+      const c=document.createElement("span");
+      c.className="chip";c.dataset.target=t;
+      c.textContent=formatFn?formatFn(t):t;
+      containerEl.appendChild(c);
+    });
+    return function check(current){
+      if(targets.includes(current)&&!hit[current]){
+        hit[current]=true;
+        const chip=$('.chip[data-target="'+current+'"]',containerEl);
+        chip.classList.add("hit");
+        const r=chip.getBoundingClientRect();
+        sparks(r.left+r.width/2,r.top);
+        const remaining=targets.filter(t=>!hit[t]).length;
+        if(remaining>0)toast("Found "+(formatFn?formatFn(current):current)+" — lovely. "+remaining+" more if you fancy it.");
+        else onAllHit();
+      }
+    };
+  }
+
+  function charOf(v){return (v>=32&&v<=126)?String.fromCharCode(v):"·";}
+
+  /* ═══ D1: two rival codebooks ═══ */
+  function cardA(v){return (v>=65&&v<=90)?String.fromCharCode(v):"·";}
+  function cardB(v){return (v>=65&&v<=90)?String.fromCharCode(155-v):"·";}
+  const seen1=new Set();
+  const check1=makeChips($("#chips1"),[1,2,3],
+    ()=>awardStar("d1","Three bytes, six readings between two tables that never agreed. That's the whole reason ASCII exists."),
+    n=>["one letter, two readings","two — and they still disagree","three: you've got the idea"][n-1]);
+  let seeding1=true;
+  const byte1=makeByte($("#row1"),true,api=>{
+    const v=api.total();
+    $("#cardA1").textContent=cardA(v);
+    $("#cardB1").textContent=cardB(v);
+    if(!seeding1&&v>=65&&v<=90&&!seen1.has(v)){
+      seen1.add(v);
+      check1(seen1.size);
+    }
+  });
+  byte1.set(72);
+  seeding1=false;
+
+  /* ═══ D2: the ASCII neighbourhood ═══ */
+  function neighbourhoodOf(v){
+    if(v>=48&&v<=57)return "digits";
+    if(v>=65&&v<=90)return "capitals";
+    if(v>=97&&v<=122)return "lowercase";
+    if(v===32)return "space";
+    return "punctuation / other";
+  }
+  const check2=makeChips($("#chips2"),["digit","capital","lower"],
+    ()=>awardStar("d2","Three neighbourhoods mapped. You can now guess a byte's kind before you decode it."),
+    k=>({digit:"digits' street (48–57)",capital:"capitals' street (65–90)",lower:"lowercase's street (97–122)"})[k]);
+  const byte2=makeByte($("#row2"),true,api=>{
+    const v=api.total();
+    $("#char2").textContent=charOf(v);
+    $("#hood2 b").textContent=neighbourhoodOf(v);
+    $("#asciiMarker").style.left=(v/255*100)+"%";
+    if(v>=48&&v<=57)check2("digit");
+    if(v>=65&&v<=90)check2("capital");
+    if(v>=97&&v<=122)check2("lower");
+  });
+  byte2.set(0);
+
+  /* ═══ D3: the case bit ═══ */
+  const flipped3=new Set();
+  let prev3=65;
+  const check3=makeChips($("#chips3"),["down","up","again"],
+    ()=>awardStar("d3","One bulb, both cases, on more than one letter. That's the case bit, permanently yours."),
+    k=>({down:"capital → lowercase, one bulb",up:"lowercase → capital, one bulb",again:"do it again on a different letter"})[k]);
+  const byte3=makeByte($("#row3"),true,api=>{
+    const v=api.total();
+    $("#char3").textContent=charOf(v);
+    if(prev3>=65&&prev3<=90&&v===prev3+32){
+      check3("down");
+      flipped3.add(String.fromCharCode(prev3));
+    }
+    if(prev3>=97&&prev3<=122&&v===prev3-32){
+      check3("up");
+      flipped3.add(String.fromCharCode(v));
+    }
+    if(flipped3.size>=2)check3("again");
+    prev3=v;
+  });
+  byte3.set(65);
+  byte3.bits[2].classList.add("case-bulb");
+
+  /* ═══ D4: 128 isn't enough ═══ */
+  const check4=makeChips($("#chips4"),["fits","overflows"],
+    ()=>awardStar("d4","Both sides of the wall found. Unicode isn't magic — it's just more bytes per character."),
+    k=>({fits:"a character ASCII handles just fine",overflows:"a character that breaks ASCII"})[k]);
+  function updateD4(){
+    const raw=$("#d4input").value;
+    const ch=Array.from(raw)[0]||"";
+    if(!ch){
+      $("#d4char").textContent="·";$("#d4code").textContent="—";
+      $("#d4verdict").textContent="";$("#d4cell").classList.remove("matched");
+      return;
+    }
+    const code=ch.codePointAt(0);
+    $("#d4char").textContent=ch;
+    $("#d4code").textContent=code;
+    const fits=code<=127;
+    $("#d4verdict").textContent=fits?"Fits in one ASCII byte, no trouble at all.":"Too big — ASCII has nothing this high. This is what Unicode is for.";
+    $("#d4cell").classList.toggle("matched",fits);
+    check4(fits?"fits":"overflows");
+  }
+  $("#d4input").addEventListener("input",updateD4);
+  $("#fillAccent").addEventListener("click",()=>{$("#d4input").value="é";updateD4();});
+  $("#fillHan").addEventListener("click",()=>{$("#d4input").value="中";updateD4();});
+
+  /* ═══ D5: encode + decode ═══ */
+  function renderEncode(word){
+    const row=$("#encodeRow");row.innerHTML="";
+    Array.from(word).slice(0,12).forEach(ch=>{
+      const code=ch.codePointAt(0);
+      const col=document.createElement("div");
+      col.className="encode-col";
+      const shown=ch===" "?"·":ch;
+      if(code<=255){
+        const bulbs=W.map(v=>'<span class="mini small'+((code&v)?" on":"")+'"></span>').join("");
+        col.innerHTML='<span class="encode-char">'+shown+'</span><span class="mini-bulbs">'+bulbs+'</span><span class="encode-code">'+code+'</span>';
+      }else{
+        col.innerHTML='<span class="encode-char">'+shown+'</span><span class="encode-toobig">too big for one byte — needs more</span><span class="encode-code">'+code+'</span>';
+      }
+      row.appendChild(col);
+    });
+  }
+  $("#encodeInput").addEventListener("input",e=>renderEncode(e.target.value));
+
+  const alpha=$("#alpha");
+  alpha.innerHTML=Array.from({length:26},(_,i)=>"<b>"+String.fromCharCode(65+i)+"</b>="+(65+i)).join(" &nbsp; ");
+
+  const word5=[
+    {letter:"S",value:83},
+    {letter:"H",value:72},
+    {letter:"A",value:65},
+    {letter:"R",value:82},
+    {letter:"P",value:80}
+  ];
+  const solved5=word5.map(()=>false);
+  const board5=$("#decodeBoard");
+  word5.forEach((w,idx)=>{
+    const row=document.createElement("div");
+    row.className="decode-row";
+    const bulbs=W.map(v=>'<span class="mini'+((w.value&v)?" on":"")+'" title="'+v+'"></span>').join("");
+    row.innerHTML='<span class="mini-bulbs">'+bulbs+'</span><span class="decode-val">= ?</span>';
+    const sel=document.createElement("select");
+    sel.className="letter-pick";
+    sel.setAttribute("aria-label","letter for row "+(idx+1));
+    sel.innerHTML='<option value="">letter…</option>'+
+      Array.from({length:26},(_,i)=>{
+        const L=String.fromCharCode(65+i);
+        return '<option value="'+L+'">'+L+" ("+(65+i)+")</option>";
+      }).join("");
+    sel.addEventListener("change",()=>{
+      if(!sel.value)return;
+      if(sel.value===w.letter){
+        solved5[idx]=true;
+        sel.classList.add("locked");
+        $(".decode-val",row).textContent="= "+w.value;
+        renderWord5();
+        if(solved5.every(Boolean)){
+          $("#decodeNote").classList.add("shown");
+          awardStar("d5","You wrote a word out and read one back. The wire runs both ways now.");
+        }
+      }else{
+        const picked=sel.value.charCodeAt(0);
+        toast(sel.value+" is number "+picked+" — this row's lit bulbs add to something else. The chart's right there, no hurry.");
+        sel.value="";
+      }
+    });
+    row.appendChild(sel);
+    board5.appendChild(row);
+  });
+  function renderWord5(){
+    $("#decodedWord").textContent=word5.map((w,i)=>solved5[i]?w.letter:"·").join(" ");
+  }
+})();
+</script>
+</body>
+</html>

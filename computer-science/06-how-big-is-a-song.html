@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Big Is a Song?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10182B; --card:#1A2440; --card-edge:#28345A;
+    --ink:#EAE6DC; --ink-soft:#8D97B0;
+    --glow:#FFB84D; --glow-deep:#E0932A; --teal:#7BC4B4;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Atkinson Hyperlegible',system-ui,sans-serif;
+    font-size:18px;line-height:1.65;min-height:100vh;
+    background-image:radial-gradient(ellipse 900px 500px at 70% -10%, #1B2646 0%, transparent 60%);
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 20px 120px}
+  header{position:sticky;top:0;z-index:50;background:rgba(16,24,43,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--card-edge)}
+  .head-inner{max-width:680px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .head-title{font-family:'Sora',sans-serif;font-weight:600;font-size:16px}
+  .stars{font-family:'Sora',sans-serif;font-size:15px;color:var(--glow);display:flex;align-items:center;gap:7px;white-space:nowrap}
+  .stars .hint-txt{color:var(--ink-soft);font-size:13px;font-family:'Atkinson Hyperlegible',sans-serif}
+
+  .hero{padding:64px 0 40px}
+  .hero h1{font-family:'Sora',sans-serif;font-weight:700;font-size:clamp(32px,7vw,46px);line-height:1.14;letter-spacing:-.5px;margin-bottom:20px}
+  .hero h1 .lit{color:var(--glow);text-shadow:0 0 24px rgba(255,184,77,.45)}
+  .hero p{color:var(--ink-soft);max-width:52ch;margin-bottom:14px}
+  .hero .promise{margin-top:26px;padding:18px 20px;background:var(--card);border:1px solid var(--card-edge);border-radius:var(--radius);font-size:16.5px}
+  .hero .promise strong{color:var(--teal)}
+
+  .disc{background:var(--card);border:1px solid var(--card-edge);border-radius:var(--radius);margin:26px 0;overflow:hidden;transition:border-color .4s}
+  .disc.done{border-color:rgba(255,184,77,.45)}
+  .disc-head{width:100%;display:flex;align-items:center;gap:14px;padding:20px 22px;background:none;border:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .disc-head:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;border-radius:var(--radius)}
+  .disc-star{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .5s}
+  .disc.done .disc-star{background:var(--glow);color:#3A2606;border-color:var(--glow);box-shadow:0 0 18px rgba(255,184,77,.5)}
+  .disc-title{font-family:'Sora',sans-serif;font-weight:600;font-size:18px;flex:1}
+  .disc-sub{display:block;font-weight:400;font-size:14px;color:var(--ink-soft);margin-top:2px;font-family:'Atkinson Hyperlegible',sans-serif}
+  .chev{color:var(--ink-soft);transition:transform .3s;flex:0 0 auto}
+  .disc.open .chev{transform:rotate(180deg)}
+  .disc-body{display:none;padding:2px 22px 26px}
+  .disc.open .disc-body{display:block}
+  .disc-body p{margin-bottom:14px}
+  .disc-body p.soft{color:var(--ink-soft);font-size:16px}
+
+  .board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:22px 12px 18px;margin:18px 0;text-align:center}
+
+  .readout{display:flex;justify-content:center;gap:22px;margin-top:14px;flex-wrap:wrap}
+  .readout .cell{text-align:center;font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft)}
+  .readout .cell b{display:block;font-size:22px;color:var(--ink);font-weight:700;margin-top:2px;transition:color .3s;word-break:break-word}
+  .readout .cell.matched b{color:var(--glow);text-shadow:0 0 18px rgba(255,184,77,.5)}
+  .readout .cell.wide b{font-size:19px}
+
+  /* D1: ladder */
+  .ladder-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .ladder-btn{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink);background:#22305A;border:1px solid var(--card-edge);border-radius:999px;padding:9px 16px;cursor:pointer}
+  .ladder-btn:hover{border-color:var(--teal)}
+  .ladder-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .ladder-btn[aria-pressed="true"]{border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.1)}
+  .rung-caption{margin-top:14px;color:var(--ink-soft);font-size:15px}
+
+  /* D2/D3: steppers */
+  .stepper-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+  .stepper-btn{font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);background:#22305A;border:1px solid var(--card-edge);border-radius:999px;padding:10px 18px;cursor:pointer;min-width:120px}
+  .stepper-btn:hover{border-color:var(--teal)}
+  .stepper-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .stepper-label{font-family:'Sora',sans-serif;font-size:12px;color:var(--ink-soft);display:block;margin-bottom:8px}
+  .stepper-group{display:inline-block}
+
+  /* D4: squeeze */
+  .pixel-row{display:flex;gap:3px;justify-content:center;margin:6px 0;flex-wrap:wrap}
+  .pixel-cell{width:20px;height:20px;border-radius:3px;background:#1C2748;border:1px solid #33406B;cursor:pointer;padding:0}
+  .pixel-cell[aria-pressed="true"]{background:var(--glow);border-color:var(--glow);box-shadow:0 0 8px rgba(255,184,77,.5)}
+  .pixel-cell:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .squeezed-row{display:flex;gap:2px;justify-content:center;margin:16px 0 6px;height:26px}
+  .run-block{display:flex;align-items:center;justify-content:center;border-radius:4px;font-family:'Sora',sans-serif;font-size:11px;color:var(--ink-soft);background:#1C2748;border:1px solid #33406B}
+  .run-block.on{background:rgba(255,184,77,.22);border-color:var(--glow);color:var(--glow)}
+  .tally-line{margin-top:10px;font-family:'Sora',sans-serif;font-size:15px;color:var(--ink-soft)}
+  .tally-line b{color:var(--ink)}
+  .tally-line.shrank b{color:var(--glow)}
+  .tally-line.grew b{color:#FF9466}
+
+  /* D5: sorting */
+  .sort-list{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+  .sort-item{background:#121A32;border:1px solid var(--card-edge);border-radius:12px;padding:14px 16px;text-align:left}
+  .sort-item.solved{border-color:rgba(255,184,77,.5)}
+  .sort-text{display:block;margin-bottom:10px;font-size:16px}
+  .sort-btns{display:flex;gap:8px;flex-wrap:wrap}
+  .sort-btn{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);background:#1A2440;border:1px solid var(--card-edge);border-radius:999px;padding:8px 16px;cursor:pointer}
+  .sort-btn:hover{border-color:var(--teal)}
+  .sort-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .sort-btn.chosen{border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.14);pointer-events:none}
+  .sort-item.solved .sort-btn:not(.chosen){display:none}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px;justify-content:center}
+  .chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
+  .chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
+  .chip.hit::after{content:" ✦"}
+  .chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
+
+  .nudge-zone{margin-top:14px}
+  .nudge-btn{font:inherit;font-size:15px;color:var(--teal);background:none;border:1px solid rgba(123,196,180,.4);border-radius:999px;padding:8px 16px;cursor:pointer}
+  .nudge-btn:hover{background:rgba(123,196,180,.08)}
+  .nudge-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .nudge{margin-top:12px;padding:14px 16px;font-size:16px;background:rgba(123,196,180,.07);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;display:none;text-align:left}
+  .nudge.shown{display:block}
+
+  .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .action-btn{font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);background:#22305A;border:1px solid var(--card-edge);border-radius:999px;padding:10px 20px;cursor:pointer}
+  .action-btn:hover{border-color:var(--teal)}
+  .action-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .action-btn[aria-pressed="true"]{border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.1)}
+
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#1E2A4E;border:1px solid var(--glow);color:var(--ink);padding:13px 22px;border-radius:999px;font-size:16px;opacity:0;pointer-events:none;transition:all .45s;z-index:99;box-shadow:0 6px 30px rgba(0,0,0,.45);max-width:88vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast .star{color:var(--glow)}
+  .spark{position:fixed;font-size:18px;color:var(--glow);pointer-events:none;z-index:98;animation:rise 1.4s ease-out forwards}
+  @keyframes rise{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-90px) scale(.6)}}
+  @media (prefers-reduced-motion:reduce){.spark{animation:none;opacity:0}html{scroll-behavior:auto}*{transition-duration:.01ms !important}}
+
+  .reflect{margin:40px 0 0;padding:26px 24px;background:linear-gradient(160deg,#1A2440,#16203E);border:1px solid rgba(255,184,77,.3);border-radius:var(--radius)}
+  .reflect h2{font-family:'Sora',sans-serif;font-size:22px;margin-bottom:14px}
+  .reflect p{margin-bottom:13px}
+  .reflect p.soft{color:var(--ink-soft);font-size:16px}
+
+  .module-nav{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .nav-link{font-family:'Sora',sans-serif;font-size:14.5px;color:var(--ink-soft);text-decoration:none;padding:10px 18px;border:1px solid var(--card-edge);border-radius:999px;background:#121A32;transition:all .3s}
+  .nav-link:hover{border-color:var(--teal);color:var(--teal)}
+  .nav-link:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .nav-link.next{margin-left:auto}
+  .nav-soft{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);opacity:.65;padding:10px 18px;margin-left:auto}
+
+  footer{margin-top:48px;text-align:center;color:var(--ink-soft);font-size:14.5px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="head-title">How Big Is a Song?</div>
+    <div class="stars" aria-live="polite">
+      <span id="starCount">✦ 0</span>
+      <span class="hint-txt">stars only ever go up</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Your phone says 128 GB. <span class="lit">You're about to know exactly what that means.</span></h1>
+    <p>Every gigabyte on your phone is just an enormous stack of the bulbs from Module 1, counted in a very particular way. Tonight you'll climb the whole ladder from a single bit to a pebibyte, work out exactly how big a picture or a song really is before you've made one, watch a squeeze-lever shrink a stripy pattern to half its size — and grow a noisy one instead — and sort real files by an honest question: could you get the original back, or not?</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip switches, follow curiosity, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The ladder of units
+        <span class="disc-sub">from one bulb to a pebibyte, almost every rung ×1024</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A single lit bulb is a bit. Eight of them make a byte — the one genuinely odd step on this ladder, since it's ×8 rather than ×1024. Every rung after that multiplies by exactly 1024, not 1000 — no matter what a phone's spec sheet quietly rounds to. Step through it below and watch the numbers stop looking abstract.</p>
+      <div class="board">
+        <div class="readout">
+          <div class="cell wide">unit<b id="rungName1">bit</b></div>
+          <div class="cell wide">size<b id="rungBytes1">1 bit</b></div>
+        </div>
+        <p class="rung-caption" id="rungCaption1">the base unit — one lit bulb, just like Module 1</p>
+        <div class="ladder-row" id="ladderRow1"></div>
+      </div>
+      <p class="chips-label">Climb to…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Every rung says how many times bigger it is than the one before. Which rung's badge doesn't say ×1024?</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">A byte is 8 bits — that's ×8, not ×1024. Every rung after it, though, really is ×1024, world without end.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Work out a real picture
+        <span class="disc-sub">dimensions × depth, no calculator required</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A picture's file size was never a mystery — it's just pixels times bits, done in stages so it never needs a calculator. Set a width and height below and watch the pixel count appear. Set a colour depth and watch it turn into bits, then bytes. Same three numbers, every image you'll ever open.</p>
+      <div class="board">
+        <div class="stepper-row">
+          <div class="stepper-group">
+            <span class="stepper-label">width</span>
+            <button class="stepper-btn" id="widthBtn2" type="button"></button>
+          </div>
+          <div class="stepper-group">
+            <span class="stepper-label">height</span>
+            <button class="stepper-btn" id="heightBtn2" type="button"></button>
+          </div>
+          <div class="stepper-group">
+            <span class="stepper-label">colour depth</span>
+            <button class="stepper-btn" id="depthBtn2" type="button"></button>
+          </div>
+        </div>
+        <div class="readout">
+          <div class="cell">pixels<b id="pixelCount2">64</b></div>
+          <div class="cell">bits per pixel<b id="bitsPerPixel2">1</b></div>
+          <div class="cell" id="cellBytes2">file size<b id="fileBytes2">8 bytes</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Build a file that comes to…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Pixel count first: how many little squares are there before you even think about colour?</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Width × height gives pixels. Multiply that by the bits each pixel costs, and you have the file's size in bits — divide by 8 for bytes.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Work out a real sound
+        <span class="disc-sub">rate × resolution × seconds</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Sound works the same multiplication, with different names. How many samples per second (the rate), how many bits each sample gets (the resolution), and how many seconds it plays — multiply all three and you have the file size, before a single note has played.</p>
+      <div class="board">
+        <div class="stepper-row">
+          <div class="stepper-group">
+            <span class="stepper-label">sample rate</span>
+            <button class="stepper-btn" id="rateBtn3" type="button"></button>
+          </div>
+          <div class="stepper-group">
+            <span class="stepper-label">sample resolution</span>
+            <button class="stepper-btn" id="resBtn3" type="button"></button>
+          </div>
+          <div class="stepper-group">
+            <span class="stepper-label">duration</span>
+            <button class="stepper-btn" id="secBtn3" type="button"></button>
+          </div>
+        </div>
+        <div class="readout">
+          <div class="cell" id="cellBytes3">file size<b id="fileBytes3">8,000 bytes</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Build a sound file that comes to…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Same idea as the picture, different ingredients: how many samples happen every second, and how many bits does each one cost?</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Samples per second × bits per sample gives you bits for one second. Multiply that by how many seconds play, and you're done.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The squeeze lever
+        <span class="disc-sub">the same trick shrinks stripes and grows noise</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below is a row of sixteen pixels and a lever. Squeeze it and each run of identical pixels collapses into a count-and-colour pair — count how many, then say what colour. Load a stripy pattern first, then a noisy one, and watch the tally do two very different things.</p>
+      <div class="board">
+        <div class="pixel-row" id="pixelRow4"></div>
+        <div class="squeezed-row" id="squeezedRow4" hidden></div>
+        <p class="tally-line" id="tally4">raw: 16 values</p>
+        <div class="btn-row">
+          <button class="action-btn" id="squeezeToggle4" type="button" aria-pressed="false">squeeze the lever</button>
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="loadStripes4" type="button">load stripes</button>
+          <button class="action-btn" id="loadNoise4" type="button">load noise</button>
+        </div>
+      </div>
+      <p class="chips-label">Squeeze both patterns…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">Count the longest run of identical pixels in this noisy picture.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">If every run is length 1, what does count+value cost per pixel?</div>
+        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4c">Two values to store one — RLE made it <i>bigger</i>. Compression needs patterns.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Could you get the original back?
+        <span class="disc-sub">sorting files as lossless or lossy</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Not all compression is equal — and "lossless" doesn't mean "uncompressed"; it just means whatever trick was used, you always get the exact original back. "Lossy" throws a little away on purpose, betting you won't notice. Sort five real files by one honest question: if you compressed this, would you accept getting something <i>slightly</i> different back?</p>
+      <div class="board">
+        <div class="sort-list" id="sortList5"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Ask: if you compressed this and opened it again, would you accept it looking or sounding even slightly different?</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Code and text can't bend even a little — one wrong bit and a program breaks or a word changes. Sound and pictures have a little wiggle room your eyes and ears won't catch.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a sixth time</h2>
+    <p>Twenty minutes ago, "gigabyte" was probably just a word on a spec sheet. Now you've climbed the entire storage ladder from a single bit to a pebibyte, worked out real file sizes for a picture and a sound before either existed, watched one squeeze lever shrink a pattern and grow another, and sorted real files by whether you'd ever notice what compression quietly threw away.</p>
+    <p class="soft">Whenever you're curious, the next stretch of the course turns from <i>how the machine thinks</i> to <i>making it do things</i> — algorithms, decomposition, the actual recipe behind every piece of software. No rush at all — the stars keep.</p>
+  </section>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="05-pictures-and-sound-from-numbers.html">← Module 5 · Pictures &amp; Sound from Numbers</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 6 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  const state={stars:0,done:{}};
+  const $=(s,el)=>(el||document).querySelector(s);
+  const $$=(s,el)=>Array.from((el||document).querySelectorAll(s));
+  const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function commas(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");}
+
+  let toastTimer=null;
+  function toast(msg){
+    const t=$("#toast");t.innerHTML=msg;t.classList.add("show");
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),3400);
+  }
+  function sparks(x,y){
+    if(reduceMotion)return;
+    for(let i=0;i<7;i++){
+      const s=document.createElement("span");
+      s.className="spark";s.textContent="✦";
+      s.style.left=(x+(Math.random()*80-40))+"px";
+      s.style.top=(y+(Math.random()*20-10))+"px";
+      s.style.animationDelay=(Math.random()*.25)+"s";
+      document.body.appendChild(s);setTimeout(()=>s.remove(),1800);
+    }
+  }
+  function awardStar(id,message){
+    if(state.done[id])return;
+    state.done[id]=true;state.stars++;
+    $("#starCount").textContent="✦ "+state.stars;
+    const disc=$("#"+id);disc.classList.add("done");
+    const r=disc.getBoundingClientRect();
+    sparks(r.left+r.width/2,r.top+60);
+    toast('<span class="star">✦</span> '+message);
+    if(state.stars>=5)$("#reflect").hidden=false;
+  }
+
+  $$(".disc-head").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const d=$("#"+btn.dataset.toggle);
+      const open=d.classList.toggle("open");
+      btn.setAttribute("aria-expanded",open?"true":"false");
+    });
+  });
+  $$(".nudge-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      $("#"+btn.dataset.nudge).classList.add("shown");
+      btn.style.display="none";
+    });
+  });
+
+  /* ---------- chip sets (shared engine) ---------- */
+  function makeChips(containerEl,targets,onAllHit,formatFn){
+    const hit={};
+    targets.forEach(t=>{
+      const c=document.createElement("span");
+      c.className="chip";c.dataset.target=t;
+      c.textContent=formatFn?formatFn(t):t;
+      containerEl.appendChild(c);
+    });
+    return function check(current){
+      if(targets.includes(current)&&!hit[current]){
+        hit[current]=true;
+        const chip=$('.chip[data-target="'+current+'"]',containerEl);
+        chip.classList.add("hit");
+        const r=chip.getBoundingClientRect();
+        sparks(r.left+r.width/2,r.top);
+        const remaining=targets.filter(t=>!hit[t]).length;
+        if(remaining>0)toast("Found "+(formatFn?formatFn(current):current)+" — lovely. "+remaining+" more if you fancy it.");
+        else onAllHit();
+      }
+    };
+  }
+
+  /* ---------- cycler: click steps through a preset list of values ---------- */
+  function makeCycler(btnEl,values,formatFn,onChange){
+    let i=0;
+    function render(){btnEl.textContent=formatFn(values[i]);}
+    btnEl.addEventListener("click",()=>{
+      i=(i+1)%values.length;
+      render();
+      onChange(values[i]);
+    });
+    render();
+    return {value:()=>values[i]};
+  }
+
+  /* ═══ D1: the ladder of units ═══ */
+  const LADDER=[
+    {name:"bit"},
+    {name:"byte",bytes:1,factor:8,from:"bit"},
+    {name:"KiB",bytes:1024,factor:1024,from:"byte"},
+    {name:"MiB",bytes:1024*1024,factor:1024,from:"KiB"},
+    {name:"GiB",bytes:1024*1024*1024,factor:1024,from:"MiB"},
+    {name:"TiB",bytes:1024*1024*1024*1024,factor:1024,from:"GiB"},
+    {name:"PiB",bytes:1024*1024*1024*1024*1024,factor:1024,from:"TiB"}
+  ];
+  const check1=makeChips($("#chips1"),["byte","KiB","GiB","PiB"],
+    ()=>awardStar("d1","The whole ladder, climbed — bit to pebibyte. Every gigabyte you own is just this, repeated."),
+    k=>({byte:"byte — the odd one, only ×8",KiB:"KiB — 1,024 bytes",GiB:"GiB — over a billion bytes",PiB:"PiB — the top of the ladder"})[k]);
+  const ladderRow=$("#ladderRow1");
+  const ladderBtns={};
+  LADDER.forEach(rung=>{
+    const b=document.createElement("button");
+    b.type="button";b.className="ladder-btn";
+    b.textContent=rung.name;
+    b.setAttribute("aria-pressed","false");
+    b.addEventListener("click",()=>setRung(rung.name));
+    ladderRow.appendChild(b);
+    ladderBtns[rung.name]=b;
+  });
+  function setRung(name){
+    const rung=LADDER.find(r=>r.name===name);
+    LADDER.forEach(r=>ladderBtns[r.name].setAttribute("aria-pressed",r.name===name?"true":"false"));
+    $("#rungName1").textContent=rung.name;
+    if(rung.name==="bit"){
+      $("#rungBytes1").textContent="1 bit";
+      $("#rungCaption1").textContent="the base unit — one lit bulb, just like Module 1";
+    }else{
+      $("#rungBytes1").textContent=commas(rung.bytes)+" byte"+(rung.bytes===1?"":"s");
+      $("#rungCaption1").textContent="×"+rung.factor+" from a "+rung.from+(rung.factor===8?" — the one odd step":"");
+    }
+    check1(name);
+  }
+  setRung("bit");
+
+  /* ═══ D2: work out a real picture ═══ */
+  const check2=makeChips($("#chips2"),[64,1024,3072],
+    ()=>awardStar("d2","Three real file sizes, worked out in stages. That's every image format's arithmetic underneath."),
+    b=>commas(b)+" bytes");
+  let w2=8,h2=8,d2=1;
+  function updateD2(){
+    const pixels=w2*h2;
+    const bits=pixels*d2;
+    const bytes=bits/8;
+    $("#pixelCount2").textContent=commas(pixels);
+    $("#bitsPerPixel2").textContent=d2;
+    $("#fileBytes2").textContent=commas(bytes)+" byte"+(bytes===1?"":"s");
+    $("#cellBytes2").classList.toggle("matched",[64,1024,3072].includes(bytes));
+    check2(bytes);
+  }
+  makeCycler($("#widthBtn2"),[8,16,32],v=>v+" px",v=>{w2=v;updateD2();});
+  makeCycler($("#heightBtn2"),[8,16,32],v=>v+" px",v=>{h2=v;updateD2();});
+  makeCycler($("#depthBtn2"),[1,8,24],v=>v+"-bit",v=>{d2=v;updateD2();});
+  updateD2();
+
+  /* ═══ D3: work out a real sound ═══ */
+  const check3=makeChips($("#chips3"),[8000,32000,176000],
+    ()=>awardStar("d3","Rate, resolution, duration — multiplied out three times over. Every audio file starts as this sum."),
+    b=>commas(b)+" bytes");
+  let rate3=8000,res3=8,sec3=1;
+  let seeding3=true;
+  function updateD3(){
+    const bits=rate3*res3*sec3;
+    const bytes=bits/8;
+    $("#fileBytes3").textContent=commas(bytes)+" byte"+(bytes===1?"":"s");
+    $("#cellBytes3").classList.toggle("matched",[8000,32000,176000].includes(bytes));
+    if(!seeding3)check3(bytes);
+  }
+  makeCycler($("#rateBtn3"),[8000,16000,44000],v=>commas(v)+" Hz",v=>{rate3=v;updateD3();});
+  makeCycler($("#resBtn3"),[8,16],v=>v+"-bit",v=>{res3=v;updateD3();});
+  makeCycler($("#secBtn3"),[1,2,4],v=>v+" s",v=>{sec3=v;updateD3();});
+  updateD3();
+  seeding3=false;
+
+  /* ═══ D4: the squeeze lever ═══ */
+  const N4=16;
+  const bits4=new Array(N4).fill(0);
+  const cells4=[];
+  const row4=$("#pixelRow4");
+  for(let i=0;i<N4;i++){
+    const b=document.createElement("button");
+    b.type="button";b.className="pixel-cell";
+    b.setAttribute("aria-pressed","false");
+    b.setAttribute("aria-label","pixel "+(i+1));
+    const idx=i;
+    b.addEventListener("click",()=>{
+      bits4[idx]=bits4[idx]?0:1;
+      b.setAttribute("aria-pressed",bits4[idx]?"true":"false");
+      updateD4();
+    });
+    row4.appendChild(b);
+    cells4.push(b);
+  }
+  let squeezeOn=false;
+  const check4=makeChips($("#chips4"),["stripes","noise"],
+    ()=>awardStar("d4","Stripes shrank, noise grew. That's the whole honest truth about compression, in one lever."),
+    k=>({stripes:"stripy — watch it shrink",noise:"noisy — watch it grow instead"})[k]);
+  function runsOf(arr){
+    const runs=[];
+    arr.forEach(v=>{
+      if(runs.length&&runs[runs.length-1].value===v)runs[runs.length-1].count++;
+      else runs.push({value:v,count:1});
+    });
+    return runs;
+  }
+  function updateD4(){
+    const runs=runsOf(bits4);
+    const squeezedValues=runs.length*2;
+    if(!squeezeOn){
+      $("#squeezedRow4").hidden=true;
+      $("#tally4").className="tally-line";
+      $("#tally4").textContent="raw: "+N4+" values";
+      return;
+    }
+    $("#squeezedRow4").hidden=false;
+    const sq=$("#squeezedRow4");sq.innerHTML="";
+    runs.forEach(r=>{
+      const blk=document.createElement("div");
+      blk.className="run-block"+(r.value?" on":"");
+      blk.style.flex=r.count;
+      blk.textContent=r.count;
+      sq.appendChild(blk);
+    });
+    const line=$("#tally4");
+    if(squeezedValues<N4){
+      line.className="tally-line shrank";
+      line.innerHTML="raw: "+N4+" values · squeezed: <b>"+runs.length+" runs = "+squeezedValues+" values</b> · shrank";
+    }else if(squeezedValues>N4){
+      line.className="tally-line grew";
+      line.innerHTML="raw: "+N4+" values · squeezed: <b>"+runs.length+" runs = "+squeezedValues+" values</b> · grew instead";
+    }else{
+      line.className="tally-line";
+      line.innerHTML="raw: "+N4+" values · squeezed: <b>"+runs.length+" runs = "+squeezedValues+" values</b> · no change";
+    }
+    if(runs.length<=6)check4("stripes");
+    if(runs.length>=14)check4("noise");
+  }
+  function setPattern4(arr){
+    arr.forEach((v,i)=>{bits4[i]=v;cells4[i].setAttribute("aria-pressed",v?"true":"false");});
+    updateD4();
+  }
+  $("#squeezeToggle4").addEventListener("click",()=>{
+    squeezeOn=!squeezeOn;
+    $("#squeezeToggle4").setAttribute("aria-pressed",squeezeOn?"true":"false");
+    updateD4();
+  });
+  $("#loadStripes4").addEventListener("click",()=>{
+    setPattern4([0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1]);
+  });
+  $("#loadNoise4").addEventListener("click",()=>{
+    setPattern4([0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]);
+  });
+  updateD4();
+
+  /* ═══ D5: lossless or lossy ═══ */
+  const scenarios5=[
+    {text:"A program file — the app itself",answer:"lossless",redirect:"Picture one byte of the program changing by accident. Software has zero tolerance for ‘close enough’ — it either runs or it doesn't."},
+    {text:"A photo you're archiving forever",answer:"lossless",redirect:"An archive is the one copy you'll never make again. Worth the extra size to keep every original pixel."},
+    {text:"A song on a streaming app",answer:"lossy",redirect:"Streaming a lossless copy of every song to everyone, all day, costs a fortune in bandwidth — most services bet your ears won't miss what gets trimmed."},
+    {text:"A video call",answer:"lossy",redirect:"A live call has to arrive right now — there's no time to send every original bit. Speed wins over perfection here."},
+    {text:"A text document",answer:"lossless",redirect:"Lose the wrong bit from a text file and a word — or the whole file — can turn to nonsense. Text needs to survive exactly."}
+  ];
+  const solved5=scenarios5.map(()=>false);
+  const list5=$("#sortList5");
+  scenarios5.forEach((sc,idx)=>{
+    const item=document.createElement("div");
+    item.className="sort-item";
+    const text=document.createElement("span");
+    text.className="sort-text";
+    text.textContent=sc.text;
+    const btns=document.createElement("div");
+    btns.className="sort-btns";
+    ["lossless","lossy"].forEach(choice=>{
+      const b=document.createElement("button");
+      b.type="button";b.className="sort-btn";
+      b.textContent=choice==="lossless"?"Lossless":"Lossy";
+      b.addEventListener("click",()=>{
+        if(choice===sc.answer){
+          solved5[idx]=true;
+          item.classList.add("solved");
+          b.classList.add("chosen");
+          if(solved5.every(Boolean))awardStar("d5","All five sorted honestly. You now know exactly what you're trading away, and when it's worth it.");
+        }else{
+          toast(sc.redirect);
+        }
+      });
+      btns.appendChild(b);
+    });
+    item.appendChild(text);
+    item.appendChild(btns);
+    list5.appendChild(item);
+  });
+})();
+</script>
+</body>
+</html>
