@@ -19,6 +19,9 @@ These rules are the course. Break one and the whole thing starts smelling like s
 8. **Exam skills smuggled in, never announced.** Trace tables, truth tables and Cambridge pseudocode conventions appear as game mechanics. The word "exam" appears nowhere until he asks for it.
 9. **Visual language.** Shared identity across all modules: deep night-blue ground (#10182B), amber glow (#FFB84D) for anything "on"/achieved, teal (#7BC4B4) for nudges, Sora display / Atkinson Hyperlegible body. Each module may add ONE signature interactive element.
 10. **Reduced motion respected; keyboard operable; nothing timed.** Ever.
+11. **Example-first is a first-class door.** Every challenge carries a "Show me one first" button — a fully worked example available *before* attempting, presented with the same warmth as every other route and never framed as the lesser path (the nudge ladder gains a rung 0). Evidence on ADHD and related profiles shows explicit guidance is often the optimal route, not a fallback.
+12. **Conventions are stated, never inferred.** Notation, symbols, diagram meanings, and the rules of any apparatus are explicitly introduced in literal, unambiguous language before any task depends on them.
+13. **Generalisation moments are designed, not hoped for.** Concepts deliberately reappear in varied surface clothing ("same idea, new costume" — announced gently, never sprung), because understanding acquired in one context does not automatically travel, and a consistent house style amplifies that risk.
 
 ### Module anatomy (build template)
 - Hero: a hook question or promise, plus the standing "how this works" promise card.
@@ -479,7 +482,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ## Part D — Production notes for building each module
 
-- **Reuse the M1 engine.** The bulb-switch factory, chip auto-detection, star/toast/spark system, nudge ladder and collapsible-discovery scaffold are all in `01-the-secret-language.html` — extract into a shared pattern and re-skin per module. Each module stays a single self-contained HTML file (no shared dependencies to break).
+- **Reuse the M1 engine.** The bulb-switch factory, chip auto-detection, star/toast/spark system, nudge ladder and collapsible-discovery scaffold are all in `secret-language.html` — extract into a shared pattern and re-skin per module. Each module stays a single self-contained HTML file (no shared dependencies to break).
 - **One signature interaction per module,** everything else quiet — the signature is specified above in each plan.
 - **State-matching first, choice-mechanics second.** Where a plan says "sort" or "pair", implement as snap-on-defensible with warm redirects, never tallied errors.
 - **Persistence:** once hosted alongside the diagnostic suite, add the same autosave/export/import pattern; stars should sync to a simple per-module key so the constellation in M36 can assemble.
