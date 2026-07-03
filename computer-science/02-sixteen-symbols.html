@@ -53,7 +53,7 @@
 
   .board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:22px 12px 18px;margin:18px 0}
   .bulb-row{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
-  .nibble-gap{width:22px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#33406B;font-size:22px}
+  .row-break{flex-basis:100%;width:0;height:0}
   .bit{background:none;border:none;cursor:pointer;padding:5px 3px;display:flex;flex-direction:column;align-items:center;gap:7px;border-radius:12px}
   .bit:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
   .bulb{width:38px;height:38px;border-radius:50%;background:#1C2748;border:2px solid #33406B;transition:all .25s}
@@ -66,7 +66,7 @@
   .bit[aria-pressed="true"] .bit-val{color:var(--glow)}
   .bit-val-nibble{font-family:'Sora',sans-serif;font-size:11px;color:var(--teal);opacity:.85}
   .bit[aria-pressed="true"] .bit-val-nibble{color:var(--glow)}
-  @media (max-width:520px){.bulb{width:31px;height:31px}.bulb-row{gap:2px}.nibble-gap{width:14px}}
+  @media (max-width:520px){.bulb{width:31px;height:31px}.bulb-row{gap:2px}}
 
   .readout{display:flex;justify-content:center;gap:26px;margin-top:16px;flex-wrap:wrap}
   .readout .cell{text-align:center;font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft)}
@@ -381,10 +381,10 @@
     const values=[128,64,32,16,8,4,2,1];
     const bits=[];
     values.forEach((v,i)=>{
-      if(i===4&&opts.gap){
-        const g=document.createElement("span");
-        g.className="nibble-gap";g.textContent="·";g.setAttribute("aria-hidden","true");
-        rowEl.appendChild(g);
+      if(i===4){
+        const brk=document.createElement("span");
+        brk.className="row-break";brk.setAttribute("aria-hidden","true");
+        rowEl.appendChild(brk);
       }
       const nibbleVal=i<4?v/16:v;
       const b=document.createElement("button");
