@@ -53,6 +53,7 @@
 
   .board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:22px 12px 18px;margin:18px 0}
   .bulb-row{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
+  .row-break{flex-basis:100%;width:0;height:0}
   .bit{background:none;border:none;cursor:pointer;padding:5px 3px;display:flex;flex-direction:column;align-items:center;gap:7px;border-radius:12px}
   .bit:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
   .bit.readonly{cursor:default;width:44px}
@@ -400,7 +401,12 @@
 
   /* ---------- byte board factory (shared engine) ---------- */
   function makeByte(rowEl,labeled,onChange){
-    const bits=W.map(v=>{
+    const bits=W.map((v,i)=>{
+      if(i===4){
+        const brk=document.createElement("span");
+        brk.className="row-break";brk.setAttribute("aria-hidden","true");
+        rowEl.appendChild(brk);
+      }
       const b=document.createElement("button");
       b.type="button";b.className="bit";
       b.setAttribute("aria-pressed","false");
@@ -450,7 +456,12 @@
 
   /* ---------- read-only bulb row (sum readouts) ---------- */
   function makeReadout(rowEl){
-    const spans=W.map(()=>{
+    const spans=W.map((v,i)=>{
+      if(i===4){
+        const brk=document.createElement("span");
+        brk.className="row-break";brk.setAttribute("aria-hidden","true");
+        rowEl.appendChild(brk);
+      }
       const s=document.createElement("span");
       s.className="bit readonly";
       s.innerHTML='<span class="bulb"></span>';
@@ -462,7 +473,12 @@
 
   /* ---------- carry lane ---------- */
   function makeCarryLane(rowEl){
-    const dots=W.map(()=>{
+    const dots=W.map((v,i)=>{
+      if(i===4){
+        const brk=document.createElement("span");
+        brk.className="row-break";brk.setAttribute("aria-hidden","true");
+        rowEl.appendChild(brk);
+      }
       const s=document.createElement("span");
       s.className="carry-slot";
       s.innerHTML='<span class="dot"></span>';
