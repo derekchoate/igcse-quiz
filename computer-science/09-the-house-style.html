@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The House Style</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10182B; --card:#1A2440; --card-edge:#28345A;
+    --ink:#EAE6DC; --ink-soft:#8D97B0;
+    --glow:#FFB84D; --glow-deep:#E0932A; --teal:#7BC4B4;
+    --radius:18px;
+    --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Atkinson Hyperlegible',system-ui,sans-serif;
+    font-size:18px;line-height:1.65;min-height:100vh;
+    background-image:radial-gradient(ellipse 900px 500px at 70% -10%, #1B2646 0%, transparent 60%);
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 20px 120px}
+  header{position:sticky;top:0;z-index:50;background:rgba(16,24,43,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--card-edge)}
+  .head-inner{max-width:680px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .head-title{font-family:'Sora',sans-serif;font-weight:600;font-size:16px}
+  .stars{font-family:'Sora',sans-serif;font-size:15px;color:var(--glow);display:flex;align-items:center;gap:7px;white-space:nowrap}
+  .stars .hint-txt{color:var(--ink-soft);font-size:13px;font-family:'Atkinson Hyperlegible',sans-serif}
+
+  .hero{padding:64px 0 40px}
+  .hero h1{font-family:'Sora',sans-serif;font-weight:700;font-size:clamp(32px,7vw,46px);line-height:1.14;letter-spacing:-.5px;margin-bottom:20px}
+  .hero h1 .lit{color:var(--glow);text-shadow:0 0 24px rgba(255,184,77,.45)}
+  .hero p{color:var(--ink-soft);max-width:52ch;margin-bottom:14px}
+  .hero .promise{margin-top:26px;padding:18px 20px;background:var(--card);border:1px solid var(--card-edge);border-radius:var(--radius);font-size:16.5px}
+  .hero .promise strong{color:var(--teal)}
+
+  .disc{background:var(--card);border:1px solid var(--card-edge);border-radius:var(--radius);margin:26px 0;overflow:hidden;transition:border-color .4s}
+  .disc.done{border-color:rgba(255,184,77,.45)}
+  .disc-head{width:100%;display:flex;align-items:center;gap:14px;padding:20px 22px;background:none;border:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+  .disc-head:focus-visible{outline:2px solid var(--teal);outline-offset:-2px;border-radius:var(--radius)}
+  .disc-star{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .5s}
+  .disc.done .disc-star{background:var(--glow);color:#3A2606;border-color:var(--glow);box-shadow:0 0 18px rgba(255,184,77,.5)}
+  .disc-title{font-family:'Sora',sans-serif;font-weight:600;font-size:18px;flex:1}
+  .disc-sub{display:block;font-weight:400;font-size:14px;color:var(--ink-soft);margin-top:2px;font-family:'Atkinson Hyperlegible',sans-serif}
+  .chev{color:var(--ink-soft);transition:transform .3s;flex:0 0 auto}
+  .disc.open .chev{transform:rotate(180deg)}
+  .disc-body{display:none;padding:2px 22px 26px}
+  .disc.open .disc-body{display:block}
+  .disc-body p{margin-bottom:14px}
+  .disc-body p.soft{color:var(--ink-soft);font-size:16px}
+
+  .board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+
+  /* ── pseudocode look ── */
+  .pcline{font-family:var(--mono);font-size:15px;line-height:1.6;padding:7px 12px;border-radius:8px;white-space:pre-wrap;word-break:break-word}
+  .pcline.cur{background:rgba(255,184,77,.12);box-shadow:inset 0 0 0 1px rgba(255,184,77,.4)}
+  .kw{color:var(--teal)}
+  .typ{color:#9DB0D6}
+  .arrow{color:var(--glow);font-weight:700}
+  .str{color:#E6B98A}
+  .cmt{color:var(--ink-soft);font-style:italic;transition:opacity .35s}
+  .cmt.off{opacity:.3;text-decoration:line-through}
+
+  .btn{font-family:'Sora',sans-serif;font-size:15px;color:#3A2606;background:var(--glow);border:1px solid var(--glow);border-radius:999px;padding:10px 20px;cursor:pointer;transition:all .25s}
+  .btn:hover{background:var(--glow-deep);border-color:var(--glow-deep)}
+  .btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .btn.ghost{background:none;color:var(--ink-soft);border-color:var(--card-edge);font-size:14px;padding:8px 16px}
+  .btn.ghost:hover{border-color:var(--teal);color:var(--teal);background:none}
+  .btn:disabled{opacity:.5;cursor:default;pointer-events:none}
+
+  .myth{margin:16px 0 4px;padding:14px 16px;background:rgba(123,196,180,.07);border:1px solid rgba(123,196,180,.35);border-radius:12px;font-size:15.5px}
+  .myth b{color:var(--teal)}
+
+  /* ── shared value box ── */
+  .vbox{position:relative;min-width:100px;padding:16px 20px 12px;background:#141d38;border:2px solid var(--card-edge);border-radius:12px;text-align:center;transition:border-color .35s,box-shadow .35s}
+  .vbox .vbox-name{font-family:'Sora',sans-serif;font-size:12px;color:var(--ink-soft);letter-spacing:.4px;margin-bottom:5px}
+  .vbox .vbox-val{font-family:var(--mono);font-size:24px;min-height:30px;color:var(--ink)}
+  .vbox .vbox-type{position:absolute;top:-11px;right:10px;font-family:'Sora',sans-serif;font-size:10.5px;color:var(--teal);background:#141d38;padding:1px 7px;border:1px solid rgba(123,196,180,.4);border-radius:6px}
+  .vbox.empty .vbox-val{color:var(--ink-soft);opacity:.35}
+  .vbox.filled{border-color:var(--glow);box-shadow:0 0 16px rgba(255,184,77,.25)}
+  .vbox.pulse{border-color:var(--glow);box-shadow:0 0 22px rgba(255,184,77,.4)}
+
+  /* ── D1 running box ── */
+  .gets-stage{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .gets-lines{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px;margin:6px auto 2px}
+  .gets-line{font-family:var(--mono);font-size:16px;background:#1A2440;border:1px solid var(--card-edge);color:var(--ink);border-radius:10px;padding:12px 16px;cursor:pointer;transition:all .25s;display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left}
+  .gets-line:hover{border-color:var(--teal)}
+  .gets-line:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .gets-line.ran{border-color:rgba(255,184,77,.4)}
+  .gets-line .run-tag{font-family:'Sora',sans-serif;font-size:12px;color:var(--teal)}
+  .gets-cap{min-height:48px;font-size:15px;color:var(--ink-soft);text-align:center;max-width:44ch;margin:4px auto 0}
+
+  /* ── D2 declare stepper ── */
+  .decl-code{background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:8px 8px;margin-bottom:14px}
+  .decl-boxes{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;min-height:78px;margin:14px 0}
+  .decl-cap{min-height:46px;font-size:15px;color:var(--ink-soft);text-align:center;max-width:46ch;margin:0 auto 12px}
+  .step-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+  /* ── D3 translation slider ── */
+  .ts-list{display:flex;flex-direction:column;gap:7px;margin-bottom:6px}
+  .ts-row{border:1px solid var(--card-edge);border-radius:10px;padding:8px 10px;background:#141d38;transition:border-color .3s,box-shadow .3s}
+  .ts-row.active{border-color:var(--glow);box-shadow:0 0 0 1px rgba(255,184,77,.3)}
+  .ts-row .ts-en{display:none;margin-top:7px;padding-top:7px;border-top:1px dashed var(--card-edge);font-size:14.5px;color:var(--teal)}
+  .ts-row.read .ts-en{display:block}
+  .ts-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px}
+  .ts-hint{font-size:14px;color:var(--ink-soft)}
+
+  .pair-divider{margin:22px 0 6px;font-family:'Sora',sans-serif;font-size:14px;color:var(--teal);letter-spacing:.3px;text-align:center}
+  .pair-howto{font-size:14px;color:var(--ink-soft);margin:0 0 14px;text-align:center}
+  /* matching = two parallel columns (pseudocode | meaning), tap-to-pair */
+  .pair-board{display:flex;gap:10px;align-items:flex-start}
+  .pair-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
+  .pair-col-label{font-family:'Sora',sans-serif;font-size:11.5px;color:var(--teal);letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px}
+  .pair-code{display:flex;flex-direction:column;gap:8px}
+  .pair-slot{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:#141d38;border:1px solid var(--card-edge);border-radius:10px;padding:10px 11px;cursor:pointer;transition:all .22s}
+  .pair-slot:hover{border-color:var(--teal)}
+  .pair-slot:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .pair-slot .pcline{padding:0;font-size:13px}
+  .pair-slot .pair-hint{margin-top:6px;font-size:12px;font-family:'Atkinson Hyperlegible',sans-serif;color:var(--ink-soft)}
+  .pair-slot .pair-hint.filled-en{border-top:1px dashed rgba(255,184,77,.35);padding-top:6px;color:var(--glow)}
+  .pair-slot.sel{border-color:var(--glow);box-shadow:0 0 0 1px rgba(255,184,77,.35)}
+  .pair-slot.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.1);box-shadow:0 0 0 2px rgba(255,184,77,.45)}
+  .pair-slot.filled{border-color:var(--glow);background:rgba(255,184,77,.06);cursor:default}
+  .pair-bank{display:flex;flex-direction:column;gap:8px}
+  .pair-chip{font-family:'Atkinson Hyperlegible',sans-serif;font-size:13px;line-height:1.4;text-align:left;background:#121A32;border:1px solid var(--card-edge);color:var(--ink);border-radius:10px;padding:10px 11px;cursor:grab;transition:border-color .2s,background .2s,color .2s,opacity .2s;touch-action:none;user-select:none;-webkit-user-select:none}
+  .pair-chip:hover{border-color:var(--teal)}
+  .pair-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .pair-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.12);color:var(--glow)}
+  .pair-chip.dragging{opacity:.3;cursor:grabbing}
+  .pair-chip.used{display:none}
+  .pair-ghost{position:fixed;left:0;top:0;z-index:200;pointer-events:none;transition:none;opacity:.96;color:var(--glow);background:#1E2A4E;border-color:var(--glow);box-shadow:0 10px 28px rgba(0,0,0,.55)}
+
+  /* ── D4 renaming ── */
+  .rn-cryptic{background:#141d38;border:1px solid var(--card-edge);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+  .rn-rows{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+  .rn-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .rn-tag{font-family:var(--mono);font-size:14px;color:var(--ink-soft);flex:0 0 auto;min-width:118px}
+  .rn-tag b{color:var(--ink)}
+  .rn-row select{flex:1;min-width:150px;font:inherit;font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;color:var(--ink);border:1.5px solid var(--card-edge);border-radius:9px;padding:9px 11px;cursor:pointer}
+  .rn-row select:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .rn-status{margin-top:6px;font-size:14.5px;color:var(--ink-soft);min-height:22px}
+  .rn-readable{display:none;margin-top:14px;padding:14px 16px;border-radius:12px;background:rgba(255,184,77,.08);border:1px solid rgba(255,184,77,.4)}
+  .rn-readable.show{display:block}
+  .rn-readable .rn-note{margin-top:8px;font-size:14.5px;color:var(--ink)}
+
+  /* ── D5 comments ── */
+  .cm-snip{background:#141d38;border:1px solid var(--card-edge);border-radius:10px;padding:10px 10px;margin-bottom:6px}
+  .cm-out{margin-top:12px;font-family:var(--mono);font-size:15px;background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:12px 14px;color:var(--ink-soft);min-height:46px}
+  .cm-out .prompt{color:var(--teal)}
+  .cm-note{margin-top:16px}
+  .cm-note label{display:block;font-family:'Sora',sans-serif;font-size:13px;color:var(--teal);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+  .cm-note input{width:100%;font:inherit;font-family:var(--mono);font-size:14.5px;background:#1A2440;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:10px 12px}
+  .cm-note input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
+  .chip{font-family:'Sora',sans-serif;font-size:14.5px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
+  .chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
+  .chip.hit::after{content:" ✦"}
+  .chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
+
+  .nudge-zone{margin-top:14px}
+  .nudge-btn{font:inherit;font-size:15px;color:var(--teal);background:none;border:1px solid rgba(123,196,180,.4);border-radius:999px;padding:8px 16px;cursor:pointer}
+  .nudge-btn:hover{background:rgba(123,196,180,.08)}
+  .nudge-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .nudge{margin-top:12px;padding:14px 16px;font-size:16px;background:rgba(123,196,180,.07);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;display:none;text-align:left}
+  .nudge.shown{display:block}
+  .nudge code{font-family:var(--mono);font-size:14px;color:var(--ink)}
+
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#1E2A4E;border:1px solid var(--glow);color:var(--ink);padding:13px 22px;border-radius:999px;font-size:16px;opacity:0;pointer-events:none;transition:all .45s;z-index:99;box-shadow:0 6px 30px rgba(0,0,0,.45);max-width:88vw;text-align:center}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast .star{color:var(--glow)}
+  .spark{position:fixed;font-size:18px;color:var(--glow);pointer-events:none;z-index:98;animation:rise 1.4s ease-out forwards}
+  @keyframes rise{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-90px) scale(.6)}}
+  @media (prefers-reduced-motion:reduce){.spark{animation:none;opacity:0}html{scroll-behavior:auto}*{transition-duration:.01ms !important}}
+
+  .reflect{margin:40px 0 0;padding:26px 24px;background:linear-gradient(160deg,#1A2440,#16203E);border:1px solid rgba(255,184,77,.3);border-radius:var(--radius)}
+  .reflect h2{font-family:'Sora',sans-serif;font-size:22px;margin-bottom:14px}
+  .reflect p{margin-bottom:13px}
+  .reflect p.soft{color:var(--ink-soft);font-size:16px}
+
+  .index-nav{display:flex;justify-content:center;margin-top:40px}
+  .module-nav{display:flex;gap:14px;margin-top:14px;flex-wrap:wrap}
+  .nav-link{font-family:'Sora',sans-serif;font-size:14.5px;color:var(--ink-soft);text-decoration:none;padding:10px 18px;border:1px solid var(--card-edge);border-radius:999px;background:#121A32;transition:all .3s}
+  .nav-link:hover{border-color:var(--teal);color:var(--teal)}
+  .nav-link:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .nav-link.next{margin-left:auto}
+  .nav-soft{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);opacity:.65;padding:10px 18px;margin-left:auto}
+
+  footer{margin-top:48px;text-align:center;color:var(--ink-soft);font-size:14.5px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="head-title">The House Style</div>
+    <div class="stars" aria-live="polite">
+      <span id="starCount">✦ 0</span>
+      <span class="hint-txt">stars only ever go up</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <h1>Cambridge has an exact dialect. <span class="lit">Tonight you learn to read it.</span></h1>
+    <p>The algorithms you walked through as maps in the last discovery have a written form too — a tidy, agreed way of putting them into words. It isn't a real programming language; nothing here runs on a computer. It's <em>cleaner</em> than real code, invented so people can share a plan without arguing about punctuation. You'll learn to read it out loud as plain English — and once you can read it, writing it is a short step away.</p>
+    <p>One symbol does most of the work, and almost everyone meets it and mistakes it for something from maths. We'll clear that up first, before anything leans on it.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Read lines aloud, pair them up, take a nudge whenever you like — every route is a good one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The arrow means “gets”
+        <span class="disc-sub">the one symbol everything else rests on</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Everywhere in this dialect you'll see a left arrow: <b class="arrow" style="font-family:var(--mono)">←</b>. It does not mean “equals”. It's an <em>instruction</em>: “work out the right-hand side, then drop the answer into the box on the left.” Read it as the word <b>gets</b>.</p>
+      <p>Here's a box called <b>Score</b>. Tap the three lines in any order and watch the box — not an equals sign — change.</p>
+      <div class="board">
+        <div class="gets-stage">
+          <div class="vbox" id="getsBox1" style="min-width:130px">
+            <div class="vbox-name">Score</div>
+            <div class="vbox-val" id="getsVal1">0</div>
+          </div>
+          <div class="gets-lines" id="getsLines1">
+            <button class="gets-line" data-line="set"><span>Score <span class="arrow">←</span> 10</span><span class="run-tag">run ▸</span></button>
+            <button class="gets-line" data-line="add"><span>Score <span class="arrow">←</span> Score + 5</span><span class="run-tag">run ▸</span></button>
+            <button class="gets-line" data-line="mul"><span>Score <span class="arrow">←</span> Score × 2</span><span class="run-tag">run ▸</span></button>
+          </div>
+          <div class="gets-cap" id="getsCap1">Score is 0. Tap a line to run it.</div>
+          <button class="btn ghost" id="getsReset1" type="button">↺ Set Score back to 0</button>
+        </div>
+      </div>
+      <div class="myth">
+        <b>The trap:</b> in maths, <code style="font-family:var(--mono)">Score = Score + 5</code> is nonsense — nothing equals itself plus five. Here it isn't a claim that they're equal. It's a command: take Score's current value, add 5, put the result back. The box is allowed to appear on both sides.
+      </div>
+      <p class="chips-label">Read all three lines to collect the idea…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Read the arrow <code>←</code> out loud as the word “gets”. Not “equals” — “gets”.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b"><code>Score ← Score + 5</code> becomes “Score gets its old self, plus 5.” The right side is worked out using the current value, then the answer replaces what was in the box.</div>
+        <button class="nudge-btn" data-nudge="n1c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n1c">Say Score is 10. Tap <code>Score ← Score × 2</code>: the machine reads the box (10), works out 10 × 2 = 20, then drops 20 back into Score. The old 10 is gone. Tap all three and keep your eye on the box.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Make the box before you fill it
+        <span class="disc-sub">what DECLARE quietly does</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Before you can put anything in a box, the box has to exist. That's the whole job of <b class="kw" style="font-family:var(--mono)">DECLARE</b>: it makes an empty, labelled box and says what <em>shape</em> of value it will hold — text (<span class="typ" style="font-family:var(--mono)">STRING</span>), whole numbers (<span class="typ" style="font-family:var(--mono)">INTEGER</span>), and so on. Step through and watch the boxes appear empty first, then get filled.</p>
+      <div class="board">
+        <div class="decl-code" id="declCode2"></div>
+        <div class="decl-boxes" id="declBoxes2"></div>
+        <div class="decl-cap" id="declCap2">Nothing exists yet — no boxes. Press Step to run the first line.</div>
+        <div class="step-bar">
+          <button class="btn" id="declStep2" type="button">Step ▸</button>
+          <button class="btn ghost" id="declReset2" type="button">↺ Start over</button>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Press Step and read the caption under the code each time — it says what just happened.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b"><code>DECLARE</code> doesn't put anything in — it only makes an empty, labelled box and names the shape of value it will hold. The box stays empty until a <code>←</code> line fills it.</div>
+        <button class="nudge-btn" data-nudge="n2c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n2c">Step 1 makes an empty <span class="typ">STRING</span> box called Name. Step 2 makes an empty <span class="typ">INTEGER</span> box called Age. Only <em>then</em> do the two <code>←</code> lines drop “Sara” and 19 into them. Declare first, fill second — always that order.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Read a whole snippet aloud
+        <span class="disc-sub">line by line, then pair each one to its meaning</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's a small, complete snippet. First slide down it one line at a time — each code line turns into a plain sentence as you reach it. Then, underneath, prove you've got it: pick up each English sentence and drop it on the code line it describes. It snaps when they match; a wrong drop just points you back.</p>
+      <div class="board">
+        <div class="ts-list" id="tsList3"></div>
+        <div class="ts-bar">
+          <span class="ts-hint" id="tsHint3">Reveal each line's meaning, one at a time.</span>
+          <button class="btn" id="tsNext3" type="button">Read the first line ▸</button>
+        </div>
+
+        <div class="pair-divider">— now pair them yourself —</div>
+        <p class="pair-howto">Drag a meaning across onto its pseudocode line — or tap one, then the other. It snaps when they match.</p>
+        <div class="pair-board">
+          <div class="pair-col">
+            <div class="pair-col-label">Pseudocode</div>
+            <div class="pair-code" id="pairCode3"></div>
+          </div>
+          <div class="pair-col">
+            <div class="pair-col-label">Its meaning</div>
+            <div class="pair-bank" id="pairBank3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Use “Read next line” first — watch each code line turn into a sentence on its own. Then come down to the pairing with the mapping fresh in your head.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">For the pairing: tap a plain-English line to pick it up, then tap the code line it describes. Read <code>←</code> as “gets” and <code>DECLARE</code> as “make a box”.</div>
+        <button class="nudge-btn" data-nudge="n3c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n3c"><code>Total ← 0</code> pairs with “Total gets 0 — start it empty.” <code>INPUT Price</code> pairs with “Ask the person for a Price.” Match the two <code>DECLARE</code> lines to the two “make a box” sentences first, and the rest fall into place.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Names that help vs names that hide
+        <span class="disc-sub">the same algorithm, unreadable then obvious</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>The machine doesn't care what you call your boxes — <code style="font-family:var(--mono)">a</code>, <code style="font-family:var(--mono)">x1</code>, <code style="font-family:var(--mono)">banana</code>, all the same to it. But a <em>person</em> reading it cares enormously. Here's an algorithm with names that tell you nothing:</p>
+      <div class="rn-cryptic" id="rnCryptic4"></div>
+      <p class="soft">It works out a shopping bill. <b>a</b> is the price of one item (money, so it's a <span class="typ">REAL</span> box — decimals allowed). <b>b</b> is how many you buy (a whole count — <span class="typ">INTEGER</span>). <b>c</b> is what you pay. Rename the three boxes so the algorithm reads itself.</p>
+      <div class="board">
+        <div class="rn-rows" id="rnRows4"></div>
+        <div class="rn-status" id="rnStatus4" aria-live="polite"></div>
+        <div class="rn-readable" id="rnReadable4">
+          <div class="pcline"><span class="var">Total</span> <span class="arrow">←</span> Price × Quantity</div>
+          <div class="rn-note">Now anyone can read it at a glance — and it never needed a comment to explain itself.</div>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">A good name answers “what's inside this box?” in one word. “Thing” and “n” don't.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Look at the types. <code>a</code> is <span class="typ">REAL</span> — it allows decimals, like money. <code>b</code> is <span class="typ">INTEGER</span> — whole numbers, like a count. <code>c</code> holds <code>a × b</code>.</div>
+        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n4c"><code>a</code> is the price → <b>Price</b>. <code>b</code> is how many → <b>Quantity</b>. <code>c</code> is the two multiplied → <b>Total</b>. Now the line reads <code>Total ← Price × Quantity</code>, and nobody has to guess.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Notes to future-you
+        <span class="disc-sub">what a comment is, and who it's really for</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Meaningful names tell you <em>what</em> a box holds. Sometimes you also want to say <em>why</em> — and that's a comment. Anything after two slashes <code style="font-family:var(--mono)">//</code> is a note for a human. The machine reads straight past it. Here's a line that tells you how, but not why:</p>
+      <div class="board">
+        <div class="cm-snip" id="cmSnip5"></div>
+        <div class="step-bar" style="justify-content:flex-start">
+          <button class="btn" id="cmReveal5" type="button">Reveal the note</button>
+          <button class="btn ghost" id="cmRun5" type="button">Run it (what the machine sees)</button>
+        </div>
+        <div class="cm-out" id="cmOut5"><span class="prompt">output ›</span> <span style="opacity:.5">nothing yet — press “Run it”</span></div>
+        <div class="cm-note">
+          <label for="cmNote5">Your own note to future-you (optional, just for you)</label>
+          <input id="cmNote5" type="text" placeholder="// e.g. remember: quantity is always a whole number">
+        </div>
+      </div>
+      <p class="chips-label">Collect both ideas…</p>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Anything after <code>//</code> is a note for a human. The machine reads right past it — the answer it prints is exactly the same with or without the note.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Press “Reveal the note” to see what a comment adds, then “Run it” to watch the machine ignore that note and still get the same answer.</div>
+        <button class="nudge-btn" data-nudge="n5c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n5c"><code>t ← p * q</code> tells you <em>how</em>. The comment <code>// total = price × quantity</code> tells you <em>why</em>. Run it: p is 5, q is 3, so t becomes 15 — the note changes nothing for the machine, everything for you.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a ninth time</h2>
+    <p>You can now read Cambridge's pseudocode dialect out loud in plain English. You met the <code style="font-family:var(--mono)">←</code> arrow and read it as “gets” — sidestepping the one trap that catches almost everyone — watched <code style="font-family:var(--mono)">DECLARE</code> make empty boxes before anything filled them, read a whole snippet line by line and paired every sentence back to its code, turned an unreadable algorithm readable just by renaming its boxes, and saw why a comment is a note the machine ignores but a person treasures. You didn't write any of it — but you can read all of it, which is the harder half.</p>
+    <p class="soft">Whenever you're ready, the next discovery is where you stop reading the dialect and start commanding it — declaring your own boxes, dropping values in, and doing arithmetic with them. Everything you just learned to read, you'll be writing. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="08-reading-the-map.html">← Module 8 · Reading the Map</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 9 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  const state={stars:0,done:{}};
+  const $=(s,el)=>(el||document).querySelector(s);
+  const $$=(s,el)=>Array.from((el||document).querySelectorAll(s));
+  const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let toastTimer=null;
+  function toast(msg){
+    const t=$("#toast");t.innerHTML=msg;t.classList.add("show");
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),3400);
+  }
+  function sparks(x,y){
+    if(reduceMotion)return;
+    for(let i=0;i<7;i++){
+      const s=document.createElement("span");
+      s.className="spark";s.textContent="✦";
+      s.style.left=(x+(Math.random()*80-40))+"px";
+      s.style.top=(y+(Math.random()*20-10))+"px";
+      s.style.animationDelay=(Math.random()*.25)+"s";
+      document.body.appendChild(s);setTimeout(()=>s.remove(),1800);
+    }
+  }
+  function awardStar(id,message){
+    if(state.done[id])return;
+    state.done[id]=true;state.stars++;
+    $("#starCount").textContent="✦ "+state.stars;
+    const disc=$("#"+id);disc.classList.add("done");
+    const r=disc.getBoundingClientRect();
+    sparks(r.left+r.width/2,r.top+60);
+    toast('<span class="star">✦</span> '+message);
+    if(state.stars>=5)$("#reflect").hidden=false;
+  }
+  function pulse(el){
+    if(reduceMotion||!el)return;
+    el.classList.add("pulse");
+    setTimeout(()=>el.classList.remove("pulse"),450);
+  }
+
+  $$(".disc-head").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const d=$("#"+btn.dataset.toggle);
+      const open=d.classList.toggle("open");
+      btn.setAttribute("aria-expanded",open?"true":"false");
+    });
+  });
+  $$(".nudge-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      $("#"+btn.dataset.nudge).classList.add("shown");
+      btn.style.display="none";
+    });
+  });
+
+  /* ---------- chip sets (shared engine) ---------- */
+  function makeChips(containerEl,targets,onAllHit,labelFn,noun){
+    noun=noun||"more";
+    const hit={};
+    targets.forEach(t=>{
+      const c=document.createElement("span");
+      c.className="chip";c.dataset.target=t;
+      c.textContent=labelFn?labelFn(t):t;
+      containerEl.appendChild(c);
+    });
+    return function check(current){
+      if(targets.includes(current)&&!hit[current]){
+        hit[current]=true;
+        const chip=$('.chip[data-target="'+current+'"]',containerEl);
+        chip.classList.add("hit");
+        const r=chip.getBoundingClientRect();
+        sparks(r.left+r.width/2,r.top);
+        const remaining=targets.filter(t=>!hit[t]).length;
+        if(remaining>0)toast("Noticed ✦ — "+remaining+" "+noun+" to go.");
+        else onAllHit();
+      }
+    };
+  }
+
+  /* ═══ D1: the arrow means "gets" ═══ */
+  const getsVal=$("#getsVal1");
+  const getsBox=$("#getsBox1");
+  const getsCap=$("#getsCap1");
+  let score=0;
+  function getsShow(){getsVal.textContent=score;}
+  const check1=makeChips($("#chips1"),["cmd","both","calc"],
+    ()=>awardStar("d1","All three read. ← is a command: work out the right side, then drop the answer in the box."),
+    k=>({cmd:"← is a command, not a fact",both:"a box can sit on both sides",calc:"work the right side out first, then store"}[k]),
+    "idea");
+  function getsRun(line){
+    const el=$('.gets-line[data-line="'+line+'"]',$("#getsLines1"));
+    if(el)el.classList.add("ran");
+    if(line==="set"){
+      score=10;
+      getsCap.textContent="“Score gets 10.” The box now holds 10 — whatever was there before is gone.";
+      check1("cmd");
+    }else if(line==="add"){
+      const old=score;score=old+5;
+      getsCap.textContent="“Score gets its old self plus 5.” Score is on the left and the right — that's fine here. "+old+" + 5 → "+score+".";
+      check1("both");
+    }else if(line==="mul"){
+      const old=score;score=old*2;
+      getsCap.textContent="“Score gets its old self times 2.” First work out "+old+" × 2 = "+score+", then drop that back in the box.";
+      check1("calc");
+    }
+    getsShow();pulse(getsBox);
+  }
+  $$("#getsLines1 .gets-line").forEach(b=>{
+    b.addEventListener("click",()=>getsRun(b.dataset.line));
+  });
+  $("#getsReset1").addEventListener("click",()=>{
+    score=0;getsShow();
+    getsCap.textContent="Score is back to 0. Tap the lines in any order — watch the box, not an equals sign.";
+  });
+  getsShow();
+
+  /* ═══ D2: DECLARE makes the box before you fill it ═══ */
+  const D2_LINES=[
+    {html:'<span class="kw">DECLARE</span> Name : <span class="typ">STRING</span>',
+     act:()=>d2ensure("Name","STRING"),
+     cap:"DECLARE reserves an empty box called Name, shaped for text (STRING). It holds no value yet."},
+    {html:'<span class="kw">DECLARE</span> Age : <span class="typ">INTEGER</span>',
+     act:()=>d2ensure("Age","INTEGER"),
+     cap:"Another empty box — Age — shaped for whole numbers (INTEGER). Two boxes now exist, both still empty."},
+    {html:'Name <span class="arrow">←</span> <span class="str">"Sara"</span>',
+     act:()=>d2fill("Name",'"Sara"'),
+     cap:"Now we fill one: Name gets “Sara”. You can only fill a box that already exists."},
+    {html:'Age <span class="arrow">←</span> 19',
+     act:()=>d2fill("Age","19"),
+     cap:"Age gets 19. Both boxes were declared first, then filled — never the other way round."}
+  ];
+  const declCode=$("#declCode2");
+  const declBoxes=$("#declBoxes2");
+  const declCap=$("#declCap2");
+  const declStep=$("#declStep2");
+  const d2boxEls={};
+  let d2i=-1;
+  function d2renderCode(){
+    declCode.innerHTML="";
+    D2_LINES.forEach((ln,i)=>{
+      const div=document.createElement("div");
+      div.className="pcline"+(i===d2i?" cur":"");
+      div.innerHTML=ln.html;
+      declCode.appendChild(div);
+    });
+  }
+  function d2ensure(name,type){
+    if(d2boxEls[name])return;
+    const b=document.createElement("div");
+    b.className="vbox empty";
+    b.innerHTML='<div class="vbox-type">'+type+'</div><div class="vbox-name">'+name+'</div><div class="vbox-val">·</div>';
+    declBoxes.appendChild(b);
+    d2boxEls[name]=b;
+    pulse(b);
+  }
+  function d2fill(name,val){
+    const b=d2boxEls[name];if(!b)return;
+    b.classList.remove("empty");b.classList.add("filled");
+    $(".vbox-val",b).textContent=val;
+    pulse(b);
+  }
+  function d2step(){
+    if(d2i>=D2_LINES.length-1)return;
+    d2i++;
+    const ln=D2_LINES[d2i];
+    ln.act();
+    declCap.textContent=ln.cap;
+    d2renderCode();
+    if(d2i===D2_LINES.length-1){
+      declStep.textContent="✦ that's the lot";
+      awardStar("d2","Boxes made, then filled. DECLARE always comes before the value goes in.");
+    }
+  }
+  function d2reset(){
+    d2i=-1;
+    declBoxes.innerHTML="";
+    Object.keys(d2boxEls).forEach(k=>delete d2boxEls[k]);
+    declCap.textContent="Nothing exists yet — no boxes. Press Step to run the first line.";
+    declStep.textContent="Step ▸";
+    d2renderCode();
+  }
+  declStep.addEventListener("click",d2step);
+  $("#declReset2").addEventListener("click",d2reset);
+  d2renderCode();
+
+  /* ═══ D3: read a snippet aloud, then pair it ═══ */
+  const SNIP=[
+    {code:'<span class="kw">DECLARE</span> Price : <span class="typ">INTEGER</span>', en:"Make an integer box called Price."},
+    {code:'<span class="kw">DECLARE</span> Total : <span class="typ">INTEGER</span>', en:"Make an integer box called Total."},
+    {code:'Total <span class="arrow">←</span> 0',                                     en:"Total gets 0 — start it empty."},
+    {code:'<span class="kw">INPUT</span> Price',                                       en:"Ask the person for a Price."},
+    {code:'Total <span class="arrow">←</span> Total + Price',                          en:"Total gets its old self plus Price."},
+    {code:'<span class="kw">OUTPUT</span> Total',                                      en:"Show Total on the screen."}
+  ];
+
+  /* -- part A: the translation slider -- */
+  const tsList=$("#tsList3");
+  SNIP.forEach(s=>{
+    const row=document.createElement("div");
+    row.className="ts-row";
+    row.innerHTML='<div class="pcline">'+s.code+'</div><div class="ts-en">'+s.en+'</div>';
+    tsList.appendChild(row);
+  });
+  const tsRows=$$(".ts-row",tsList);
+  const tsNext=$("#tsNext3");
+  const tsHint=$("#tsHint3");
+  let tsi=-1;
+  tsNext.addEventListener("click",()=>{
+    if(tsi>=tsRows.length-1){
+      tsi=-1;
+      tsRows.forEach(r=>r.classList.remove("read","active"));
+      tsNext.textContent="Read the first line ▸";
+      tsHint.textContent="Reveal each line's meaning, one at a time.";
+      return;
+    }
+    tsi++;
+    tsRows.forEach((r,i)=>{
+      r.classList.toggle("active",i===tsi);
+      if(i<=tsi)r.classList.add("read");
+    });
+    if(tsi===tsRows.length-1){
+      tsNext.textContent="↺ Read it again";
+      tsHint.textContent="That's the whole snippet in plain English. Now try the pairing below.";
+    }else{
+      tsNext.textContent="Read next line ▸";
+    }
+  });
+
+  /* -- part B: the pairing game — drag-and-drop (pointer, so mouse+touch+pen)
+        with a tap/keyboard fallback for accessibility -- */
+  const pairCode=$("#pairCode3");
+  const pairBank=$("#pairBank3");
+  let selChip=null,selLine=null,pairsDone=0;
+
+  SNIP.forEach((s,i)=>{
+    const slot=document.createElement("button");
+    slot.type="button";slot.className="pair-slot";slot.dataset.line=i;
+    slot.innerHTML='<div class="pcline">'+s.code+'</div><div class="pair-hint">drop or tap its meaning</div>';
+    slot.addEventListener("click",()=>selectLine(slot));
+    pairCode.appendChild(slot);
+  });
+  // shuffled bank (display order only; data-eng carries the true index)
+  const order=SNIP.map((_,i)=>i);
+  for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=order[i];order[i]=order[j];order[j]=t;}
+  order.forEach(idx=>{
+    const c=document.createElement("button");
+    c.type="button";c.className="pair-chip";c.dataset.eng=idx;
+    c.textContent=SNIP[idx].en;
+    c.addEventListener("click",e=>{if(e.detail===0)selectChip(c);}); // keyboard (Enter/Space) only
+    c.addEventListener("pointerdown",e=>dragStart(e,c));
+    pairBank.appendChild(c);
+  });
+
+  /* tap / keyboard fallback: pick one side, then its partner */
+  function selectChip(c){
+    if(c.classList.contains("used"))return;
+    if(selChip===c){c.classList.remove("sel");selChip=null;return;}
+    if(selChip)selChip.classList.remove("sel");
+    selChip=c;c.classList.add("sel");
+    if(selLine)commit(selLine,selChip);
+  }
+  function selectLine(slot){
+    if(slot.classList.contains("filled"))return;
+    if(selLine===slot){slot.classList.remove("sel");selLine=null;return;}
+    if(selLine)selLine.classList.remove("sel");
+    selLine=slot;slot.classList.add("sel");
+    if(selChip)commit(selLine,selChip);
+  }
+  function clearSel(){
+    if(selChip){selChip.classList.remove("sel");selChip=null;}
+    if(selLine){selLine.classList.remove("sel");selLine=null;}
+  }
+  function commit(slot,chip){
+    if(slot.classList.contains("filled")||chip.classList.contains("used")){clearSel();return;}
+    const line=+slot.dataset.line,eng=+chip.dataset.eng;
+    if(line===eng){
+      const hint=$(".pair-hint",slot);
+      hint.className="pair-hint filled-en";
+      hint.textContent="✓ "+SNIP[eng].en;
+      slot.classList.add("filled");
+      chip.classList.add("used");
+      const r=slot.getBoundingClientRect();sparks(r.left+r.width/2,r.top);
+      clearSel();
+      pairsDone++;
+      if(pairsDone===SNIP.length){
+        awardStar("d3","Every line paired to its meaning. You just read a whole algorithm the way its author intended.");
+      }
+    }else{
+      toast("Not that line — read the code again. That one is about something else.");
+      clearSel();
+    }
+  }
+
+  /* drag-and-drop via pointer events (one path for mouse, touch and pen) */
+  let dragChip=null,ghost=null,dragging=false,ptrId=null,offX=0,offY=0,startX=0,startY=0;
+  function dragStart(e,chip){
+    if(chip.classList.contains("used"))return;
+    if(e.pointerType==="mouse"&&e.button!==0)return;
+    dragChip=chip;ptrId=e.pointerId;dragging=false;
+    startX=e.clientX;startY=e.clientY;
+    // listen on the document so moves are caught wherever the pointer goes
+    // (pointer capture is unreliable across engines for this)
+    document.addEventListener("pointermove",dragMove);
+    document.addEventListener("pointerup",dragEnd);
+    document.addEventListener("pointercancel",dragEnd);
+  }
+  function dragMove(e){
+    if(dragChip===null||e.pointerId!==ptrId)return;
+    if(!dragging){
+      if(Math.hypot(e.clientX-startX,e.clientY-startY)<6)return;
+      dragging=true;
+      const rect=dragChip.getBoundingClientRect();
+      offX=startX-rect.left;offY=startY-rect.top;
+      ghost=dragChip.cloneNode(true);
+      ghost.classList.add("pair-ghost");ghost.classList.remove("sel");
+      ghost.style.width=rect.width+"px";
+      document.body.appendChild(ghost);
+      dragChip.classList.add("dragging");
+      clearSel(); // starting a drag cancels any half-made tap selection
+    }
+    e.preventDefault();
+    ghost.style.left=(e.clientX-offX)+"px";
+    ghost.style.top=(e.clientY-offY)+"px";
+    markDrop(slotUnder(e));
+  }
+  function dragEnd(e){
+    if(dragChip===null||e.pointerId!==ptrId)return;
+    const chip=dragChip;
+    document.removeEventListener("pointermove",dragMove);
+    document.removeEventListener("pointerup",dragEnd);
+    document.removeEventListener("pointercancel",dragEnd);
+    if(dragging){
+      const slot=slotUnder(e);
+      markDrop(null);
+      if(ghost){ghost.remove();ghost=null;}
+      chip.classList.remove("dragging");
+      if(slot)commit(slot,chip);
+    }else if(e.type!=="pointercancel"){
+      selectChip(chip); // no movement → treat as a tap (mouse/touch)
+    }
+    dragChip=null;dragging=false;ptrId=null;
+  }
+  function slotUnder(e){
+    if(ghost)ghost.style.visibility="hidden";
+    const el=document.elementFromPoint(e.clientX,e.clientY);
+    if(ghost)ghost.style.visibility="";
+    const slot=el&&el.closest?el.closest(".pair-slot"):null;
+    return slot&&!slot.classList.contains("filled")?slot:null;
+  }
+  function markDrop(slot){
+    $$(".pair-slot.drop-ok",pairCode).forEach(s=>{if(s!==slot)s.classList.remove("drop-ok");});
+    if(slot)slot.classList.add("drop-ok");
+  }
+
+  /* ═══ D4: names that help vs names that hide ═══ */
+  $("#rnCryptic4").innerHTML=
+    '<div class="pcline"><span class="kw">DECLARE</span> a : <span class="typ">REAL</span></div>'+
+    '<div class="pcline"><span class="kw">DECLARE</span> b : <span class="typ">INTEGER</span></div>'+
+    '<div class="pcline"><span class="kw">DECLARE</span> c : <span class="typ">REAL</span></div>'+
+    '<div class="pcline">c <span class="arrow">←</span> a * b</div>'+
+    '<div class="pcline"><span class="kw">OUTPUT</span> c</div>';
+
+  const RN=[
+    {v:"a",type:"REAL",target:"Price"},
+    {v:"b",type:"INTEGER",target:"Quantity"},
+    {v:"c",type:"REAL",target:"Total"}
+  ];
+  const RN_OPTS=["","Price","Quantity","Total","Thing","Data","n"];
+  const RN_POOR=["Thing","Data","n"];
+  const rnRows=$("#rnRows4");
+  const rnStatus=$("#rnStatus4");
+  const rnSelects={};
+  let rnDone=false;
+  RN.forEach(r=>{
+    const row=document.createElement("div");
+    row.className="rn-row";
+    const tag=document.createElement("span");
+    tag.className="rn-tag";
+    tag.innerHTML='rename <b>'+r.v+'</b> ('+r.type+')';
+    const sel=document.createElement("select");
+    sel.setAttribute("aria-label","rename box "+r.v);
+    RN_OPTS.forEach(o=>{
+      const opt=document.createElement("option");
+      opt.value=o;opt.textContent=o===""?"— choose a name —":o;
+      sel.appendChild(opt);
+    });
+    sel.addEventListener("change",checkRename);
+    rnSelects[r.v]=sel;
+    row.appendChild(tag);row.appendChild(sel);
+    rnRows.appendChild(row);
+  });
+  function checkRename(){
+    if(rnDone)return;
+    const a=rnSelects.a.value,b=rnSelects.b.value,c=rnSelects.c.value;
+    const chosen=[a,b,c];
+    const poor=chosen.find(v=>RN_POOR.includes(v));
+    if(poor){
+      rnStatus.textContent="“"+poor+"” is a name that hides — it could mean anything. Give the box a name that says what it holds.";
+      return;
+    }
+    if(a==="Quantity"||a==="Total"){
+      rnStatus.textContent="Box a is a REAL box — it allows decimals, like money. A count would be a whole number (INTEGER). What has decimals here?";
+      return;
+    }
+    if(b==="Price"||b==="Total"){
+      rnStatus.textContent="Box b is an INTEGER box — whole numbers only. Which of the three is always a whole count?";
+      return;
+    }
+    if(c==="Price"||c==="Quantity"){
+      rnStatus.textContent="Box c holds a × b — the result, the whole bill. What single word names that?";
+      return;
+    }
+    if(a==="Price"&&b==="Quantity"&&c==="Total"){
+      rnDone=true;
+      rnStatus.textContent="That reads itself now. Same algorithm, same machine — but a person understands it instantly.";
+      $("#rnReadable4").classList.add("show");
+      const r=$("#rnReadable4").getBoundingClientRect();sparks(r.left+r.width/2,r.top);
+      awardStar("d4","Three good names and the fog clears. Meaningful names are the cheapest way to make code readable.");
+      return;
+    }
+    if(a&&b&&c){
+      rnStatus.textContent="Close — read the three roles again: a is the price, b is how many, c is the total.";
+    }else{
+      rnStatus.textContent="Rename all three so the line below reads like a sentence.";
+    }
+  }
+
+  /* ═══ D5: comments — notes to future-you ═══ */
+  $("#cmSnip5").innerHTML=
+    '<div class="pcline">p <span class="arrow">←</span> 5</div>'+
+    '<div class="pcline">q <span class="arrow">←</span> 3</div>'+
+    '<div class="pcline">t <span class="arrow">←</span> p * q   <span class="cmt" id="cmComment5" style="display:none">// total = price × quantity</span></div>'+
+    '<div class="pcline"><span class="kw">OUTPUT</span> t</div>';
+  const cmComment=$("#cmComment5");
+  const cmOut=$("#cmOut5");
+  const check5=makeChips($("#chips5"),["why","skip"],
+    ()=>awardStar("d5","Both halves of readable code: names say what, comments say why — and the machine quietly ignores the why."),
+    k=>({why:"a comment says WHY, for a human",skip:"the machine skips // lines"}[k]),
+    "idea");
+  $("#cmReveal5").addEventListener("click",()=>{
+    cmComment.style.display="";
+    check5("why");
+  });
+  $("#cmRun5").addEventListener("click",()=>{
+    // whatever the comment says, the machine computes the same thing
+    cmComment.classList.add("off");
+    if(cmComment.style.display==="none")cmComment.style.display="";
+    cmOut.innerHTML='<span class="prompt">output ›</span> 15';
+    check5("skip");
+  });
+})();
+</script>
+</body>
+</html>
