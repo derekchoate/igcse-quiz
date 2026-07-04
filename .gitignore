@@ -2,6 +2,13 @@
 node_modules/
 .tools/
 
+# build + e2e artifacts (screenshots under tests/e2e/__screenshots__ ARE committed)
+dist/
+.features-gen/
+test-results/
+playwright-report/
+blob-report/
+
 # macOS
 .DS_Store
 .AppleDouble
