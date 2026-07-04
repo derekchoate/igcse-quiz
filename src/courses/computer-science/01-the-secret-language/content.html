@@ -1,0 +1,140 @@
+  <section class="hero">
+    <h1>Every computer on Earth speaks one language.<br>Tonight, <span class="lit">you learn it.</span></h1>
+    <p>It has an alphabet of exactly two letters. Every game, every song, every message you've ever sent — all of it is written in this language. Most people never learn it. It takes about twenty minutes.</p>
+    <div class="promise">
+      <strong>How this works:</strong> there are no marks, no timer, no wrong answers, and nothing to hand in. You flip switches and see what happens. Stop whenever you like, skip whatever you like, peek ahead if you're curious. Every discovery you make earns a star — and stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">First discovery: the switch
+        <span class="disc-sub">everything begins with on and off</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Deep inside every computer are billions of microscopic switches. Each one can only do two things: be <b>on</b>, or be <b>off</b>. That's it. That's the whole alphabet — on and off, written as <b>1</b> and <b>0</b>.</p>
+      <p class="soft">Try it. Tap the bulb a few times and watch the digit underneath.</p>
+      <div class="board">
+        <div class="bulb-row" id="row1"></div>
+      </div>
+      <p class="soft" id="d1msg">One switch can say two things. Which raises a question: what could <i>two</i> switches say…?</p>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Second discovery: two switches
+        <span class="disc-sub">suddenly you can count</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Give each switch a value — the right one is worth <b>1</b>, the left one is worth <b>2</b>. Light a switch and you <i>add its value</i>. The total is whatever's lit.</p>
+      <div class="board">
+        <div class="bulb-row" id="row2"></div>
+        <div class="total" id="total2">total <b>0</b></div>
+      </div>
+      <p class="chips-label">Can you make the total say…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2">Want a nudge?</button>
+        <div class="nudge" id="n2">There's no combination that doesn't work — with two switches there are only four ways to set them. Try all four and you'll find every number from 0 to 3 along the way.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Third discovery: the doubling trick
+        <span class="disc-sub">8 · 4 · 2 · 1</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's the pattern the whole language is built on: each new switch is worth <b>double</b> the one before. So four switches are worth 8, 4, 2 and 1 — and with just those four you can make <i>every</i> number from 0 to 15.</p>
+      <div class="board">
+        <div class="bulb-row" id="row3"></div>
+        <div class="total" id="total3">total <b>0</b></div>
+      </div>
+      <p class="chips-label">See if you can light up…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Start with the biggest switch that fits inside your number, then see what's left over. Going for 13? The 8 fits (13 − 8 leaves 5)… now what's the biggest switch that fits inside 5?</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">13 = 8 + 4 + 1. So: light 8, light 4, skip 2, light 1. In the secret language, thirteen is written <b>1101</b>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Fourth discovery: eight switches
+        <span class="disc-sub">a real byte — the same size computers use</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Eight switches together is called a <b>byte</b> — the basic unit of every file on every device you own. Eight switches can make any number from 0 all the way to 255.</p>
+      <div class="board">
+        <div class="bulb-row" id="row4"></div>
+        <div class="total" id="total4">total <b>0</b></div>
+      </div>
+      <p class="chips-label">Some numbers worth finding…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4">Want a nudge?</button>
+        <div class="nudge" id="n4">Same trick as before, just bigger: biggest switch that fits, then work on what's left. For 19: the 16 fits (leaving 3)… and you already know how to make 3 from the second discovery. For 255 — what happens if <i>everything</i> is lit?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Final discovery: a message left for you
+        <span class="disc-sub">someone wrote you a word in the secret language</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Numbers can stand for letters — A is 1, B is 2, and so on up to Z at 26. Below are three bytes, already lit. Read each one's total, find its letter in the chart, and the message appears.</p>
+      <div class="alphabet" id="alpha"></div>
+      <div class="board" id="decodeBoard"></div>
+      <div class="decoded-word" id="decodedWord">· · ·</div>
+      <div class="decode-note" id="decodeNote">The message was about you the whole time. You just read binary — for real.</div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5">Want a nudge?</button>
+        <div class="nudge" id="n5">Add up only the lit bulbs in a row — same as every board so far. The first row's lit values are 16 + 8 + 1. That's 25… and the 25th letter of the alphabet is near the very end.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened</h2>
+    <p>Nobody stood at a whiteboard. Nobody set a deadline. Nobody marked anything. You poked at some switches, followed your curiosity, took a nudge when you wanted one — and now you can read and write binary, which is genuinely the foundation of computer science.</p>
+    <p><b>That's all self-study is.</b> It's this, repeated. Some sessions will feel easy like tonight; some will be slower — and on the slow days you're allowed to stop, walk away, and come back. The stars don't expire. Neither does anything you've understood.</p>
+    <p class="soft">Whenever you're curious what else the switches can do — hexadecimal, logic gates, how images hide inside numbers — there's a module waiting. No rush at all.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link next" href="02-sixteen-symbols.html">Module 2 · Sixteen Symbols →</a>
+  </nav>
+
+  <footer>Made for one particular learner. No marks were given in the making of this page.</footer>
