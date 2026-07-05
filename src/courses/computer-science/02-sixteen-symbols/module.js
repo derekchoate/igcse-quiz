@@ -7,44 +7,6 @@
 
 const HEX="0123456789ABCDEF";
 
-/* board factory: byte with optional nibble gap; returns setters/getters */
-function makeByte(rowEl,opts,onChange){
-  const values=[128,64,32,16,8,4,2,1];
-  const bits=[];
-  values.forEach((v,i)=>{
-    if(i===4){
-      const brk=document.createElement("span");
-      brk.className="row-break";brk.setAttribute("aria-hidden","true");
-      rowEl.appendChild(brk);
-    }
-    const nibbleVal=i<4?v/16:v;
-    const b=document.createElement("button");
-    b.className="bit";b.type="button";
-    b.setAttribute("aria-pressed","false");
-    b.setAttribute("aria-label",opts.gap?"switch worth "+v+" in the byte, "+nibbleVal+" in its nibble":"switch worth "+v);
-    let labelHtml="";
-    if(opts.labels){
-      labelHtml='<span class="bit-val">'+v+'</span>';
-      if(opts.gap)labelHtml+='<span class="bit-val-nibble">'+nibbleVal+'</span>';
-    }
-    b.innerHTML='<span class="bulb"></span>'+labelHtml;
-    b.addEventListener("click",()=>{
-      const on=b.getAttribute("aria-pressed")!=="true";
-      b.setAttribute("aria-pressed",on?"true":"false");
-      onChange(api);
-    });
-    rowEl.appendChild(b);bits.push(b);
-  });
-  const api={
-    total(){return bits.reduce((s,b,i)=>s+(b.getAttribute("aria-pressed")==="true"?values[i]:0),0);},
-    nibbles(){const t=api.total();return[t>>4,t&15];},
-    hex(){const[hi,lo]=api.nibbles();return HEX[hi]+HEX[lo];},
-    bin(){return bits.map(b=>b.getAttribute("aria-pressed")==="true"?"1":"0").join("");},
-    set(n){bits.forEach((b,i)=>{const on=!!(n&values[i]);b.setAttribute("aria-pressed",on?"true":"false");});onChange(api);}
-  };
-  return api;
-}
-
 /* ═══ D1: shuffle & squint ═══ */
 let shuffles=0;
 const byte1=makeByte($("#row1"),{gap:false,labels:false},api=>{

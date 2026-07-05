@@ -1,39 +1,10 @@
 /* ================= Module 4 — Letters in the Wire =================
    Runs inside the shared engine IIFE, so $, $$, sparks, toast and awardStar
-   are all in scope. This lesson predates the extracted board/chips kits and
-   carries its own richer factories (makeByte with .set/.bits, and a makeChips
-   variant with formatFn labels), so it uses no shared interaction kit. */
+   are all in scope. The byte board comes from the shared byte kit (makeByte);
+   this lesson keeps its own richer makeChips variant with formatFn labels, plus
+   W below for the mini-bulb rows in the encode/decode signature interaction. */
 
 const W=[128,64,32,16,8,4,2,1];
-
-/* ---------- byte board factory (shared engine) ---------- */
-function makeByte(rowEl,labeled,onChange){
-  const bits=W.map((v,i)=>{
-    if(i===4){
-      const brk=document.createElement("span");
-      brk.className="row-break";brk.setAttribute("aria-hidden","true");
-      rowEl.appendChild(brk);
-    }
-    const b=document.createElement("button");
-    b.type="button";b.className="bit";
-    b.setAttribute("aria-pressed","false");
-    b.setAttribute("aria-label","switch worth "+v);
-    b.innerHTML='<span class="bulb"></span>'+(labeled?'<span class="bit-val">'+v+'</span>':"");
-    b.addEventListener("click",()=>{
-      const on=b.getAttribute("aria-pressed")!=="true";
-      b.setAttribute("aria-pressed",on?"true":"false");
-      onChange(api);
-    });
-    rowEl.appendChild(b);
-    return b;
-  });
-  const api={
-    bits,
-    total(){return bits.reduce((s,b,i)=>s+(b.getAttribute("aria-pressed")==="true"?W[i]:0),0);},
-    set(n){bits.forEach((b,i)=>b.setAttribute("aria-pressed",(n&W[i])?"true":"false"));onChange(api);}
-  };
-  return api;
-}
 
 function charOf(v){return (v>=32&&v<=126)?String.fromCharCode(v):"·";}
 
