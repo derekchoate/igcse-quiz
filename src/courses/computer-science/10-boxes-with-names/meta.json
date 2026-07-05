@@ -1,0 +1,6 @@
+{
+  "number": 10,
+  "slug": "10-boxes-with-names",
+  "title": "Boxes with Names",
+  "uses": ["chips"]
+}
