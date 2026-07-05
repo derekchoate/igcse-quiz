@@ -2,5 +2,5 @@
   "number": 9,
   "slug": "09-the-house-style",
   "title": "The House Style",
-  "uses": []
+  "uses": ["chips"]
 }

@@ -2,5 +2,5 @@
   "number": 3,
   "slug": "03-switch-arithmetic",
   "title": "Switch Arithmetic",
-  "uses": []
+  "uses": ["chips"]
 }

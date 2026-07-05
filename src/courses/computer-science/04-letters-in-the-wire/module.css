@@ -67,14 +67,6 @@
 .sub-label{font-family:'Sora',sans-serif;font-size:14px;color:var(--teal);margin:22px 0 4px;text-transform:uppercase;letter-spacing:.6px}
 .sub-label:first-child{margin-top:0}
 
-/* ---------- chips (identical to engine chips.css; kept here because the
-   chips kit is not concatenated for this lesson) ---------- */
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
-.chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
-.chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
-.chip.hit::after{content:" ✦"}
-.chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
-
 /* ---------- action buttons ---------- */
 .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 .action-btn{font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);background:#22305A;border:1px solid var(--card-edge);border-radius:999px;padding:10px 20px;cursor:pointer}

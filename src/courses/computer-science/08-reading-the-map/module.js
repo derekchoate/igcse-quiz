@@ -4,29 +4,6 @@
    and a two-gap repair shop (D4). Runs inside the shared engine IIFE, so
    $, $$, reduceMotion, sparks, toast and awardStar are all in scope. */
 
-  /* ---------- chip sets (shared engine) ---------- */
-  function makeChips(containerEl,targets,onAllHit,formatFn){
-    const hit={};
-    targets.forEach(t=>{
-      const c=document.createElement("span");
-      c.className="chip";c.dataset.target=t;
-      c.textContent=formatFn?formatFn(t):t;
-      containerEl.appendChild(c);
-    });
-    return function check(current){
-      if(targets.includes(current)&&!hit[current]){
-        hit[current]=true;
-        const chip=$('.chip[data-target="'+current+'"]',containerEl);
-        chip.classList.add("hit");
-        const r=chip.getBoundingClientRect();
-        sparks(r.left+r.width/2,r.top);
-        const remaining=targets.filter(t=>!hit[t]).length;
-        if(remaining>0)toast("That's "+(formatFn?formatFn(current):current)+" — nice. "+remaining+" more shape"+(remaining>1?"s":"")+" to name.");
-        else onAllHit();
-      }
-    };
-  }
-
   /* ═══ shared shape builder ═══ */
   const KIND_LABEL={term:"start / stop",proc:"process",io:"input / output",dec:"decision",flow:"flow line"};
   function buildShape(node){
@@ -61,7 +38,8 @@
   ];
   const check1=makeChips($("#chips1"),SHAPES.map(s=>s.key),
     ()=>awardStar("d1","All five shapes named. From here, every flowchart is just these five in a row."),
-    k=>SHAPES.find(s=>s.key===k).name);
+    k=>SHAPES.find(s=>s.key===k).name,
+    (label,remaining)=>"That's "+label+" — nice. "+remaining+" more shape"+(remaining>1?"s":"")+" to name.");
   const shapeList=$("#shapeList1");
   SHAPES.forEach(s=>{
     const item=document.createElement("div");

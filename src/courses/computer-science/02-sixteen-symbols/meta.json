@@ -2,5 +2,5 @@
   "number": 2,
   "slug": "02-sixteen-symbols",
   "title": "Sixteen Symbols",
-  "uses": []
+  "uses": ["chips"]
 }

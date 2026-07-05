@@ -5,29 +5,6 @@
 
 const DIGITS="0123456789ABCDEF";
 
-/* ---------- chip sets (targets may be numbers or action keys) ---------- */
-function makeChips(containerEl,targets,onAllHit,formatFn){
-  const hit={};
-  targets.forEach(t=>{
-    const c=document.createElement("span");
-    c.className="chip";c.dataset.target=t;
-    c.textContent=formatFn?formatFn(t):t;
-    containerEl.appendChild(c);
-  });
-  return function check(current){
-    if(targets.includes(current)&&!hit[current]){
-      hit[current]=true;
-      const chip=$('.chip[data-target="'+current+'"]',containerEl);
-      chip.classList.add("hit");
-      const r=chip.getBoundingClientRect();
-      sparks(r.left+r.width/2,r.top);
-      const remaining=targets.filter(t=>!hit[t]).length;
-      if(remaining>0)toast("Lovely — that one's lit. "+remaining+" more if you fancy it.");
-      else onAllHit();
-    }
-  };
-}
-
 /* ---------- trading machine factory ---------- */
 // counts[i] = tokens in the cup worth rule^i (index 0 = rightmost cup on screen).
 // The machine enforces its own rule: a cup reaching `rule` immediately trades
@@ -199,7 +176,8 @@ $("#groupBtn").addEventListener("click",()=>{
 /* ═══ D2: the ten-trade ═══ */
 const check2=makeChips($("#chips2"),[10,23,42],
   ()=>awardStar("d2","The ten-trade is yours. You've run this machine since you were small — now you've seen its gears."),
-  t=>String(t));
+  t=>String(t),
+  (label,remaining)=>"Lovely — that one's lit. "+remaining+" more if you fancy it.");
 let seeding2=true;
 const trader2=makeTrader({
   root:"machine2",rule:10,cups:3,readsEl:"reads2",sumEl:"sums2",
@@ -214,7 +192,8 @@ $("#take2").addEventListener("click",()=>trader2.take());
 const CHIP3_LABELS={ten:"open a bag of ten",hundred:"unpack a hundred, all the way",ninety:"spill the nine bags"};
 const check3=makeChips($("#chips3"),["ten","hundred","ninety"],
   ()=>awardStar("d3","Bags opened. A digit was never a mystery — it's a count of bags, nothing more."),
-  k=>CHIP3_LABELS[k]);
+  k=>CHIP3_LABELS[k],
+  (label,remaining)=>"Lovely — that one's lit. "+remaining+" more if you fancy it.");
 
 function beanGrid(n,small){
   const g=document.createElement("div");g.className="bean-grid";
@@ -299,7 +278,8 @@ $("#benchSpillReset").addEventListener("click",()=>{
 const CHIP4_LABELS={5:"get to 5 beans",19:"get to 19 (yes, that 19)",four:"open the 4-bag"};
 const check4=makeChips($("#chips4"),[5,19,"four"],
   ()=>awardStar("d4","There it is: 1, 2, 4, 8, 16 — made in front of you, not memorised."),
-  k=>CHIP4_LABELS[k]);
+  k=>CHIP4_LABELS[k],
+  (label,remaining)=>"Lovely — that one's lit. "+remaining+" more if you fancy it.");
 let seeding4=true;
 const trader4=makeTrader({
   root:"machine4",rule:2,cups:5,hideValues:true,readsEl:"reads4",sumEl:"sums4",
@@ -344,7 +324,8 @@ $("#benchFourReset").addEventListener("click",()=>{
 const CHIP5_LABELS={r2:"19 under the two-rule: 10011",r10:"19 under the ten-rule: 19",r16:"19 under the sixteen-rule: 13"};
 const check5=makeChips($("#chips5"),["r2","r10","r16"],
   ()=>awardStar("d5","Three costumes, one game. That's the entire secret of number systems — all of them."),
-  k=>CHIP5_LABELS[k]);
+  k=>CHIP5_LABELS[k],
+  (label,remaining)=>"Lovely — that one's lit. "+remaining+" more if you fancy it.");
 const CUPS_FOR_RULE={2:5,10:2,16:2};
 let rule5=10,seeding5=true;
 const trader5=makeTrader({

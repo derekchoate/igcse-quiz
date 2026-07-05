@@ -15,13 +15,6 @@
 .bit[aria-pressed="true"] .bit-val{color:var(--glow)}
 @media (max-width:520px){.bulb{width:31px;height:31px}.bulb-row{gap:2px}}
 
-/* ---------- challenge chips ---------- */
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
-.chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
-.chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
-.chip.hit::after{content:" ✦"}
-.chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
-
 /* ---------- nibble sub-labels on the byte board ---------- */
 .bit-val-nibble{font-family:'Sora',sans-serif;font-size:11px;color:var(--teal);opacity:.85}
 .bit[aria-pressed="true"] .bit-val-nibble{color:var(--glow)}

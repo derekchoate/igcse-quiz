@@ -5,16 +5,6 @@
    (22px 16px 18px) — see the migration DRIFT report. */
 .board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
 
-/* ---------- chips ----------
-   The chip styles match the canonical chips.css exactly, but the chips kit is
-   not loaded (its makeChips is incompatible with this lesson — see DRIFT), so
-   they are inlined here. */
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
-.chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
-.chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
-.chip.hit::after{content:" ✦"}
-.chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
-
 /* D1: PDLC story stages */
 .stage-list{display:flex;flex-direction:column;gap:10px}
 .stage-item{background:#1A2440;border:1px solid var(--card-edge);border-radius:12px;padding:14px 16px;text-align:left}

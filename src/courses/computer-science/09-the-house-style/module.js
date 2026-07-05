@@ -10,30 +10,6 @@
     setTimeout(()=>el.classList.remove("pulse"),450);
   }
 
-  /* ---------- chip sets (shared engine) ---------- */
-  function makeChips(containerEl,targets,onAllHit,labelFn,noun){
-    noun=noun||"more";
-    const hit={};
-    targets.forEach(t=>{
-      const c=document.createElement("span");
-      c.className="chip";c.dataset.target=t;
-      c.textContent=labelFn?labelFn(t):t;
-      containerEl.appendChild(c);
-    });
-    return function check(current){
-      if(targets.includes(current)&&!hit[current]){
-        hit[current]=true;
-        const chip=$('.chip[data-target="'+current+'"]',containerEl);
-        chip.classList.add("hit");
-        const r=chip.getBoundingClientRect();
-        sparks(r.left+r.width/2,r.top);
-        const remaining=targets.filter(t=>!hit[t]).length;
-        if(remaining>0)toast("Noticed ✦ — "+remaining+" "+noun+" to go.");
-        else onAllHit();
-      }
-    };
-  }
-
   /* ═══ D1: the arrow means "gets" ═══ */
   const getsVal=$("#getsVal1");
   const getsBox=$("#getsBox1");
@@ -43,7 +19,7 @@
   const check1=makeChips($("#chips1"),["cmd","both","calc"],
     ()=>awardStar("d1","All three read. ← is a command: work out the right side, then drop the answer in the box."),
     k=>({cmd:"← is a command, not a fact",both:"a box can sit on both sides",calc:"work the right side out first, then store"}[k]),
-    "idea");
+    (label,remaining)=>"Noticed ✦ — "+remaining+" idea to go.");
   function getsRun(line){
     const el=$('.gets-line[data-line="'+line+'"]',$("#getsLines1"));
     if(el)el.classList.add("ran");
@@ -393,7 +369,7 @@
   const check5=makeChips($("#chips5"),["why","skip"],
     ()=>awardStar("d5","Both halves of readable code: names say what, comments say why — and the machine quietly ignores the why."),
     k=>({why:"a comment says WHY, for a human",skip:"the machine skips // lines"}[k]),
-    "idea");
+    (label,remaining)=>"Noticed ✦ — "+remaining+" idea to go.");
   $("#cmReveal5").addEventListener("click",()=>{
     cmComment.style.display="";
     check5("why");

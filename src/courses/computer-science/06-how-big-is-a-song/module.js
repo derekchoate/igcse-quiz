@@ -2,31 +2,8 @@
    Lesson-specific code only: the commas helper, the value cycler, and the
    five discoveries (unit ladder, picture/sound steppers, squeeze lever,
    lossless/lossy sort). Runs inside the shared engine IIFE, so $, awardStar,
-   toast and sparks are already in scope. This lesson's chips carry formatFn
-   labels, so makeChips is defined here rather than taken from the shared kit. */
-
-/* ---------- chips: auto-detect targets, with formatFn labels ---------- */
-function makeChips(containerEl,targets,onAllHit,formatFn){
-  const hit={};
-  targets.forEach(t=>{
-    const c=document.createElement("span");
-    c.className="chip";c.dataset.target=t;
-    c.textContent=formatFn?formatFn(t):t;
-    containerEl.appendChild(c);
-  });
-  return function check(current){
-    if(targets.includes(current)&&!hit[current]){
-      hit[current]=true;
-      const chip=$('.chip[data-target="'+current+'"]',containerEl);
-      chip.classList.add("hit");
-      const r=chip.getBoundingClientRect();
-      sparks(r.left+r.width/2,r.top);
-      const remaining=targets.filter(t=>!hit[t]).length;
-      if(remaining>0)toast("Found "+(formatFn?formatFn(current):current)+" — lovely. "+remaining+" more if you fancy it.");
-      else onAllHit();
-    }
-  };
-}
+   toast, sparks and makeChips are already in scope. This lesson's chips carry
+   formatFn labels — makeChips comes from the shared chips kit. */
 
 function commas(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");}
 

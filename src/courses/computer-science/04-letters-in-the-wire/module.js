@@ -35,29 +35,6 @@ function makeByte(rowEl,labeled,onChange){
   return api;
 }
 
-/* ---------- chip sets (shared engine) ---------- */
-function makeChips(containerEl,targets,onAllHit,formatFn){
-  const hit={};
-  targets.forEach(t=>{
-    const c=document.createElement("span");
-    c.className="chip";c.dataset.target=t;
-    c.textContent=formatFn?formatFn(t):t;
-    containerEl.appendChild(c);
-  });
-  return function check(current){
-    if(targets.includes(current)&&!hit[current]){
-      hit[current]=true;
-      const chip=$('.chip[data-target="'+current+'"]',containerEl);
-      chip.classList.add("hit");
-      const r=chip.getBoundingClientRect();
-      sparks(r.left+r.width/2,r.top);
-      const remaining=targets.filter(t=>!hit[t]).length;
-      if(remaining>0)toast("Found "+(formatFn?formatFn(current):current)+" — lovely. "+remaining+" more if you fancy it.");
-      else onAllHit();
-    }
-  };
-}
-
 function charOf(v){return (v>=32&&v<=126)?String.fromCharCode(v):"·";}
 
 /* ═══ D1: two rival codebooks ═══ */

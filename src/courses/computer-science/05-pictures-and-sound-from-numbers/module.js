@@ -2,32 +2,8 @@
    Bespoke signature interactions: a 1-bit pixel-paint grid with a live bit
    mirror, a colour-depth slider, a resolution stepper with a file-size counter,
    a tap-to-sample waveform, and a fill-the-blank trade-off sentence. Runs inside
-   the shared engine IIFE, so $, $$, sparks, toast and awardStar are already in
-   scope. This lesson's chips carry formatFn labels, so makeChips is defined
-   here rather than taken from the shared kit. */
-
-/* ---------- chips: auto-detect targets, with formatFn labels ---------- */
-function makeChips(containerEl,targets,onAllHit,formatFn){
-  const hit={};
-  targets.forEach(t=>{
-    const c=document.createElement("span");
-    c.className="chip";c.dataset.target=t;
-    c.textContent=formatFn?formatFn(t):t;
-    containerEl.appendChild(c);
-  });
-  return function check(current){
-    if(targets.includes(current)&&!hit[current]){
-      hit[current]=true;
-      const chip=$('.chip[data-target="'+current+'"]',containerEl);
-      chip.classList.add("hit");
-      const r=chip.getBoundingClientRect();
-      sparks(r.left+r.width/2,r.top);
-      const remaining=targets.filter(t=>!hit[t]).length;
-      if(remaining>0)toast("Found "+(formatFn?formatFn(current):current)+" — lovely. "+remaining+" more if you fancy it.");
-      else onAllHit();
-    }
-  };
-}
+   the shared engine IIFE, so $, $$, sparks, toast, awardStar and makeChips (the
+   shared chips kit, label mode) are already in scope. */
 
 /* ═══ D1: paint with one bit ═══ */
 function makePixelGrid(el,rows,cols,onChange){

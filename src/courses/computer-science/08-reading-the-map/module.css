@@ -113,9 +113,3 @@
   .repair-slot.snapped .repair-tag{color:var(--glow)}
   .repair-status{margin-top:14px;font-size:14.5px;color:var(--ink-soft);min-height:22px;text-align:center}
   .repair-tag{font-family:'Sora',sans-serif;font-size:12px;color:var(--teal);margin-bottom:5px;letter-spacing:.3px}
-
-  .chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
-  .chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
-  .chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
-  .chip.hit::after{content:" ✦"}
-  .chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}

@@ -4,33 +4,8 @@
    fill-the-gap decomposition, and a free-text own decomposition. Runs inside
    the shared engine IIFE, so $, $$, awardStar, toast and sparks are in scope.
 
-   NOTE: this lesson ships its own format-aware makeChips (a variant of the
-   canonical chips kit — see the migration DRIFT report) because its call sites
-   depend on the (containerEl, targets, onAllHit, formatFn) signature and on the
-   chips displaying formatted labels rather than raw target values. */
-
-/* ---------- chip sets (shared engine) ---------- */
-function makeChips(containerEl,targets,onAllHit,formatFn){
-  const hit={};
-  targets.forEach(t=>{
-    const c=document.createElement("span");
-    c.className="chip";c.dataset.target=t;
-    c.textContent=formatFn?formatFn(t):t;
-    containerEl.appendChild(c);
-  });
-  return function check(current){
-    if(targets.includes(current)&&!hit[current]){
-      hit[current]=true;
-      const chip=$('.chip[data-target="'+current+'"]',containerEl);
-      chip.classList.add("hit");
-      const r=chip.getBoundingClientRect();
-      sparks(r.left+r.width/2,r.top);
-      const remaining=targets.filter(t=>!hit[t]).length;
-      if(remaining>0)toast("Found "+(formatFn?formatFn(current):current)+" — lovely. "+remaining+" more if you fancy it.");
-      else onAllHit();
-    }
-  };
-}
+   This lesson uses the shared chips kit in label mode:
+   makeChips(containerEl, targets, onAllHit, formatFn). */
 
 /* ═══ D1: the four PDLC stages ═══ */
 const STAGES=[
