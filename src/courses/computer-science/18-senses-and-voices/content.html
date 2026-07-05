@@ -1,0 +1,157 @@
+
+  <section class="hero">
+    <h1>A computer in a box is deaf and mute. <span class="lit">Devices are its senses and its voice.</span></h1>
+    <p>Your phone has more senses than you do — it can feel acceleration, brightness and magnetism, sometimes all at once, none of which you can feel directly at all. This module starts by sorting a pile of familiar devices into the two directions information can travel, then puts real sensors to work in real systems: a greenhouse that needs to know its own soil and air, a car park that needs to know a vehicle is there without ever touching it, and a handful of stranger sensors each doing one vivid job. By the end, you'll pick a real place of your own and decide what it would need to sense, and what it would need to say back.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Sort, drag and match as many times as you like — nothing here ever runs out or gets marked wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — in or out ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">In or out
+        <span class="disc-sub">sort a pile of familiar devices by which direction the information travels</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Every device on a computer is either an <strong>input device</strong> — it carries information IN, from the world to the computer — or an <strong>output device</strong> — it carries information OUT, from the computer to you. Sort the pile below into the two sockets, by tapping a device and then its socket, or by dragging it straight across. One device is missing from the pile on purpose: a <strong>touch screen</strong>. That's because a touch screen is genuinely both at once — it takes your tap in and shows you a picture out, at the same time. Neither socket would be honest for it, so it sits this one out; you'll meet it again once you're past sorting things into exactly one bin.</p>
+      <div class="board">
+        <div class="sort-pool" id="pool1"></div>
+        <div class="sort-bins" id="bins1"></div>
+        <p class="fork-note" id="status1" aria-live="polite">Tap a device to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Take the keyboard: press a key and information flows from your hands into the computer — that's input. Take the speaker: the computer sends sound out to your ears — that's output. Every device in the pile sorts by that one question: which direction is the information travelling?</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">For each device, ask: does using it put something INTO the computer, or does it put something OUT for you to see, hear or read?</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">A microphone captures sound and turns it into data the computer can store — that's information arriving. A projector takes data the computer already has and turns it into a picture you can see — that's information leaving.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — kit the greenhouse ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Kit the greenhouse
+        <span class="disc-sub">fit four sensors to the four things a greenhouse needs to know</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Cambridge's syllabus names fourteen kinds of sensor in total — acoustic, accelerometer, flow, gas, humidity, infrared, level, light, magnetic field, moisture, pH, pressure, proximity and temperature — but nobody expects you to memorise the whole list by heart tonight. Instead, the next few discoveries put a representative handful to work in real systems, and the same one question applies to every sensor you'll ever meet: <em>what does this system need to know, and which sensor measures exactly that?</em> A greenhouse needs to know four things at once: how wet its soil is, how warm its air is, how bright it is, and how much water vapour is hanging in the air around the plants. Drag each sensor from the tray below into the socket asking for exactly what it measures.</p>
+      <div class="board">
+        <div class="sort-pool" id="pool2"></div>
+        <div class="sort-bins" id="bins2"></div>
+        <p class="fork-note" id="status2" aria-live="polite">Tap a sensor to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">The light sensor answers "how bright is it?", so it fits the Light socket. The temperature sensor answers "how warm is it?", so it fits Temperature. The trickier pair: moisture is about the soil being wet or dry, humidity is about water vapour floating in the air around the plants — different substance, different socket.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Read each socket's question first, then ask which sensor actually measures that exact thing — not something merely related to it.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Moisture and humidity both involve water, but one is about the soil, one is about the air itself. Which socket is asking about the soil specifically?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — kit the car park ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Kit the car park
+        <span class="disc-sub">some sockets here are happy to be filled more than one way</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A car park barrier has to know two things: a car has arrived at the entrance, and a car has left at the exit — both without ever touching the vehicle. A separate weighbridge needs something different again: exactly how heavy an oversized vehicle is. Fit the three sensors in the tray to the three sockets below. Fair warning: two of these sockets are happy to accept either of two different sensors — there isn't one single right answer waiting to be found, because more than one sensor genuinely does the job.</p>
+      <div class="board">
+        <div class="sort-pool" id="pool3"></div>
+        <div class="sort-bins" id="bins3"></div>
+        <p class="fork-note" id="status3" aria-live="polite">Tap a sensor to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">The entrance barrier needs to know a car has arrived, without ever touching it — proximity or infrared both do that job, so either one fits happily. The exit barrier needs exactly the same thing, so whichever of those two sensors is left over fits there too. The weighbridge is asking something completely different — how heavy is this vehicle — and only the pressure sensor actually measures weight.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Ask what the system needs to <em>know</em>, then which sensor measures exactly that.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">The barrier must know a car is present without touching it — proximity or infrared both work here, and the system doesn't care which, as long as it fits. The weighbridge is asking an entirely different question: how heavy is this vehicle, and only pressure actually measures that.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — the weird ones ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The weird ones
+        <span class="disc-sub">match three less obvious sensors to the one vivid job each one does</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Three more sensors from Cambridge's list are worth knowing by their vivid, real use rather than by definition alone. Read each description below and match it to the sensor that actually does that job.</p>
+      <div class="board">
+        <div class="def-pool" id="defPool4"></div>
+        <div class="sort-bins" id="bins4"></div>
+        <p class="fork-note" id="status4" aria-live="polite">Tap a description to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">"Keeps testing the water and adding chemicals to correct it" describes a pH sensor — pH is a scale for acidity, and that's exactly what's being tested. "Notices a magnet moving away and reacts" describes a magnetic field sensor — that's the one physical quantity being sensed. "Feels the back-and-forth motion of a step" describes an accelerometer — it measures movement, which is exactly what a step produces.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Read each description and ask which physical quantity is actually being measured — acidity, magnetism, or motion?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">One measures a chemical property of a liquid, one measures the presence of a magnet nearby, and one measures movement. Match each vivid description to the one term that names exactly that measurement.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 — design your own ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Design your own
+        <span class="disc-sub">pick any real place you know and socket it — free choice, no checking</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Pick a real place you actually know — a shop, a bus, a kitchen, a gym, anywhere at all — and decide what it would need to sense, and what it would need to say back. Nothing here gets checked; this bit is entirely yours.</p>
+      <div class="board">
+        <div class="own-grid" id="ownGrid5"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Take a school canteen: it could use a temperature sensor inside its drinks fridge, to make sure cold drinks actually stay cold — and a small screen as its output, showing today's queue number so people know when they're up. That's the whole shape: one real place, one sensor measuring something it genuinely needs to know, one output device showing or acting on the answer.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Pick somewhere small and ordinary first — a fridge, a lift, a vending machine. Ordinary places socket just as well as fancy ones.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — an eighteenth time</h2>
+    <p>You sorted a whole pile of devices by nothing more than which way the information travels, and noticed why a touch screen refuses to sit neatly in either bin. You kitted out a greenhouse with four sensors, telling apart the soil's wetness from the air's. You kitted out a car park where two of the sockets were genuinely happy to be filled more than one way — a real system where "which sensor?" sometimes has more than one honest answer. You matched three stranger sensors — pH, magnetic field, accelerometer — to one vivid, real use each. And you designed a small piece of sensing and output for a place that's actually yours, with nobody checking your answer.</p>
+    <p class="soft">Whenever you're ready, the next discovery moves from what a computer can sense to where it keeps everything once it has — RAM, ROM, and the storage that survives a power cut. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="17-faster-smaller-everywhere.html">← Module 17 · Faster, Smaller, Everywhere</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 18 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
