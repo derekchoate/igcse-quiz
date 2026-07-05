@@ -126,8 +126,8 @@
         <div class="sw-baskets" id="swBaskets4"></div>
         <div class="sw-readouts" id="swReadouts4">
           <div class="sw-stat"><span class="sw-stat-label">Sweets dealt</span><span class="sw-stat-val" id="swDealt4">0</span></div>
-          <div class="sw-stat"><span class="sw-stat-label">17 DIV 5 — full rounds each friend got</span><span class="sw-stat-val" id="swDiv4">0</span></div>
-          <div class="sw-stat"><span class="sw-stat-label">17 MOD 5 — sweets left in your hand</span><span class="sw-stat-val" id="swMod4">0</span></div>
+          <div class="sw-stat"><span class="sw-stat-label">DIV(17, 5) — full rounds each friend got</span><span class="sw-stat-val" id="swDiv4">0</span></div>
+          <div class="sw-stat"><span class="sw-stat-label">MOD(17, 5) — sweets left in your hand</span><span class="sw-stat-val" id="swMod4">0</span></div>
         </div>
         <div class="step-bar">
           <button class="btn" id="swDeal4" type="button">Deal a sweet ▸</button>
@@ -136,7 +136,7 @@
       </div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
-        <div class="nudge" id="ex4">3 full rounds happen (15 sweets given out, 3 each) — that's 17 DIV 5 = 3. Then 2 sweets are left with no fifth friend to complete a round — that's 17 MOD 5 = 2. DIV is the rounds; MOD is the remainder. They always come from the same deal.</div>
+        <div class="nudge" id="ex4">3 full rounds happen (15 sweets given out, 3 each) — that's DIV(17, 5) = 3. Then 2 sweets are left with no fifth friend to complete a round — that's MOD(17, 5) = 2. DIV is the rounds; MOD is the remainder. They always come from the same deal.</div>
         <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
         <div class="nudge" id="n4a">Deal the sweets out one each until you can't give a fifth friend a full share any more.</div>
         <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
@@ -182,11 +182,11 @@
       </div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
-        <div class="nudge" id="ex5">14 MOD 4: deal 14 into groups of 4 — three full groups (12) with 2 left over, so the answer is 2. 14 DIV 4: same deal, but this time you want the groups, not the leftover — 3. 7 / 2 doesn't group anything; it just divides, and because Average is REAL the decimal survives: 3.5.</div>
+        <div class="nudge" id="ex5">MOD(14, 4): deal 14 into groups of 4 — three full groups (12) with 2 left over, so the answer is 2. DIV(14, 4): same deal, but this time you want the groups, not the leftover — 3. 7 / 2 doesn't group anything; it just divides, and because Average is REAL the decimal survives: 3.5.</div>
         <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
         <div class="nudge" id="n5a">MOD and DIV come from the very same sweet-dealing idea in Discovery 4 — one gives the rounds, one gives what's left. The slash / is a different operator again: ordinary division, decimal point and all.</div>
         <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n5b">14 MOD 4 asks "what's left after dealing 14 out in groups of 4?" 14 DIV 4 asks "how many whole groups of 4 fit?" 7 / 2 just divides exactly, decimals allowed, because Average was declared REAL.</div>
+        <div class="nudge" id="n5b">MOD(14, 4) asks "what's left after dealing 14 out in groups of 4?" DIV(14, 4) asks "how many whole groups of 4 fit?" 7 / 2 just divides exactly, decimals allowed, because Average was declared REAL.</div>
       </div>
     </div>
   </section>
