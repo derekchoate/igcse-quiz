@@ -1,0 +1,210 @@
+
+  <section class="hero">
+    <h1>Time to stop reading the language. <span class="lit">Start commanding it.</span></h1>
+    <p>Last time you learned to read Cambridge's dialect out loud. Tonight you get to run it. Every box you'll ever declare, fill, or print starts with the same three moves — <b class="kw" style="font-family:var(--mono)">DECLARE</b> makes an empty box, <b class="arrow" style="font-family:var(--mono)">←</b> drops a value in, <b class="kw" style="font-family:var(--mono)">OUTPUT</b> prints what's inside. You'll watch it happen live, on boxes you name yourself.</p>
+    <p>Boxes also come in shapes — whole numbers, decimals, words, single letters — and a value only goes in if it fits. Nothing here ever refuses with an error. A shape that doesn't fit just gets a polite, specific "try something shaped like this instead."</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Every box is yours to fill however you like — take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Make a box, put something in it
+        <span class="disc-sub">DECLARE creates it, ← fills it, OUTPUT shows it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A variable is a named, empty container — not a value, a <em>box</em> that holds one. <span class="typ" style="font-family:var(--mono)">DECLARE</span> makes the box and states its shape. Only then can a value be dropped in. Type your own name and age below, then step through the five lines and watch two boxes appear, fill, and print themselves to a little screen.</p>
+      <div class="board">
+        <div class="mk-inputs" id="mkInputs1">
+          <label for="mkName1">Your name (or any name you like)</label>
+          <input id="mkName1" type="text" placeholder="e.g. Alex" maxlength="24">
+          <label for="mkAge1">Your age</label>
+          <input id="mkAge1" type="number" min="1" max="99" value="19">
+        </div>
+        <div class="decl-code" id="mkCode1"></div>
+        <div class="decl-boxes" id="mkBoxes1"></div>
+        <div class="decl-cap" id="mkCap1">Nothing exists yet — no boxes. Press Step to run the first line.</div>
+        <div class="term" id="mkOut1"><span class="prompt">output ›</span> <span style="opacity:.5">nothing printed yet</span></div>
+        <div class="step-bar">
+          <button class="btn" id="mkStep1" type="button">Step ▸</button>
+          <button class="btn ghost" id="mkReset1" type="button">↺ Start over</button>
+        </div>
+      </div>
+      <p class="chips-label">Collect all three moves…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Read the caption under the boxes each time you press Step — it names exactly what just happened.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">The first two lines only make empty boxes — nothing to print yet. The next two lines fill them. The last line is the only one that ever shows anything on the little screen.</div>
+        <button class="nudge-btn" data-nudge="n1c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n1c">Step 1 makes an empty STRING box called Player. Step 2 makes an empty INTEGER box called Age. Step 3 drops your typed name into Player. Step 4 drops your age into Age. Step 5 — OUTPUT — is the only line that prints anything, and it prints exactly what's sitting in the boxes right now.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Types are box shapes
+        <span class="disc-sub">a value only goes in if it fits</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Five shapes turn up again and again: whole numbers (<span class="typ" style="font-family:var(--mono)">INTEGER</span>), numbers that may have a decimal point (<span class="typ" style="font-family:var(--mono)">REAL</span>), whole words in double quotes (<span class="typ" style="font-family:var(--mono)">STRING</span>), a single character in single quotes (<span class="typ" style="font-family:var(--mono)">CHAR</span>), and a fifth shape — <span class="typ" style="font-family:var(--mono)">BOOLEAN</span>, which only ever holds <span class="kw">TRUE</span> or <span class="kw">FALSE</span> — you'll meet properly once decisions arrive in the next module. Four empty boxes wait below. Tap a value from the tray, then tap the box you think it belongs in.</p>
+      <div class="board">
+        <div class="ty-boxes" id="tyBoxes2"></div>
+        <p class="ty-tray-label">Tap a value, then tap a box</p>
+        <div class="ty-tray" id="tyTray2"></div>
+        <div class="ty-status" id="tyStatus2" aria-live="polite">A decimal doesn't fit an INTEGER box. A whole word doesn't fit a CHAR box. Try a few and see which shapes match.</div>
+      </div>
+      <p class="chips-label">Fit every box its own shape…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Read the badge above each box — that's its shape. Pick a value from the tray that matches, then tap the box.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">INTEGER only ever takes whole numbers — no decimal point. REAL is more generous: it takes whole numbers <em>and</em> decimals. STRING is text in double quotes; CHAR is exactly one letter in single quotes.</div>
+        <button class="nudge-btn" data-nudge="n2c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n2c">Try 19 on the INTEGER box — it fits, whole numbers always do. Now try 19 on the REAL box — it fits there too, REAL just doesn't insist on a decimal point. But try 3.75 on the INTEGER box and watch it decline: INTEGER has no decimal place to put the .75.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Constants are glued shut
+        <span class="disc-sub">fixed the moment they're declared</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A <span class="kw" style="font-family:var(--mono)">CONSTANT</span> looks like a box, but it's glued shut the instant it's made — its value is set once, in the same line that declares it, using <span class="arrow" style="font-family:var(--mono)">=</span> rather than <span class="arrow" style="font-family:var(--mono)">←</span>, and after that nothing can change it. An ordinary box made with DECLARE stays open for business all program long. Watch the difference below.</p>
+      <div class="board">
+        <div class="decl-code" id="cnCode3"></div>
+        <div class="decl-boxes" id="cnBoxes3"></div>
+        <div class="decl-cap" id="cnCap3">Press either button below to see what each kind of box allows.</div>
+        <div class="step-bar">
+          <button class="btn ghost" id="cnTryConst3" type="button">Try to change Pi anyway</button>
+          <button class="btn" id="cnTryVar3" type="button">Change Price to 12</button>
+        </div>
+      </div>
+      <p class="chips-label">Notice both halves…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Press both buttons and read the caption each time — one box budges, one doesn't.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">CONSTANT Pi = 3.14 sets Pi's value on the spot, for good. DECLARE Price : REAL just reserves the box — Price ← can fill it, and fill it again later, as many times as the program needs.</div>
+        <button class="nudge-btn" data-nudge="n3c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n3c">Pi was fixed at 3.14 the moment it was declared. Asking it to become 3.14159 changes nothing — the box is glued shut, and the caption says so warmly rather than complaining. Price, meanwhile, was declared empty, filled with 10, and can be refilled with 12 whenever the program likes — that's the entire difference between the two keywords.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">MOD and DIV — sharing sweets
+        <span class="disc-sub">17 sweets, 5 friends: how many rounds, what's left?</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Picture 17 sweets and 5 friends. Deal them out one at a time, going round the circle, until you can't give everyone another whole share. <span class="kw" style="font-family:var(--mono)">DIV</span> is the number of full rounds every friend got. <span class="kw" style="font-family:var(--mono)">MOD</span> is whatever's left in your hand once a full round isn't possible any more. Deal the sweets below and watch both numbers settle.</p>
+      <div class="board">
+        <div class="sw-baskets" id="swBaskets4"></div>
+        <div class="sw-readouts" id="swReadouts4">
+          <div class="sw-stat"><span class="sw-stat-label">Sweets dealt</span><span class="sw-stat-val" id="swDealt4">0</span></div>
+          <div class="sw-stat"><span class="sw-stat-label">17 DIV 5 — full rounds each friend got</span><span class="sw-stat-val" id="swDiv4">0</span></div>
+          <div class="sw-stat"><span class="sw-stat-label">17 MOD 5 — sweets left in your hand</span><span class="sw-stat-val" id="swMod4">0</span></div>
+        </div>
+        <div class="step-bar">
+          <button class="btn" id="swDeal4" type="button">Deal a sweet ▸</button>
+          <button class="btn ghost" id="swReset4" type="button">↺ Start over</button>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">Deal the sweets out one each until you can't give a fifth friend a full share any more.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">17 dealt to 5 people: how many full rounds happened, and how many sweets never made it into a complete round?</div>
+        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n4c">3 full rounds happen (15 sweets given out, 3 each) — that's 17 DIV 5 = 3. Then 2 sweets are left with no fifth friend to complete a round — that's 17 MOD 5 = 2. DIV is the rounds; MOD is the remainder. They always come from the same deal.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Predict, then run
+        <span class="disc-sub">same three moves as Discovery 1 — now doing arithmetic</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Three tiny programs. For each one, set your own private guess first — nobody checks it but you — then step it through and see what actually prints. Same DECLARE, ←, OUTPUT moves as Discovery 1; this time the right-hand side does some arithmetic.</p>
+      <div class="board" id="pr-a">
+        <div class="pr-label">Program A</div>
+        <div class="decl-code" id="prCode5a"></div>
+        <label class="pr-guess-label" for="prGuess5a">Your private guess for what OUTPUT shows</label>
+        <input class="pr-guess" id="prGuess5a" type="text" placeholder="e.g. 2" maxlength="8">
+        <div class="term" id="prOut5a"><span class="prompt">output ›</span> <span style="opacity:.5">not run yet</span></div>
+        <button class="btn" id="prRun5a" type="button">Step through it ▸</button>
+      </div>
+      <div class="board" id="pr-b">
+        <div class="pr-label">Program B</div>
+        <div class="decl-code" id="prCode5b"></div>
+        <label class="pr-guess-label" for="prGuess5b">Your private guess for what OUTPUT shows</label>
+        <input class="pr-guess" id="prGuess5b" type="text" placeholder="e.g. 3" maxlength="8">
+        <div class="term" id="prOut5b"><span class="prompt">output ›</span> <span style="opacity:.5">not run yet</span></div>
+        <button class="btn" id="prRun5b" type="button">Step through it ▸</button>
+      </div>
+      <div class="board" id="pr-c">
+        <div class="pr-label">Program C</div>
+        <div class="decl-code" id="prCode5c"></div>
+        <label class="pr-guess-label" for="prGuess5c">Your private guess for what OUTPUT shows</label>
+        <input class="pr-guess" id="prGuess5c" type="text" placeholder="e.g. 3.5" maxlength="8">
+        <div class="term" id="prOut5c"><span class="prompt">output ›</span> <span style="opacity:.5">not run yet</span></div>
+        <button class="btn" id="prRun5c" type="button">Step through it ▸</button>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">MOD and DIV come from the very same sweet-dealing idea in Discovery 4 — one gives the rounds, one gives what's left. The slash / is a different operator again: ordinary division, decimal point and all.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">14 MOD 4 asks "what's left after dealing 14 out in groups of 4?" 14 DIV 4 asks "how many whole groups of 4 fit?" 7 / 2 just divides exactly, decimals allowed, because Average was declared REAL.</div>
+        <button class="nudge-btn" data-nudge="n5c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n5c">14 MOD 4: deal 14 into groups of 4 — three full groups (12) with 2 left over, so the answer is 2. 14 DIV 4: same deal, but this time you want the groups, not the leftover — 3. 7 / 2 doesn't group anything; it just divides, and because Average is REAL the decimal survives: 3.5.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a tenth time</h2>
+    <p>You've gone from reading Cambridge's dialect to running it. You declared boxes, watched values drop in and print out, discovered that a box's shape decides what fits — and that nothing here ever complains, it just points you at a shape that will. You glued a constant shut and reassigned an ordinary box right beside it. You dealt sweets until DIV and MOD stopped being mysterious. And you predicted three tiny programs before running them, which is the single habit every algorithm question from here on rewards.</p>
+    <p class="soft">Whenever you're ready, the next discovery is where boxes start making decisions — the same DECLARE and ← you just used, now with a fork in the road. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="09-the-house-style.html">← Module 9 · The House Style</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 10 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
