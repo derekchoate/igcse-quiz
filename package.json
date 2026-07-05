@@ -4,7 +4,9 @@
   "description": "Quiz to understand where a student is at in their IGCSE journey",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "bddgen && playwright test",
+    "test:e2e:update": "bddgen && playwright test --update-snapshots"
   },
   "repository": {
     "type": "git",
@@ -19,8 +21,10 @@
   },
   "homepage": "https://github.com/derekchoate/igcse-quiz#readme",
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
-    "playwright": "^1.61.1"
+    "playwright": "^1.61.1",
+    "playwright-bdd": "^9.2.0"
   }
 }
