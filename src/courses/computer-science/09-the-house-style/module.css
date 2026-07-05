@@ -63,31 +63,6 @@
 .ts-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px}
 .ts-hint{font-size:14px;color:var(--ink-soft)}
 
-.pair-divider{margin:22px 0 6px;font-family:'Sora',sans-serif;font-size:14px;color:var(--teal);letter-spacing:.3px;text-align:center}
-.pair-howto{font-size:14px;color:var(--ink-soft);margin:0 0 14px;text-align:center}
-/* matching = two parallel columns (pseudocode | meaning), tap-to-pair */
-.pair-board{display:flex;gap:10px;align-items:flex-start}
-.pair-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
-.pair-col-label{font-family:'Sora',sans-serif;font-size:11.5px;color:var(--teal);letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px}
-.pair-code{display:flex;flex-direction:column;gap:8px}
-.pair-slot{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:#141d38;border:1px solid var(--card-edge);border-radius:10px;padding:10px 11px;cursor:pointer;transition:all .22s}
-.pair-slot:hover{border-color:var(--teal)}
-.pair-slot:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.pair-slot .pcline{padding:0;font-size:13px}
-.pair-slot .pair-hint{margin-top:6px;font-size:12px;font-family:'Atkinson Hyperlegible',sans-serif;color:var(--ink-soft)}
-.pair-slot .pair-hint.filled-en{border-top:1px dashed rgba(255,184,77,.35);padding-top:6px;color:var(--glow)}
-.pair-slot.sel{border-color:var(--glow);box-shadow:0 0 0 1px rgba(255,184,77,.35)}
-.pair-slot.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.1);box-shadow:0 0 0 2px rgba(255,184,77,.45)}
-.pair-slot.filled{border-color:var(--glow);background:rgba(255,184,77,.06);cursor:default}
-.pair-bank{display:flex;flex-direction:column;gap:8px}
-.pair-chip{font-family:'Atkinson Hyperlegible',sans-serif;font-size:13px;line-height:1.4;text-align:left;background:#121A32;border:1px solid var(--card-edge);color:var(--ink);border-radius:10px;padding:10px 11px;cursor:grab;transition:border-color .2s,background .2s,color .2s,opacity .2s;touch-action:none;user-select:none;-webkit-user-select:none}
-.pair-chip:hover{border-color:var(--teal)}
-.pair-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.pair-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.12);color:var(--glow)}
-.pair-chip.dragging{opacity:.3;cursor:grabbing}
-.pair-chip.used{display:none}
-.pair-ghost{position:fixed;left:0;top:0;z-index:200;pointer-events:none;transition:none;opacity:.96;color:var(--glow);background:#1E2A4E;border-color:var(--glow);box-shadow:0 10px 28px rgba(0,0,0,.55)}
-
 /* ── D4 renaming ── */
 .rn-cryptic{background:#141d38;border:1px solid var(--card-edge);border-radius:10px;padding:10px 12px;margin-bottom:8px}
 .rn-rows{display:flex;flex-direction:column;gap:10px;margin:14px 0}

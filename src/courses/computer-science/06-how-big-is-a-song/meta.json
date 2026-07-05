@@ -2,5 +2,5 @@
   "number": 6,
   "slug": "06-how-big-is-a-song",
   "title": "How Big Is a Song?",
-  "uses": ["chips"]
+  "uses": ["chips","cycler"]
 }

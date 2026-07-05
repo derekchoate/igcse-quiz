@@ -7,19 +7,6 @@
 
 function commas(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",");}
 
-/* ---------- cycler: click steps through a preset list of values ---------- */
-function makeCycler(btnEl,values,formatFn,onChange){
-  let i=0;
-  function render(){btnEl.textContent=formatFn(values[i]);}
-  btnEl.addEventListener("click",()=>{
-    i=(i+1)%values.length;
-    render();
-    onChange(values[i]);
-  });
-  render();
-  return {value:()=>values[i]};
-}
-
 /* ═══ D1: the ladder of units ═══ */
 const LADDER=[
   {name:"bit"},

@@ -11,26 +11,10 @@
 .pile-caption{text-align:center;font-family:'Sora',sans-serif;font-size:15px;color:var(--ink-soft);margin-top:14px;min-height:26px;transition:color .4s}
 .pile-caption b{color:var(--glow)}
 
-/* ---------- the trading machine ---------- */
-.machine{display:flex;justify-content:center;gap:8px;flex-wrap:nowrap}
-.cup{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:56px}
-.cup-plaque{font-family:'Sora',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;line-height:1.3;min-height:30px;display:flex;align-items:flex-end;transition:color .5s}
-.cup-plaque.reveal{color:var(--glow)}
-.cup-tokens{width:52px;min-height:56px;border:2px solid #33406B;border-radius:10px 10px 14px 14px;background:#1C2748;
-  display:flex;flex-wrap:wrap;gap:2px;align-content:flex-end;justify-content:center;padding:5px 3px;transition:border-color .3s,box-shadow .3s}
-.cup.got .cup-tokens{border-color:var(--glow);box-shadow:0 0 14px rgba(255,184,77,.45)}
+/* ---------- bean token (shared: makeTrader cups + beanGrid benches) ---------- */
+/* Left here, not in the trader kit: `.tok` is also used by the lesson-local
+   beanGrid on the D3/D4 benches, so it isn't purely a trader-widget style. */
 .tok{width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 60%, var(--glow-deep))}
-.cup-digit{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--ink);transition:color .3s}
-.cup-sub{font-family:'Sora',sans-serif;font-size:11px;color:var(--ink-soft);min-height:16px;text-align:center}
-.machine-lines{text-align:center;margin-top:14px;font-family:'Sora',sans-serif}
-.machine-lines .reads{font-size:15px;color:var(--ink-soft)}
-.machine-lines .reads b{font-size:24px;color:var(--ink);letter-spacing:6px;margin-left:6px}
-.machine-lines .sum{font-size:14px;color:var(--ink-soft);margin-top:4px}
-.machine-lines .sum b{color:var(--glow)}
-.trade-fly{position:fixed;z-index:60;width:13px;height:13px;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 60%, var(--glow-deep));
-  box-shadow:0 0 12px rgba(255,184,77,.8);opacity:0;transition:transform .45s cubic-bezier(.34,0,.2,1),opacity .3s ease}
-@media (max-width:520px){.cup{min-width:48px}.cup-tokens{width:46px}.machine{gap:5px}}
 
 /* ---------- the unpacking benches (D3 / D4) ---------- */
 .bench{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:18px 16px;margin:14px 0}
