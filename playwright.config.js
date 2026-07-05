@@ -39,8 +39,8 @@ module.exports = defineConfig({
     command: "node tools/serve.mjs",
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
-    // SITE_DIR=. serves the current committed files (baseline capture);
-    // SITE_DIR=dist will serve the built output after the refactor lands.
-    env: { SITE_DIR: process.env.SITE_DIR || ".", PORT: String(PORT) }
+    // Serve the built output by default (modules are compiled from src/ into
+    // dist/). Override SITE_DIR to serve a different tree.
+    env: { SITE_DIR: process.env.SITE_DIR || "dist", PORT: String(PORT) }
   }
 });

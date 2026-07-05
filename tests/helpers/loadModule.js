@@ -1,7 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 
-const MODULES_DIR = path.resolve(__dirname, "..", "..", "computer-science");
+// The built, self-contained modules (compiled from src/ by tools/build.mjs).
+// `pretest` runs the build, so these exist before Jest loads them.
+const MODULES_DIR = path.resolve(__dirname, "..", "..", "dist", "computer-science");
 
 /**
  * Loads a module HTML file's real markup into the jsdom document and
