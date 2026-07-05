@@ -1,0 +1,148 @@
+/* Module 13 — The Journey of a Message: lesson-specific styling only.
+   No board/matcher/walk kit is loaded (see meta.uses: ["chips"]), so the
+   `.board` container, button look (`.loop-btn`) and small status line
+   (`.fork-note`) are carried here rather than pulled from a kit — same
+   choice Modules 9-12 made where no shared kit covers the pattern yet.
+   The packet-card/route-lane/receiver-slot visuals and the two hand-rolled
+   tap+drag sorters (fragment→label in D1, statement→bin in D5) are new to
+   this module and are hand-rolled below rather than as a shared kit (rule
+   of two — nothing else needs them yet). Route lanes stack vertically
+   (full-width horizontal tracks, one above another) rather than sitting
+   side by side on a wide map, precisely so the "different routes" idea
+   reads clearly at narrow (~380px) widths without any horizontal overflow. */
+
+:root{
+  --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+}
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+
+/* ── shared button look (Step/Send/Release/Resend etc.) ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn.ghost.on{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.loop-btn.lever{background:rgba(255,184,77,.1);border-color:var(--glow);color:var(--glow);font-weight:600}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.loop-btn[hidden]{display:none}
+
+/* ── D1: fragment pool + three label bins ── */
+.frag-pool{display:flex;flex-direction:column;gap:9px;margin-bottom:16px}
+.frag-chip{
+  font-family:var(--mono);font-size:14px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:11px 14px;cursor:pointer;text-align:left;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.frag-chip:hover{border-color:var(--teal)}
+.frag-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.frag-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.frag-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.frag-chip.dragging{opacity:.3}
+.frag-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.label-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:520px){.label-bins{grid-template-columns:1fr 1fr 1fr}}
+.label-bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:80px;transition:border-color .2s, background .2s}
+.label-bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.label-bin.filled{border-style:solid;border-color:rgba(123,196,180,.5)}
+.label-bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:13px;letter-spacing:.4px;
+  text-transform:uppercase;color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:center;
+}
+.label-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.label-bin-body{font-size:13px;color:var(--ink);line-height:1.5;min-height:1.2em}
+
+/* ── D2: shredder input, packet tray, route lanes, receiver ── */
+.shred-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-bottom:14px}
+.shred-label{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal)}
+#msgInput2{
+  font-family:'Atkinson Hyperlegible',sans-serif;font-size:15px;color:var(--ink);
+  background:#0E1730;border:1.5px dashed var(--teal);border-radius:10px;
+  padding:9px 12px;min-width:0;flex:1 1 200px;max-width:100%;
+}
+#msgInput2:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+.packet-tray{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:6px 0 14px}
+.packet-card{display:flex;flex-direction:column;min-width:96px;border-radius:10px;overflow:hidden;border:1px solid var(--card-edge)}
+.packet-part{font-family:var(--mono);font-size:12px;padding:6px 8px;text-align:center}
+.packet-header{background:rgba(123,196,180,.14);color:var(--teal)}
+.packet-payload{background:#1A2440;color:var(--ink);font-size:14px;font-weight:600}
+.packet-trailer{background:rgba(255,184,77,.1);color:var(--glow);font-size:11px}
+
+.route-lanes{display:flex;flex-direction:column;gap:14px;margin:16px 0}
+.route-lane{display:flex;flex-direction:column;gap:4px}
+.route-lane-label{font-family:'Sora',sans-serif;font-size:11.5px;color:var(--ink-soft);letter-spacing:.3px;text-transform:uppercase}
+.route-track{position:relative;height:34px;background:#0E1730;border:1px dashed var(--card-edge);border-radius:999px;padding:0 6px}
+.route-packet{
+  display:inline-flex;align-items:center;justify-content:center;
+  position:relative;top:6px;margin-right:6px;
+  width:24px;height:24px;border-radius:50%;font-size:10px;font-family:var(--mono);
+  background:var(--card);border:1.5px solid var(--teal);color:var(--teal);
+  transition:transform .3s, background .3s, color .3s, border-color .3s;
+}
+.route-packet.arrived{background:var(--glow);border-color:var(--glow);color:#3A2606;transform:translateX(6px)}
+
+.receiver{margin-top:14px}
+.receiver-slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px}
+.receiver-slot{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  min-width:52px;padding:8px 6px;border-radius:10px;
+  background:#0E1730;border:1px solid var(--card-edge);
+  transition:border-color .3s, background .3s;
+}
+.receiver-slot.filled{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.slot-num{font-family:'Sora',sans-serif;font-size:10.5px;color:var(--ink-soft)}
+.slot-val{font-family:var(--mono);font-size:13px;color:var(--ink)}
+.reassembly-line{font-family:var(--mono);font-size:14px;color:var(--ink);text-align:center;letter-spacing:.5px;min-height:1.4em}
+
+/* ── D3: congestion slider ── */
+.congestion-control{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin-bottom:14px}
+.congestion-control input[type="range"]{width:min(220px,60vw);accent-color:var(--teal)}
+.congestion-val{font-family:var(--mono);font-size:14px;color:var(--teal);min-width:3.5em;text-align:right}
+
+/* ── D4: drop toggle ── */
+#dropToggle4{margin-right:8px}
+
+/* ── D5: reason pool + two bins ── */
+.reason-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:16px}
+.reason-chip{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:10px 14px;cursor:pointer;max-width:280px;text-align:left;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.reason-chip:hover{border-color:var(--teal)}
+.reason-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.reason-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.reason-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.reason-chip.dragging{opacity:.3}
+.reason-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:480px){.bins{grid-template-columns:1fr 1fr}}
+.bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:96px;transition:border-color .2s, background .2s}
+.bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:13px;letter-spacing:.4px;
+  text-transform:uppercase;color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:center;
+}
+.bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.bin-list{display:flex;flex-direction:column;gap:6px;min-height:1px}
+.bin-item{font-size:13.5px;color:var(--ink);background:rgba(255,184,77,.1);border-radius:8px;padding:7px 9px}
+
+/* ── shared chip/nudge tweaks ── */
+.chip{font-size:14.5px}
+.nudge code{font-family:var(--mono);font-size:14px;color:var(--ink)}

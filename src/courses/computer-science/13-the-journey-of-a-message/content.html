@@ -1,0 +1,182 @@
+
+  <section class="hero">
+    <h1>You send a photo. <span class="lit">It gets torn to pieces, the pieces travel different roads, and it still arrives whole.</span></h1>
+    <p>Every message you've ever sent — a chat, a photo, a voice note — gets sliced into small numbered pieces called <strong>packets</strong> before it ever leaves your device. Each packet can take a completely different route across the network, arrive in a different order, and the receiving end still puts your message back together perfectly. Tonight you build the shredder that does the slicing, release the pieces onto a map of routes, and find out exactly why none of this ever goes wrong.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Send as many messages as you like — nothing here ever runs out or gets marked wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — anatomy of one packet ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Anatomy of one packet
+        <span class="disc-sub">every packet has exactly three parts — match the label to the part</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's one packet, pulled out of a message that got split into three pieces. Every packet, no matter what network it's on, has exactly three parts in this order: a <strong>header</strong>, a <strong>payload</strong>, and a <strong>trailer</strong>. The header is not a whole address book — it only ever carries three things: the destination address, this packet's number, and the sender's own address (so a reply knows where to go). The payload is just this packet's raw slice of the message — on its own it barely means anything. The trailer marks "that's the end of this packet" and carries a check used later to spot damage. Read the three fragments below, then drag or tap each one onto the label it belongs to.</p>
+      <div class="board">
+        <div class="frag-pool" id="fragPool1"></div>
+        <div class="label-bins" id="labelBins1"></div>
+        <p class="fork-note" id="status1" aria-live="polite">Tap a fragment to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">The fragment reading "To: Receiver's phone · Packet 2 of 3 · From: Sender's phone" is the <strong>header</strong> — destination, packet number, sender's own address, nothing else. The fragment reading "ELLO" — a bare slice of text with no other information attached — is the <strong>payload</strong>. The fragment reading "End of packet · carries a damage check" is the <strong>trailer</strong>. Three parts, three jobs, every single packet.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Ask of each fragment: does it say who it's for and where it's from (that's the header), is it just a raw chunk of the message with nothing else attached (that's the payload), or does it mark an ending and a damage check (that's the trailer)?</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">The header is the only fragment that mentions addresses or a packet number at all — that's how you'll always spot it, in any packet, on any network.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — release the packets ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Release the packets
+        <span class="disc-sub">type a message, shred it, and watch the pieces take different roads</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Type a short message below — or leave the example — then shred it into packets. Each packet is numbered, and carries only its own small slice of the message as its payload (notice how meaningless a single slice looks on its own). Release them, and watch: this is <strong>packet switching</strong> — a router controls the route each packet takes, and different packets really can travel different paths to the same destination, not one fixed road every time. The receiving end sits and waits, then rebuilds your message using the packet numbers, not the order anything arrived in.</p>
+      <div class="board">
+        <div class="shred-row">
+          <label class="shred-label" for="msgInput2">Your message</label>
+          <input type="text" id="msgInput2" maxlength="24" value="PHOTO INCOMING" autocomplete="off" spellcheck="false">
+          <button class="loop-btn primary" id="shredBtn2" type="button">Shred it ▸</button>
+        </div>
+        <div class="packet-tray" id="tray2" aria-live="polite"></div>
+        <button class="loop-btn primary" id="releaseBtn2" type="button" hidden>Release the packets ▶</button>
+        <div class="route-lanes" id="lanes2" hidden></div>
+        <div class="receiver" id="receiver2" hidden>
+          <p class="fork-note">Arriving at the receiver, in whatever order they turn up:</p>
+          <div class="receiver-slots" id="slots2"></div>
+          <p class="reassembly-line" id="reassembled2" aria-live="polite"></p>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Leave the example message "PHOTO INCOMING" as it is and press Shred it — it splits into four packets, each carrying its own slice ("PHOT", "O IN", "COMI", "NG") plus a header saying which number it is. Press Release the packets and watch all four travel their own lane to the receiver. They arrive, drop into the slot matching their packet number, and once slot 4 fills in the full message reads "PHOTO INCOMING" again — rebuilt from four separately-travelling pieces.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Watch the lanes, not just the receiver — notice each packet is drawn taking a different path across the map, not all four riding the same line.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Look at a single payload slice on its own, before it arrives — "COMI" on its own tells you nothing about where it belongs. It's the packet number in the header, not the payload, that puts it back in the right place.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — out of order on purpose ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Out of order on purpose
+        <span class="disc-sub">jam one route with a slider — reassembly still works</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Fixed message this time: "CALL ME SOON", split into three packets. Route 2 has a congestion dial — the busier it gets, the longer packet 2 takes to arrive. Slide it, press Send, and watch the <em>arrival order</em> scramble as congestion rises — while the <em>reassembled message</em> underneath stays exactly right every time, because reassembly reads the packet numbers, not the order things showed up in.</p>
+      <div class="board">
+        <div class="congestion-control">
+          <label class="shred-label" for="congestionSlider3">Congestion on Route 2</label>
+          <input type="range" id="congestionSlider3" min="0" max="100" step="10" value="0">
+          <span class="congestion-val" id="congestionVal3">0%</span>
+        </div>
+        <button class="loop-btn primary" id="sendBtn3" type="button">Send the packets ▶</button>
+        <p class="fork-note" id="arrivalLog3" aria-live="polite">Arrival order: —</p>
+        <p class="reassembly-line" id="reassembled3" aria-live="polite">Message so far: · · ·</p>
+      </div>
+      <p class="chips-label">Try sending at…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Leave the slider at 0% and press Send — all three packets arrive in order, 1, 2, 3, and the message reads "CALL ME SOON" straight away. Now drag the slider to 100% and press Send again — packet 2 gets stuck behind the congestion and arrives last, so the arrival order reads 1, 3, 2. The message still reads "CALL ME SOON" the instant packet 2 turns up, because slot 2 was always waiting for packet number 2, not for whatever arrived second.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Watch the arrival order line and the message line separately — one of them scrambles as congestion rises, and the other one doesn't.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Slide congestion all the way to 100% before pressing Send. Packet 2 will be the last to arrive — but check which slot it drops into once it does.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — a packet goes missing ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">A packet goes missing
+        <span class="disc-sub">what happens when one piece just doesn't turn up</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Another fixed message: "BRING SNACKS", split into three packets. This time, flip the switch below to make packet 2 vanish somewhere on its route — it happens for real, on real networks, all the time. Press Send and see what the receiving end actually does about a gap in the packet numbers. (There's a whole module coming up on exactly this — consider this a first look.)</p>
+      <div class="board">
+        <button class="loop-btn ghost" id="dropToggle4" type="button" aria-pressed="false">Make packet 2 go missing</button>
+        <button class="loop-btn primary" id="sendBtn4" type="button">Send the packets ▶</button>
+        <div class="receiver" id="receiver4">
+          <div class="receiver-slots" id="slots4"></div>
+          <p class="fork-note" id="gapNote4" aria-live="polite"></p>
+        </div>
+        <button class="loop-btn lever" id="resendBtn4" type="button" hidden>Resend packet 2</button>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Switch on "Make packet 2 go missing" and press Send — packets 1 and 3 arrive and drop into their slots, but slot 2 stays empty. The note underneath reads the gap for what it is: packet 2 of 3 never showed up, so the receiving end asks for it again. Press Resend packet 2 — it arrives, drops into slot 2, and "BRING SNACKS" reads whole.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Look at what the receiving end can actually see: not "a packet is missing" out of nowhere, but a specific gap — it has packet 1 and packet 3, and no packet 2. That gap is exactly what gives it away.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Once you've pressed Send with the switch on, the Resend button appears — it's always right there, no rush. Press it whenever you're ready to see the message complete itself.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 — why bother? ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Why bother?
+        <span class="disc-sub">sort four true statements into benefit or drawback</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>All that slicing, routing and reassembling costs something, and buys something too. Four true statements about packet switching sit below. Tap one, then tap the bin you think it belongs in — Benefit, or Drawback. Nothing here is ever marked wrong, a mismatched pick just bounces back so you can try the other bin.</p>
+      <div class="board">
+        <div class="reason-pool" id="reasonPool5"></div>
+        <div class="bins" id="bins5"></div>
+        <p class="fork-note" id="status5" aria-live="polite">Tap a statement to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">"If one route is blocked or busy, packets can simply go a different way" — that's the network coping with damage or traffic, so it's a Benefit. "The receiving end has to do extra work, waiting for and reordering packets that took different routes" — that's a real cost paid at the far end, so it's a Drawback.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Ask: does this statement describe the network coping well with something (Benefit), or extra work / extra waiting that packet switching introduces (Drawback)?</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">"No single line has to be reserved for one message the whole time it's sending" is about sharing the network efficiently — that's a Benefit. "Extra hops between routers can add delay" is a genuine cost in time — that's a Drawback.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirteenth time</h2>
+    <p>You just took apart the trick that makes every photo, chat and call survive a trip across a network built from thousands of unreliable little hops. You labelled the three parts every packet carries, built a shredder and watched pieces of your own message travel genuinely different routes, cranked congestion up until arrival order scrambled and watched reassembly shrug it off, met a missing packet and watched the gap get noticed and fixed, and sorted out exactly what packet switching costs against what it buys.</p>
+    <p class="soft">Whenever you're ready, the next discovery picks up right where this one leaves off — what happens when a packet arrives, but something inside it got quietly corrupted along the way. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="12-round-and-round.html">← Module 12 · Round and Round</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 13 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
