@@ -1,0 +1,144 @@
+  <section class="hero">
+    <h1>An algorithm you can <span class="lit">walk through with your finger.</span></h1>
+    <p>An algorithm is just a plan — a set of steps in order. Written out as sentences it can get slippery, so there's an older, friendlier way to show one: a map made of shapes. Each shape has a fixed job, arrows join them in order, and you follow the path like a token moving across a board. Tonight you'll learn the five shapes, then set a glowing token walking through real charts — watching it loop, branch, and stop — until reading one feels like reading a street sign.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Step the token, feed it numbers, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Five shapes, five jobs
+        <span class="disc-sub">match each shape to the one thing it means</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A flowchart uses exactly five kinds of symbol, and the whole trick is that <em>the shape tells you the job</em> before you've read a single word inside it. Here are all five. Give each one the job it does — a wrong pick just points you back, nothing locks.</p>
+      <div class="board">
+        <div class="shape-list" id="shapeList1"></div>
+      </div>
+      <p class="chips-label">Name every shape…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Two of them are about data crossing the edge of the system — one about the algorithm starting or ending, one about a question. The rounded pill sits at the very top and bottom of every chart.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Pill = start/stop. Plain rectangle = a step that does something. Diamond = a yes/no question (it's the only shape with two arrows leaving it). Slanted box = data in or out. Arrow = the order to follow.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Walk the token
+        <span class="disc-sub">step through a guessing chart and watch it loop</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's a whole algorithm as a map: a number-guessing game where the hidden number is <b>7</b>. The chart already has three guesses lined up to feed itself — <b>5</b>, then <b>9</b>, then <b>7</b>. Tap the chart and follow the glowing token from shape to shape. Watch what happens when a guess is wrong: the path bends back up and goes round again.</p>
+      <div class="board" id="walk2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Just keep pressing Step and read the panel underneath. The token can only ever be on one shape at a time — that's the whole idea.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Each time a guess isn't 7, the diamond sends the token down the "no" arrow, out through "try again", and back up to read the next guess. That returning arrow is a <em>loop</em> — one pass through isn't the end.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">You drive the diamond
+        <span class="disc-sub">same chart, but this time you feed in the guesses</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Exact same map — but now the guesses are yours. Each time the token lands on the "read a guess" shape, <em>you</em> pick the number. Feed it anything that isn't 7 and watch the diamond send you round the loop again; feed it 7 and the path finally reaches Stop. The chart never changes — only your input does, and the input decides the path.</p>
+      <div class="board" id="walk3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">The diamond doesn't get to choose freely — it just checks your guess against 7 and follows the matching arrow. Change the input, change the path.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Want to reach Stop? Feed it 7. Want to see the loop? Feed it anything else first — there's no cost either way.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The repair shop
+        <span class="disc-sub">two shapes are missing — fit the pieces that make it run</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>This chart should tell you whether a number is positive, but two shapes have gone missing — the dashed gaps marked ① and ② below. Use the two pickers to choose a candidate piece for each gap. Choose pieces that let the chart actually run from top to bottom, and it snaps together on its own. Nothing to submit; it just clicks into place when both fit.</p>
+      <div class="board">
+        <div class="repair-chart" id="repair4"></div>
+        <div class="repair-status" id="repairStatus4" aria-live="polite"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">Trace what the chart does before the first gap — what does it have in hand?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">It's just read a number and hasn't tested it yet. What kind of shape must come next — one that can send the path two different ways?</div>
+        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4c">A diamond — the chart needs to <em>decide</em> something ("is n greater than 0?") before its two arrows make sense. The second gap is what to say when the answer is "no".</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Predict, then press
+        <span class="disc-sub">call the ending before you walk it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's a small chart that keeps doubling a number. It starts at <b>3</b> and keeps going while the number is under <b>20</b>. Before you tap anything: what's the <em>last</em> number it prints? Say it to yourself — or jot it in the box, just for you, nothing gets checked — then walk the token and see whether the loop stops where you thought.</p>
+      <div class="board">
+        <label for="predict5" style="display:block;font-family:'Sora',sans-serif;font-size:13px;color:var(--teal);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Your call (optional, just for you)</label>
+        <input id="predict5" type="text" inputmode="numeric" placeholder="the last number it prints…"
+          style="width:100%;font:inherit;font-family:'Atkinson Hyperlegible',sans-serif;font-size:15.5px;background:#1A2440;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:10px 12px;margin-bottom:8px">
+        <div id="walk5"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">The check "is it still under 20?" happens <em>before</em> each doubling. So the last number printed is the first one that fails that check — it can end up bigger than 20.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">3 → 6 → 12 → 24. At 24 the question "under 20?" is finally "no", so the loop lets go and prints. Walk it and check.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — an eighth time</h2>
+    <p>You now read a flowchart the way you read a street map. You learned the five shapes and matched each to its one job, walked a token through a guessing game and watched a wrong answer send it round the loop, drove that same chart yourself and saw your input pick the path, rebuilt a broken chart until it snapped together, and called the ending of a doubling loop before you ever pressed a button. Tracing an algorithm with your finger — that's a skill programmers lean on for the rest of their lives.</p>
+    <p class="soft">Whenever you're curious, the next discovery is the exact dialect Cambridge uses to <em>write</em> these algorithms down in words — tidier than real code, and about to feel very readable now that you can already see the shapes underneath it. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="07-the-recipe-idea.html">← Module 7 · The Recipe Idea</a>
+    <a class="nav-link next" href="09-the-house-style.html">Module 9 · The House Style →</a>
+  </nav>
+
+  <footer>Module 8 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>

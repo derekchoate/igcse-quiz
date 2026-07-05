@@ -1,0 +1,58 @@
+/* The byte board styling now comes from the shared byte kit (byte.css).
+   Only the module-specific board extra remains here; everything below is the
+   signature encode/decode interaction. */
+
+/* ---------- board extra (not in byte.css): case-bit highlight for D3 ---------- */
+.case-bulb .bulb{outline:2px solid var(--teal);outline-offset:2px}
+
+/* ---------- readout ---------- */
+.readout{display:flex;justify-content:center;gap:22px;margin-top:14px;flex-wrap:wrap}
+.readout .cell{text-align:center;font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft)}
+.readout .cell b{display:block;font-size:22px;color:var(--ink);font-weight:700;margin-top:2px;transition:color .3s}
+.readout .cell.letter-cell b{font-size:30px;letter-spacing:1px}
+.readout .cell.matched b{color:var(--glow);text-shadow:0 0 18px rgba(255,184,77,.5)}
+
+/* ---------- ASCII neighbourhood map ---------- */
+.ascii-map{position:relative;height:30px;background:#0D1426;border:1px solid var(--card-edge);border-radius:10px;margin:16px 0 6px;overflow:hidden}
+.ascii-band{position:absolute;top:0;bottom:0;background:rgba(123,196,180,.22)}
+.ascii-band.digits{left:18.8%;width:3.5%}
+.ascii-band.capitals{left:25.5%;width:9.8%}
+.ascii-band.lower{left:38%;width:9.8%}
+.ascii-marker{position:absolute;top:-2px;bottom:-2px;width:3px;background:var(--glow);box-shadow:0 0 10px rgba(255,184,77,.7);transition:left .25s;left:0}
+.ascii-legend{text-align:center;font-family:'Sora',sans-serif;font-size:12px;color:var(--ink-soft);margin-bottom:10px}
+
+/* ---------- text input ---------- */
+.text-input{width:100%;font:inherit;font-family:'Sora',sans-serif;font-size:18px;background:#121A32;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:10px 14px}
+.text-input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* ---------- encode row ---------- */
+.encode-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;justify-content:center}
+.encode-col{width:70px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.encode-char{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--glow)}
+.encode-col .mini-bulbs{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;max-width:64px}
+.encode-col .mini.small{width:9px;height:9px}
+.encode-code{font-family:'Sora',sans-serif;font-size:11px;color:var(--ink-soft)}
+.encode-toobig{font-size:11px;color:var(--teal);text-align:center;max-width:64px}
+
+/* ---------- decode / mini bulbs ---------- */
+.mini-bulbs{display:flex;gap:4px}
+.mini{width:22px;height:22px;border-radius:50%;background:#1C2748;border:1.5px solid #33406B}
+.mini.on{background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 60%);border-color:var(--glow);box-shadow:0 0 10px rgba(255,184,77,.55)}
+.decode-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0;border-bottom:1px dashed #28345A}
+.decode-row:last-of-type{border-bottom:none}
+.decode-val{font-family:'Sora',sans-serif;color:var(--ink-soft);font-size:14px;min-width:56px}
+.letter-pick{font:inherit;font-family:'Sora',sans-serif;font-size:17px;background:#121A32;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:8px 12px}
+.letter-pick.locked{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow);pointer-events:none}
+.alphabet{margin:16px 0;padding:14px 16px;background:#121A32;border-radius:12px;font-family:'Sora',sans-serif;font-size:13.5px;color:var(--ink-soft);line-height:2;letter-spacing:.3px}
+.alphabet b{color:var(--ink)}
+.decoded-word{font-family:'Sora',sans-serif;font-size:30px;font-weight:700;letter-spacing:10px;text-align:center;margin:18px 0 6px;min-height:44px;color:var(--glow);text-shadow:0 0 26px rgba(255,184,77,.4)}
+.decode-note{display:none;text-align:center;color:var(--teal);font-size:16.5px}
+.decode-note.shown{display:block}
+.sub-label{font-family:'Sora',sans-serif;font-size:14px;color:var(--teal);margin:22px 0 4px;text-transform:uppercase;letter-spacing:.6px}
+.sub-label:first-child{margin-top:0}
+
+/* ---------- action buttons ---------- */
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.action-btn{font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);background:#22305A;border:1px solid var(--card-edge);border-radius:999px;padding:10px 20px;cursor:pointer}
+.action-btn:hover{border-color:var(--teal)}
+.action-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}

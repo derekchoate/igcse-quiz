@@ -1,0 +1,178 @@
+  <section class="hero">
+    <h1>A byte once spelled YOU. Here's <span class="lit">the system the whole world agreed on.</span></h1>
+    <p>Numbers standing for letters isn't new — you did that in Module 1. What's new is that every computer on Earth uses the exact same numbering, agreed decades ago, so a byte sent from one machine means the same letter on any other. It's called a character set, and by the end you'll type on a real keyboard and watch the bytes light themselves — including the oddly satisfying trick that separates a capital letter from its lowercase twin by exactly one bulb.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip switches, follow curiosity, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">First: why everyone has to agree
+        <span class="disc-sub">the same byte, two different letters</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Flip a few bulbs and you get a number — that part's settled. But a number only becomes a <i>letter</i> if whoever reads it agrees on the same table. Decades ago, different machines used different numbering for letters, and nobody had told them to agree. Below is one byte and two rival codebooks reading it at once.</p>
+      <div class="board">
+        <div class="bulb-row" id="row1"></div>
+        <div class="readout">
+          <div class="cell letter-cell">Card A says<b id="cardA1">·</b></div>
+          <div class="cell letter-cell">Card B says<b id="cardB1">·</b></div>
+        </div>
+      </div>
+      <p class="soft">Card A is ASCII — the table everyone eventually agreed on. Card B is a rival's table, from before that agreement. Try values from 65 to 90 and watch them disagree.</p>
+      <p class="chips-label">Keep comparing…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Set the byte to 72 — that's ASCII's H. Now check what Card B says it is.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Try 65 too. Card A calls it A. What does Card B call it?</div>
+        <button class="nudge-btn" data-nudge="n1c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1c">Both cards see the exact same bulbs. The letter only exists because of which table reads it — that's the whole problem the rest of this module solves.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The ASCII neighbourhood
+        <span class="disc-sub">digits, capitals and lowercase each keep to their own street</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>ASCII isn't a random list — it's a street map. Digits live in one stretch of numbers, capital letters in another, lowercase in a third, with gaps for punctuation in between. Once you know the edges of each neighbourhood, you can predict what kind of character a byte holds before you even look it up.</p>
+      <div class="board">
+        <div class="bulb-row" id="row2"></div>
+        <div class="ascii-map"><span class="ascii-band digits"></span><span class="ascii-band capitals"></span><span class="ascii-band lower"></span><span class="ascii-marker" id="asciiMarker"></span></div>
+        <p class="ascii-legend">digits · capitals · lowercase, left to right</p>
+        <div class="readout">
+          <div class="cell letter-cell">character<b id="char2">·</b></div>
+          <div class="cell" id="hood2">neighbourhood<b>—</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Find a home in…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Three neighbourhoods, three ranges. Digits are the smallest block — try values just under 60.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Digits run 48 to 57, capitals 65 to 90, lowercase 97 to 122. Land anywhere inside a range and that whole neighbourhood counts.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">One bulb between A and a
+        <span class="disc-sub">the case bit, caught in the act</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's the trick that makes ASCII genuinely elegant: a capital letter and its lowercase twin are exactly one bulb apart — the one worth 32, ringed in teal below. Set any capital, light that single bulb, and watch it become lowercase without touching anything else.</p>
+      <div class="board">
+        <div class="bulb-row" id="row3"></div>
+        <div class="readout"><div class="cell letter-cell">character<b id="char3">A</b></div></div>
+      </div>
+      <p class="chips-label">Prove the case bit…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Set any capital letter, then find the one bulb worth 32 — try switching just that one.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">A is 65 (01000001). Light the 32-bulb too and the total becomes 97 — which is lowercase a. Same letter, one different bulb.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">128 isn't enough
+        <span class="disc-sub">type something ASCII has never seen</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>ASCII has exactly 128 slots — plenty for English letters, digits and punctuation, and not one slot more. Type an ordinary letter below and watch its number sit comfortably inside that range. Then try a character ASCII was never built for, and watch it simply run out of room. That gap is why Unicode exists — same idea, just with far more slots.</p>
+      <div class="board">
+        <input type="text" id="d4input" class="text-input" maxlength="4" placeholder="type a character…" aria-label="character to check">
+        <div class="btn-row">
+          <button class="action-btn" id="fillAccent" type="button">type é</button>
+          <button class="action-btn" id="fillHan" type="button">type 中</button>
+        </div>
+        <div class="readout">
+          <div class="cell letter-cell">character<b id="d4char">·</b></div>
+          <div class="cell" id="d4cell">code point<b id="d4code">—</b></div>
+        </div>
+        <p class="soft" id="d4verdict"></p>
+      </div>
+      <p class="chips-label">Along the way, find…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">Type an ordinary letter first and check its number — comfortably under 128.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Now use one of the buttons above. Its number won't fit in a single ASCII byte at all — that's exactly the wall Unicode was built to knock down. It's still bytes underneath, just more of them per character.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Write something. Read something.
+        <span class="disc-sub">encode your own word, then decode a message left for you</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Time to use the wire both directions. Type any word up top and watch it turn into bytes, live — no checking, this bit's just yours. Below, someone left you a message the same way — five bytes, already lit. Read each one's total, find its letter, and see what it says.</p>
+      <div class="sub-label">write something</div>
+      <div class="board">
+        <input type="text" id="encodeInput" class="text-input" maxlength="12" placeholder="type a word…" aria-label="word to encode">
+        <div class="encode-row" id="encodeRow"></div>
+      </div>
+      <div class="sub-label">read something</div>
+      <div class="alphabet" id="alpha"></div>
+      <div class="board" id="decodeBoard"></div>
+      <div class="decoded-word" id="decodedWord">· · · · ·</div>
+      <div class="decode-note" id="decodeNote">That's not just a nice word — you decoded real ASCII to read it.</div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Add up only the lit bulbs in a row, same trick as always.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">The first row's lit values are 64 + 16 + 2 + 1 — that's 83, and 83 is the code for S.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a fourth time</h2>
+    <p>Twenty minutes ago, ASCII was probably just a word you'd half-heard. Now you've caught two computers disagreeing over a single byte, mapped the neighbourhoods of an entire character set, isolated the exact bulb that separates upper and lower case, watched ASCII run clean out of room, and used the wire both ways — your own word out, a message back in.</p>
+    <p class="soft">Whenever you're curious, the next discovery is where pictures and sound hide inside these same kinds of numbers. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="03-switch-arithmetic.html">← Module 3 · Switch Arithmetic</a>
+    <a class="nav-link next" href="05-pictures-and-sound-from-numbers.html">Module 5 · Pictures & Sound from Numbers →</a>
+  </nav>
+
+  <footer>Module 4 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>

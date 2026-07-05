@@ -1,0 +1,13 @@
+/* ---------- challenge chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
+.chip{
+  font-family:'Sora',sans-serif;font-size:15px;
+  padding:9px 16px;border-radius:999px;
+  background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);
+  transition:all .4s;
+}
+.chip.hit{
+  background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow);
+}
+.chip.hit::after{content:" ✦"}
+.chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}

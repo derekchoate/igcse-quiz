@@ -42,6 +42,13 @@ http
 
     fs.readFile(filePath, (err, data) => {
       if (err) {
+        // Root doubles as a health check for the test runner's readiness probe:
+        // a course tree may have no index.html (e.g. dist before index generation),
+        // so "/" must still answer 200 rather than 404.
+        if (urlPath === "/") {
+          res.writeHead(200, { "content-type": "text/plain" }).end("ok");
+          return;
+        }
         res.writeHead(404, { "content-type": "text/plain" }).end("Not found: " + urlPath);
         return;
       }

@@ -1,0 +1,256 @@
+  <section class="hero">
+    <h1>Who decided the third bulb is worth 4? <span class="lit">Nobody. It's loot from a trading game.</span></h1>
+    <p>In Switch Arithmetic the columns are worth 1, 2, 4, 8, 16 — and if you've been quietly wondering who picked those numbers, this side room is for you. It starts with a pile of beans, rebuilds the numbers you've used your whole life, and ends with the bulb values making <i>themselves</i>. About twenty minutes, shorter if the beans behave.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. This is a side room off Module 3 — everything works exactly like every other module, and stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">A pile you can't read
+        <span class="disc-sub">why numbers exist at all</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's a pile of beans. Don't count them — just look, and try to feel how many there are. Impossible, right? Eyes are hopeless at piles. Now press the button and watch the very same beans become readable.</p>
+      <div class="board">
+        <div class="pile-wrap" id="pile1" aria-hidden="true"></div>
+        <p class="pile-caption" id="pileCap1">a pile of… some?</p>
+        <div class="btn-row">
+          <button class="action-btn" id="groupBtn" type="button" aria-pressed="false">line them up in tens</button>
+        </div>
+      </div>
+      <p class="soft">Grouping is what makes quantity readable — and you've been using it since you first counted on your fingers. Every written number is just a tidy note about groups. That's the whole idea this room is built on.</p>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">There's no catch — press the button, and afterwards notice where your eyes go: they stop scanning beans and start counting <i>rows</i>. That switch in your head is the discovery.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The ten-trade
+        <span class="disc-sub">the machine you've been running your whole life</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>This is a trading machine. It has exactly one rule: <b>a cup is never allowed to hold ten</b>. The moment a tenth bean lands, all ten bundle into one bag and slide one cup to the left. That's it — the entire rule. Every number you've ever written down is this machine's paperwork.</p>
+      <div class="board">
+        <div class="machine" id="machine2"></div>
+        <div class="machine-lines">
+          <div class="reads">the cups read <b id="reads2" aria-live="polite">0</b></div>
+          <div class="sum" id="sums2">no beans yet</div>
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="drop2" type="button">drop a bean</button>
+          <button class="action-btn" id="hand2" type="button">drop a handful (5)</button>
+          <button class="action-btn quiet" id="take2" type="button">take one back</button>
+        </div>
+      </div>
+      <p class="soft">Look under each cup. The digit counts what's in the cup; the small line beneath says what that count is really worth. The digit never holds value on its own — it's a count of bags, and the cup decides what one bag holds.</p>
+      <p class="chips-label">Keep dropping until the cups read…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Here's the first trade, frame by frame:
+          <div class="frames">
+            <div class="frame">nine beans in<b>0 · 9</b></div>
+            <div class="frame">the tenth lands — cup's not allowed to hold it…<b>bundle!</b></div>
+            <div class="frame">one bag slides left<b>1 · 0</b></div>
+          </div>
+          <p style="margin-top:10px">The cups now say <b>10</b> — and that's what "10" has secretly meant all along: <i>one bag, nothing loose</i>.</p>
+        </div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Drop beans and keep your eye on the right-hand cup. The interesting moment is always the tenth bean.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">To reach 23: two trades and three loose beans. Drop away — the machine does all the bundling; you can't get it wrong, because the rule isn't yours to follow, it's the machine's.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Open a bag
+        <span class="disc-sub">why a 9 in the second cup means ninety</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>The digits under the cups are counts of bags. So — what's actually <i>in</i> a bag? Open a few and see. This is the part most explanations skip: a cup's value is nothing more than what one of its bags holds.</p>
+
+      <div class="bench">
+        <div class="bench-title">On the bench: one bag from the <b>tens</b> cup</div>
+        <div class="bench-out" id="benchTenOut">
+          <button class="bag" id="bagTenBtn" type="button" aria-expanded="false" aria-label="open the bag of ten">10</button>
+        </div>
+        <p class="bench-cap" id="benchTenCap" hidden>Ten beans. The bag was never magic — just ten beans wearing a coat.</p>
+        <div class="btn-row"><button class="action-btn quiet" id="benchTenReset" type="button" hidden>pack it back up</button></div>
+      </div>
+
+      <div class="bench">
+        <div class="bench-title">On the bench: one bag from the <b>third</b> cup</div>
+        <div class="bench-out" id="benchHunOut">
+          <button class="bag" id="bagHundredBtn" type="button" aria-expanded="false" aria-label="open the bag of one hundred">100</button>
+        </div>
+        <p class="bench-cap" id="benchHunCap" hidden></p>
+        <div class="btn-row">
+          <button class="action-btn" id="bagHundredMore" type="button" hidden>open those too</button>
+          <button class="action-btn quiet" id="benchHunReset" type="button" hidden>pack it back up</button>
+        </div>
+      </div>
+
+      <div class="bench">
+        <div class="bench-title">And now the question that matters: the tens cup is holding <b>9 bags</b>. How many beans is that, really?</div>
+        <div class="bench-out" id="benchSpillOut"></div>
+        <p class="bench-cap" id="benchSpillCap" hidden><b>9 bags × 10 beans = 90 beans.</b> That's the whole reason a 9 sitting in the second cup means <i>ninety</i> — the digit counts bags, and the cup sets what each bag holds.</p>
+        <div class="btn-row">
+          <button class="action-btn" id="spillBtn" type="button">spill every bag</button>
+          <button class="action-btn quiet" id="benchSpillReset" type="button" hidden>bag them back up</button>
+        </div>
+      </div>
+
+      <p class="chips-label">Things worth seeing on the bench…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Everything on this bench opens with a tap. Bags contain either beans or smaller bags — there's nothing else they could contain.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">The third cup's bag holds ten bags of ten. Ten tens — that's where 100 comes from. Nobody chose it; the trading rule built it. Ask yourself what the <i>fourth</i> cup's bag must hold, and you'll have invented 1000 from scratch.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Trade at two instead
+        <span class="disc-sub">watch 1 · 2 · 4 · 8 · 16 make themselves</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Now the only change this room will ever make: the trade rule. New rule — <b>a cup is never allowed to hold two</b>. Second bean lands, they bundle, the bag slides left. Same machine, same beans. But the cup values are hidden this time, because you're about to watch them get made.</p>
+      <div class="board">
+        <div class="machine" id="machine4"></div>
+        <div class="machine-lines">
+          <div class="reads">the cups read <b id="reads4" aria-live="polite">0</b></div>
+          <div class="sum" id="sums4">no beans yet</div>
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="drop4" type="button">drop a bean</button>
+          <button class="action-btn" id="hand4" type="button">drop a handful (5)</button>
+          <button class="action-btn quiet" id="take4" type="button">take one back</button>
+        </div>
+        <div class="readout"><div class="cell">beans in the machine<b id="total4">0</b></div></div>
+      </div>
+
+      <div class="bench">
+        <div class="bench-title">On the bench: one bag from the <b>4</b> cup — the exact bag you came here to open</div>
+        <div class="bench-out" id="benchFourOut">
+          <button class="bag" id="fourBagBtn" type="button" aria-expanded="false" aria-label="open the bag of four">4</button>
+        </div>
+        <p class="bench-cap" id="benchFourCap" hidden></p>
+        <div class="btn-row">
+          <button class="action-btn" id="fourBagMore" type="button" hidden>open those too</button>
+          <button class="action-btn quiet" id="benchFourReset" type="button" hidden>pack it back up</button>
+        </div>
+      </div>
+
+      <p class="chips-label">Worth making happen…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Counting to three under the two-trade, frame by frame:
+          <div class="frames">
+            <div class="frame">one bean<b>1</b></div>
+            <div class="frame">second bean — not allowed! trade<b>1 · 0</b></div>
+            <div class="frame">third bean lands loose<b>1 · 1</b></div>
+          </div>
+          <p style="margin-top:10px">So two is written <b>10</b> and three is written <b>11</b>. The counting pattern 0, 1, 10, 11, 100… is just this machine running.</p>
+        </div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Drop beans one at a time and watch which cup gets its value revealed next. Each new cup is unlocked by a trade arriving from its right.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Nineteen beans needs the fifth cup: one 16-bag, one 2-bag, one loose bean. The cups will read <b>1 0 0 1 1</b> — the same pattern that spelled 19 in bulbs back in Module 1. Not a coincidence: the bulbs <i>are</i> these cups.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Same game, every costume
+        <span class="disc-sub">one pile of beans, three different pieces of paperwork</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Last door. The trade rule was never sacred — it's a dial, and every setting is a whole number system. Here's a pile of <b>19</b> beans (the number you keep in your pocket anyway). The pile goes from 0 to 31 beans; the beans never change — only the note we write about them does.</p>
+      <div class="board">
+        <div class="btn-row" style="margin-top:0;margin-bottom:16px">
+          <button class="action-btn" id="ruleBtn10" type="button" aria-pressed="true">trade at ten</button>
+          <button class="action-btn" id="ruleBtn2" type="button" aria-pressed="false">trade at two</button>
+          <button class="action-btn" id="ruleBtn16" type="button" aria-pressed="false">trade at sixteen</button>
+        </div>
+        <div class="machine" id="machine5"></div>
+        <div class="machine-lines">
+          <div class="reads">the cups read <b id="reads5" aria-live="polite">19</b></div>
+          <div class="sum" id="sums5"></div>
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="drop5" type="button">one more bean</button>
+          <button class="action-btn quiet" id="take5" type="button">one fewer</button>
+        </div>
+        <div class="readout"><div class="cell">beans in the pile<b id="total5">19</b></div></div>
+        <p class="lens-note" id="hexNote5" hidden>Trading at sixteen, a single cup can legally hold up to fifteen — more than the digits 0–9 can write. So counts of ten to fifteen borrow the letters <b>A–F</b>. You've met these: they're the sixteen symbols from Module 2, and this is the machine they come from.</p>
+      </div>
+      <p class="lens-note">Worth knowing: in Switch Arithmetic, when a column's total spills into the next column — the <b>carry</b> — that is this machine trading two-for-one. Same move, new costume.</p>
+      <p class="chips-label">See the same 19 beans three ways…</p>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Take the 19 beans and change only the rule:
+          <div class="frames">
+            <div class="frame">trade at ten<b>1 · 9</b></div>
+            <div class="frame">trade at two<b>1·0·0·1·1</b></div>
+            <div class="frame">trade at sixteen<b>1 · 3</b></div>
+          </div>
+          <p style="margin-top:10px">One bag of sixteen plus three loose beans — so under the sixteen-rule, nineteen is written <b>13</b>. The beans never moved; only the bagging changed.</p>
+        </div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Press each rule button while the pile holds 19 and just watch the cups re-bag themselves. The pile never changes — count the beans if you don't believe it.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">If the pile isn't on 19, nudge it there with <i>one more bean</i> / <i>one fewer</i>, then try all three rules. Under the sixteen-rule the cups read 1 · 3 — one bag of sixteen, three loose. Both notes describe the same pile.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what you just rebuilt</h2>
+    <p>The grown-up name for today is <b>place value</b> — the idea underneath every number system humans have ever used. Most people run it their whole lives without once seeing the gears. You just took it apart on a bench: a digit is a count of bags, a cup's value is what one of its bags holds, and the trade rule decides everything else. Decimal, binary, hexadecimal — one game, three costumes. Nobody decided the third bulb is worth 4. Two twos did.</p>
+    <p class="soft">If you wander back to Switch Arithmetic, the carries there will look different now — they're trades, and you've made dozens. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="03-switch-arithmetic.html">← Module 3 · Switch Arithmetic</a>
+    <a class="nav-link next" href="04-letters-in-the-wire.html">Module 4 · Letters in the Wire →</a>
+  </nav>
+
+  <footer>Module 3a · a side room off Module 3 · Made for one particular learner · No marks were given in the making of this page.</footer>

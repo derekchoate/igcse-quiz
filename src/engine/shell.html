@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+{{STYLES}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="head-title">{{TITLE}}</div>
+    <div class="stars" id="starBox" aria-live="polite">
+      <span id="starCount">✦ 0</span>
+      <span class="hint-txt">stars only ever go up</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+{{CONTENT}}
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+{{SCRIPT}}
+})();
+</script>
+</body>
+</html>

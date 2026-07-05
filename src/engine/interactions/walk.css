@@ -1,0 +1,74 @@
+/* ---------- kit: walk (flowchart family) ---------- */
+
+  /* ── shared flowchart shapes ── */
+  .fc-node{
+    position:relative;margin:0 auto;max-width:280px;min-height:52px;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:12px 18px;background:#1A2440;border:1.5px solid var(--card-edge);
+    color:var(--ink);font-size:15px;line-height:1.4;transition:box-shadow .4s,border-color .4s;
+  }
+  .fc-node .fc-txt{position:relative;z-index:2}
+  .fc-term{border-radius:999px}
+  .fc-proc{border-radius:9px}
+  .fc-io{transform:skewX(-11deg);border-radius:6px}
+  .fc-io .fc-txt{transform:skewX(11deg)}
+  .fc-dec{border:none;background:none;min-height:118px;max-width:230px}
+  .fc-dec::before{
+    content:"";position:absolute;left:50%;top:50%;width:104px;height:104px;
+    transform:translate(-50%,-50%) rotate(45deg);
+    background:#1A2440;border:1.5px solid var(--card-edge);border-radius:8px;z-index:1;
+    transition:box-shadow .4s,border-color .4s;
+  }
+  .fc-flow{border:none;background:none;min-height:auto;color:var(--ink-soft);font-size:34px;padding:4px}
+  .fc-node.cur{border-color:var(--glow);box-shadow:0 0 0 2px rgba(255,184,77,.35),0 0 22px rgba(255,184,77,.3)}
+  .fc-dec.cur{box-shadow:none}
+  .fc-dec.cur::before{border-color:var(--glow);box-shadow:0 0 0 2px rgba(255,184,77,.35),0 0 22px rgba(255,184,77,.3)}
+
+  /* connectors & edges between nodes */
+  .fc-row{display:flex;flex-direction:column;align-items:center}
+  .fc-conn{width:2px;height:22px;background:var(--card-edge);position:relative}
+  .fc-conn::after{content:"▼";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);color:var(--card-edge);font-size:12px}
+  .fc-edges{display:flex;flex-direction:column;gap:6px;margin:8px 0 2px;width:100%;max-width:300px}
+  .fc-edge{font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft);background:#141d38;border:1px dashed var(--card-edge);border-radius:8px;padding:6px 12px;text-align:center;transition:all .3s}
+  .fc-edge.taken{border-style:solid;border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.1)}
+
+  /* ── SVG walk: top bar, clickable diagram, panel ── */
+  .fc-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;min-height:38px;margin-bottom:6px}
+  .fc-hint{font-size:14.5px;color:var(--ink-soft)}
+  .fc-btn{font-family:'Sora',sans-serif;font-size:15px;color:#3A2606;background:var(--glow);border:1px solid var(--glow);border-radius:999px;padding:10px 20px;cursor:pointer;transition:all .25s}
+  .fc-btn:hover{background:var(--glow-deep);border-color:var(--glow-deep)}
+  .fc-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .fc-btn.ghost{background:none;color:var(--ink-soft);border-color:var(--card-edge);font-size:14px;padding:8px 16px}
+  .fc-btn.ghost:hover{border-color:var(--teal);color:var(--teal);background:none}
+
+  .fc-inputs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px;padding:12px 14px;background:rgba(123,196,180,.07);border:1px solid rgba(123,196,180,.35);border-radius:12px}
+  .fc-inputs .fc-ask{font-family:'Sora',sans-serif;font-size:14px;color:var(--teal);width:100%}
+  .fc-in-btn{font-family:'Sora',sans-serif;font-size:15px;width:42px;height:42px;border-radius:10px;background:#1A2440;border:1px solid var(--card-edge);color:var(--ink);cursor:pointer}
+  .fc-in-btn:hover{border-color:var(--teal);color:var(--teal)}
+  .fc-in-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+  .fc-svg-wrap{display:block;width:100%;background:none;border:1px solid transparent;border-radius:14px;padding:8px 0;cursor:pointer;transition:border-color .25s}
+  .fc-svg-wrap:hover{border-color:rgba(123,196,180,.35)}
+  .fc-svg-wrap:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .fc-svg-wrap.done{cursor:default}
+  .fc-svg-wrap svg{width:100%;height:auto;max-width:340px;display:block;margin:0 auto}
+  .fcn .shp{fill:#1A2440;stroke:var(--card-edge);stroke-width:1.5;transition:stroke .3s,stroke-width .3s}
+  .fcn .lbl{fill:var(--ink);font-family:'Sora',sans-serif;font-size:12.5px;dominant-baseline:middle;text-anchor:middle}
+  .fcn.cur .shp{stroke:var(--glow);stroke-width:2.6}
+  .fcn.cur{filter:drop-shadow(0 0 5px rgba(255,184,77,.55))}
+  .arw{stroke:var(--card-edge);stroke-width:1.7;fill:none;marker-end:url(#ah)}
+  .elbl{fill:var(--ink-soft);font-family:'Sora',sans-serif;font-size:11.5px;text-anchor:middle}
+  [data-edge].taken .arw{stroke:var(--glow);marker-end:url(#aha)}
+  [data-edge].taken .elbl{fill:var(--glow)}
+
+  .fc-badge{pointer-events:none}
+  .fc-badge rect{fill:#3a2a10;stroke:var(--glow);stroke-width:1.2}
+  .fc-badge text{fill:var(--glow);font-family:'Sora',sans-serif;font-size:11.5px;font-weight:600;text-anchor:middle;dominant-baseline:middle}
+  .fc-dot{fill:var(--glow);filter:drop-shadow(0 0 5px rgba(255,184,77,.85));pointer-events:none}
+  @media (prefers-reduced-motion:reduce){.fc-dot{display:none !important}}
+
+  .fc-panel{margin-top:12px;background:#141d38;border:1px solid var(--card-edge);border-radius:12px;padding:14px 16px}
+  .fc-log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;font-size:14.5px;color:var(--ink-soft);min-height:22px}
+  .fc-log li{padding-left:16px;position:relative}
+  .fc-log li::before{content:"›";position:absolute;left:0;color:var(--teal)}
+  .fc-log li:last-child{color:var(--ink)}

@@ -1,0 +1,6 @@
+{
+  "number": 8,
+  "slug": "08-reading-the-map",
+  "title": "Reading the Map",
+  "uses": ["chips","walk"]
+}
