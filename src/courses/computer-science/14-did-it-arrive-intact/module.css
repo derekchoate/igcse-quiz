@@ -1,0 +1,123 @@
+/* Module 14 — Did It Arrive Intact?: lesson-specific styling only.
+   meta.uses: ["board", "chips"] — the byte-switch board kit and target chips
+   are pulled in for D3/D4's parity board and D1/D6's chip pairs. D2's link
+   sorter and D5's ARQ log are hand-rolled (same call as Module 13's D1/D5:
+   the shared `matcher` kit hardcodes awardStar("d3", ...) with Module 9
+   wording, so it isn't safely reusable for a different discovery id).
+   D3/D4 reuse the board kit's `.bulb-row`/`.bit`/`.bulb` look for the nine
+   parity bulbs, but the data bulbs (1-8) are plain non-interactive spans
+   built to match that same look, since only the ninth bulb is a real control. */
+
+:root{
+  --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+}
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+.shred-label{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal)}
+.chips-label{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);margin:4px 0 8px}
+
+/* ── shared button look ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn.ghost{margin-top:12px}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.loop-btn[hidden]{display:none}
+
+/* ── D1: serial vs parallel race ── */
+.tx-control{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin-bottom:14px}
+.tx-control input[type="range"]{width:min(220px,60vw);accent-color:var(--teal)}
+.tx-val{font-family:var(--mono);font-size:13.5px;color:var(--teal);min-width:11em;text-align:left}
+.tx-lane{margin:14px 0}
+.tx-lane-label{display:block;font-family:'Sora',sans-serif;font-size:11.5px;color:var(--ink-soft);letter-spacing:.3px;text-transform:uppercase;margin-bottom:6px}
+.tx-track{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;min-height:34px;align-items:center;background:#0E1730;border:1px dashed var(--card-edge);border-radius:12px;padding:8px}
+.tx-bulb{
+  width:22px;height:22px;border-radius:50%;flex:0 0 auto;
+  background:#1C2748;border:2px solid #33406B;transition:all .3s;
+}
+.tx-bulb.on{
+  background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 55%, var(--glow-deep));
+  border-color:var(--glow);box-shadow:0 0 14px rgba(255,184,77,.55);
+}
+
+/* ── D2: link pool + three duplex bins ── */
+.link-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:16px}
+.link-chip{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:10px 14px;cursor:pointer;max-width:280px;text-align:left;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.link-chip:hover{border-color:var(--teal)}
+.link-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.link-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.link-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.link-chip.dragging{opacity:.3}
+.link-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.dupe-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:560px){.dupe-bins{grid-template-columns:1fr 1fr 1fr}}
+.dupe-bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:96px;transition:border-color .2s, background .2s}
+.dupe-bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.dupe-bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:13px;letter-spacing:.4px;
+  text-transform:uppercase;color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:center;
+}
+.dupe-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.dupe-bin-list{display:flex;flex-direction:column;gap:6px;min-height:1px}
+.dupe-bin-item{font-size:13px;color:var(--ink);background:rgba(255,184,77,.1);border-radius:8px;padding:7px 9px}
+
+/* ── D3/D4: nine-bulb parity board ── */
+.gremlin-row{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:10px 0}
+.data-bulb{
+  width:38px;height:38px;border-radius:50%;
+  background:#1C2748;border:2px solid #33406B;transition:all .25s;
+}
+.data-bulb.on{
+  background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 55%, var(--glow-deep));
+  border-color:var(--glow);box-shadow:0 0 18px rgba(255,184,77,.6);
+}
+.parity-only .bit{padding:5px 3px}
+.parity-only .bulb{width:38px;height:38px;border:2.5px solid var(--teal)}
+.parity-only .bit-val{display:none}
+@media (max-width:420px){
+  .data-bulb, .parity-only .bulb{width:30px;height:30px}
+  .gremlin-row{gap:4px}
+}
+
+/* ── D5: ARQ card exchange ── */
+.arq-buttons{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:14px}
+.arq-log{display:flex;flex-direction:column;gap:6px;min-height:1.4em}
+.arq-line{font-size:14.5px;color:var(--ink);background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:8px 12px}
+.arq-line.sender{border-left:3px solid var(--teal)}
+.arq-line.receiver{border-left:3px solid var(--glow)}
+
+/* ── D6: barcode digits ── */
+.barcode-digits{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:6px 0 12px}
+.barcode-digit{
+  font-family:var(--mono);font-size:17px;font-weight:600;color:var(--ink);
+  background:#1A2440;border:1.5px solid var(--card-edge);border-radius:8px;
+  width:30px;height:40px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color .22s, background .22s, color .22s;
+}
+.barcode-digit:hover{border-color:var(--teal)}
+.barcode-digit:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.barcode-digit.changed{border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.1)}
+.barcode-digit.check{
+  border:2.5px solid var(--teal);color:var(--teal);cursor:default;
+  background:rgba(123,196,180,.1);
+}
+@media (max-width:420px){.barcode-digit{width:24px;height:34px;font-size:15px}}
+
+/* ── shared chip/nudge tweaks ── */
+.chip{font-size:14.5px}
+.nudge code{font-family:var(--mono);font-size:14px;color:var(--ink)}
