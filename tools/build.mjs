@@ -86,4 +86,16 @@ for (const courseSlug of fs.readdirSync(coursesDir)) {
     count++;
   }
 }
+// Copy hand-authored static pages into the deploy tree so dist/ is a complete
+// site. The index pages are not generated from src yet (deferred in the plan).
+for (const rel of ["index.html", "computer-science/index.html"]) {
+  const srcPath = path.join(repoRoot, rel);
+  if (exists(srcPath)) {
+    const outPath = path.join(distDir, rel);
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
+    fs.copyFileSync(srcPath, outPath);
+    console.log(`copied ${rel}`);
+  }
+}
+
 console.log(`built ${count} module(s) → dist/`);

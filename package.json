@@ -6,8 +6,9 @@
   "scripts": {
     "test": "jest",
     "build": "node tools/build.mjs",
-    "test:e2e": "bddgen && playwright test",
-    "test:e2e:update": "bddgen && playwright test --update-snapshots"
+    "pretest": "npm run build",
+    "test:e2e": "npm run build && bddgen && playwright test",
+    "test:e2e:update": "npm run build && bddgen && playwright test --update-snapshots"
   },
   "repository": {
     "type": "git",
