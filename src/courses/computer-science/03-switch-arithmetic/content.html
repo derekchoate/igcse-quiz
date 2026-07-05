@@ -1,0 +1,195 @@
+  <section class="hero">
+    <h1>You can read the language. Now <span class="lit">make it do maths.</span></h1>
+    <p>Every calculator, every game engine, every bank transfer eventually comes down to bulbs added to other bulbs. In the next twenty minutes you'll watch two rows of switches add themselves, discover what happens when a byte runs out of room, learn the sliding trick that doubles or halves a number in one press, and find out how a machine this simple can count backwards below zero.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip switches, follow curiosity, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">First: one plus one
+        <span class="disc-sub">the four addition facts, and where the spark comes from</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>You already know a single switch can say 0 or 1. Here's the bit nobody tells you: switches can add. Light two of them — call them A and B — and watch what their total becomes. Three of the four combinations are painless. The fourth is where things get interesting.</p>
+      <div class="board">
+        <div class="fact-board">
+          <button class="bit" id="bitA1" type="button"></button>
+          <span class="fact-op" aria-hidden="true">+</span>
+          <button class="bit" id="bitB1" type="button"></button>
+          <span class="fact-op" aria-hidden="true">=</span>
+          <div class="fact-result">
+            <div class="fact-cell"><span class="mini" id="carryDot1"></span><span class="flabel">carry</span></div>
+            <div class="fact-cell"><span class="mini" id="sumDot1"></span><span class="flabel">sum</span></div>
+          </div>
+        </div>
+        <div class="total"><span class="flabel" style="color:var(--ink-soft);font-family:'Sora',sans-serif;font-size:13px">that reads as</span> <b id="factExpr1">0</b></div>
+      </div>
+      <p class="chips-label">Try every combination…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">There are only four ways to set two switches — try all of them, in any order.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">When both A and B are lit, the sum bulb can't show "2" on its own — it borrows a second column. Sum shows 0, carry lights: together that's <b>10</b>, which is how the secret language writes two.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Carry chains
+        <span class="disc-sub">watch a lit column push its overflow into the next</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Two full rows of switches, and a sum row underneath that lights itself — you never touch it, it just answers. Set A and B to anything you like. Watch closely when a column has two switches lit at once: the sum bulb there can't hold "2", so it hands the extra off to the column beside it. That handoff is called a <b>carry</b>, and it can ripple for miles.</p>
+      <p class="soft">If you've ever wondered why these columns are worth 1, 2, 4, 8… — there's a side room for exactly that: <a href="03a-the-trading-game.html" style="color:var(--teal)">The Trading Game</a>. Five minutes in there and the column values stop being arbitrary. It'll keep — go whenever you're curious.</p>
+      <div class="board adder">
+        <div class="arow"><span class="arow-tag">A</span><div class="bulb-row" id="rowA2"></div></div>
+        <div class="arow"><span class="arow-tag">B</span><div class="bulb-row" id="rowB2"></div></div>
+        <div class="carry-lane" id="carry2" aria-hidden="true"></div>
+        <div class="arow"><span class="arow-tag">sum</span><div class="bulb-row" id="rowSum2"></div></div>
+        <div class="readout">
+          <div class="cell">A<b id="totalA2">0</b></div>
+          <div class="cell">B<b id="totalB2">0</b></div>
+          <div class="cell" id="cellSum2">A + B<b id="totalSum2">0</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Make A + B come to…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Add column by column from the right, the same way the sum row is quietly doing it for you.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Find a column where both switches are lit. The sum bulb there can't show "2", so it carries into the column to its left — exactly like the very first discovery, just with more columns to ripple through.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The byte runs out of room
+        <span class="disc-sub">push past 255 and meet overflow</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A byte only has eight bulbs, which means it can only count up to 255. Set A and B so their true total climbs past that, and watch the sum row show something smaller than you'd expect — the carry from the last column has nowhere left to go, so it simply vanishes. This is called <b>overflow</b>, and it happens inside real computers more often than you'd think.</p>
+      <div class="board adder">
+        <div class="arow"><span class="arow-tag">A</span><div class="bulb-row" id="rowA3"></div></div>
+        <div class="arow"><span class="arow-tag">B</span><div class="bulb-row" id="rowB3"></div></div>
+        <div class="carry-lane" id="carry3" aria-hidden="true"></div>
+        <div class="arow"><span class="arow-tag">sum</span><div class="bulb-row" id="rowSum3"></div></div>
+        <div class="readout">
+          <div class="cell">A<b id="totalA3">0</b></div>
+          <div class="cell">B<b id="totalB3">0</b></div>
+          <div class="cell" id="cellSum3">byte shows<b id="totalSum3">0</b></div>
+        </div>
+        <p class="overflow-note" id="overflowNote3" hidden>The true total is <b id="trueSum3"></b> — but there's no ninth bulb to hold the extra. That carry is gone for good.</p>
+      </div>
+      <p class="chips-label">Push the true total (not just the byte) to…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">What's the biggest number 8 bulbs can hold?</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Try 200 + 100 — where would the ninth bulb go?</div>
+        <button class="nudge-btn" data-nudge="n3c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3c">There is no ninth bulb. The carry is lost: that's overflow.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The sliding trick
+        <span class="disc-sub">shift left to double, shift right to halve</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One board, two new buttons. Shift left and every bulb's value doubles — the whole pattern slides one place up, and whatever was lit in the leftmost bulb falls off the edge for good. Shift right and it halves the same way, losing whatever was in the rightmost bulb. No maths required — just watch the pattern slide.</p>
+      <div class="board">
+        <div class="bulb-row" id="row4"></div>
+        <div class="readout"><div class="cell">value<b id="total4">0</b></div></div>
+        <div class="btn-row">
+          <button class="action-btn" id="shiftLeftBtn" type="button">⟵ shift left (double)</button>
+          <button class="action-btn" id="shiftRightBtn" type="button">shift right (halve) ⟶</button>
+        </div>
+      </div>
+      <p class="chips-label">Along the way, try to…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">Shift left is the same as adding a number to itself — doubling. Shift right splits it in half and throws away any leftover; there's no rounding here.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Light the two highest bulbs (192) and shift left once. Where did the missing amount go? There's no room for it — that bulb simply falls off the edge.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Below zero
+        <span class="disc-sub">flip every bit, add one, and the byte can count backwards</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Every number so far has been zero or positive. Here's the machine's trick for going below zero: flip every bulb to its opposite, then add one. Set a small positive number, try it, then switch on the sign lens — it relabels the leftmost bulb from +128 to −128, and suddenly the byte can count backwards.</p>
+      <div class="board">
+        <div class="bulb-row" id="row5"></div>
+        <div class="readout"><div class="cell" id="cellTotal5">total<b id="total5">0</b></div></div>
+        <p class="lens-note" id="lensNote5" hidden>Sign lens on: the leftmost bulb is now worth <b>−128</b>, not 128.</p>
+        <div class="btn-row">
+          <button class="action-btn" id="flipBtn" type="button">flip every bit</button>
+          <button class="action-btn" id="addOneBtn" type="button">add 1</button>
+          <button class="action-btn" id="lensBtn" type="button" aria-pressed="false">sign lens</button>
+        </div>
+      </div>
+      <p class="chips-label">Using flip, add 1 and the lens, reach…</p>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Flip every bulb first — every 1 becomes 0 and every 0 becomes 1. Then add one to whatever that leaves you with.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Try it starting from 1: flipped is 11111110, add one makes 11111111 — every bulb lit. Now switch on the sign lens. What does the leftmost bulb mean now?</div>
+        <button class="nudge-btn" data-nudge="n5c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5c">With the lens on, the leftmost bulb is worth −128, not 128. All-bulbs-lit reads as −128 + 64 + 32 + 16 + 8 + 4 + 2 + 1, which is −1. It's not a minus sign bolted on — the bulb's own value changed.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a third time</h2>
+    <p>Twenty minutes ago "binary maths" probably sounded like a stretch. You've now added two bytes together, watched a carry ripple down a whole row, pushed a byte past its limit and seen the overflow, doubled and halved numbers by sliding bulbs, and made a byte count backwards below zero. That's four separate ideas Cambridge spends whole lessons on.</p>
+    <p class="soft">Whenever you're curious, the next discovery is what happens when those same bulbs stop meaning numbers and start meaning letters. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="02-sixteen-symbols.html">← Module 2 · Sixteen Symbols</a>
+    <a class="nav-link" href="03a-the-trading-game.html">Side room · The Trading Game</a>
+    <a class="nav-link next" href="04-letters-in-the-wire.html">Module 4 · Letters in the Wire →</a>
+  </nav>
+
+  <footer>Module 3 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>

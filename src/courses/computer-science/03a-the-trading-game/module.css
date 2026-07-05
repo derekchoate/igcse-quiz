@@ -1,0 +1,80 @@
+/* ---------- board frame ---------- */
+/* Kept here (not the board kit) because this lesson never calls makeBoard, so
+   meta.uses omits "board" and board.css is not bundled. */
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:22px 12px 18px;margin:18px 0}
+
+/* ---------- the bean pile (D1) ---------- */
+.pile-wrap{position:relative;height:180px;max-width:420px;margin:0 auto}
+.pile-dot{position:absolute;width:13px;height:13px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 60%, var(--glow-deep));
+  box-shadow:0 0 6px rgba(255,184,77,.35);transition:left .8s cubic-bezier(.4,0,.2,1),top .8s cubic-bezier(.4,0,.2,1)}
+.pile-caption{text-align:center;font-family:'Sora',sans-serif;font-size:15px;color:var(--ink-soft);margin-top:14px;min-height:26px;transition:color .4s}
+.pile-caption b{color:var(--glow)}
+
+/* ---------- the trading machine ---------- */
+.machine{display:flex;justify-content:center;gap:8px;flex-wrap:nowrap}
+.cup{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:56px}
+.cup-plaque{font-family:'Sora',sans-serif;font-size:11px;color:var(--ink-soft);text-align:center;line-height:1.3;min-height:30px;display:flex;align-items:flex-end;transition:color .5s}
+.cup-plaque.reveal{color:var(--glow)}
+.cup-tokens{width:52px;min-height:56px;border:2px solid #33406B;border-radius:10px 10px 14px 14px;background:#1C2748;
+  display:flex;flex-wrap:wrap;gap:2px;align-content:flex-end;justify-content:center;padding:5px 3px;transition:border-color .3s,box-shadow .3s}
+.cup.got .cup-tokens{border-color:var(--glow);box-shadow:0 0 14px rgba(255,184,77,.45)}
+.tok{width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 60%, var(--glow-deep))}
+.cup-digit{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--ink);transition:color .3s}
+.cup-sub{font-family:'Sora',sans-serif;font-size:11px;color:var(--ink-soft);min-height:16px;text-align:center}
+.machine-lines{text-align:center;margin-top:14px;font-family:'Sora',sans-serif}
+.machine-lines .reads{font-size:15px;color:var(--ink-soft)}
+.machine-lines .reads b{font-size:24px;color:var(--ink);letter-spacing:6px;margin-left:6px}
+.machine-lines .sum{font-size:14px;color:var(--ink-soft);margin-top:4px}
+.machine-lines .sum b{color:var(--glow)}
+.trade-fly{position:fixed;z-index:60;width:13px;height:13px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 60%, var(--glow-deep));
+  box-shadow:0 0 12px rgba(255,184,77,.8);opacity:0;transition:transform .45s cubic-bezier(.34,0,.2,1),opacity .3s ease}
+@media (max-width:520px){.cup{min-width:48px}.cup-tokens{width:46px}.machine{gap:5px}}
+
+/* ---------- the unpacking benches (D3 / D4) ---------- */
+.bench{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:18px 16px;margin:14px 0}
+.bench-title{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);margin-bottom:12px}
+.bag{font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#3A2606;cursor:pointer;
+  width:54px;height:54px;border-radius:50% 50% 46% 46%;border:2px solid var(--glow-deep);
+  background:radial-gradient(circle at 35% 25%, #FFE3AE, var(--glow) 55%, var(--glow-deep));
+  box-shadow:0 0 14px rgba(255,184,77,.35);display:inline-grid;place-items:center;margin:3px}
+.bag:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.bag.small{width:38px;height:38px;font-size:13px;cursor:default}
+.bean-grid{display:flex;flex-wrap:wrap;gap:4px;max-width:220px;margin:10px auto 0;justify-content:center}
+.bean-grid .tok{width:8px;height:8px}
+.bench-out{text-align:center;min-height:40px}
+.bench-cap{text-align:center;font-size:15.5px;margin-top:12px;color:var(--ink)}
+.bench-cap b{color:var(--glow)}
+
+.readout{display:flex;justify-content:center;gap:22px;margin-top:14px;flex-wrap:wrap}
+.readout .cell{text-align:center;font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft)}
+.readout .cell b{display:block;font-size:24px;color:var(--ink);font-weight:700;margin-top:2px;transition:color .3s}
+
+/* ---------- challenge chips ---------- */
+/* Kept here (not the chips kit) because this lesson ships a divergent makeChips
+   fork in module.js; meta.uses omits "chips" so chips.css is not bundled.
+   Values match the canonical chips.css. */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px}
+.chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
+.chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
+.chip.hit::after{content:" ✦"}
+.chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
+
+/* ---------- worked-example frames ---------- */
+.frames{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;justify-content:center}
+.frame{background:#121A32;border:1px solid var(--card-edge);border-radius:10px;padding:10px 12px;font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft);text-align:center;min-width:110px}
+.frame b{display:block;color:var(--ink);font-size:16px;letter-spacing:3px;margin-top:5px}
+
+/* ---------- action buttons ---------- */
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.action-btn{
+  font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);
+  background:#22305A;border:1px solid var(--card-edge);border-radius:999px;
+  padding:10px 20px;cursor:pointer;
+}
+.action-btn:hover{border-color:var(--teal)}
+.action-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.action-btn[aria-pressed="true"]{border-color:var(--teal);color:var(--teal);background:rgba(123,196,180,.1)}
+.action-btn.quiet{font-size:13.5px;padding:7px 14px;color:var(--ink-soft)}
+.lens-note{margin-top:12px;padding:12px 14px;font-size:15.5px;background:rgba(123,196,180,.07);border-left:3px solid var(--teal);border-radius:0 10px 10px 0;color:var(--ink)}

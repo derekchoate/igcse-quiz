@@ -1,0 +1,165 @@
+  <section class="hero">
+    <h1>Programmers got tired of reading bulbs. So they invented <span class="lit">a shorthand.</span></h1>
+    <p>You can already read binary — that's Module 1 in your pocket forever. But eight bulbs is a lot of squinting, and real machines deal in millions of them. This module is the professional trick: one symbol that stands for four bulbs at once. It's called hexadecimal, and by the end you'll be mixing colours with it.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip switches, follow curiosity, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">First: feel the problem
+        <span class="disc-sub">binary is honest but exhausting</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below is a byte. Press the shuffle button a few times and try — just for a second each time — to hold the pattern in your head, the way you'd remember a phone number.</p>
+      <div class="board">
+        <div class="bulb-row" id="row1"></div>
+        <div class="readout"><div class="cell">as digits<b id="bin1">00000000</b></div></div>
+        <button class="action-btn" id="shuffleBtn">Shuffle the byte</button>
+      </div>
+      <p class="soft" id="d1msg">Hard, isn't it? Even people who do this for a living can't sight-read long runs of 1s and 0s. They needed something kinder to human eyes…</p>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Split the byte in half
+        <span class="disc-sub">two groups of four, each just a small number</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>The trick starts here: cut the byte down the middle into two groups of four bulbs — each group is called a <b>nibble</b> (genuinely the real word). The half worth more (128, 64, 32, 16) is the <b>high</b> nibble; the half worth less (8, 4, 2, 1) is the <b>low</b> nibble. Four bulbs can only say 0 to 15, and you mastered exactly that board in Module 1.</p>
+      <div class="board">
+        <div class="bulb-row" id="row2"></div>
+        <div class="readout">
+          <div class="cell" id="left2">high nibble<b>0</b></div>
+          <div class="cell" id="right2">low nibble<b>0</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Set the nibbles so that…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2">Want a nudge?</button>
+        <div class="nudge" id="n2">Each nibble is its own little Module 1 board: 8 · 4 · 2 · 1. Ignore the other half completely while you work on one side — that independence is the whole point of the split.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The sixteen symbols
+        <span class="disc-sub">why the alphabet suddenly appears in numbers</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Each nibble says a number from 0 to 15 — sixteen possibilities. Give every one of those a <i>single symbol</i> and a whole nibble collapses into one character. Digits cover 0–9… then we run out, so ten to fifteen borrow the letters <b>A to F</b>.</p>
+      <div class="symbol-table" id="symTable"></div>
+      <p>Now the same byte board — but watch the new readout. Two nibbles, two symbols. A whole byte in two characters.</p>
+      <div class="board">
+        <div class="bulb-row" id="row3"></div>
+        <div class="readout"><div class="cell" id="hex3">in hexadecimal<b>00</b></div></div>
+      </div>
+      <p class="chips-label">Make the readout say…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Work one symbol at a time. For 2A: the high nibble must say 2, and A is the symbol for… check the chart above. Then build each nibble like a Module 1 puzzle.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">A stands for 10, which is 8 + 2. So 2A is: high nibble 0010, low nibble 1010. Light those and watch the readout agree.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Colour is hexadecimal
+        <span class="disc-sub">every colour on every screen is six of your symbols</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's where the shorthand becomes visible. Every colour a screen can show is three bytes — how much <b>red</b>, how much <b>green</b>, how much <b>blue</b>, each from 00 (none) to FF (full blast). Designers write it as six hex symbols with a # in front. You have three byte boards below. Paint with them.</p>
+      <div class="swatch-zone">
+        <div class="swatch" id="swatch"></div>
+        <div class="swatch-hex" id="swatchHex">#000000</div>
+      </div>
+      <div class="board rgb-rows">
+        <div class="rgb-label r"><b>R</b> red</div>
+        <div class="bulb-row" id="rowR"></div>
+        <div class="rgb-label g"><b>G</b> green</div>
+        <div class="bulb-row" id="rowG"></div>
+        <div class="rgb-label b"><b>B</b> blue</div>
+        <div class="bulb-row" id="rowB"></div>
+      </div>
+      <p class="chips-label">Colours worth mixing…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4">Want a nudge?</button>
+        <div class="nudge" id="n4">FF means every bulb in that row lit — you made 255 in Module 1, this is it wearing its work clothes. For yellow, think about which two paints of <i>light</i> add together (it's not the same as mixing paint in a pot — try it and see).</div>
+      </div>
+      <p class="soft">When the set colours are found, keep going — mix something that's yours. The swatch doesn't judge.</p>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Hex in the wild
+        <span class="disc-sub">now you'll see it everywhere</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One honest thing before the safari: computers don't <i>use</i> hexadecimal. Deep down it's bulbs all the way — hex exists purely for <b>human eyes</b>, because 4D beats 01001101 every single time. Places you'll now spot it:</p>
+      <div class="wild">
+        <div class="w-what">Every network device's permanent serial number (its MAC address — a later module):</div>
+        <div class="w-hex">3C:<span class="hl">4D</span>:BE:07:F2:<span class="hl">A7</span></div>
+      </div>
+      <div class="wild">
+        <div class="w-what">Raw memory, as a programmer sees it when hunting a bug:</div>
+        <div class="w-hex">48 65 6C 6C 6F 20 44 65 72 65 6B</div>
+      </div>
+      <p>Two symbols from that MAC address are glowing. Prove you can read them — set this byte to match each one:</p>
+      <div class="board">
+        <div class="bulb-row" id="row5"></div>
+        <div class="readout"><div class="cell" id="hex5">this byte in hex<b>00</b></div></div>
+      </div>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5">Want a nudge?</button>
+        <div class="nudge" id="n5">4D: the 4 is easy — high nibble 0100. D is the symbol for 13, and 13 = 8 + 4 + 1. Two nibbles, done. A7 works the same way.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — again</h2>
+    <p>You now read <b>two</b> number systems that most adults can't. Nobody drilled you; you split a byte in half, borrowed six letters, and mixed colours until it stuck. The MAC address in that panel above was gibberish twenty minutes ago. Now it's just… readable.</p>
+    <p class="soft">Whenever you're curious, the next discovery is binary arithmetic — making the bulbs actually <i>add</i>, with sparks that carry. No rush at all. The stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="01-the-secret-language.html">← Module 1 · The Secret Language</a>
+    <a class="nav-link next" href="03-switch-arithmetic.html">Module 3 · Switch Arithmetic →</a>
+  </nav>
+
+  <footer>Module 2 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>

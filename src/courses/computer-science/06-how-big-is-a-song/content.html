@@ -1,0 +1,198 @@
+  <section class="hero">
+    <h1>Your phone says 128 GB. <span class="lit">You're about to know exactly what that means.</span></h1>
+    <p>Every gigabyte on your phone is just an enormous stack of the bulbs from Module 1, counted in a very particular way. Tonight you'll climb the whole ladder from a single bit to a pebibyte, work out exactly how big a picture or a song really is before you've made one, watch a squeeze-lever shrink a stripy pattern to half its size — and grow a noisy one instead — and sort real files by an honest question: could you get the original back, or not?</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip switches, follow curiosity, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The ladder of units
+        <span class="disc-sub">from one bulb to a pebibyte, almost every rung ×1024</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A single lit bulb is a bit. Eight of them make a byte — the one genuinely odd step on this ladder, since it's ×8 rather than ×1024. Every rung after that multiplies by exactly 1024, not 1000 — no matter what a phone's spec sheet quietly rounds to. Step through it below and watch the numbers stop looking abstract.</p>
+      <div class="board">
+        <div class="readout">
+          <div class="cell wide">unit<b id="rungName1">bit</b></div>
+          <div class="cell wide">size<b id="rungBytes1">1 bit</b></div>
+        </div>
+        <p class="rung-caption" id="rungCaption1">the base unit — one lit bulb, just like Module 1</p>
+        <div class="ladder-row" id="ladderRow1"></div>
+      </div>
+      <p class="chips-label">Climb to…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Every rung says how many times bigger it is than the one before. Which rung's badge doesn't say ×1024?</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">A byte is 8 bits — that's ×8, not ×1024. Every rung after it, though, really is ×1024, world without end.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Work out a real picture
+        <span class="disc-sub">dimensions × depth, no calculator required</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A picture's file size was never a mystery — it's just pixels times bits, done in stages so it never needs a calculator. Set a width and height below and watch the pixel count appear. Set a colour depth and watch it turn into bits, then bytes. Same three numbers, every image you'll ever open.</p>
+      <div class="board">
+        <div class="stepper-row">
+          <div class="stepper-group">
+            <span class="stepper-label">width</span>
+            <button class="stepper-btn" id="widthBtn2" type="button"></button>
+          </div>
+          <div class="stepper-group">
+            <span class="stepper-label">height</span>
+            <button class="stepper-btn" id="heightBtn2" type="button"></button>
+          </div>
+          <div class="stepper-group">
+            <span class="stepper-label">colour depth</span>
+            <button class="stepper-btn" id="depthBtn2" type="button"></button>
+          </div>
+        </div>
+        <div class="readout">
+          <div class="cell">pixels<b id="pixelCount2">64</b></div>
+          <div class="cell">bits per pixel<b id="bitsPerPixel2">1</b></div>
+          <div class="cell" id="cellBytes2">file size<b id="fileBytes2">8 bytes</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Build a file that comes to…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Pixel count first: how many little squares are there before you even think about colour?</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Width × height gives pixels. Multiply that by the bits each pixel costs, and you have the file's size in bits — divide by 8 for bytes.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Work out a real sound
+        <span class="disc-sub">rate × resolution × seconds</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Sound works the same multiplication, with different names. How many samples per second (the rate), how many bits each sample gets (the resolution), and how many seconds it plays — multiply all three and you have the file size, before a single note has played.</p>
+      <div class="board">
+        <div class="stepper-row">
+          <div class="stepper-group">
+            <span class="stepper-label">sample rate</span>
+            <button class="stepper-btn" id="rateBtn3" type="button"></button>
+          </div>
+          <div class="stepper-group">
+            <span class="stepper-label">sample resolution</span>
+            <button class="stepper-btn" id="resBtn3" type="button"></button>
+          </div>
+          <div class="stepper-group">
+            <span class="stepper-label">duration</span>
+            <button class="stepper-btn" id="secBtn3" type="button"></button>
+          </div>
+        </div>
+        <div class="readout">
+          <div class="cell" id="cellBytes3">file size<b id="fileBytes3">8,000 bytes</b></div>
+        </div>
+      </div>
+      <p class="chips-label">Build a sound file that comes to…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Same idea as the picture, different ingredients: how many samples happen every second, and how many bits does each one cost?</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Samples per second × bits per sample gives you bits for one second. Multiply that by how many seconds play, and you're done.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The squeeze lever
+        <span class="disc-sub">the same trick shrinks stripes and grows noise</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below is a row of sixteen pixels and a lever. Squeeze it and each run of identical pixels collapses into a count-and-colour pair — count how many, then say what colour. Load a stripy pattern first, then a noisy one, and watch the tally do two very different things.</p>
+      <div class="board">
+        <div class="pixel-row" id="pixelRow4"></div>
+        <div class="squeezed-row" id="squeezedRow4" hidden></div>
+        <p class="tally-line" id="tally4">raw: 16 values</p>
+        <div class="btn-row">
+          <button class="action-btn" id="squeezeToggle4" type="button" aria-pressed="false">squeeze the lever</button>
+        </div>
+        <div class="btn-row">
+          <button class="action-btn" id="loadStripes4" type="button">load stripes</button>
+          <button class="action-btn" id="loadNoise4" type="button">load noise</button>
+        </div>
+      </div>
+      <p class="chips-label">Squeeze both patterns…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">Count the longest run of identical pixels in this noisy picture.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">If every run is length 1, what does count+value cost per pixel?</div>
+        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4c">Two values to store one — RLE made it <i>bigger</i>. Compression needs patterns.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Could you get the original back?
+        <span class="disc-sub">sorting files as lossless or lossy</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Not all compression is equal — and "lossless" doesn't mean "uncompressed"; it just means whatever trick was used, you always get the exact original back. "Lossy" throws a little away on purpose, betting you won't notice. Sort five real files by one honest question: if you compressed this, would you accept getting something <i>slightly</i> different back?</p>
+      <div class="board">
+        <div class="sort-list" id="sortList5"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Ask: if you compressed this and opened it again, would you accept it looking or sounding even slightly different?</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Code and text can't bend even a little — one wrong bit and a program breaks or a word changes. Sound and pictures have a little wiggle room your eyes and ears won't catch.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a sixth time</h2>
+    <p>Twenty minutes ago, "gigabyte" was probably just a word on a spec sheet. Now you've climbed the entire storage ladder from a single bit to a pebibyte, worked out real file sizes for a picture and a sound before either existed, watched one squeeze lever shrink a pattern and grow another, and sorted real files by whether you'd ever notice what compression quietly threw away.</p>
+    <p class="soft">Whenever you're curious, the next stretch of the course turns from <i>how the machine thinks</i> to <i>making it do things</i> — algorithms, decomposition, the actual recipe behind every piece of software. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="05-pictures-and-sound-from-numbers.html">← Module 5 · Pictures &amp; Sound from Numbers</a>
+    <a class="nav-link next" href="07-the-recipe-idea.html">Module 7 · The Recipe Idea →</a>
+  </nav>
+
+  <footer>Module 6 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>

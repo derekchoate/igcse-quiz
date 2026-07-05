@@ -1,0 +1,211 @@
+
+  <section class="hero">
+    <h1>Cambridge has an exact dialect. <span class="lit">Tonight you learn to read it.</span></h1>
+    <p>The algorithms you walked through as maps in the last discovery have a written form too — a tidy, agreed way of putting them into words. It isn't a real programming language; nothing here runs on a computer. It's <em>cleaner</em> than real code, invented so people can share a plan without arguing about punctuation. You'll learn to read it out loud as plain English — and once you can read it, writing it is a short step away.</p>
+    <p>One symbol does most of the work, and almost everyone meets it and mistakes it for something from maths. We'll clear that up first, before anything leans on it.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Read lines aloud, pair them up, take a nudge whenever you like — every route is a good one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The arrow means “gets”
+        <span class="disc-sub">the one symbol everything else rests on</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Everywhere in this dialect you'll see a left arrow: <b class="arrow" style="font-family:var(--mono)">←</b>. It does not mean “equals”. It's an <em>instruction</em>: “work out the right-hand side, then drop the answer into the box on the left.” Read it as the word <b>gets</b>.</p>
+      <p>Here's a box called <b>Score</b>. Tap the three lines in any order and watch the box — not an equals sign — change.</p>
+      <div class="board">
+        <div class="gets-stage">
+          <div class="vbox" id="getsBox1" style="min-width:130px">
+            <div class="vbox-name">Score</div>
+            <div class="vbox-val" id="getsVal1">0</div>
+          </div>
+          <div class="gets-lines" id="getsLines1">
+            <button class="gets-line" data-line="set"><span>Score <span class="arrow">←</span> 10</span><span class="run-tag">run ▸</span></button>
+            <button class="gets-line" data-line="add"><span>Score <span class="arrow">←</span> Score + 5</span><span class="run-tag">run ▸</span></button>
+            <button class="gets-line" data-line="mul"><span>Score <span class="arrow">←</span> Score × 2</span><span class="run-tag">run ▸</span></button>
+          </div>
+          <div class="gets-cap" id="getsCap1">Score is 0. Tap a line to run it.</div>
+          <button class="btn ghost" id="getsReset1" type="button">↺ Set Score back to 0</button>
+        </div>
+      </div>
+      <div class="myth">
+        <b>The trap:</b> in maths, <code style="font-family:var(--mono)">Score = Score + 5</code> is nonsense — nothing equals itself plus five. Here it isn't a claim that they're equal. It's a command: take Score's current value, add 5, put the result back. The box is allowed to appear on both sides.
+      </div>
+      <p class="chips-label">Read all three lines to collect the idea…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Read the arrow <code>←</code> out loud as the word “gets”. Not “equals” — “gets”.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b"><code>Score ← Score + 5</code> becomes “Score gets its old self, plus 5.” The right side is worked out using the current value, then the answer replaces what was in the box.</div>
+        <button class="nudge-btn" data-nudge="n1c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n1c">Say Score is 10. Tap <code>Score ← Score × 2</code>: the machine reads the box (10), works out 10 × 2 = 20, then drops 20 back into Score. The old 10 is gone. Tap all three and keep your eye on the box.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Make the box before you fill it
+        <span class="disc-sub">what DECLARE quietly does</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Before you can put anything in a box, the box has to exist. That's the whole job of <b class="kw" style="font-family:var(--mono)">DECLARE</b>: it makes an empty, labelled box and says what <em>shape</em> of value it will hold — text (<span class="typ" style="font-family:var(--mono)">STRING</span>), whole numbers (<span class="typ" style="font-family:var(--mono)">INTEGER</span>), and so on. Step through and watch the boxes appear empty first, then get filled.</p>
+      <div class="board">
+        <div class="decl-code" id="declCode2"></div>
+        <div class="decl-boxes" id="declBoxes2"></div>
+        <div class="decl-cap" id="declCap2">Nothing exists yet — no boxes. Press Step to run the first line.</div>
+        <div class="step-bar">
+          <button class="btn" id="declStep2" type="button">Step ▸</button>
+          <button class="btn ghost" id="declReset2" type="button">↺ Start over</button>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Press Step and read the caption under the code each time — it says what just happened.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b"><code>DECLARE</code> doesn't put anything in — it only makes an empty, labelled box and names the shape of value it will hold. The box stays empty until a <code>←</code> line fills it.</div>
+        <button class="nudge-btn" data-nudge="n2c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n2c">Step 1 makes an empty <span class="typ">STRING</span> box called Name. Step 2 makes an empty <span class="typ">INTEGER</span> box called Age. Only <em>then</em> do the two <code>←</code> lines drop “Sara” and 19 into them. Declare first, fill second — always that order.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Read a whole snippet aloud
+        <span class="disc-sub">line by line, then pair each one to its meaning</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's a small, complete snippet. First slide down it one line at a time — each code line turns into a plain sentence as you reach it. Then, underneath, prove you've got it: pick up each English sentence and drop it on the code line it describes. It snaps when they match; a wrong drop just points you back.</p>
+      <div class="board">
+        <div class="ts-list" id="tsList3"></div>
+        <div class="ts-bar">
+          <span class="ts-hint" id="tsHint3">Reveal each line's meaning, one at a time.</span>
+          <button class="btn" id="tsNext3" type="button">Read the first line ▸</button>
+        </div>
+
+        <div class="pair-divider">— now pair them yourself —</div>
+        <p class="pair-howto">Drag a meaning across onto its pseudocode line — or tap one, then the other. It snaps when they match.</p>
+        <div class="pair-board">
+          <div class="pair-col">
+            <div class="pair-col-label">Pseudocode</div>
+            <div class="pair-code" id="pairCode3"></div>
+          </div>
+          <div class="pair-col">
+            <div class="pair-col-label">Its meaning</div>
+            <div class="pair-bank" id="pairBank3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Use “Read next line” first — watch each code line turn into a sentence on its own. Then come down to the pairing with the mapping fresh in your head.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">For the pairing: tap a plain-English line to pick it up, then tap the code line it describes. Read <code>←</code> as “gets” and <code>DECLARE</code> as “make a box”.</div>
+        <button class="nudge-btn" data-nudge="n3c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n3c"><code>Total ← 0</code> pairs with “Total gets 0 — start it empty.” <code>INPUT Price</code> pairs with “Ask the person for a Price.” Match the two <code>DECLARE</code> lines to the two “make a box” sentences first, and the rest fall into place.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Names that help vs names that hide
+        <span class="disc-sub">the same algorithm, unreadable then obvious</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>The machine doesn't care what you call your boxes — <code style="font-family:var(--mono)">a</code>, <code style="font-family:var(--mono)">x1</code>, <code style="font-family:var(--mono)">banana</code>, all the same to it. But a <em>person</em> reading it cares enormously. Here's an algorithm with names that tell you nothing:</p>
+      <div class="rn-cryptic" id="rnCryptic4"></div>
+      <p class="soft">It works out a shopping bill. <b>a</b> is the price of one item (money, so it's a <span class="typ">REAL</span> box — decimals allowed). <b>b</b> is how many you buy (a whole count — <span class="typ">INTEGER</span>). <b>c</b> is what you pay. Rename the three boxes so the algorithm reads itself.</p>
+      <div class="board">
+        <div class="rn-rows" id="rnRows4"></div>
+        <div class="rn-status" id="rnStatus4" aria-live="polite"></div>
+        <div class="rn-readable" id="rnReadable4">
+          <div class="pcline"><span class="var">Total</span> <span class="arrow">←</span> Price × Quantity</div>
+          <div class="rn-note">Now anyone can read it at a glance — and it never needed a comment to explain itself.</div>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">A good name answers “what's inside this box?” in one word. “Thing” and “n” don't.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Look at the types. <code>a</code> is <span class="typ">REAL</span> — it allows decimals, like money. <code>b</code> is <span class="typ">INTEGER</span> — whole numbers, like a count. <code>c</code> holds <code>a × b</code>.</div>
+        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n4c"><code>a</code> is the price → <b>Price</b>. <code>b</code> is how many → <b>Quantity</b>. <code>c</code> is the two multiplied → <b>Total</b>. Now the line reads <code>Total ← Price × Quantity</code>, and nobody has to guess.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Notes to future-you
+        <span class="disc-sub">what a comment is, and who it's really for</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Meaningful names tell you <em>what</em> a box holds. Sometimes you also want to say <em>why</em> — and that's a comment. Anything after two slashes <code style="font-family:var(--mono)">//</code> is a note for a human. The machine reads straight past it. Here's a line that tells you how, but not why:</p>
+      <div class="board">
+        <div class="cm-snip" id="cmSnip5"></div>
+        <div class="step-bar" style="justify-content:flex-start">
+          <button class="btn" id="cmReveal5" type="button">Reveal the note</button>
+          <button class="btn ghost" id="cmRun5" type="button">Run it (what the machine sees)</button>
+        </div>
+        <div class="cm-out" id="cmOut5"><span class="prompt">output ›</span> <span style="opacity:.5">nothing yet — press “Run it”</span></div>
+        <div class="cm-note">
+          <label for="cmNote5">Your own note to future-you (optional, just for you)</label>
+          <input id="cmNote5" type="text" placeholder="// e.g. remember: quantity is always a whole number">
+        </div>
+      </div>
+      <p class="chips-label">Collect both ideas…</p>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Anything after <code>//</code> is a note for a human. The machine reads right past it — the answer it prints is exactly the same with or without the note.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Press “Reveal the note” to see what a comment adds, then “Run it” to watch the machine ignore that note and still get the same answer.</div>
+        <button class="nudge-btn" data-nudge="n5c" style="margin-top:10px">Show me one worked through</button>
+        <div class="nudge" id="n5c"><code>t ← p * q</code> tells you <em>how</em>. The comment <code>// total = price × quantity</code> tells you <em>why</em>. Run it: p is 5, q is 3, so t becomes 15 — the note changes nothing for the machine, everything for you.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a ninth time</h2>
+    <p>You can now read Cambridge's pseudocode dialect out loud in plain English. You met the <code style="font-family:var(--mono)">←</code> arrow and read it as “gets” — sidestepping the one trap that catches almost everyone — watched <code style="font-family:var(--mono)">DECLARE</code> make empty boxes before anything filled them, read a whole snippet line by line and paired every sentence back to its code, turned an unreadable algorithm readable just by renaming its boxes, and saw why a comment is a note the machine ignores but a person treasures. You didn't write any of it — but you can read all of it, which is the harder half.</p>
+    <p class="soft">Whenever you're ready, the next discovery is where you stop reading the dialect and start commanding it — declaring your own boxes, dropping values in, and doing arithmetic with them. Everything you just learned to read, you'll be writing. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="08-reading-the-map.html">← Module 8 · Reading the Map</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 9 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>

@@ -1,0 +1,63 @@
+/* ---------- challenge chips (centered variant) ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 6px;justify-content:center}
+.chip{font-family:'Sora',sans-serif;font-size:15px;padding:9px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);transition:all .4s}
+.chip.hit{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
+.chip.hit::after{content:" ✦"}
+.chips-label{font-size:15px;color:var(--ink-soft);margin-top:14px}
+
+/* ---------- generic panel (this lesson reuses .board without the board kit) ---------- */
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:22px 12px 18px;margin:18px 0;text-align:center}
+
+/* ---------- readout ---------- */
+.readout{display:flex;justify-content:center;gap:22px;margin-top:14px;flex-wrap:wrap}
+.readout .cell{text-align:center;font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft)}
+.readout .cell b{display:block;font-size:22px;color:var(--ink);font-weight:700;margin-top:2px;transition:color .3s}
+.readout .cell.matched b{color:var(--glow);text-shadow:0 0 18px rgba(255,184,77,.5)}
+
+/* pixel paint grid + mirror (D1) */
+.pixel-grid{display:grid;gap:3px;justify-content:center;margin:6px 0}
+.pixel-cell{width:28px;height:28px;border-radius:4px;background:#1C2748;border:1px solid #33406B;cursor:pointer;padding:0}
+.pixel-cell[aria-pressed="true"]{background:var(--glow);border-color:var(--glow);box-shadow:0 0 10px rgba(255,184,77,.55)}
+.pixel-cell:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.bits-mirror{display:grid;gap:3px;justify-content:center;margin:16px auto 0}
+.bit-char{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:13px;color:var(--ink-soft);background:#0D1426;border-radius:4px}
+.bit-char.on{color:var(--glow)}
+.mirror-label{font-family:'Sora',sans-serif;font-size:12px;color:var(--ink-soft);margin-top:14px}
+@media (max-width:400px){.pixel-cell,.bit-char{width:22px;height:22px}}
+
+/* colour depth (D2) */
+.preview-pixel{width:80px;height:80px;border-radius:12px;margin:0 auto 6px;border:1px solid var(--card-edge);transition:background .2s;background:#000}
+input[type=range]{width:100%;accent-color:var(--glow);margin-top:12px}
+.shade-swatches{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.shade-swatch{width:34px;height:34px;border-radius:8px;border:1px solid var(--card-edge);cursor:pointer;padding:0}
+.shade-swatch:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* resolution (D3) */
+.res-canvas{display:grid;margin:6px auto;justify-content:center}
+.res-cell{background:#1C2748;border:1px solid #10182B}
+.res-cell.on{background:var(--glow)}
+
+/* waveform (D4) */
+.wave-wrap{position:relative;margin:10px 0}
+.wave-svg{width:100%;height:110px;display:block}
+.sample-pt{position:absolute;width:22px;height:22px;margin-left:-11px;margin-top:-11px;border-radius:50%;background:#16213D;border:2px solid rgba(123,196,180,.6);cursor:pointer;padding:0;transition:all .2s;box-shadow:0 0 0 3px rgba(16,24,43,.7)}
+.sample-pt:hover{border-color:var(--teal);background:rgba(123,196,180,.15)}
+.sample-pt[aria-pressed="true"]{background:var(--glow);border-color:var(--glow);box-shadow:0 0 10px rgba(255,184,77,.6)}
+.sample-pt:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.wave-hint{margin-top:8px;font-size:14px;color:var(--teal);text-align:center}
+
+/* sentence assembler (D5) */
+.sentence-line{font-family:'Sora',sans-serif;font-size:19px;line-height:1.7;text-align:center;margin-bottom:18px}
+.blank{display:inline-block;min-width:70px;border-bottom:2px dashed var(--teal);color:var(--ink-soft);padding:0 4px}
+.blank.filled{color:var(--glow);border-bottom-color:var(--glow);font-weight:700}
+.word-group{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.word-chip{font-family:'Sora',sans-serif;font-size:15px;padding:8px 16px;border-radius:999px;background:#121A32;border:1px solid var(--card-edge);color:var(--ink-soft);cursor:pointer}
+.word-chip[aria-pressed="true"]{background:rgba(255,184,77,.14);border-color:var(--glow);color:var(--glow)}
+.word-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* stepper buttons (D3) */
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.action-btn{font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);background:#22305A;border:1px solid var(--card-edge);border-radius:999px;padding:10px 20px;cursor:pointer}
+.action-btn:hover{border-color:var(--teal)}
+.action-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.action-btn[aria-pressed="true"]{border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.1)}

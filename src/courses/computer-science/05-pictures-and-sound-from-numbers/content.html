@@ -1,0 +1,173 @@
+  <section class="hero">
+    <h1>Every photo you've ever taken is <span class="lit">a spreadsheet of numbers wearing a costume.</span></h1>
+    <p>You already know a byte can spell a letter. It can just as easily spell a tiny square of colour — millions of them, side by side, and suddenly it's a photograph. In the next twenty minutes you'll paint with bulbs, watch a picture blur into blocks as its resolution drops, and discover that sound gets turned into numbers by simply measuring a wiggle very, very often. Same trick as always. Different costume.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip switches, follow curiosity, take a nudge whenever you like. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Paint with one bit
+        <span class="disc-sub">pure black and white, bulb by bulb</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A picture is just a grid of tiny squares — pixels — and the simplest version of each pixel is a single bulb: lit or dark, exactly like Module 1. Paint the grid below any way you like. Watch the panel beside it mirror your picture in raw 1s and 0s — that panel isn't decoration, it's genuinely what's stored on disk.</p>
+      <div class="board">
+        <div class="pixel-grid" id="pixelGrid1"></div>
+        <div class="mirror-label">what's actually stored</div>
+        <div class="bits-mirror" id="mirror1"></div>
+      </div>
+      <p class="chips-label">While you paint, try to…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n1a">Want a nudge?</button>
+        <div class="nudge" id="n1a">Try lighting a whole row — watch that row's line in the numbers panel turn to solid 1s.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Clear the grid back to all-dark, then build a small pattern of your own. Every square you light is one more 1 stored somewhere.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">More bulbs per pixel
+        <span class="disc-sub">watch a single pixel open up into shades</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One bulb per pixel only gets you black or white. Give a pixel more bulbs and it can hold more shades in between — 2 bulbs make 4 shades, 3 bulbs make 8, and so on. Slide the depth control below and watch a single pixel go from a blunt on/off switch to something closer to a real photograph.</p>
+      <div class="board">
+        <div class="preview-pixel" id="previewPixel2"></div>
+        <input type="range" id="depthSlider2" min="1" max="3" step="1" value="1" aria-label="bits per pixel">
+        <div class="readout">
+          <div class="cell">bits per pixel<b id="depthVal2">1</b></div>
+          <div class="cell">shades available<b id="shadeCount2">2</b></div>
+          <div class="cell">this shade's code<b id="previewCode2">–</b></div>
+        </div>
+        <div class="shade-swatches" id="shadeSwatches2"></div>
+      </div>
+      <p class="chips-label">Explore each depth…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n2a">Want a nudge?</button>
+        <div class="nudge" id="n2a">Slide to 1-bit first — only two shades exist there, black and white, nothing between.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Now try 3-bit. Eight shades from one pixel, and each one still just a binary number underneath — 000 up to 111.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The resolution slider
+        <span class="disc-sub">same picture, four densities, one file-size counter</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's the same small picture at four different pixel densities. Step through them and watch it sharpen — and watch the file-size counter climb right alongside it. More pixels means a truer picture, but it never comes free.</p>
+      <div class="board">
+        <div class="res-canvas" id="resCanvas3"></div>
+        <div class="readout">
+          <div class="cell">density<b id="resLabel3">1×1</b></div>
+          <div class="cell">file size<b id="resSize3">1 bit</b></div>
+        </div>
+        <div class="btn-row" id="resButtons3"></div>
+      </div>
+      <p class="chips-label">Step through…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n3a">Want a nudge?</button>
+        <div class="nudge" id="n3a">Size = number of pixels × bulbs per pixel.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Double the width AND the height — how many times more pixels?</div>
+        <button class="nudge-btn" data-nudge="n3c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3c">4× the pixels, so 4× the bits.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Sound is a wiggle, measured often
+        <span class="disc-sub">sample a wave by tapping it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Sound is a wiggle in the air, and a computer can only ever measure it at a moment in time — never the whole smooth curve at once. The grey line below is that smooth wiggle. Tap points along it to take samples, and watch the amber line — the version a computer would actually store — connect the dots you chose.</p>
+      <div class="board">
+        <div class="wave-wrap" id="waveWrap4">
+          <svg class="wave-svg" viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true">
+            <polyline id="smoothPoly" fill="none" stroke="#33406B" stroke-width="2"></polyline>
+            <polyline id="sampledPoly" fill="none" stroke="#FFB84D" stroke-width="2.5"></polyline>
+          </svg>
+        </div>
+        <p class="wave-hint">↑ tap any of the 12 rings sitting on the line</p>
+        <div class="readout"><div class="cell">samples taken<b id="sampleCount4">0</b></div></div>
+      </div>
+      <p class="chips-label">Try both extremes…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">Tap only two or three points, spread far apart — watch how much of the wiggle gets flattened out between them.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Now tap nearly every point available. The amber line starts hugging the grey one almost exactly — more samples, truer sound.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The trade-off, in one honest sentence
+        <span class="disc-sub">assemble the rule yourself</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>You've now watched more pixels and more bits both cost you file size. Time to say the whole rule in one sentence, in your own words. Pick a word for each gap below — there's more than one honest way to finish it.</p>
+      <div class="board">
+        <p class="sentence-line">More pixels or more bits per pixel means <span class="blank" id="blank1">___</span> picture quality, and <span class="blank" id="blank2">___</span> files.</p>
+        <div class="word-group" id="group1"></div>
+        <div class="word-group" id="group2"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Both blanks move the same direction: more information always costs more room to store it.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">There's no version of this sentence where quality goes up and size doesn't. That's the whole trade-off, in one line.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a fifth time</h2>
+    <p>Twenty minutes ago, "a photo is just numbers" might have sounded like a slogan. Now you've painted in raw bits, watched a single pixel earn its shades, dropped a picture's resolution and watched the file size follow it down, turned a smooth sound wave into a row of samples, and written the whole trade-off yourself, in your own words.</p>
+    <p class="soft">Whenever you're curious, the next discovery is working out exactly how big a whole song or photo really is — down to the byte. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="04-letters-in-the-wire.html">← Module 4 · Letters in the Wire</a>
+    <a class="nav-link next" href="06-how-big-is-a-song.html">Module 6 · How Big Is a Song? →</a>
+  </nav>
+
+  <footer>Module 5 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
