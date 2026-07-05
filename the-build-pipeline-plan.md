@@ -127,6 +127,22 @@ M28 compiler-vs-interpreter, M29 SQL composer, M31 wiring canvas, M33 ledger, M3
 workbench, M36 expert system — one-off signatures that lean on primitives but whose
 headline interaction stays unique.
 
+### Phase 3 outcome (kits extracted)
+
+Six kits now live in `src/engine/interactions/` and are golden-master-verified:
+
+- **chips** — unified across all 10 modules (readout + label modes, per-call `toastFn`).
+- **byte** — unified across Modules 2/3/4 (superset API).
+- **walk**, **matcher**, **trader**, **cycler** — relocated from their single current user
+  (M8/M9/M3a/M6) into the library, ready for Modules 10–36.
+
+**Sorter: deliberately NOT unified.** M6 and M7's sort boards look alike but diverge
+in JS (accept logic, success side-effects, exact toast wording) *and* CSS (`.sort-item`
+background, `.sort-btn` sizing, M7-only `.sort-tag`); M8's shape-sorter is a different
+mechanic (renders shapes, own classes, chip-integrated). A shared factory would be a
+config-heavy god-object plus per-module overrides — net-negative for a 2-module dedup.
+Left as-is; revisit if a genuinely clean third user appears (rule of two, done right).
+
 **Contract note:** shared kits do not conflict with "one signature interaction per
 module." *Predictability is load-bearing* and rule 12 (*"same idea, new costume"*)
 **require** identical mechanics across lessons; a shared kit is the mechanism that
