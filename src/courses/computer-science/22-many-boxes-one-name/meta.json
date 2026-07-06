@@ -1,0 +1,6 @@
+{
+  "number": 22,
+  "slug": "22-many-boxes-one-name",
+  "title": "Many Boxes, One Name",
+  "uses": ["chips", "cycler"]
+}

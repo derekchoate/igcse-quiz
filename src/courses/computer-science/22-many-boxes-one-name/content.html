@@ -1,0 +1,225 @@
+
+  <section class="hero">
+    <h1>Storing 30 scores in 30 separately named boxes would be misery. <span class="lit">So: one name, many numbered compartments.</span></h1>
+    <p>An array is exactly that fix — one name attached to a whole row of numbered compartments, instead of a pile of separate variables like Score1, Score2, Score3… Cambridge declares one like this: <code>DECLARE Scores : ARRAY[1:5] OF INTEGER</code> — one name (Scores), a stated lower bound and upper bound in square brackets (1 to 5 here), and the type every compartment holds. Reach into a single compartment with its number in square brackets, exactly like any other variable: <code>Scores[3] ← 87</code>. Compartments are numbered from whatever lower bound you state — almost always 1, never 0 by accident. Later on, the wall grows a second dimension and becomes a grid, addressed as [row, column].</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Tap compartments and seats however you like — nothing here can crash, not even reaching for a compartment that isn't there. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">One name, five compartments
+        <span class="disc-sub">fill Scores[1..5] by hand, one compartment at a time</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below is the wall for <span class="kw" style="font-family:var(--mono)">DECLARE Scores : ARRAY[1:5] OF INTEGER</span> — five compartments, numbered 1 to 5, every one currently empty. Type a value in the box (your age is a fine place to start — 19 is already sitting there), then tap any compartment to place it there. Tap a compartment that already holds something and it simply takes the new value instead — a compartment can always be reassigned, exactly like any other variable.</p>
+      <div class="board">
+        <div class="decl-code">
+          <div class="pcline">DECLARE Scores : ARRAY[1:5] OF INTEGER</div>
+          <div class="pcline" id="code1">Scores[?] <span class="arrow">←</span> ?</div>
+        </div>
+        <div class="pgh-wall" id="wall1"></div>
+        <div class="op-input">
+          <label for="valInput1">Value to place (try your own age first)</label>
+          <input id="valInput1" type="number" inputmode="numeric" placeholder="e.g. 19" value="19">
+        </div>
+        <p class="op-status" id="status1" aria-live="polite">Type a value above, then tap any compartment to place it there.</p>
+      </div>
+      <p class="chips-label">Try both…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Type 19 in the box, then tap compartment 3 — the wall now reads Scores[3] ← 19, and compartment 3's box shows 19. Now type 25 and tap compartment 3 again: it doesn't add a second value or complain, it just becomes 25. One name, five compartments, and any single one of them can be reassigned whenever you like.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Type any whole number into the box, then tap a compartment — watch that one compartment's box update to your number while the rest stay empty.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Fill all five compartments with different values first. Then type a new value and tap a compartment you've already filled — nothing about the wall minds being changed.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The loop meets the wall
+        <span class="disc-sub">FOR Index ← 1 TO 5 — watch Index drive which compartment lights up</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Filling compartments by hand works for five of them. For fifty, you'd want a loop to do the reaching for you. <span class="kw" style="font-family:var(--mono)">FOR Index ← 1 TO 5</span> sends Index through 1, 2, 3, 4, 5 in turn, and each lap <span class="kw" style="font-family:var(--mono)">Scores[Index]</span> reaches into whichever compartment Index currently is. Press Step to take one lap at a time, or Run to send it round the whole wall — watch Index itself decide which compartment lights up next.</p>
+      <div class="board">
+        <div class="decl-code" id="code2"></div>
+        <div class="pgh-wall" id="wall2"></div>
+        <div class="loop-bar" id="bar2"></div>
+        <p class="op-status" id="status2" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Press Step once: Index is 1, so Scores[1] ← 1 × 10 lights compartment 1 with 10. Press Step again: Index is now 2, so Scores[2] ← 20 lights compartment 2 — a completely different box, purely because Index moved. Keep stepping (or press Run) and every compartment lights in order, 1 through 5, each one holding Index × 10. Index isn't a hint about which compartment — it IS the index, the exact address the line reaches into.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Press Step just once and read the status line carefully — which compartment lit up, and what number does the loop say Index currently is?</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Press Step again. The compartment that lights up this time is different from last time — and the only thing that changed anywhere in the code is Index's value.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Reach past the wall
+        <span class="disc-sub">Scores only has 5 compartments — see what happens at 6</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>This wall already holds five values. Use the arrows below to move the index up or down and read out whatever's sitting at that index — <span class="kw" style="font-family:var(--mono)">OUTPUT Scores[Index]</span>. Compartments 1 to 5 are real. Keep pushing the index past 5, though, and see for yourself what a computer actually does when asked for a compartment that was never declared.</p>
+      <div class="board">
+        <div class="decl-code">DECLARE Scores : ARRAY[1:5] OF INTEGER</div>
+        <div class="pgh-wall" id="wall3"></div>
+        <div class="pgh-pointer-bar">
+          <button class="btn ghost" id="idxBack3" type="button">◂ Lower index</button>
+          <span class="pgh-pointer-label" id="idxLabel3">Index: 1</span>
+          <button class="btn ghost" id="idxFwd3" type="button">Higher index ▸</button>
+        </div>
+        <div class="op-readout" id="readout3"></div>
+        <p class="op-status" id="status3" aria-live="polite"></p>
+      </div>
+      <p class="chips-label">Notice all three…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Move the index to 5 — Scores[5] is the last real compartment, and it reads back a proper value. Press "Higher index" once more, to 6: the wall simply has nothing there. Scores[6] doesn't crash anything and doesn't throw sparks — it just isn't a compartment that exists, because ARRAY[1:5] only ever promised 5 of them. Step back down to a real index afterwards and everything reads normally again, exactly as before.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Move the index all the way up to 5 first — the last compartment the DECLARE line actually promised — and read what's there.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Now push one step further, to 6. ARRAY[1:5] means exactly 5 compartments, numbered 1 to 5 — nothing above 5 was ever promised. See what the wall shows when you ask for it anyway.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The grid
+        <span class="disc-sub">a small cinema seating plan — address a seat as [row, column]</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A wall can grow a second dimension. <span class="kw" style="font-family:var(--mono)">DECLARE Seats : ARRAY[1:3, 1:3] OF STRING</span> — three rows, three seats each, for a small cinema seating plan. Every seat now needs two numbers to find it: <span class="kw" style="font-family:var(--mono)">Seats[row, column]</span>, row always stated first. Type a name below, then tap any seat to seat them there.</p>
+      <div class="board">
+        <div class="decl-code">
+          <div class="pcline">DECLARE Seats : ARRAY[1:3, 1:3] OF STRING</div>
+          <div class="pcline" id="code4">Seats[?, ?] <span class="arrow">←</span> ?</div>
+        </div>
+        <div class="pgh-grid" id="grid4"></div>
+        <div class="op-input">
+          <label for="nameInput4">Name to seat (leave blank to clear a seat)</label>
+          <input id="nameInput4" type="text" maxlength="16" placeholder="e.g. a friend's name">
+        </div>
+        <p class="op-status" id="status4" aria-live="polite">Type a name above, then tap any seat — row first, then column.</p>
+      </div>
+      <p class="chips-label">Address all three…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Type "Priya" and tap the seat in the front row, leftmost column — that seat becomes Seats[1, 1] ← "Priya", row 1 first, column 1 second. Type "Wei" and tap the back row, rightmost seat — Seats[3, 3] ← "Wei". Row is always named first, column second, in that order, every single time — never the other way round.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Type a name, then tap the seat in the very front row, leftmost column. Read the code line that appears — which number is listed first, row or column?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Now seat someone in the very back row, rightmost column, and someone in the middle seat. Row always comes first inside the brackets, column always second — that order never swaps.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The sweep
+        <span class="disc-sub">nested FORs paint the grid — swap which loop sits inside and watch it turn sideways</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One FOR loop sweeps a single row of compartments. Two nested FOR loops sweep a whole grid. Tap the order button to choose which loop sits inside, then Step or Run to watch the grid paint itself, seat by seat, in the exact order the loops actually visit them. Paint it both ways — rows-first, then columns-first — and feel what swapping inner and outer really changes.</p>
+      <div class="board">
+        <div class="decl-code" id="code5"></div>
+        <div class="step-bar" id="orderBar5" style="margin-bottom:14px"></div>
+        <div class="pgh-grid" id="grid5"></div>
+        <div class="loop-bar" id="bar5"></div>
+        <p class="op-status" id="status5" aria-live="polite"></p>
+      </div>
+      <p class="chips-label">Paint it both ways…</p>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">With "Rows first" selected, press Run: seat [1,1] paints, then [1,2], then [1,3] — the whole front row finishes — only then does [2,1] begin. The inner loop (Column) runs all the way through before the outer loop (Row) ever moves down. Now tap the order button to "Columns first" and press Run again: this time [1,1], [2,1], [3,1] paint first — a whole column, top to bottom — before column 2 even starts. Same two loops, same grid, opposite sweep, just from swapping which one sits inside.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Watch which counter changes fastest as the grid paints — that's the inner loop. The inner loop finishes a whole row (or column) before the outer loop moves on at all.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Inner = whichever loop is nested inside — in "Rows first" that's Column, in "Columns first" that's Row. Swap which one sits inside and the whole sweep turns sideways, seat for seat.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Mini-trace: find the largest
+        <span class="disc-sub">trace a sweep across the wall — the exact idea Module 23 builds on</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One last wall, already filled: 7, 3, 15, 9, 20, in compartments 1 to 5. The program below finds the largest value by starting with the first compartment as its best guess, then checking every compartment after it — only replacing its guess when it finds something bigger. Trace it exactly as written: tap Line 1's box, pick the value you think belongs there, and keep going. A dash still means exactly what it meant in Module 20 — that line had nothing new to show for that column, not that the lap didn't happen.</p>
+      <div class="board">
+        <div class="pgh-wall pgh-wall-static" id="wall6"></div>
+        <div class="trace-panels">
+          <div class="trace-code" id="code6"></div>
+          <div class="trace-table-wrap">
+            <div class="trace-grid" id="grid6"></div>
+            <p class="trace-status" id="status6" aria-live="polite"></p>
+            <div class="trace-pad" id="pad6" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">Line 1: Largest starts as Scores[1] — 7. Lap Index 2: Scores[2] is 3, and 3 &gt; 7 is false, so THEN never fires — Largest's box stays a dash. Lap Index 3: Scores[3] is 15, and 15 &gt; 7 is true — Largest becomes 15. Lap Index 4: Scores[4] is 9, and 9 &gt; 15 is false — dash again. Lap Index 5: Scores[5] is 20, and 20 &gt; 15 is true — Largest becomes 20. OUTPUT prints 20 — the biggest value that was ever sitting in the wall.</div>
+        <button class="nudge-btn" data-nudge="n6a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n6a">Before ticking Largest's box on any lap, check: is this lap's Scores[Index] actually bigger than whatever Largest currently holds? If not, that box stays a dash.</div>
+        <button class="nudge-btn" data-nudge="n6b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n6b">Largest only ever updates to a new champion — it never goes backwards, and it never resets partway through. Whatever it holds after the very last lap is exactly what OUTPUT prints.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a twenty-second time</h2>
+    <p>Thirty separately named boxes would have been misery, and you just felt exactly why one name with many compartments solves it. You filled a five-compartment wall by hand, then handed the reaching over to a FOR loop and watched Index itself decide which compartment lit up next. You pushed an index past where the wall ends and saw, calmly, that nothing breaks — there simply isn't a compartment there. You grew the wall into a grid and addressed real seats as [row, column], then painted the whole grid two different ways just by swapping which loop sat inside the other. And you traced a find-the-largest sweep across the wall, dashes and all — the exact same shape Module 23 is about to build a whole toolkit out of.</p>
+    <p class="soft">Whenever you're ready, the next discovery takes that toolkit further — the classic little algorithms that run the world's paperwork, built from pieces you already have. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="21-words-under-the-microscope.html">← Module 21 · Words Under the Microscope</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 22 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
