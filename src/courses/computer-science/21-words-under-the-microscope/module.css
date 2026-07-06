@@ -1,0 +1,91 @@
+/* Module 21 — Words Under the Microscope. Lesson-specific styling only.
+   meta.uses is ["chips"] — chips.css/.js come from that kit. No existing
+   kit covers letter tiles with an adjustable bracket (rule of two: this is
+   the first module that needs one), so the whole operating-table look —
+   tiles, bracket highlight, code/readout strips — is hand-rolled here, same
+   choice Module 20 made for its trace grid and Module 10 made for its
+   pseudocode look (`.kw`/`.str`) and `.board`/`.btn`/`.step-bar`. */
+
+:root{
+  --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+}
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+
+/* ── pseudocode-style keyword/string colouring, reused inline throughout ── */
+.kw{color:var(--teal)}
+.str{color:#E6B98A}
+.muted{color:var(--ink-soft)}
+
+.btn{font-family:'Sora',sans-serif;font-size:15px;color:#3A2606;background:var(--glow);border:1px solid var(--glow);border-radius:999px;padding:10px 20px;cursor:pointer;transition:all .25s}
+.btn:hover{background:var(--glow-deep);border-color:var(--glow-deep)}
+.btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.btn.ghost{background:none;color:var(--ink-soft);border-color:var(--card-edge);font-size:14px;padding:8px 16px}
+.btn.ghost:hover{border-color:var(--teal);color:var(--teal);background:none}
+.btn:disabled{opacity:.5;cursor:default;pointer-events:none}
+
+.step-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+
+/* ── shared free-text input, mirrors Module 10's mk-inputs ── */
+.op-input{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.op-input label{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:.5px}
+.op-input input{font:inherit;font-family:'Atkinson Hyperlegible',sans-serif;font-size:15px;background:#1A2440;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:10px 12px;width:100%;max-width:100%}
+.op-input input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* ── the operating table's letter tiles ── */
+.wtiles{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:14px 0;padding:10px;background:#0E1730;border:1px solid var(--card-edge);border-radius:10px}
+.wtile{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:38px;min-height:46px;padding:6px 4px 4px;
+  background:#141d38;border:1px solid var(--card-edge);border-radius:8px;
+  font:inherit;color:inherit;
+  transition:border-color .25s,background .25s,box-shadow .25s;
+}
+button.wtile{cursor:pointer}
+button.wtile:hover{border-color:var(--teal)}
+button.wtile:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.wtile-ch{font-family:var(--mono);font-size:18px;line-height:1.1}
+.wtile-pos{font-family:'Sora',sans-serif;font-size:10px;color:var(--ink-soft);margin-top:3px}
+.wtile-space{background:#0E1730}
+.wtile-space .wtile-ch{opacity:.65;font-size:10.5px;font-family:'Sora',sans-serif;text-transform:uppercase;letter-spacing:.3px}
+.wtile-picked{border-color:var(--glow);background:rgba(255,184,77,.14);box-shadow:0 0 10px rgba(255,184,77,.25)}
+.wtile-picked-a{border-color:var(--teal);box-shadow:0 0 8px rgba(123,196,180,.35)}
+.wtile-picked-b{border-color:var(--glow);box-shadow:0 0 8px rgba(255,184,77,.35)}
+.wtile-tag{
+  position:absolute;top:-9px;right:-6px;
+  font-family:'Sora',sans-serif;font-size:10px;font-weight:700;
+  background:#1A2440;border:1px solid var(--card-edge);border-radius:6px;padding:0 4px;color:var(--ink);
+}
+
+/* ── code/result readout strip, shared across every discovery ── */
+.op-readout{font-family:var(--mono);font-size:15.5px;background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:12px 14px;margin:10px 0;text-align:center;line-height:1.6}
+.op-status{margin-top:10px;font-size:14.5px;color:var(--ink-soft);text-align:center;min-height:36px}
+
+/* ── D4 dice readouts (mirrors Module 10's sw-stat) ── */
+.rd-lead{margin-bottom:10px}
+.rd-readouts{display:flex;flex-direction:column;gap:8px;margin:8px 0 4px}
+.rd-stat{display:flex;justify-content:space-between;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);background:#0E1730;border:1px solid var(--card-edge);border-radius:8px;padding:8px 12px}
+.rd-stat-val{color:var(--ink);font-weight:600;font-family:var(--mono);font-size:16px}
+
+/* ── D3 case-comparison pair ── */
+.cc-compare-row{display:flex;gap:14px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+.cc-compare-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--mono);font-size:16px;background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:10px 16px}
+.cc-compare-label{font-family:'Sora',sans-serif;font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.4px}
+
+/* ── D5 monogram readout ── */
+.mg-monogram{font-family:var(--mono);font-size:34px;text-align:center;letter-spacing:4px;color:var(--glow);margin:10px 0;text-shadow:0 0 18px rgba(255,184,77,.35)}
+
+/* ── shared nudge tweak ── */
+.nudge code{font-family:var(--mono);font-size:14px;color:var(--ink)}
+
+/* ── mobile tightening at ~380px: shrink tiles and stack controls so a
+   long word's tile row never overflows a narrow screen ── */
+@media (max-width:420px){
+  .wtile{min-width:30px;min-height:40px;padding:5px 2px 3px}
+  .wtile-ch{font-size:15px}
+  .wtile-pos{font-size:9px}
+  .wtile-tag{font-size:9px;top:-8px;right:-5px}
+  .op-readout{font-size:14px;padding:10px 10px}
+  .mg-monogram{font-size:28px;letter-spacing:3px}
+  .cc-compare-item{padding:8px 12px;font-size:14px}
+}
