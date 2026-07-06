@@ -1,0 +1,104 @@
+/* Module 19 — Where Things Live: lesson-specific styling only.
+   meta.uses: ["chips"] — chips tracks D4's two tries (fill RAM, trigger an
+   overflow). D1/D2/D3/D5 are all the same local tap+drag "sort board"
+   pattern established in Module 18's module.js (makeSortBoard) — not the
+   shared `matcher` kit, which hardcodes awardStar("d3", ...) with Module 9's
+   pseudocode-pairing wording, and none of this module's sorts are a 1:1
+   pairing anyway (they're N-into-2/3-bin sorts). The "memory city map"
+   signature interaction reappears as a small recurring visual (.city-map /
+   .district) in D1 (the power-cut switch) and D4 (the RAM bank + overflow
+   bus) rather than one shared stateful widget threaded across independent,
+   any-order discoveries. */
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+
+/* ── shared button look (power switch, open-app button) ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+  display:block;margin:0 auto;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn:disabled{opacity:.5;cursor:default}
+
+/* ── the memory city map: a row of districts (D1's four, D4's two) ── */
+.city-map{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:16px}
+.district{
+  flex:1 1 130px;background:#0C1224;border:1px solid var(--card-edge);border-radius:12px;
+  padding:14px 10px;text-align:center;transition:opacity .3s, border-color .3s, background .3s;
+}
+.district.lit{border-color:rgba(255,184,77,.4)}
+.district.dark{opacity:.4;border-color:var(--card-edge)}
+.district-label{display:block;font-family:'Sora',sans-serif;font-weight:600;font-size:14.5px;color:var(--ink);margin-bottom:4px}
+.district-note{display:block;font-size:12.5px;color:var(--ink-soft)}
+
+/* D4: RAM bank of slots, and the secondary-storage paged-out list */
+.ram-bank-district{flex-basis:220px}
+.ram-bank{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
+.ram-slot{
+  min-width:52px;height:34px;display:grid;place-items:center;
+  background:#121A32;border:1.5px dashed var(--card-edge);border-radius:8px;
+  font-size:12px;color:var(--ink-soft);padding:0 6px;transition:border-color .25s, background .25s, color .25s;
+}
+.ram-slot.filled{border-style:solid;border-color:rgba(255,184,77,.55);background:rgba(255,184,77,.1);color:var(--ink)}
+.ram-slot.just-paged{border-color:var(--teal)}
+.paged-list{display:flex;flex-direction:column;gap:5px;margin-top:10px;min-height:1px}
+.paged-item{font-size:12.5px;color:var(--ink-soft);background:rgba(123,196,180,.08);border-radius:8px;padding:5px 8px}
+
+/* D2/D3/D4 shared: a short running log of what's been tried */
+.bench-log{list-style:none;display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--ink-soft);min-height:1.4em;margin-top:12px}
+.bench-log li{background:rgba(255,255,255,.03);border-radius:8px;padding:6px 10px}
+.bench-log li:last-child{color:var(--ink)}
+
+/* ── D1/D2/D3/D5: pool of chips + sockets to sort them into (Module 18's
+   makeSortBoard pattern, reused here — see module.js) ── */
+.sort-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:16px}
+.sort-chip{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:10px 14px;cursor:pointer;max-width:320px;text-align:left;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.sort-chip:hover{border-color:var(--teal)}
+.sort-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sort-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.sort-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.sort-chip.dragging{opacity:.3}
+.sort-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.sort-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:480px){.sort-bins{grid-template-columns:1fr 1fr}}
+@media (min-width:640px){.sort-bins.cols-3{grid-template-columns:1fr 1fr 1fr}}
+.sort-bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:88px;transition:border-color .2s, background .2s}
+.sort-bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.sort-bin.filled{border-style:solid;border-color:rgba(123,196,180,.5)}
+.sort-bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:12.5px;letter-spacing:.3px;
+  color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:center;
+}
+.sort-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sort-bin-list{display:flex;flex-direction:column;gap:6px;min-height:1px}
+.sort-item{font-size:13px;color:var(--ink);background:rgba(255,184,77,.1);border-radius:8px;padding:7px 9px}
+
+/* ── shared chip/nudge tweaks ── */
+.chips-label{font-size:14px;color:var(--ink-soft);margin:12px 0 8px}
+.chip{font-size:14.5px}
+
+/* ── mobile tightening at ~380px: keep the four-district city map and the
+   widest bin grid (D3's three warehouses) from overflowing ── */
+@media (max-width:420px){
+  .sort-chip{max-width:100%;font-size:13.5px;padding:9px 12px}
+  .sort-bin{padding:10px;min-height:76px}
+  .sort-bin-head{font-size:12px}
+  .district{flex-basis:44%;padding:11px 8px}
+  .district-label{font-size:13px}
+  .district-note{font-size:11.5px}
+  .ram-slot{min-width:44px;height:30px;font-size:11px}
+}
