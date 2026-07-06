@@ -1,0 +1,196 @@
+
+  <section class="hero">
+    <h1>You can now predict what any short program does <span class="lit">before it ever runs.</span></h1>
+    <p>Every module since Boxes with Names has been building toward one skill: reading a program's own notes and knowing exactly what it will do, line by line, without a computer anywhere in sight — like reading a suspect's plan straight off their notes. Cambridge calls the tool a trace table. The machine below has already run each program in the background, hidden — you're just catching up to it, one box at a time.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. A box that isn't filled in yet simply isn't glowing yet — that's all a quiet box ever means here. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">A 4-liner, two variables
+        <span class="disc-sub">no loop yet — just read what each line actually changes</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's the one rule a trace table runs on: it gets one row per line, and a box only gets a new number in the one column that line actually changes — every other column in that row stays a dash, not a repeat of its old number. Tap a lit-up box below, pick the number you think belongs there from the choices offered, and watch it glow amber the moment it matches what the program actually did. Nothing is marked wrong — an unmatched pick just leaves the box quiet, with a soft note on where to look again.</p>
+      <div class="board">
+        <div class="trace-panels">
+          <div class="trace-code" id="code1"></div>
+          <div class="trace-table-wrap">
+            <div class="trace-grid" id="grid1"></div>
+            <p class="trace-status" id="status1" aria-live="polite"></p>
+            <div class="trace-pad" id="pad1" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Line 1 makes Score's box show 10 — Bonus's column stays a dash, since line 1 never mentions Bonus. Line 2 makes Bonus's box show 5 — now Score is the one that stays a dash. Line 3 reassigns Score to Score + Bonus, which is 10 + 5 — Score's box shows 15, Bonus untouched again. Line 4's OUTPUT prints whatever Score is holding right now: 15. Every line only earns a new number in the one column its own line actually changes.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Before ticking a box, ask: does this exact line mention this exact variable at all? If not, that column stays a dash — never a repeated old number.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Score is 10 after line 1. Line 3 says Score ← Score + Bonus — so line 3's new Score is the <em>old</em> Score (10) plus Bonus (5), not Bonus on its own and not the old 10 repeated.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">A FOR loop's rhythm
+        <span class="disc-sub">watch two columns move together, lap after lap</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A loop gives a trace table one row per lap, not one row per line — the FOR and NEXT lines themselves don't get their own rows, they just mark where a lap starts and ends. In this program, both Count and Total change on every single lap, so watch both columns fill in together, in the same steady rhythm, all the way to the end.</p>
+      <div class="board">
+        <div class="trace-panels">
+          <div class="trace-code" id="code2"></div>
+          <div class="trace-table-wrap">
+            <div class="trace-grid" id="grid2"></div>
+            <p class="trace-status" id="status2" aria-live="polite"></p>
+            <div class="trace-pad" id="pad2" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Line 1: Total starts at 0, Count still a dash — the loop hasn't begun. Lap 1: Count becomes 1, Total becomes 0 + 1 = 1. Lap 2: Count becomes 2, Total becomes 1 + 2 = 3. Lap 3: Count becomes 3, Total becomes 3 + 3 = 6. Lap 4: Count becomes 4, Total becomes 6 + 4 = 10. After lap 4, NEXT Count makes Count 5 — 5 TO 4 is false, so the loop simply stops there, no new row needed for a lap that never runs. Line 5's OUTPUT prints 10.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Watch Count and Total together here — in this particular loop, both of them change on every lap, so both columns fill in every row, not just one at a time.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Lap 3: Count becomes 3. Total becomes whatever it was after lap 2 (3), plus this lap's Count (3) — 6. Each lap's Total always builds on the lap right before it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">An IF inside the loop
+        <span class="disc-sub">some laps leave a column dark — the row still counts</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Cambridge's MOD is written as a function: MOD(Num, 2) gives the remainder when Num is divided by 2. This program only adds Num to Total on laps where that remainder is 0 — the even laps. On the odd laps, Total's box stays a dash. That's not a skipped row: Num still moved, so the lap still happened and still gets a row of its own — it's just Total that has nothing new to show.</p>
+      <div class="board">
+        <div class="trace-panels">
+          <div class="trace-code" id="code3"></div>
+          <div class="trace-table-wrap">
+            <div class="trace-grid" id="grid3"></div>
+            <p class="trace-status" id="status3" aria-live="polite"></p>
+            <div class="trace-pad" id="pad3" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Line 1: Total starts at 0. Lap 1 (Num 1): MOD(1, 2) = 1, not 0, so THEN never fires — Num becomes 1, Total stays a dash. Lap 2 (Num 2): MOD(2, 2) = 0 — Num becomes 2, Total becomes 0 + 2 = 2. Lap 3 (Num 3): odd again — Num becomes 3, Total dash. Lap 4 (Num 4): even — Num becomes 4, Total becomes 2 + 4 = 6. Lap 5 (Num 5): odd — Num becomes 5, Total dash. OUTPUT prints 6. Three laps left Total dark, and every single one of them still got its own row.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Num changes on every lap, so Num's column fills in every row without exception. Total only changes when MOD(Num, 2) = 0 is actually true that lap — on every lap where it's false, Total's box is a dash, but the row itself still belongs there.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">A dash in a trace table never means "nothing happened this lap" — it only ever means "this particular column had nothing new to show." The lap itself is real either way.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The broken algorithm
+        <span class="disc-sub">trace it exactly as written, then name where it goes wrong</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>This program is meant to add up every whole number from 1 to 5 — the intention behind it, in plain English. Trace it exactly as it's actually written, not as you'd expect a "1 to 5" program to behave, and see where the real result and the intended one quietly part ways. Once the trace is complete, name the bug from the options below — a wrong guess just bounces back, nothing about it is ever counted.</p>
+      <div class="board">
+        <div class="trace-panels">
+          <div class="trace-code" id="code4"></div>
+          <div class="trace-table-wrap">
+            <div class="trace-grid" id="grid4"></div>
+            <p class="trace-status" id="status4" aria-live="polite"></p>
+            <div class="trace-pad" id="pad4" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="pick-wrap" id="pick4" hidden>
+        <p class="fork-note">Name the bug:</p>
+        <div class="pick-options" id="pickOptions4"></div>
+        <p class="fork-note" id="pickStatus4" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Trace it exactly as written: Total climbs 0, 1, 3, 6, 10 — four laps, matching FOR Num ← 1 TO 4. OUTPUT prints 10, not 15. The bug: the loop's own upper bound is 4, so the lap that would add the missing 5 (Num ← 5, Total ← 15) never happens at all. For every whole number 1 to 5 to actually be added, the bound would need to read TO 5 instead.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Trace exactly what the code says, line by line — not what you'd expect a "sum 1 to 5" program to do. Where do reality and intention actually split?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Count how many laps actually ran, and compare that to how many whole numbers 1 to 5 really are. The gap between those two counts is exactly where the bug is hiding.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">What is it FOR?
+        <span class="disc-sub">trace a program you've never seen, then say what it's actually for</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>No hook, no hint about what this one's supposed to do — trace it cold, the same way you'd trace any of the others, then pick the option that actually matches what you watched Biggest do. Notice the same trick from Discovery 3 turning up again in a new costume: one of these rows leaves Biggest's column dark, and that row still belongs there.</p>
+      <div class="board">
+        <div class="trace-panels">
+          <div class="trace-code" id="code5"></div>
+          <div class="trace-table-wrap">
+            <div class="trace-grid" id="grid5"></div>
+            <p class="trace-status" id="status5" aria-live="polite"></p>
+            <div class="trace-pad" id="pad5" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="pick-wrap" id="pick5" hidden>
+        <p class="fork-note">What is this program actually for?</p>
+        <div class="pick-options" id="pickOptions5"></div>
+        <p class="fork-note" id="pickStatus5" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Biggest starts at 0. Guess 7: 7 &gt; 0 is true, so Biggest becomes 7. Guess 15: 15 &gt; 7 is true, so Biggest becomes 15. Guess 3: 3 &gt; 15 is false, so Biggest's column stays a dash — it's still 15. OUTPUT prints 15, the biggest of the three guesses that actually went in. That's the program's whole job: finding the biggest of three.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Trace it first, all the way to OUTPUT, before guessing anything. Then ask: what does the final number sitting in Biggest actually represent, given the three guesses that went in?</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Every single IF here compares Guess to Biggest with the same question — is this new guess bigger than the best one so far? Whatever wins that question three times running ends up in OUTPUT.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a twentieth time</h2>
+    <p>Quiet milestone, worth naming: you can now predict what a short program does before it ever runs, just from reading its own notes. You traced a straight-line program and watched columns only fill in where a line actually touched them. You felt a FOR loop's rhythm — two columns moving together, lap after lap. You traced an IF inside a loop and proved that a dark column doesn't erase the row it sits in. You caught a real bug by tracing exactly what code says rather than what it was supposed to do, and named it. And you traced a program you'd never seen before, cold, and worked out its whole purpose from nothing but its own trace.</p>
+    <p class="soft">Whenever you're ready, the next discovery turns your name itself into data — slicing, flipping and measuring words the same exact way. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="19-where-things-live.html">← Module 19 · Where Things Live</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 20 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
