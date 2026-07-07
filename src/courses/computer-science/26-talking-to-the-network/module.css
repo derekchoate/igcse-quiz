@@ -1,0 +1,125 @@
+/* Module 26 — Talking to the Network: lesson-specific styling only.
+   meta.uses is ["chips"] — chips.css/.js comes from that kit. No shared kit
+   covers a two-page "passport" board, a fragment/label matcher, a reveal
+   card or a network-map-with-router visual, so the `.board`/`.loop-btn`
+   shells (mirroring Modules 10-13/20-25) and all `.tn-*` visuals are
+   hand-rolled here (rule of two — nothing else needs these shapes yet).
+   D1's fragment/label matcher mirrors Module 13's D1 tap-then-tap-plus-drag
+   pattern exactly (pointer events, document-bound) rather than the shared
+   matcher kit, which hardcodes awardStar("d3", ...) for Module 9's pairing.
+   D5's packet/queue/router visual extends Module 13's packet-card look with
+   one new router node, kept consistent with that module's palette so the
+   two read as the same map, continued. */
+
+:root{
+  --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+}
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.tn-status{font-size:14px;color:var(--ink-soft);margin:10px 0 4px;text-align:center;min-height:20px}
+.tn-sub-label{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:.4px;margin:14px 0 10px}
+
+/* ── shared button look, mirrors Modules 12/13/20-25 ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+  margin:4px 6px 4px 0;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn.ghost{background:none}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.tn-btn-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:10px 0}
+
+/* ── the passport: one or two stamped pages ── */
+.tn-passport{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+@media (min-width:520px){.tn-passport.tn-passport-two{flex-direction:row}}
+.tn-page{
+  flex:1 1 0;min-width:0;background:#0E1730;border:1.5px dashed var(--card-edge);
+  border-radius:12px;padding:14px 16px;text-align:center;
+  transition:border-color .3s, background .3s;
+}
+.tn-page-label{font-family:'Sora',sans-serif;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.tn-page-val{font-family:var(--mono);font-size:15px;color:var(--ink-soft);word-break:break-word}
+.tn-page.tn-stamped{border-style:solid;border-color:var(--glow);background:rgba(255,184,77,.08)}
+.tn-page.tn-stamped .tn-page-val{color:var(--glow)}
+
+/* ── D1: fragment pool + two label bins (mirrors Module 13's D1 shape) ── */
+.tn-frag-pool{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.tn-frag-chip{
+  font-family:var(--mono);font-size:15px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:11px 14px;cursor:pointer;text-align:center;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.tn-frag-chip:hover{border-color:var(--teal)}
+.tn-frag-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.tn-frag-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.tn-frag-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.tn-frag-chip.dragging{opacity:.3}
+.tn-frag-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.tn-label-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:480px){.tn-label-bins{grid-template-columns:1fr 1fr}}
+.tn-label-bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:76px;transition:border-color .2s, background .2s}
+.tn-label-bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.tn-label-bin.filled{border-style:solid;border-color:rgba(123,196,180,.5)}
+.tn-label-bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:13px;letter-spacing:.3px;
+  text-transform:uppercase;color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:center;
+}
+.tn-label-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.tn-label-bin-body{font-family:var(--mono);font-size:13px;color:var(--ink);line-height:1.5;min-height:1.2em}
+
+/* ── D4: address-space reveal cards ── */
+.tn-reveal{background:#0E1730;border:1.5px solid var(--glow);border-radius:12px;padding:14px 16px;margin-top:12px;text-align:center}
+.tn-reveal + .tn-reveal{margin-top:10px}
+.tn-reveal-label{font-family:'Sora',sans-serif;font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.tn-reveal-num{font-family:var(--mono);font-size:15px;color:var(--glow);word-break:break-word;margin-bottom:6px}
+.tn-reveal-note{font-size:13.5px;color:var(--ink-soft)}
+
+/* ── D5: home network / router / wider network map ── */
+.tn-net-map{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+@media (min-width:560px){.tn-net-map{flex-direction:row;align-items:stretch}}
+.tn-net-zone{flex:1 1 0;min-width:0;background:#0E1730;border:1px solid var(--card-edge);border-radius:12px;padding:12px}
+.tn-net-zone-label{font-family:'Sora',sans-serif;font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--teal);text-align:center;margin-bottom:10px}
+.tn-router{
+  flex:0 0 auto;align-self:center;font-family:'Sora',sans-serif;font-size:12.5px;
+  letter-spacing:.6px;color:var(--glow);background:rgba(255,184,77,.1);
+  border:1.5px solid var(--glow);border-radius:12px;padding:14px 10px;
+  writing-mode:horizontal-tb;text-align:center;min-width:64px;
+  transition:box-shadow .3s;
+}
+.tn-router.tn-router-active{box-shadow:0 0 0 4px rgba(255,184,77,.18)}
+.tn-packet-queue{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px}
+.tn-packet-card{display:flex;flex-direction:column;min-width:118px;border-radius:10px;overflow:hidden;border:1px solid var(--card-edge);transition:transform .3s, opacity .3s}
+.tn-packet-part{font-family:var(--mono);font-size:11px;padding:5px 8px;text-align:center}
+.tn-packet-header{background:rgba(123,196,180,.14);color:var(--teal)}
+.tn-packet-payload{background:#1A2440;color:var(--ink);font-size:12.5px;font-weight:600}
+.tn-packet-card.tn-delivered{border-color:var(--glow)}
+
+/* ── shared chip/nudge tweaks ── */
+.chip{font-size:14.5px}
+.nudge code, .nudge sup{font-family:var(--mono)}
+.nudge{font-size:15px}
+
+/* ── mobile tightening at ~380px: stack every two-column layout, shrink
+   type so nothing overflows a narrow screen ── */
+@media (max-width:640px){
+  .tn-label-bins{grid-template-columns:1fr}
+  .tn-net-map{flex-direction:column}
+  .tn-router{align-self:center;width:100%}
+}
+@media (max-width:420px){
+  .tn-page-val{font-size:13.5px}
+  .tn-reveal-num{font-size:13px}
+  .loop-btn{font-size:13px;padding:8px 13px}
+  .tn-frag-chip{font-size:13.5px;padding:9px 12px}
+  .tn-packet-card{min-width:100px}
+  .tn-packet-part{font-size:10px}
+}
