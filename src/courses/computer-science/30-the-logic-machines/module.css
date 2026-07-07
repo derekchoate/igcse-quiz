@@ -1,0 +1,79 @@
+/* Module 30 — The Logic Machines: lesson-specific styling only.
+   meta.uses is ["chips","board"] — chips.css/.js and board.css (the .bit/
+   .bulb switch visuals from Module 1) come from those kits and are reused
+   directly for every gate's input switches and output lamp ("M1 bulbs
+   reborn", per the plan). board.js's makeBoard() itself isn't called here
+   (it's built for a weighted-total byte, not a gate's A/B inputs), but its
+   CSS is exactly what's wanted, so the kit is still the right composition.
+   Everything below (`.gm-*`, `.gate-*`, `.mystery-*`) is hand-rolled, in the
+   same spirit as Module 29's `.qb-*` set. */
+
+.gm-board{text-align:left}
+
+/* ── one gate bench: switches → symbol → lamp → readout ── */
+.gate-bench{width:100%;max-width:420px;margin:0 auto 4px;text-align:center}
+.gate-bench-label{font-family:'Sora',sans-serif;font-size:14.5px;color:var(--teal);letter-spacing:.3px;margin:0 0 6px}
+.gate-switches{display:flex;justify-content:center;align-items:flex-end;gap:18px;margin-bottom:2px}
+.gate-diagram{display:flex;justify-content:center;margin:2px 0}
+.gate-svg{width:100%;max-width:190px;height:auto}
+.gwire{stroke:#33406B;stroke-width:3;fill:none;transition:stroke .25s,filter .25s}
+.gwire.on{stroke:var(--glow);filter:drop-shadow(0 0 4px rgba(255,184,77,.6))}
+.gbody{fill:#1C2748;stroke:#33406B;stroke-width:2.5;transition:fill .25s,stroke .25s}
+.gate-svg.fired .gbody{fill:rgba(255,184,77,.16);stroke:var(--glow)}
+.gbody.fired{fill:rgba(255,184,77,.16);stroke:var(--glow)}
+.gbubble{fill:#121A32;stroke:#33406B;stroke-width:2.5;transition:stroke .25s}
+.gate-svg.fired .gbubble{stroke:var(--glow)}
+.gwire-extra{stroke:#33406B;stroke-width:2;fill:none}
+.gbody-mystery{fill:#121A32;stroke:#33406B;stroke-width:2.5;stroke-dasharray:5 4}
+.gmystery-q{font-family:'Sora',sans-serif;font-size:28px;fill:var(--ink-soft)}
+.gate-lamp-wrap{display:flex;justify-content:center;margin-top:2px}
+.lamp-out{cursor:default}
+.gate-readout{text-align:center;font-family:'Sora',sans-serif;font-size:14.5px;color:var(--ink-soft);min-height:20px;margin:6px 0 2px}
+
+/* ── the notebook (truth table) beneath each bench ── */
+.gm-table-wrap{overflow-x:auto;border:1px solid var(--card-edge);border-radius:10px;background:#0E1730;margin:10px 0 4px;-webkit-overflow-scrolling:touch}
+.gm-table{border-collapse:collapse;width:100%;min-width:170px;font-size:14px;margin:0 auto}
+.gm-table th,.gm-table td{padding:7px 14px;text-align:center;border-bottom:1px solid var(--card-edge);white-space:nowrap}
+.gm-table thead th{font-family:'Sora',sans-serif;font-size:12.5px;color:var(--teal);border-bottom:1.5px solid var(--card-edge)}
+.gm-table tbody tr:last-child td{border-bottom:none}
+.gm-table td{color:var(--ink-soft)}
+.gm-table tr.tested td{color:var(--ink)}
+.gm-table tr.tested td:last-child{color:var(--glow);font-weight:600}
+
+/* ── two benches side by side (AND/OR, NAND/NOR) ── */
+.gate-pair{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:4px}
+@media (min-width:620px){.gate-pair{grid-template-columns:1fr 1fr}}
+.gate-col{background:#0E1730;border:1px solid var(--card-edge);border-radius:12px;padding:14px 8px}
+
+/* ── D5's chained three-input assembly ── */
+.chain-host{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:8px}
+.chain-svg{width:100%;max-width:280px;height:auto}
+.chain-note{font-size:13px;color:var(--ink-soft);text-align:center;margin:2px 0 0}
+
+/* ── D6's three mystery machines ── */
+.mystery-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:4px}
+@media (min-width:760px){.mystery-grid{grid-template-columns:1fr 1fr 1fr}}
+.mystery-col{background:#0E1730;border:1px solid var(--card-edge);border-radius:12px;padding:14px 8px;text-align:center}
+.gm-option-row{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:10px 0 8px}
+.gm-option-btn{
+  font-family:'Sora',sans-serif;font-size:13.5px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:7px 13px;cursor:pointer;transition:all .22s;
+}
+.gm-option-btn:hover{border-color:var(--teal)}
+.gm-option-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.gm-option-btn.locked{background:var(--glow);color:#3A2606;border-color:var(--glow);pointer-events:none}
+.gm-status{font-size:14px;color:var(--ink-soft);min-height:36px;margin-top:4px}
+.gm-status.solved{color:var(--glow)}
+
+/* ── mobile tightening at ~380px: bulbs already shrink via board.css's own
+   520px breakpoint; this only tightens what's specific to this module ── */
+@media (max-width:420px){
+  .gate-switches{gap:10px}
+  .gate-svg{max-width:148px}
+  .chain-svg{max-width:230px}
+  .gm-table th,.gm-table td{padding:6px 7px;font-size:12.5px}
+  .gate-readout{font-size:13px}
+  .gm-option-btn{font-size:12.5px;padding:6px 10px}
+  .gate-col,.mystery-col{padding:12px 6px}
+}
