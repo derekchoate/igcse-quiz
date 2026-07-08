@@ -1,0 +1,112 @@
+
+/* Module 36 — Machines that Learn: lesson-specific styling only.
+   meta.uses is [] — every mechanic in this capstone is small and one-off
+   enough to hand-roll locally (D1's box tour, D2/D3/D4's reasoning traces,
+   D5's tap-to-sequence pseudocode builder, D6's constellation), so no
+   shared interaction kit is pulled in. `.board`/`.loop-btn`/`.fork-note`
+   below are the same generic shells copied verbatim into every module's own
+   CSS since Module 10 (see Module 35's own note on this) — not a kit,
+   just a repeated hand style.
+
+   Palette: an "achieved" state (a lit constellation dot, a placed sequence
+   line, a landed answer) always reads in the same amber glow used
+   everywhere else in the course for "on"/"done"; nothing here is ever red,
+   per the no-failure-events rule. */
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+
+/* ── shared button look, mirrors Modules 12-35 ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+  margin:4px 6px 4px 0;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.loop-btn[hidden]{display:none}
+
+/* ── D1: the four-box tour ── */
+.xs-tour{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.xs-box{background:#0E1730;border:1.5px solid var(--card-edge);border-radius:12px;overflow:hidden}
+.xs-box-btn{
+  width:100%;text-align:left;font-family:'Sora',sans-serif;font-weight:600;font-size:15.5px;
+  background:none;border:none;color:var(--ink);padding:13px 14px;cursor:pointer;
+}
+.xs-box-btn:hover{color:var(--teal)}
+.xs-box-btn:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
+.xs-box-btn[aria-expanded="true"]{color:var(--glow)}
+.xs-box-panel{padding:0 14px 14px;font-size:15px;color:var(--ink-soft);line-height:1.55}
+
+/* ── D2-D4: the reasoning / example trace ── */
+.xs-trace{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.xs-trace-row{
+  display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;
+  background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;
+  padding:10px 12px;font-size:14.5px;
+}
+.xs-trace-tag{font-family:'Sora',sans-serif;font-size:12px;letter-spacing:.2px;color:var(--teal);flex:0 0 auto}
+.xs-trace-text{color:var(--ink);flex:1;min-width:200px;line-height:1.5}
+.xs-trace-text em{color:var(--glow);font-style:normal}
+.xs-answer{
+  margin-top:4px;padding:12px 14px;border-radius:10px;font-family:'Sora',sans-serif;font-size:15.5px;
+  background:rgba(255,184,77,.12);border:1px solid rgba(255,184,77,.4);color:var(--glow);text-align:center;
+}
+.xs-teach-card{
+  margin-top:4px;padding:12px 14px;border-radius:10px;font-size:14.5px;line-height:1.55;
+  background:rgba(123,196,180,.08);border:1px solid rgba(123,196,180,.35);color:var(--ink);
+}
+
+/* ── D5: tap-to-sequence pseudocode ── */
+.seq-build{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;min-height:8px}
+.seq-line{
+  font-family:'Courier New',Courier,monospace;font-size:14px;color:var(--glow);
+  background:rgba(255,184,77,.1);border:1px solid rgba(255,184,77,.3);border-radius:8px;
+  padding:8px 12px;
+}
+.seq-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.seq-chip{
+  font-family:'Courier New',Courier,monospace;font-size:13.5px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:10px;
+  padding:9px 12px;cursor:pointer;text-align:left;transition:border-color .22s, opacity .22s;
+}
+.seq-chip:hover{border-color:var(--teal)}
+.seq-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.seq-chip.placed{opacity:.3;cursor:default;pointer-events:none}
+
+/* ── D6: the constellation ── */
+.const-zone{margin-bottom:16px}
+.const-label{font-family:'Sora',sans-serif;font-size:12.5px;color:var(--teal);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px}
+.const-grid{display:flex;flex-wrap:wrap;gap:8px}
+.const-grid-mine{gap:10px}
+.const-dot{
+  width:14px;height:14px;border-radius:50%;background:#0E1730;border:1px solid var(--card-edge);
+  transition:background .5s, border-color .5s, box-shadow .5s;
+}
+.const-grid-mine .const-dot{width:18px;height:18px}
+.const-dot.lit{background:var(--glow);border-color:var(--glow);box-shadow:0 0 10px rgba(255,184,77,.6)}
+
+/* ── the exam door (lives inside #reflect; reuses the standard nudge-btn/nudge wiring) ── */
+.exam-door{margin-top:18px}
+
+/* ── wider screens: box tour goes two columns ── */
+@media (min-width:520px){
+  .xs-tour{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+}
+
+/* ── mobile tightening at ~380px ── */
+@media (max-width:420px){
+  .loop-btn{font-size:13px;padding:8px 13px}
+  .xs-box-btn{font-size:14.5px;padding:11px 12px}
+  .xs-box-panel{font-size:14px;padding:0 12px 12px}
+  .xs-trace-row{font-size:13.5px;padding:9px 10px}
+  .xs-trace-text{min-width:160px}
+  .xs-answer{font-size:14.5px}
+  .seq-chip{font-size:12.5px;padding:8px 10px}
+  .seq-line{font-size:12.5px;padding:7px 10px}
+  .const-dot{width:12px;height:12px}
+  .const-grid-mine .const-dot{width:16px;height:16px}
+}
