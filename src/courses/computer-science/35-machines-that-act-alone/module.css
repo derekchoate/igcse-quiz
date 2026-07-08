@@ -1,0 +1,139 @@
+/* Module 35 — Machines that Act Alone: lesson-specific styling only.
+   meta.uses is ["cycler"] — cycler.js comes from that kit (drives the
+   threshold dials in D1-D3; it ships no CSS of its own, so the dial's look
+   is defined here as .aw-rule-btn). No shared kit covers a sensor ->
+   microprocessor -> actuator workbench or its day/night timeline, so the
+   `.board`/`.loop-btn` shells (mirroring Modules 10-34) and every `.aw-*`
+   class below are hand-rolled here. `.sort-*` (D4/D5's sorter) mirrors
+   Module 18's own chip/bin sort-board copy verbatim (rule of two) — not
+   the shared `matcher` kit, which hardcodes discovery "d3" (see
+   feedback_matcher_kit_hardcoded_d3).
+
+   Palette: an actuator that's ON reads in the same amber glow used for
+   every other "achieved" state in the course; off reads in soft ink —
+   never red, per the design contract's no-failure-events rule. */
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+
+/* ── shared button look, mirrors Modules 12-34 ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+  margin:4px 6px 4px 0;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.loop-btn[hidden]{display:none}
+
+/* ── D1-D3: the sensor → microprocessor → actuator workbench ── */
+.aw-devices{
+  display:flex;flex-direction:column;align-items:stretch;gap:6px;margin-bottom:14px;
+}
+.aw-arrow{
+  align-self:center;color:var(--ink-soft);font-size:16px;
+  transform:rotate(90deg);
+}
+.aw-device{
+  background:#0E1730;border:1.5px solid var(--card-edge);border-radius:12px;
+  padding:10px 12px;text-align:center;
+}
+.aw-device-rule{padding:8px}
+.aw-device-label{
+  display:block;font-family:'Sora',sans-serif;font-size:11.5px;letter-spacing:.4px;
+  text-transform:uppercase;color:var(--teal);margin-bottom:4px;
+}
+.aw-device-name{display:block;font-size:15px;color:var(--ink)}
+.aw-rule-btn{
+  width:100%;font-family:'Atkinson Hyperlegible',sans-serif;font-size:14px;
+  background:#1A2440;border:1.5px solid var(--glow);color:var(--glow);
+  border-radius:10px;padding:9px 10px;cursor:pointer;transition:all .22s;
+  line-height:1.4;
+}
+.aw-rule-btn:hover{background:rgba(255,184,77,.1)}
+.aw-rule-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.aw-rule-btn:disabled{opacity:.6;cursor:default}
+
+.aw-two{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.aw-track-label{font-family:'Sora',sans-serif;font-size:12.5px;color:var(--ink-soft);margin:6px 0 2px}
+.aw-two .aw-devices{margin-bottom:2px}
+
+/* ── the day/night timeline log (D1-D3) ── */
+.aw-timeline{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.aw-tick{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px;
+  background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;
+  padding:8px 12px;font-size:13.5px;
+}
+.aw-tick-time{font-family:'Sora',sans-serif;color:var(--teal);min-width:44px}
+.aw-tick-read{color:var(--ink);flex:1}
+.aw-tick-state{
+  font-family:'Sora',sans-serif;font-size:12.5px;border-radius:999px;padding:3px 10px;
+  white-space:nowrap;
+}
+.aw-tick-state.on{background:rgba(255,184,77,.14);color:var(--glow);border:1px solid rgba(255,184,77,.4)}
+.aw-tick-state.off{background:rgba(141,151,176,.08);color:var(--ink-soft);border:1px solid var(--card-edge)}
+.aw-tick-double{flex-direction:column;align-items:stretch}
+.aw-tick-pair{display:flex;align-items:center;gap:8px;justify-content:space-between}
+
+/* ── D4/D5: chip pool + bins, copied from Module 18's makeSortBoard ── */
+.sort-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:16px}
+.sort-chip{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:10px 14px;cursor:pointer;max-width:320px;text-align:left;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.sort-chip:hover{border-color:var(--teal)}
+.sort-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sort-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.sort-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.sort-chip.dragging{opacity:.3}
+.sort-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.sort-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:520px){.sort-bins{grid-template-columns:1fr 1fr}}
+.sort-bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:80px;transition:border-color .2s, background .2s}
+.sort-bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.sort-bin.filled{border-style:solid;border-color:rgba(123,196,180,.5)}
+.sort-bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:13px;letter-spacing:.2px;
+  color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:left;
+}
+.sort-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sort-bin-list{display:flex;flex-direction:column;gap:6px;min-height:1px}
+.sort-item{font-size:13.5px;color:var(--ink);line-height:1.5;background:rgba(255,184,77,.1);border-radius:8px;padding:7px 9px}
+
+/* ── D5: free-text boxes (setting + open reflection), Module 7/18 pattern ── */
+.own-box{text-align:left;margin-bottom:14px}
+.own-box label{display:block;font-family:'Sora',sans-serif;font-size:12.5px;color:var(--teal);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.own-box textarea{width:100%;min-height:56px;font:inherit;font-family:'Atkinson Hyperlegible',sans-serif;font-size:15.5px;background:#1A2440;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:10px 12px;resize:vertical}
+.own-box textarea:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.aw-reflect-box{margin-top:16px;margin-bottom:0}
+.aw-reflect-box label{text-transform:none;font-size:13.5px;letter-spacing:normal;line-height:1.5}
+
+/* ── wider screens: workbench rows go horizontal ── */
+@media (min-width:480px){
+  .aw-devices{flex-direction:row;align-items:center}
+  .aw-device{flex:1}
+  .aw-arrow{transform:none}
+}
+
+/* ── mobile tightening at ~380px ── */
+@media (max-width:420px){
+  .loop-btn{font-size:13px;padding:8px 13px}
+  .aw-device-name{font-size:14px}
+  .aw-rule-btn{font-size:13px;padding:8px 9px}
+  .aw-tick{font-size:12.5px;padding:7px 10px}
+  .aw-tick-state{font-size:12px;padding:3px 8px}
+  .sort-chip{max-width:100%;font-size:13.5px;padding:9px 12px}
+  .sort-bin{padding:10px;min-height:76px}
+  .sort-bin-head{font-size:12px}
+  .own-box textarea{font-size:14.5px}
+}
