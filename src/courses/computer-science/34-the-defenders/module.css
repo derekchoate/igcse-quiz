@@ -1,0 +1,160 @@
+/* Module 34 — The Defenders: lesson-specific styling only.
+   meta.uses is ["chips"] — chips.css/.js comes from that kit (used by D1's
+   card-reveal tracking and D3's tell-counting). No shared kit covers a
+   malware card album, a bin sorter, a phishing inbox, a pair of walkable
+   routes, or a many-to-many threat/shield pairing board, so the
+   `.board`/`.loop-btn` shells (mirroring Modules 10-33) and every other
+   class below are hand-rolled here. `.sl-*` (D2's sorter) mirrors Module
+   33's own bin-sorter copy verbatim (rule of two) — not the shared
+   `matcher` kit, which hardcodes discovery "d3" and would award the wrong
+   star here regardless (see feedback_matcher_kit_hardcoded_d3).
+
+   Palette: every "found"/"defended"/"matched" state uses the same teal or
+   amber already established elsewhere in the course for a quiet "done"
+   state — never red, per the design contract's no-failure-events rule.
+   A part of a phishing message that's actually fine (`.checked`, not
+   `.found`) reads with a soft, desaturated outline — checked, not wrong. */
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+.sl-status{font-size:14px;color:var(--ink-soft);margin:10px 0 4px;text-align:center;min-height:20px}
+
+/* ── shared button look, mirrors Modules 12-33 ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+  margin:4px 6px 4px 0;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.loop-btn[hidden]{display:none}
+
+/* ── shared tap-or-drag chip pool + bins (D2), copied from Module 33 ── */
+.sl-chip-pool{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.sl-chip{
+  font-family:'Atkinson Hyperlegible',sans-serif;font-size:15px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:11px 14px;cursor:pointer;text-align:left;width:100%;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.sl-chip:hover{border-color:var(--teal)}
+.sl-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sl-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.sl-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.sl-chip.dragging{opacity:.3}
+.sl-chip-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.sl-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:520px){.sl-bins{grid-template-columns:1fr 1fr}}
+.sl-bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:80px;transition:border-color .2s, background .2s}
+.sl-bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.sl-bin.filled{border-style:solid;border-color:rgba(123,196,180,.5)}
+.sl-bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:13.5px;letter-spacing:.2px;
+  color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:left;
+}
+.sl-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sl-bin-body{font-size:14px;color:var(--ink);line-height:1.5}
+.sl-bin-body .sl-bin-line{margin-top:4px}
+.sl-bin-body .sl-bin-line:first-child{margin-top:0}
+
+/* ── D1: the malware family album ── */
+.mw-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
+.mw-card{
+  background:#0E1730;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px 14px;
+  transition:border-color .25s, background .25s;
+}
+.mw-card.matched{border-style:solid;border-color:rgba(123,196,180,.55)}
+.mw-name{font-family:'Sora',sans-serif;font-size:15px;color:var(--ink);margin-bottom:6px}
+.mw-trait{font-size:14px;color:var(--ink-soft);line-height:1.5;margin-bottom:8px}
+
+/* ── D3: the phishing line-up ── */
+.ph-messages{display:flex;flex-direction:column;gap:14px;margin-bottom:6px}
+.ph-msg{background:#0E1730;border:1.5px solid var(--card-edge);border-radius:12px;padding:14px}
+.ph-head{margin-bottom:8px}
+.ph-subject{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink);margin-top:6px}
+.ph-body{font-size:14.5px;color:var(--ink);line-height:1.6;margin:8px 0}
+.ph-linkrow{margin-top:6px}
+.ph-hot{
+  font-family:'Atkinson Hyperlegible',sans-serif;font-size:14px;
+  background:rgba(141,151,176,.08);border:1px dashed var(--card-edge);color:var(--ink);
+  border-radius:8px;padding:4px 8px;cursor:pointer;text-align:left;
+  transition:border-color .22s, background .22s, color .22s;
+}
+.ph-hot:hover{border-color:var(--teal)}
+.ph-hot:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.ph-sender{width:100%}
+.ph-hot.found{border-style:solid;border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.ph-hot.checked{border-style:solid;border-color:var(--card-edge);background:rgba(141,151,176,.06);color:var(--ink-soft)}
+.ph-note{font-size:13.5px;color:var(--ink-soft);line-height:1.5;margin-top:6px;padding:8px 10px;background:rgba(123,196,180,.06);border-left:2px solid var(--teal);border-radius:0 8px 8px 0}
+
+/* ── D4: pharming vs phishing routes ── */
+.pv-routes{display:flex;flex-direction:column;gap:16px}
+.pv-route{background:#0E1730;border:1.5px solid var(--card-edge);border-radius:12px;padding:14px}
+.pv-route-title{font-family:'Sora',sans-serif;font-size:14.5px;color:var(--teal);margin-bottom:8px}
+.pv-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.pv-step{font-size:14.5px;color:var(--ink);line-height:1.55}
+
+/* ── D5: the defence stack — signature interaction ── */
+.ds-threats{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.ds-threat{
+  display:flex;flex-direction:column;gap:4px;text-align:left;width:100%;
+  background:#0E1730;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px 14px;
+  font-family:inherit;color:inherit;cursor:pointer;
+  transition:border-color .25s, background .25s;
+}
+.ds-threat:hover{border-color:var(--teal)}
+.ds-threat:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.ds-threat.sel{border-color:var(--glow);border-style:solid;background:rgba(255,184,77,.08)}
+.ds-threat.matched{border-style:solid;border-color:rgba(123,196,180,.55)}
+.ds-name{font-family:'Sora',sans-serif;font-size:15px;color:var(--ink)}
+.ds-blurb{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.ds-attached{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ds-tag{
+  font-family:'Sora',sans-serif;font-size:12px;color:var(--teal);
+  background:rgba(123,196,180,.12);border:1px solid rgba(123,196,180,.4);
+  border-radius:999px;padding:3px 10px;
+}
+.ds-shields{display:flex;flex-wrap:wrap;gap:8px}
+.ds-shield{
+  font-family:'Sora',sans-serif;font-size:13.5px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:8px 14px;cursor:pointer;transition:all .22s;
+}
+.ds-shield:hover{border-color:var(--teal);color:var(--ink)}
+.ds-shield:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* ── D6: the honest truth tally ── */
+.ht-list{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.ht-row{
+  display:flex;justify-content:space-between;gap:10px;
+  background:#0E1730;border:1px solid var(--card-edge);border-radius:8px;
+  padding:8px 12px;font-size:14px;
+}
+.ht-shield{color:var(--ink)}
+.ht-count{color:var(--ink-soft);font-family:'Sora',sans-serif;font-size:13px;white-space:nowrap}
+
+/* ── mobile tightening at ~380px ── */
+@media (max-width:420px){
+  .loop-btn{font-size:13px;padding:8px 13px}
+  .sl-chip{font-size:13.5px;padding:9px 12px}
+  .sl-bin-head{font-size:12.5px}
+  .sl-bin-body{font-size:13px}
+  .mw-name{font-size:14px}
+  .mw-trait{font-size:13px}
+  .ph-hot{font-size:13px}
+  .ph-body{font-size:13.5px}
+  .ph-subject{font-size:13px}
+  .ph-note{font-size:13px}
+  .pv-step{font-size:13.5px}
+  .ds-name{font-size:14px}
+  .ds-blurb{font-size:13px}
+  .ds-shield{font-size:13px;padding:7px 12px}
+  .ht-row{font-size:13px;padding:7px 10px}
+}
