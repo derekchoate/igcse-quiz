@@ -1,6 +1,6 @@
 # Catalogue amendments — proposed new blueprints (DRAFT, interim)
 
-**Status: interim.** Based on the Maths (0580 Core) audit only — 80/80 papers, 3635 rows, committed. English (0500) and CS (0478) have not been audited yet; this file will be revised once they land, since new gap types may surface there too (though `blueprint-architecture.md` notes English is "already blueprint-shaped," so its gap rate is expected to be much lower).
+**Status: interim.** The Maths section below (numbered 1–14) has been superseded by the owner's adjudication in `audit/catalogue-amendments-adjudicated.md` — read that file for the current state of the maths catalogue, not this one. The English section (added below, unadjudicated) reflects the English (0500) audit — 85/86 papers, 973 rows, committed. It's ready for owner review the same way the maths interim file was. CS (0478) has not been audited yet.
 
 Per `blueprint-architecture.md` Part 5, canonical catalogues are **tutor/build-facing and Claude-Code-facing only** — never rendered to the learner as a list. These are proposals for the owner's review; nothing here has been added to `blueprint-architecture.md` or any course plan. Each entry follows the architecture document's blueprint shape (name · gaps · rule sentence · tells · mint-moment) plus a frequency/mark-weight justification from the audit data.
 
@@ -125,3 +125,44 @@ A closer pass over the ~653 gap rows that didn't cluster into any of the above f
 ## Note on verdict boundary cases
 
 Several rows were tagged `implicit` rather than `covered` or `gap` where a listed blueprint's *logic* was present but not as a clean named instance — e.g. probability's complement rule, pie-chart-to-frequency conversions treated as a `PB-ratio-sharing` cousin, and multi-step questions where `THE SUM`/`THE PRODUCT` are folded into a longer chain. These are flagged with a `notes` field explaining the uncertainty in `question-audit.json` and are worth a second look once the owner has a chance to react to this document — some may indicate the *existing* catalogue entries need their gaps/tells broadened rather than new blueprints minted.
+
+---
+
+# English (0500) — proposed amendments (DRAFT, interim, unadjudicated)
+
+85/86 papers audited (86 total minus `0500_s21_qp_11`/`ms_11`, confirmed unsourceable across 5 mirrors — see the missing-papers list in `coverage-report.md`), 973 rows. `blueprint-architecture.md`'s prediction held: English is far better covered than maths — **57.1% of rows / 67.2% of marks `covered`, 11.4%/9.1% `implicit`, only 31.4% of rows / 23.7% of marks `gap`** (2831 of 11960 marks). Four clean clusters account for 95.4% of the 306 gap rows; the residual is genuinely small this time, not a sign of under-clustering.
+
+## E1. DESCRIPTIVE WRITING (Paper 2 Section B composition, non-narrative)
+**Frequency:** 62 rows, 2480 marks — only 20.3% of gap *rows* but **87.6% of all gap marks**, by far the single biggest mark-weighted gap in the entire audit so far (bigger than any maths cluster). Each instance is a full 40-mark composition option.
+**What's actually going on:** this is a catalogue omission, not a course gap. The English course plan (`english/the-first-reader-english-course-plan.md`) already has dedicated modules for exactly this — **F4 · Descriptive I: The Camera** and **F5 · Descriptive II: Atmosphere**, both explicitly "P2 composition" — but `blueprint-architecture.md`'s Part 5 English section only names F6 (story-shapes/narrative), F8 (form containers), and F9 (register dial) as blueprint sources. F4/F5 were built but never promoted into the canonical catalogue list, so every descriptive-writing question in the audit came back `gap` even though the learner has (or will have) a module that teaches exactly this. Several subagents independently flagged this same F4/F5 mismatch unprompted.
+**Gaps:** the title/scenario prompt · the sensory/imagery toolkit (F4's "camera" — what's seen, framed, focused) · the mood/atmosphere control (F5 — charging the same scene two ways).
+**Rule sentence:** "descriptive writing has no plot to carry it — the camera decides what the reader sees, and the atmosphere dial decides how it feels; nothing else needs to happen."
+**Tells:** "describe..." (not "write a story about..."), a title or scenario with no implied event sequence, mark scheme criteria that separate "content and structure" from "style" without any narrative-arc language.
+**Suggested action:** this doesn't need a *new* blueprint minted from scratch — it needs F4/F5 added to `blueprint-architecture.md`'s English catalogue entry alongside F6/F8/F9, the same kind of "broaden the existing scope" fix the maths adjudication applied to D2 (mean/median/range). Flagging as the top-priority item for owner review given the mark weight.
+
+## E2. VOCABULARY-IN-CONTEXT BRIDGE (own-words paraphrase, both directions)
+**Frequency:** 163 rows combined (81 "define/paraphrase a word or phrase in own words" + 82 "given a paraphrase, find the matching word/phrase in the text") — 53.3% of all gap rows, the most frequent pattern by far, though only 7.0% of gap marks (1–2 marks each; this is Q1's short-answer vocabulary sub-question).
+**Gaps:** the text word/phrase · its meaning-in-context · the direction of travel (text→own-words, or clue→text).
+**Rule sentence:** "the same bridge crossed both ways — go from the text's word to your own words, or from a paraphrase back to the text's original word; it's one skill wearing two directions."
+**Tells:** "what does the word/phrase ... mean," "find a word/phrase that means the same as," any underlined or highlighted single word/short phrase in a Q1/Q2-style short-answer block.
+**Suggested mint-moment:** unclear from the course plan — this doesn't map cleanly to R1 (Reading the Room, general retrieval), R2 (Inference Engine, deduction chains), or R4/R5 (Writer's Toolbox, rhetorical figures). It may be an implicit sub-skill inside R1 that was never named separately, or a genuine course-plan gap alongside the catalogue gap. Flagging the uncertainty rather than guessing — this is the one place in the English audit where I'd want the owner's read on whether the *course* already covers it under a different name.
+
+## E3. EXPLICIT MULTI-POINT RETRIEVAL (list/identify/give N things from text)
+**Frequency:** 50 rows, 81 marks (16.3% of gap rows, 2.9% of gap marks).
+**Gaps:** the section of text to search · the number of points required (N) · whether own-words rephrasing is required or direct lifting is acceptable.
+**Rule sentence:** "when a question asks for N things, the text has at least N separate places holding them — find each one, don't reuse a single detail twice."
+**Tells:** "give/identify/list N things," "state two/three reasons," explicit N in the question stem, mark scheme awarding one mark per distinct point up to N.
+**Suggested mint-moment:** R1 (Reading the Room — P1 retrieval) — strong match on the module's own stated purpose.
+
+## E4. IMPLICIT REASONING / EXPLAIN-WHY (own-words causal explanation)
+**Frequency:** 17 rows, 51 marks (5.6% of gap rows, 1.8% of gap marks).
+**Gaps:** the stated effect/outcome · the cause the text implies but doesn't state outright · the inference chain connecting them.
+**Rule sentence:** "when the text shows an effect but not its cause, the cause is inferred the same way R2 builds any inference: quoted clue → carrier-chart rule → conclusion — just aimed at 'why' instead of 'what it means'."
+**Tells:** "explain why," "explain the reasons," any question requiring inference (not direct retrieval) about motivation or cause, phrased as reasoning rather than as a definition/paraphrase.
+**Suggested mint-moment:** R2 (The Inference Engine) — the deduction-board mechanic already described in the course plan is a near-exact fit; this may already be covered by R2's blueprint and just needs the catalogue entry's tells broadened to explicitly include causal "why" questions, not only meaning-inference.
+
+## Residual (14 rows, 4.6% of gaps, 22 marks)
+Genuine one-offs: a comparison-of-two-groups question, a single-fact retrieval with no repeatable pattern, etc. Small enough this time that forcing a cluster would be shoehorning — left untouched per the same rule as the maths residual.
+
+## Note: 2027 specimen structural change
+One subagent flagged a genuinely new convention in `0500_y27_sp_1` (Paper 1, restructured for 2027): a "cloze/bold-phrase synonym-matching" question format not seen in the older Paper 1 pattern, tagged as a candidate new question-convention entry rather than folded into E2's vocabulary-bridge cluster (worth the owner's eyes specifically since the task instructions say the 2027 specimen outranks older papers wherever structures differ).
