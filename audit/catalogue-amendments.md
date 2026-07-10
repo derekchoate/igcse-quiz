@@ -166,3 +166,66 @@ Genuine one-offs: a comparison-of-two-groups question, a single-fact retrieval w
 
 ## Note: 2027 specimen structural change
 One subagent flagged a genuinely new convention in `0500_y27_sp_1` (Paper 1, restructured for 2027): a "cloze/bold-phrase synonym-matching" question format not seen in the older Paper 1 pattern, tagged as a candidate new question-convention entry rather than folded into E2's vocabulary-bridge cluster (worth the owner's eyes specifically since the task instructions say the 2027 specimen outranks older papers wherever structures differ).
+
+---
+
+# Computer Science (0478) — proposed amendments (DRAFT, interim, unadjudicated)
+
+88/88 papers audited, 2033 rows. Verdict: **42.2% of marks covered, 19.6% implicit, 38.2% gap** (2317 of 6070 marks) — between maths' original 24% and English's 67%, which makes sense: CS's existing catalogue (trace-it, convert-it, explain-the-mechanism, compare-the-pair, kit-the-scenario, build-the-circuit, construct-the-algorithm) already covers several command-shaped skills, but roughly two-fifths of marks are still short factual-recall questions with no home — the same "skill blueprint" gap maths found, but landing in CS's already-partially-skill-shaped catalogue rather than a purely word-problem one.
+
+**Residual is unusually large here (28.2% of gap rows, 25.3% of gap marks) and that's a real finding, not a clustering failure.** Unlike maths (concentrated in ~14 families) or English (concentrated in 4), CS 0478 spans many genuinely distinct syllabus sections — CPU/registers, storage, data representation, networking, security, databases, SDLC, ethics, robotics/AI — and each contributes its own small, topic-specific recall pattern rather than a few dominant shapes. The clusters below capture the patterns with enough volume to justify a blueprint; the residual is mostly true singletons (one paper asks it once) spread across those same topic areas.
+
+## C1. RECALL-AND-NAME (name/list N examples of a stated category)
+**Frequency:** 219 rows, 479 marks — 21.7% of gap rows, 20.7% of gap marks, the largest single cluster.
+**Gaps:** the category (input devices, CPU registers, storage types, security methods, etc.) · N (how many examples required) · the accepted list of valid answers.
+**Rule sentence:** "when a question asks you to name/list/give N examples of a category, the syllabus has a fixed list for that category — the question checks you can produce distinct items from it, not that you can reason your way there."
+**Tells:** "name/state/give N examples of," "list two/three," a category word (device, method, risk, technology) with a numeral.
+**Suggested mint-moment:** this one genuinely doesn't have a single home — it recurs inside whichever module introduces each category's fixed list (M16 X-Ray the Machine for CPU components, M18 Senses and Voices for I/O devices, M19 Where Things Live for storage, M34 The Defenders for security methods). Recommend minting it as a *recurring* skill-blueprint rather than a single-module one — each module that introduces a fixed list offers the same mint at its own moment, the way "kit-the-scenario" already recurs at M18/M35.
+
+## C2. DATABASE SKILLS (primary key / data type / SQL / QBE / table reading)
+**Frequency:** 143 rows, 371 marks (14.2%/16.0%).
+**Gaps:** the table's fields and sample data · the database operation (identify key, assign type, build query) · the syntax or convention it must follow.
+**Rule sentence:** "a database question is always one of four moves on the same table: pick the field that uniquely identifies a row (primary key), decide what kind of data a field holds (data type), or filter/display rows using SQL or QBE."
+**Tells:** a table of field names and sample rows, "primary key," "data type," "SELECT/FROM/WHERE," a QBE grid.
+**Suggested mint-moment:** M29 (Filing Cabinets that Answer Back) — direct match, the module's own name is a database metaphor.
+
+## C3. MATCH-THE-PAIR (classify an item into a category, or pair a term to its definition)
+**Frequency:** 94 rows, 282 marks (9.3%/12.2%).
+**Gaps:** the item or term · the set of categories/definitions on offer · the matching rule.
+**Rule sentence:** "matching questions test recognition, not construction — you're choosing which bucket or which definition fits, from a list already in front of you."
+**Tells:** a matching/classification table or grid, "match X to Y," "classify as," MCQ definition-identification.
+**Suggested mint-moment:** recurs wherever a module introduces named categories with clean boundaries — closest existing sibling is `compare-the-pair`, but that blueprint is about contrasting two named things across an axis, not sorting many items into buckets; this is a distinct, simpler skill worth its own mint rather than stretching compare-the-pair's tells to cover it.
+
+## C4. DEFINE-THE-TERM (single technical term definition)
+**Frequency:** 68 rows, 124 marks (6.7%/5.4%).
+**Rule sentence:** "a definition question wants the syllabus's own meaning of the word, stated precisely — not an example, not a use case, just what it means."
+**Tells:** "define," "what is meant by," "state the meaning of."
+**Suggested mint-moment:** vocabulary recurs across every module; likely belongs alongside whichever glossary/vocabulary mechanic the course already uses for first encounters with new terms, rather than a single mint-moment.
+
+## C5. STATE-THE-REASON (purpose / justification / benefit of X, single-fact)
+**Frequency:** 51 rows, 107 marks (5.0%/4.6%).
+**Rule sentence:** "when a question asks for the purpose, reason, or benefit of something, it wants the ONE syllabus-stated justification, not an explanation of how it works."
+**Tells:** "state the purpose of," "give a reason why," "what is the benefit of," one-mark reward.
+**Suggested mint-moment:** distinct from `explain-the-mechanism` (which is the 4-6 mark component→function→why-it-matters shape) — this is its one-mark cousin. Consider whether `explain-the-mechanism`'s tells should note the mark-weight boundary between the two rather than minting a wholly separate blueprint.
+
+## C6. BINARY ARITHMETIC BEYOND BASE CONVERSION (parity, logical shifts, two's complement, overflow)
+**Frequency:** 47 rows combined (31 parity + 16 shift/two's-complement), 109 marks (4.7%/4.7%).
+**Rule sentence:** "convert-it changes a number's costume; this family changes the number itself — adding a parity check bit, shifting bits left or right, or reading a negative number's two's-complement form."
+**Tells:** "parity bit," "logical shift," "two's complement," "overflow."
+**Suggested mint-moment:** M14 (Did It Arrive Intact?) for parity specifically — direct match. Shifts/two's complement don't have an obvious home in the module list checked; flagging as possibly missing from the course plan itself, not just the catalogue (worth the owner's read, similar to the maths SYMMETRY catch).
+
+## C7. DECLARE-THE-STRUCTURE (variable/array/constant declaration and identification)
+**Frequency:** 24 rows, 71 marks (2.4%/3.1%).
+**Rule sentence:** "before an algorithm can use a value, it has to be declared — named, typed, and (for arrays) sized — and reading pseudocode means recognising that declaration on sight."
+**Tells:** "declare," pseudocode variable/array/constant syntax, "identify the data type of," array bounds notation.
+**Suggested mint-moment:** M22 (Many Boxes, One Name) — direct match given the module's own array-boxes framing.
+
+## Smaller clusters (noted, not fully written up — lower mark-weight, owner may want to fold these into C1-C7 or the existing catalogue rather than minting more blueprints)
+- **Storage-unit ladder recall** (18 rows, 20 marks) — bits/bytes/KiB/MiB/GiB/TiB facts and conversions; likely mints at M6 (How Big Is a Song?).
+- **Test data design** (12 rows, 45 marks) — normal/boundary/erroneous test values; likely a Bridge-adjacent testing skill, not clearly homed in the module list checked.
+- **Pseudocode error-spotting/debugging** (10 rows, 36 marks) — distinct from `trace-it` (which executes/traces rather than debugs); possibly a natural sibling blueprint at the same M20 mint-moment.
+- **Advantages/disadvantages paired recall** (15 rows, 31 marks) — recurs in automation/robotics/AI scenario questions (M35, M36).
+- **SDLC/PDLC and software-quality recall** (12 rows, 32 marks) — stages, maintainability, structure diagrams; likely mints at M9 (The House Style) if that module covers development process, otherwise a course-plan gap.
+
+## Residual (285 rows, 28.2% of gaps, 587 marks, 25.3% of gap marks)
+Genuinely heterogeneous — single-topic recall questions spread across CPU architecture, ethics, robotics, networking protocols, and file formats, each appearing once or twice across all 88 papers. Per the audit's own rule, this is flagged rather than forced into an artificial cluster. Worth a second look once maths and English amendments are adjudicated, in case some of these turn out to be the same shape as C1/C3/C5 with phrasing this session's keyword clustering missed.
