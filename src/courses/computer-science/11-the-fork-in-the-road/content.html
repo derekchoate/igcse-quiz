@@ -1,0 +1,232 @@
+
+  <section class="hero">
+    <h1>Programs feel intelligent for exactly one reason: <span class="lit">they can take a different path.</span></h1>
+    <p>Every line you've written so far runs top to bottom, no choices. Tonight that changes. <span class="kw" style="font-family:var(--mono)">IF</span> reads a condition and sends the program down one of two roads — like a path splitting in front of you. Set the values on the dials below, press to walk it, and watch a lantern travel the road actually taken while the road not taken simply stays unlit.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Every fork is yours to walk however you like — take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">One fork in the road
+        <span class="disc-sub">cinema ticket pricing — same fork, different lantern route</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Cinemas price tickets by age. One condition, two prices — the simplest fork there is. <span class="kw" style="font-family:var(--mono)">IF</span> asks the question, <span class="kw" style="font-family:var(--mono)">THEN</span> names what happens when it's true, <span class="kw" style="font-family:var(--mono)">ELSE</span> names what happens when it's false, and <span class="kw" style="font-family:var(--mono)">ENDIF</span> closes the fork back up. Pick an age below — 19 is on the list, in case you fancy sending yourself through — then step the lantern through and watch which road lights up.</p>
+      <div class="board">
+        <div class="decl-code" id="forkCode1">
+          <div class="pcline"><span class="kw">IF</span> Age &gt;= 18</div>
+          <div class="pcline">  <span class="kw">THEN</span></div>
+          <div class="pcline">    Price <span class="arrow">←</span> 15</div>
+          <div class="pcline">    <span class="kw">OUTPUT</span> <span class="str">"Adult ticket"</span>, Price</div>
+          <div class="pcline">  <span class="kw">ELSE</span></div>
+          <div class="pcline">    Price <span class="arrow">←</span> 8</div>
+          <div class="pcline">    <span class="kw">OUTPUT</span> <span class="str">"Child ticket"</span>, Price</div>
+          <div class="pcline"><span class="kw">ENDIF</span></div>
+        </div>
+        <div id="walk1"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Feed it 12. The diamond asks "is 12 ≥ 18?" — no, so the lantern takes the ELSE road: Price becomes 8, and it prints "Child ticket 8". Reset and feed it 25 instead: now the question is true, the lantern takes the THEN road, and it prints "Adult ticket 15". Same fork, same diamond — only the input changed which road lit up.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Read the diamond as a plain yes/no question about the age you fed it. Whichever answer it gives, exactly one of the two roads lights up — never both, never neither.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Try your own age — 19. 19 ≥ 18 is true, so THEN fires: Price ← 15, "Adult ticket". Now imagine feeding it 10 instead — 10 ≥ 18 is false, so ELSE fires: Price ← 8, "Child ticket".</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The ELSE path exists even when empty
+        <span class="disc-sub">no ELSE line in the code — but the road is still there</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Sometimes an IF has no <span class="kw" style="font-family:var(--mono)">ELSE</span> at all — nothing is written for what happens when the answer is no. Cambridge allows that, and it does <em>not</em> mean the "no" road vanishes. It just means that road leads straight past, doing nothing, before rejoining the rest of the program. Below is a canteen loyalty stamp with no ELSE in sight. Walk both ticket types and watch the "no" road all the same.</p>
+      <div class="board">
+        <div class="decl-code" id="forkCode2">
+          <div class="pcline"><span class="kw">IF</span> Ticket = <span class="str">"Adult"</span></div>
+          <div class="pcline">  <span class="kw">THEN</span></div>
+          <div class="pcline">    Stamps <span class="arrow">←</span> Stamps + 1</div>
+          <div class="pcline"><span class="kw">ENDIF</span></div>
+          <div class="pcline"><span class="kw">OUTPUT</span> <span class="str">"Enjoy the show!"</span></div>
+        </div>
+        <p class="fork-note">Notice: there is no ELSE line at all. Walk it with a Child ticket and see what the "no" road actually does.</p>
+        <div id="walk2"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Feed it "Adult" — the diamond is true, so Stamps goes up by one, then the road rejoins and prints "Enjoy the show!". Now feed it "Child" — the diamond is false, and the lantern still has to go <em>somewhere</em>: it takes the quiet "do nothing" road, skips straight past the stamp, and rejoins at the very same print line. Nothing broke — that quiet road was always there, it just never got written as words.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Look at the flowchart, not just the code. The "no" arrow out of the diamond leads somewhere in the diagram even though the pseudocode above never says the word ELSE.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">"No ELSE written" means "do nothing extra" — not "no road". Every diamond has exactly two arrows leaving it, always, whether or not the pseudocode bothers to name the quiet one.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Stacking forks vs CASE
+        <span class="disc-sub">same canteen menu, count the reading effort</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Cambridge has no "ELSE IF" keyword — to test a second condition you nest a fresh IF inside the ELSE, and a third inside <em>that</em> ELSE, and so on. It works, but it gets deeper and harder to read with every extra option. <span class="kw" style="font-family:var(--mono)">CASE OF</span> tests one variable against several values and stays flat, no matter how many options there are. Tap a canteen item below and watch how far into each block you'd have to read to find it.</p>
+      <div class="board">
+        <p class="menu-label">Tap a canteen item</p>
+        <div class="menu-row" id="menuRow3"></div>
+        <div class="fork-compare">
+          <div class="fork-compare-col">
+            <div class="fork-compare-title">Stacked forks</div>
+            <div class="decl-code" id="stackCode3"></div>
+            <div class="fork-count" id="stackCount3">Lines read: —</div>
+          </div>
+          <div class="fork-compare-col">
+            <div class="fork-compare-title">CASE OF</div>
+            <div class="decl-code" id="caseCode3"></div>
+            <div class="fork-count" id="caseCount3">Lines read: —</div>
+          </div>
+        </div>
+      </div>
+      <p class="chips-label">Try every item on the menu…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Tap "Drink" — it's the last item in the stacked version, so you have to read past Roti's IF, Noodles' nested IF and Rice's nested IF before you finally reach it: 4 lines read, 3 levels deep. In the CASE version, "Drink" is just one line among equals — you land on it in 1 line, no nesting at all. Same menu, same answer, very different reading effort.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Count how many IF lines sit above the highlighted one in the stacked panel before you reach a match — that's the reading effort for that item.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Whichever item is last in the list costs the most to reach when forks are stacked — you must fail every earlier IF first. CASE OF doesn't care about order like that; every value sits at the same flat depth.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">AND needs both, OR needs either
+        <span class="disc-sub">same two switches, one gate — two different rules for opening it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A condition can combine two questions at once. <span class="kw" style="font-family:var(--mono)">AND</span> only opens the gate when both switches are on. <span class="kw" style="font-family:var(--mono)">OR</span> opens it as soon as either one is. The gate reads OPEN when the whole condition is true, and SHUT when it's false. Flip the two switches below, pick AND or OR, and watch the gate.</p>
+      <div class="board">
+        <div class="gate-switches">
+          <button class="gate-switch" id="swRain4" type="button" aria-pressed="false">☂ Raining</button>
+          <button class="gate-switch" id="swCold4" type="button" aria-pressed="false">❄ Cold</button>
+        </div>
+        <div class="gate-op" role="group" aria-label="Choose the operator">
+          <button class="gate-op-btn active" id="opAnd4" type="button" aria-pressed="true">AND</button>
+          <button class="gate-op-btn" id="opOr4" type="button" aria-pressed="false">OR</button>
+        </div>
+        <div class="gate-visual">
+          <div class="gate-panel" id="gatePanel4">SHUT <span class="gate-panel-val">(false)</span></div>
+        </div>
+        <div class="decl-code" id="gateCode4"></div>
+        <div class="gate-result" id="gateResult4" aria-live="polite">Flip a switch to begin.</div>
+      </div>
+      <p class="chips-label">Find every outcome…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Switch to AND, then turn on only Raining — the gate stays shut, because AND needs Raining AND Cold both true, and Cold is still off. Now also turn on Cold — the gate opens, the coat rule fires. Switch to OR with the same two switches on: it was already open, no surprise. Now turn Cold back off, staying on OR — one switch alone is enough, so the gate stays open: OR only needs one side true.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">AND needs both switches on; OR needs at least one. Rain AND cold → coat. It's raining but warm — does the rule fire?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">No: AND fails if either part fails, even if the other part is true. Try it on the switches — one switch on is never enough for AND, only for OR.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">NOT flips the sign
+        <span class="disc-sub">same gate, inverted</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><span class="kw" style="font-family:var(--mono)">NOT</span> takes whatever a condition says and flips it — true becomes false, false becomes true. It doesn't need a second condition or a gate with two switches; it just turns the one sign around. Flip the switch and the NOT toggle below and watch both the raw answer and the flipped one — NOT only ever cares about true and false, never about whether the result still sounds sensible in plain English.</p>
+      <div class="board">
+        <div class="gate-switches">
+          <button class="gate-switch" id="swRain5" type="button" aria-pressed="false">☂ Raining</button>
+          <button class="gate-switch not-toggle" id="swNot5" type="button" aria-pressed="false">NOT</button>
+        </div>
+        <div class="decl-code" id="gateCode5"></div>
+        <div class="gate-result" id="gateResult5" aria-live="polite">Flip a switch to begin.</div>
+      </div>
+      <p class="chips-label">Find every combination…</p>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Raining is on, NOT is off: the condition reads "Raining" plainly — true, so it's umbrella weather. Now switch NOT on, Raining still on: the condition reads "NOT Raining" — Raining is true, so NOT flips it to false, and it's t-shirt weather instead. The rain didn't change; only the sign in front of it did.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Read NOT as "the opposite of whatever follows". Check Raining's raw value first, then just flip it once NOT is switched on.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Raining off, NOT on: "NOT Raining" flips false to true — the condition fires, so it prints umbrella weather, even though it isn't actually raining. Raining off, NOT off: "Raining" stays false, so it prints t-shirt weather, matching what you'd expect. NOT only ever flips the true/false value — it has no idea whether the result still makes sense outside the code.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Build a fork
+        <span class="disc-sub">assemble IF…THEN…ELSE…ENDIF from parts to match a rule</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's a plain-English rule: <em>"If today is a weekend, the canteen allows 50 people in the queue. Otherwise, it allows 20."</em> Three pickers below hold candidate pieces for the condition, the THEN line and the ELSE line. Pick one from each — it snaps together into a working IF the moment all three actually match the rule, and nothing about a wrong pick is ever marked wrong.</p>
+      <div class="board">
+        <div class="build-slots" id="buildSlots6"></div>
+        <div class="decl-code" id="buildCode6"></div>
+        <div class="fork-note" id="buildStatus6" aria-live="polite">Pick a piece for each gap above.</div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">The condition needs to test whether today <em>is</em> the weekend — that's <code>Day = "Weekend"</code>, not "greater than" a word, and not the wrong day. The THEN line runs when that's true, so it needs the bigger number: <code>QueueLimit ← 50</code>. The ELSE line runs otherwise, so it needs the smaller number: <code>QueueLimit ← 20</code>. Once all three match the rule, the fork snaps together on its own.</div>
+        <button class="nudge-btn" data-nudge="n6a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n6a">Start with the condition — which picker option actually asks "is today the weekend?" rather than something else entirely?</div>
+        <button class="nudge-btn" data-nudge="n6b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n6b">THEN fires on weekends — that's the bigger queue, 50. ELSE fires on every other day — that's the smaller queue, 20. Match the numbers to the rule, not to each other.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — an eleventh time</h2>
+    <p>You just gave programs the one power that makes them feel intelligent: taking a different path depending on what's true. You walked a single fork and watched the lantern choose a road, discovered that an unwritten ELSE is still a real road rather than a missing one, felt the reading cost of stacking fork after fork instead of reaching for CASE, built AND as a gate that needs both switches and OR as one that needs just either, flipped a condition's sign with NOT, and finally assembled a whole IF…THEN…ELSE…ENDIF yourself from loose parts until it snapped together.</p>
+    <p class="soft">Whenever you're ready, the next discovery is where forks learn to repeat themselves — the same conditions you just tamed, now running round in loops. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="10-boxes-with-names.html">← Module 10 · Boxes with Names</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 11 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
