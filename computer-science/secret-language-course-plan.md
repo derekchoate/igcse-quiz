@@ -50,7 +50,7 @@ Milestone celebrations (no certificates, just moments): after M6 ("you can now r
 | 4 | Letters in the Wire (ASCII & Unicode) | S | 1.2 |
 | 5 | Pictures & Sound from Numbers | S | 1.2 |
 | 6 | How Big Is a Song? (units & compression) | S | 1.3 |
-| 7 | The Recipe Idea (algorithms, decomposition, PDLC) | M | 7.1–7.2 |
+| 7 | The Recipe Idea (algorithms, decomposition, abstraction, PDLC) | M | 7.1–7.2 |
 | 8 | Reading the Map (flowcharts) | M | 7.4 |
 | 9 | The House Style (Cambridge pseudocode reading) | M | 7.4, 8.1 |
 | 10 | Boxes with Names (variables, I/O, arithmetic) | M | 8.1 |
@@ -151,13 +151,13 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 ---
 
 ### Module 7 · The Recipe Idea
-**Ref:** 7.1–7.2 (PDLC: analysis, design, coding, testing; decomposition into component parts) · **Needs:** nothing (Strand M entry point)
+**Ref:** 7.1–7.2 (PDLC: analysis, design, coding, testing; **decomposition and abstraction** — both are 7.1 dot points) · **Needs:** nothing (Strand M entry point)
 **Hook:** "Before a single line of code: how do you get a fuzzy wish — 'I want an app that…' — into steps a machine can follow?"
-**Goal:** Name the four PDLC stages; decompose a problem into inputs, processes, outputs and storage.
+**Goal:** Name the four PDLC stages; decompose a problem into inputs, processes, outputs and storage; **name abstraction as keeping only what the job needs and dropping the rest — the natural companion to decomposition.**
 **Signature interaction:** A decomposition sorting board — a real, warm scenario (a tuckshop till, a plant-watering gadget) whose sticky-note pieces he drags into I/P/O/S columns; notes glow amber when they land anywhere *defensible* (several placements accepted, with a gentle note when one column fits best).
-**Discoveries:** (1) The four stages as a story: follow one small idea from wish to working thing; (2) Sort a simple gadget into IPOS; (3) Sort a meatier one; (4) Spot the missing piece: a decomposition with a hole in it — what can't this system do?; (5) Decompose something from *his* life (free-text boxes, no checking — reflection only).
+**Discoveries:** (1) The four stages as a story: follow one small idea from wish to working thing; (2) Sort a simple gadget into IPOS; (3) Sort a meatier one; (4) **Abstraction: strip a real thing down to only what the job needs — a metro map keeps the stops and the lines and throws away the streets, the distances, the rivers, yet still gets you there. "Remove the detail to see the essential shape." Then mint a NAME IT for it — his own wording stress-tested against the exam phrasing ("would your definition earn the mark as written?").** (5) Spot the missing piece: a decomposition with a hole in it — what can't this system do?; (6) Decompose something from *his* life (free-text boxes, no checking — reflection only).
 **Nudge sample:** ① "Ask: does this piece *come from outside*, *get worked on*, *go to a person*, or *get kept for later*?" ② "'Remember today's sales' — kept for later is which column?" ③ "Storage."
-**Watch for:** Treating PDLC as strictly linear (mention looping back, lightly); output vs storage confusion.
+**Watch for:** Treating PDLC as strictly linear (mention looping back, lightly); output vs storage confusion; **abstraction confused with decomposition (decomposition breaks a problem into its parts; abstraction removes the parts that don't matter for the job — a map, a model, a summary).**
 
 ---
 
@@ -190,7 +190,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 **Signature interaction:** Live labelled boxes — a small pseudocode stepper where each DECLARE physically creates a labelled box on screen; assignments visibly drop values in; OUTPUT prints to a soft terminal. He runs everything; nothing is compiled or "wrong".
 **Discoveries:** (1) Make a box, put something in it; (2) Types are box shapes: try putting "hello" in an INTEGER box — the box politely refuses (shape mismatch animation, no error text); (3) Constants are glued shut; (4) MOD and DIV as sharing sweets: 17 sweets, 5 friends — DIV gives each share, MOD is what's left in your hand (interactive sweet-splitter); (5) Predict-then-run: three tiny programs, he sets his private guess via a dial, then steps through.
 **Nudge sample (MOD):** ① "Deal the sweets out one each until you can't." ② "17 dealt to 5 people: how many rounds, what's left over?" ③ "3 rounds each (DIV), 2 left over (MOD)."
-**Watch for:** MOD/DIV swapped; REAL vs INTEGER division; "variable = the value" rather than a named container.
+**Watch for:** MOD/DIV swapped; REAL vs INTEGER division; "variable = the value" rather than a named container. (Cambridge appendix: MOD/DIV are function-call syntax — `MOD(a,b)`, `DIV(a,b)` — verify against the current appendix.)
 
 ---
 
