@@ -83,6 +83,32 @@
   <section class="disc" id="d4">
     <button class="disc-head" aria-expanded="false" data-toggle="d4">
       <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The metro map trick
+        <span class="disc-sub">strip a real thing down to only what the job needs</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A metro map is a small miracle of dishonesty. It keeps the stations, the order they come in, and where the lines cross — and throws away the real distances, the streets above ground, even the rivers the train passes under. Somehow it still gets you there, every time. That's the whole trick, and it has a name: <b>abstraction</b> — stripping a real thing down to only what the job in front of you actually needs. Sort the details below by whether someone using the map to get from A to B would ever need them.</p>
+      <div class="board">
+        <div class="sort-list" id="sortList4"></div>
+        <div class="own-box name-it-box" id="nameIt4" hidden></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
+        <div class="nudge" id="n4a">This isn't the same job as the columns a moment ago. Decomposition breaks a system into its parts; abstraction throws some of those parts away because the job in front of you doesn't need them. Ask of each detail: would someone using the map need this to get from A to B?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">The kilometre distances, the real street layout, the rivers underneath — all true, all real, all irrelevant to which train you catch.</div>
+        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4c">Take "where the lines cross so you can change trains" — miss that and you miss your connection. Keep it. Take "the actual curve of the tracks through the city" — it doesn't change a single decision you make. Drop it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
       <span class="disc-title">Spot the missing piece
         <span class="disc-sub">a decomposition with a hole in it</span>
       </span>
@@ -91,23 +117,23 @@
     <div class="disc-body">
       <p>Below is a smart doorbell, mostly decomposed — but one column is still empty, and the system genuinely can't do its job without it. Work out what's missing before you pick.</p>
       <div class="board">
-        <div class="decomp-board" id="decompBoard4"></div>
-        <div class="decomp-choices" id="decompChoices4"></div>
+        <div class="decomp-board" id="decompBoard5"></div>
+        <div class="decomp-choices" id="decompChoices5"></div>
       </div>
       <div class="nudge-zone">
-        <button class="nudge-btn" data-nudge="n4a">Want a nudge?</button>
-        <div class="nudge" id="n4a">Trace what the system already does, step by step, using only what's on the board.</div>
-        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n4b">It takes a photo, checks it against known faces... and then what happens that a person would actually notice?</div>
-        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n4c">Nothing — unless something tells you. The board can analyse all day in total silence without an Output.</div>
+        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
+        <div class="nudge" id="n5a">Trace what the system already does, step by step, using only what's on the board.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">It takes a photo, checks it against known faces... and then what happens that a person would actually notice?</div>
+        <button class="nudge-btn" data-nudge="n5c" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5c">Nothing — unless something tells you. The board can analyse all day in total silence without an Output.</div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ DISCOVERY 5 ══════════ -->
-  <section class="disc" id="d5">
-    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+  <!-- ══════════ DISCOVERY 6 ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
       <span class="disc-star" aria-hidden="true">✦</span>
       <span class="disc-title">Decompose something of your own
         <span class="disc-sub">free choice, no checking — just noticing</span>
@@ -117,11 +143,11 @@
     <div class="disc-body">
       <p>Pick something you do or use often — a game, an app, even making toast — and decompose it yourself below. Nothing here gets checked; this bit is entirely yours.</p>
       <div class="board">
-        <div class="own-grid" id="ownGrid5"></div>
+        <div class="own-grid" id="ownGrid6"></div>
       </div>
       <div class="nudge-zone">
-        <button class="nudge-btn" data-nudge="n5a">Want a nudge?</button>
-        <div class="nudge" id="n5a">Pick something small and ordinary — a morning alarm, a vending machine, a game's high score. Ordinary things decompose just as well as fancy ones.</div>
+        <button class="nudge-btn" data-nudge="n6a">Want a nudge?</button>
+        <div class="nudge" id="n6a">Pick something small and ordinary — a morning alarm, a vending machine, a game's high score. Ordinary things decompose just as well as fancy ones.</div>
       </div>
     </div>
   </section>
@@ -129,7 +155,7 @@
   <!-- ══════════ REFLECTION ══════════ -->
   <section class="reflect" id="reflect" hidden>
     <h2>Notice what just happened — a seventh time</h2>
-    <p>Twenty minutes ago, "decomposition" might have sounded like a science word. Now you've walked a wish through all four stages of building real software, categorised the steps behind a simple gadget and a genuinely busy canteen counter into inputs, processes, outputs and storage, caught a system with a hole where its output should be, and pulled apart something entirely your own.</p>
+    <p>Twenty minutes ago, "decomposition" might have sounded like a science word. Now you've walked a wish through all four stages of building real software, categorised the steps behind a simple gadget and a genuinely busy canteen counter into inputs, processes, outputs and storage, stripped a metro map down to only what a rider actually needs and put abstraction into your own words, caught a system with a hole where its output should be, and pulled apart something entirely your own.</p>
     <p class="soft">Whenever you're curious, the next discovery is reading a map you can walk with your finger — flowcharts, the shape an algorithm takes before it's ever written as code. No rush at all — the stars keep.</p>
   </section>
 
