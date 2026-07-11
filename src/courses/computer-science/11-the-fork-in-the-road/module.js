@@ -183,18 +183,18 @@
   });
   render3();
 
-  /* ═══ D4: AND is a narrow gate, OR is a wide one ═══ */
+  /* ═══ D4: AND needs both, OR needs either ═══ */
   let rain4=false, cold4=false, op4="AND";
   const check4=makeChips($("#chips4"),["andBoth","andOneFails","orAny","orNoneFails"],
-    ()=>awardStar("d4","Every combination tried — AND only opens with both doors, OR opens with just one. Same two switches, two very different gates."),
-    k=>({andBoth:"AND with both doors open",andOneFails:"AND with only one door open",
-      orAny:"OR with at least one door open",orNoneFails:"OR with both doors shut"}[k]),
+    ()=>awardStar("d4","Every combination tried — AND only opens the gate with both switches on, OR opens it with just one. Same two switches, two very different gates."),
+    k=>({andBoth:"AND with both switches on",andOneFails:"AND with only one switch on",
+      orAny:"OR with at least one switch on",orNoneFails:"OR with both switches off"}[k]),
     (label,remaining)=>"Noticed — "+remaining+" combination"+(remaining>1?"s":"")+" to go.");
   function render4(){
-    const doorL=$("#doorL4"), doorR=$("#doorR4");
-    doorL.classList.toggle("open",rain4);doorL.textContent=rain4?"OPEN":"SHUT";
-    doorR.classList.toggle("open",cold4);doorR.textContent=cold4?"OPEN":"SHUT";
+    const panel=$("#gatePanel4");
     const fires = op4==="AND" ? (rain4&&cold4) : (rain4||cold4);
+    panel.classList.toggle("open",fires);
+    panel.innerHTML=(fires?"OPEN":"SHUT")+' <span class="gate-panel-val">('+fires+')</span>';
     $("#gateCode4").innerHTML=
       '<div class="pcline"><span class="kw">IF</span> Raining <span class="kw">'+op4+'</span> Cold</div>'+
       '<div class="pcline">  <span class="kw">THEN</span></div>'+
