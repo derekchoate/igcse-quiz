@@ -102,7 +102,7 @@ describe("Module 10: Boxes with Names", () => {
     expect(isDiscoveryDone("d3")).toBe(true);
   });
 
-  test("discovery 4: dealing 17 sweets among 5 friends awards the star with DIV 3 and MOD 2", () => {
+  test("discovery 4: dealing 17 sweets among 5 friends awards the star with DIV(17,5)=3 and MOD(17,5)=2", () => {
     dealSweets(16);
     expect(isDiscoveryDone("d4")).toBe(false);
     dealSweets(1); // the 17th sweet
