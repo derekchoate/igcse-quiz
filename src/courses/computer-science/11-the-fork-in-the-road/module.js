@@ -2,12 +2,17 @@
    The signature interaction: a literal branching path. Code renders as a
    flowchart fork; dials/switches set input values; a lantern (the shared
    `walk` kit's click-to-step engine) travels the road actually taken while
-   the untaken road simply never lights up. D1/D2 reuse makeWalk directly;
-   D3 compares stacked IF against CASE OF by reading effort; D4/D5 are
-   state-matching gates for AND/OR/NOT; D6 is a drag-snap-style (dropdown)
-   assembly of a whole IF...THEN...ELSE...ENDIF. Runs inside the shared
-   engine IIFE, so $, $$, reduceMotion, sparks, toast, awardStar, makeChips,
-   makeWalk, buildShape, ARROW_DEFS are all in scope. */
+   the untaken road simply never lights up. D1/D2 reuse makeWalk directly,
+   with onEnter syncing the separate pseudocode panel's current line(s) to
+   whichever node the lantern is on (see FORK1_LINES/FORK2_LINES) — same
+   convention M12's flowchart discoveries use; D2's noProc in particular
+   highlights ENDIF, since there's no ELSE line to light for that road at
+   all, which is exactly its discovery's point. D3 compares stacked IF
+   against CASE OF by reading effort; D4/D5 are state-matching gates for
+   AND/OR/NOT; D6 is a drag-snap-style (dropdown) assembly of a whole
+   IF...THEN...ELSE...ENDIF. Runs inside the shared engine IIFE, so $, $$,
+   reduceMotion, sparks, toast, awardStar, makeChips, makeWalk, buildShape,
+   ARROW_DEFS, syncCodeHighlight are all in scope. */
 
   /* ═══ shared walk-engine hints (consumed by makeWalk, shared kit) ═══ */
   const HINT_STEP="Tap the chart to move the lantern ▸";
@@ -73,13 +78,26 @@
     noOut:{kind:"io",say:()=>'OUTPUT "Child ticket", Price → prints Child ticket 8',next:"stop"},
     stop:{kind:"term"}
   };
+  // Before an age is fed in, nothing's been tested yet, so only the IF
+  // keyword lights up (same convention M12 uses for its loop keywords);
+  // once dec actually evaluates it, the whole condition line does. Stop
+  // lights ENDIF — the fork only actually closes once the lantern gets
+  // there, after whichever OUTPUT line already ran.
+  const FORK1_LINES={
+    start:["f1-if-kw"],ask:["f1-if-kw"],dec:["f1-if"],
+    yesProc:["f1-then","f1-yesproc"],yesOut:["f1-yesout"],
+    noProc:["f1-else","f1-noproc"],noOut:["f1-noout"],
+    stop:["f1-endif"]
+  };
   makeWalk("walk1",{
     nodes:D1_NODES,
     svg:buildForkSVG("Cinema ticket pricing flowchart","Read Age",["Age >=","18?"],
       "Price ← 15",["Print Adult","ticket, 15"],"Price ← 8",["Print Child","ticket, 8"]),
     start:"start",badge:{key:"price",label:"price"},anchors:FORK_ANCHORS,flow:FORK_FLOW,
     init:()=>({age:null,price:undefined})
-  },{onFinish:s=>awardStar("d1","Lantern reached Stop — the "+(s.price===15?"THEN":"ELSE")+
+  },{
+    onEnter:id=>syncCodeHighlight("forkCode1",FORK1_LINES,id),
+    onFinish:s=>awardStar("d1","Lantern reached Stop — the "+(s.price===15?"THEN":"ELSE")+
       " road lit up this time, and the other stayed dark. Feed it a different age any time; nothing here ever runs out.")});
 
   /* ═══ D2: the ELSE path exists even when empty ═══ */
@@ -94,13 +112,25 @@
     noOut:{kind:"io",say:()=>'OUTPUT "Enjoy the show!"',next:"stop"},
     stop:{kind:"term"}
   };
+  // The "no" road has no ELSE line to light at all — that's the whole
+  // point of this discovery — so noProc highlights ENDIF instead: the
+  // quiet road still lands somewhere, it just skips straight to the end.
+  // Stop also lights ENDIF, on either road, since the fork closes there.
+  const FORK2_LINES={
+    start:["f2-if-kw"],ask:["f2-if-kw"],dec:["f2-if"],
+    yesProc:["f2-then","f2-yesproc"],yesOut:["f2-out"],
+    noProc:["f2-endif"],noOut:["f2-out"],
+    stop:["f2-endif"]
+  };
   makeWalk("walk2",{
     nodes:D2_NODES,
     svg:buildForkSVG("Loyalty stamp flowchart with no ELSE written","Read Ticket",["Ticket =",'"Adult"?'],
       ["Stamps ← Stamps","+ 1"],["Print “Enjoy","the show!”"],"(do nothing)",["Print “Enjoy","the show!”"]),
     start:"start",badge:{key:"stamps",label:"stamps"},anchors:FORK_ANCHORS,flow:FORK_FLOW,
     init:()=>({ticket:null,stamps:0})
-  },{onFinish:()=>awardStar("d2","Both roads reach the same print line — one added a stamp on the way, the other just walked quietly past. No ELSE was ever written, and the road was there all along.")});
+  },{
+    onEnter:id=>syncCodeHighlight("forkCode2",FORK2_LINES,id),
+    onFinish:()=>awardStar("d2","Both roads reach the same print line — one added a stamp on the way, the other just walked quietly past. No ELSE was ever written, and the road was there all along.")});
 
   /* ═══ D3: stacking forks vs CASE ═══ */
   const ITEMS3=[
