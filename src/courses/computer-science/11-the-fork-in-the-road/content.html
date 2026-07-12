@@ -20,14 +20,14 @@
       <p>Cinemas price tickets by age. One condition, two prices — the simplest fork there is. <span class="kw" style="font-family:var(--mono)">IF</span> asks the question, <span class="kw" style="font-family:var(--mono)">THEN</span> names what happens when it's true, <span class="kw" style="font-family:var(--mono)">ELSE</span> names what happens when it's false, and <span class="kw" style="font-family:var(--mono)">ENDIF</span> closes the fork back up. Pick an age below — 19 is on the list, in case you fancy sending yourself through — then step the lantern through and watch which road lights up.</p>
       <div class="board">
         <div class="decl-code" id="forkCode1">
-          <div class="pcline"><span class="kw">IF</span> Age &gt;= 18</div>
-          <div class="pcline">  <span class="kw">THEN</span></div>
-          <div class="pcline">    Price <span class="arrow">←</span> 15</div>
-          <div class="pcline">    <span class="kw">OUTPUT</span> <span class="str">"Adult ticket"</span>, Price</div>
-          <div class="pcline">  <span class="kw">ELSE</span></div>
-          <div class="pcline">    Price <span class="arrow">←</span> 8</div>
-          <div class="pcline">    <span class="kw">OUTPUT</span> <span class="str">"Child ticket"</span>, Price</div>
-          <div class="pcline"><span class="kw">ENDIF</span></div>
+          <div class="pcline" id="f1-if"><span class="kw" id="f1-if-kw">IF</span> Age &gt;= 18</div>
+          <div class="pcline" id="f1-then">  <span class="kw">THEN</span></div>
+          <div class="pcline" id="f1-yesproc">    Price <span class="arrow">←</span> 15</div>
+          <div class="pcline" id="f1-yesout">    <span class="kw">OUTPUT</span> <span class="str">"Adult ticket"</span>, Price</div>
+          <div class="pcline" id="f1-else">  <span class="kw">ELSE</span></div>
+          <div class="pcline" id="f1-noproc">    Price <span class="arrow">←</span> 8</div>
+          <div class="pcline" id="f1-noout">    <span class="kw">OUTPUT</span> <span class="str">"Child ticket"</span>, Price</div>
+          <div class="pcline" id="f1-endif"><span class="kw">ENDIF</span></div>
         </div>
         <div id="walk1"></div>
       </div>
@@ -55,11 +55,11 @@
       <p>Sometimes an IF has no <span class="kw" style="font-family:var(--mono)">ELSE</span> at all — nothing is written for what happens when the answer is no. Cambridge allows that, and it does <em>not</em> mean the "no" road vanishes. It just means that road leads straight past, doing nothing, before rejoining the rest of the program. Below is a canteen loyalty stamp with no ELSE in sight. Walk both ticket types and watch the "no" road all the same.</p>
       <div class="board">
         <div class="decl-code" id="forkCode2">
-          <div class="pcline"><span class="kw">IF</span> Ticket = <span class="str">"Adult"</span></div>
-          <div class="pcline">  <span class="kw">THEN</span></div>
-          <div class="pcline">    Stamps <span class="arrow">←</span> Stamps + 1</div>
-          <div class="pcline"><span class="kw">ENDIF</span></div>
-          <div class="pcline"><span class="kw">OUTPUT</span> <span class="str">"Enjoy the show!"</span></div>
+          <div class="pcline" id="f2-if"><span class="kw" id="f2-if-kw">IF</span> Ticket = <span class="str">"Adult"</span></div>
+          <div class="pcline" id="f2-then">  <span class="kw">THEN</span></div>
+          <div class="pcline" id="f2-yesproc">    Stamps <span class="arrow">←</span> Stamps + 1</div>
+          <div class="pcline" id="f2-endif"><span class="kw">ENDIF</span></div>
+          <div class="pcline" id="f2-out"><span class="kw">OUTPUT</span> <span class="str">"Enjoy the show!"</span></div>
         </div>
         <p class="fork-note">Notice: there is no ELSE line at all. Walk it with a Child ticket and see what the "no" road actually does.</p>
         <div id="walk2"></div>
@@ -226,7 +226,7 @@
 
   <nav class="module-nav" aria-label="module navigation">
     <a class="nav-link prev" href="10-boxes-with-names.html">← Module 10 · Boxes with Names</a>
-    <span class="nav-soft">More discoveries are still being written.</span>
+    <a class="nav-link next" href="12-round-and-round.html">Module 12 · Round and Round →</a>
   </nav>
 
   <footer>Module 11 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
