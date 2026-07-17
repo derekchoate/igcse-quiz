@@ -2,5 +2,5 @@
   "number": 14,
   "slug": "14-did-it-arrive-intact",
   "title": "Did It Arrive Intact?",
-  "uses": ["chips"]
+  "uses": ["chips", "thread"]
 }
