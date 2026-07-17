@@ -1,11 +1,12 @@
 /* ================= Module 15 — Locked Letters =================
    Signature interaction: a two-lockbox bench. D1 is the symmetric side — a
    shift-key scramble/unscramble the learner drives with a slider. D2 is an
-   automated courier-log demonstration of the shared-key flaw (mirroring the
-   ARQ log pattern in Module 14's D5). D3 is the asymmetric side — a
-   sequential lock / snoop-attempt / unlock reveal on a single lockbox (no
-   drag needed: only one padlock and one key ever act on one box). D4 and D5
-   are hand-rolled dual tap+drag sorts (pointer events, document-bound),
+   automated demonstration of the shared-key flaw, running on the shared
+   `thread` kit — the same component as Module 14 D5's ARQ log, so the two
+   look and behave identically. D3 is the asymmetric side — a sequential
+   lock / snoop-attempt / unlock reveal on a single lockbox (no drag needed:
+   only one padlock and one key ever act on one box). D4 and D5 are
+   hand-rolled dual tap+drag sorts (pointer events, document-bound),
    mirroring Module 13's D1/D5 and Module 14's D2 — the shared `matcher` kit
    hardcodes awardStar("d3", ...) with Module 9's pseudocode-pairing wording,
    and this module's own #d3 is the padlock trick (not a matching exercise),
@@ -13,7 +14,7 @@
    copy. D5 — the actual plaintext/ciphertext/key drag-pair — is therefore
    hand-rolled too, not pulled from `matcher`.
    Runs inside the shared engine IIFE, so $, $$, reduceMotion, sparks, toast,
-   awardStar and makeChips are all in scope. */
+   awardStar, makeChips and makeThread are all in scope. */
 
   /* ═══ D1: scramble with a shared key — Caesar-style shift cipher ═══ */
   const PLAIN1 = "MEET AT THE CANTEEN";
@@ -50,34 +51,31 @@
     check1(lastKey1 <= 9 ? "small" : (lastKey1 >= 17 ? "large" : null));
   });
 
-  /* ═══ D2: the courier problem — automated log, mirrors Module 14 D5's ARQ log ═══ */
+  /* ═══ D2: the courier problem — runs on the shared `thread` kit, the same
+     component as Module 14 D5's ARQ log, so the two look and behave
+     identically. "You" and "Friend" are the two ends of the conversation
+     (left/right bubbles); the courier's trip and the snoop's copy are
+     events happening to the key in transit, not messages from either side,
+     so they render as centred system notes — the snoop's copy gets the
+     "alert" tone since that's the moment the flaw actually bites. ═══ */
   const COURIER_LOG = [
-    { text: "You: writing the shared key on a slip of paper for the courier to carry.", cls: "you" },
-    { text: "Courier: setting off across town toward your friend.", cls: "courier" },
-    { text: "Snoop: quietly copies the key while the courier passes their desk — the courier notices nothing.", cls: "snoop" },
-    { text: "Friend: receives the slip. It looks completely untouched — the key travelled to them exactly as sent.", cls: "friend" },
-    { text: "You: later, sending a locked message to your friend, using this shared key.", cls: "you" },
-    { text: "Snoop: unlocks their own copy of that very message, using the copy of the key taken earlier.", cls: "snoop" }
+    { text: "Writing the shared key on a slip of paper for the courier to carry.", side: "left" },
+    { text: "The key sets off with the courier, crossing town toward your friend.", side: "system" },
+    { text: "The snoop quietly copies the key as the courier passes their desk — the courier notices nothing.", side: "system", tone: "alert" },
+    { text: "Receiving the slip. It looks completely untouched — the key arrived exactly as sent.", side: "right" },
+    { text: "Later, sending a locked message to your friend, using this same shared key.", side: "left" },
+    { text: "The snoop unlocks their own copy of that very message, using the copy of the key taken earlier.", side: "system", tone: "alert" }
   ];
   const courierLog2 = $("#courierLog2");
+  const playThread2 = makeThread(courierLog2, { left: "You", right: "Friend" });
   let sending2 = false;
   $("#sendKeyBtn2").addEventListener("click", () => {
     if (sending2) return;
     sending2 = true;
-    courierLog2.innerHTML = "";
-    COURIER_LOG.forEach((step, i) => {
-      const delay = reduceMotion ? 0 : i * 550;
-      setTimeout(() => {
-        const line = document.createElement("div");
-        line.className = "courier-line " + step.cls;
-        line.textContent = step.text;
-        courierLog2.appendChild(line);
-        if (i === COURIER_LOG.length - 1) {
-          sending2 = false;
-          awardStar("d2", "Nothing was sent wrong and nobody made a mistake — the key was copied without either of you knowing, simply because a shared key has to travel to be shared. That's the one problem symmetric encryption can never fully solve on its own.");
-        }
-      }, delay);
-    });
+    playThread2(COURIER_LOG, { reduceMotion, stepDelay: 550, onDone: () => {
+      sending2 = false;
+      awardStar("d2", "Nothing was sent wrong and nobody made a mistake — the key was copied without either of you knowing, simply because a shared key has to travel to be shared. That's the one problem symmetric encryption can never fully solve on its own.");
+    }});
   });
 
   /* ═══ D3: the open padlock trick — sequential lock / snoop / unlock reveal ═══
