@@ -2,6 +2,9 @@
 node_modules/
 .tools/
 
+# copyrighted past-paper PDFs sourced for the blueprint audit — never commit or republish
+.papers/
+
 # build + e2e artifacts (screenshots under tests/e2e/__screenshots__ ARE committed)
 dist/
 .features-gen/

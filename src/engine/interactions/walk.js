@@ -5,12 +5,19 @@
 
    makeWalk(mountId, chart, opts)
      chart — {nodes, svg, start, badge, anchors, flow, init}
-     opts  — {onFinish(state)}
+     opts  — {onEnter(nodeId, state), onFinish(state)}
+       onEnter fires every time the lantern enters a node (including the
+       very first, on reset) — modules use it to sync any UI that isn't
+       part of the chart itself, e.g. highlighting the matching line in a
+       separate pseudocode panel.
 
    buildShape(node)  → a single flowchart shape element (start/stop, process,
                        input/output, decision, flow line).
    KIND_LABEL        → shape-kind → accessible label map.
-   ARROW_DEFS        → shared <defs> markup (arrowheads) for the SVG charts. */
+   ARROW_DEFS        → shared <defs> markup (arrowheads) for the SVG charts.
+   syncCodeHighlight(codeId, lineMap, nodeId) → call from opts.onEnter to
+                       keep a separate pseudocode panel's current line(s)
+                       lit in step with the chart. */
 
   /* ═══ shared shape builder ═══ */
   const KIND_LABEL={term:"start / stop",proc:"process",io:"input / output",dec:"decision",flow:"flow line"};
@@ -136,6 +143,7 @@
       if(node.set)node.set(st);
       if(node.say)say(node.say(st));
       highlight();updateBadge();renderLog();
+      if(opts.onEnter)opts.onEnter(id,st);
       if(node.kind==="io"&&node.read==="ask"){askInput(node);return;}
       if(node.kind==="term"&&!node.next){finish();return;}
       hint.textContent=HINT_STEP;
@@ -191,6 +199,23 @@
     resetBtn.addEventListener("click",reset);
     reset();
     return{step,reset,get state(){return st;}};
+  }
+
+  /* ── sync a separate pseudocode panel to the chart's current node ──
+     A flowchart-based discovery's separate pseudocode panel should never
+     say anything different from what the lantern is doing right now — call
+     this from opts.onEnter(nodeId) to keep the matching line(s) lit as the
+     current node changes. lineMap: { nodeId: [id, ...] } where each id is
+     either a whole .pcline (an actual statement is executing/being checked)
+     or just its .kw span (e.g. Start — nothing's been evaluated yet, so
+     only the loop/branch keyword itself lights up, not the condition it
+     introduces). Ids missing from the map (typically Stop) simply clear
+     the panel back to unhighlighted. */
+  function syncCodeHighlight(codeId,lineMap,nodeId){
+    const active=lineMap[nodeId]||[];
+    $$(".pcline, .pcline .kw",$("#"+codeId)).forEach(el=>{
+      el.classList.toggle("cur",active.includes(el.id));
+    });
   }
 
   /* ── shared arrowhead defs for the SVG charts ── */

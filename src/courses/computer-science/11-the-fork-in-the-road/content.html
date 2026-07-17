@@ -20,14 +20,14 @@
       <p>Cinemas price tickets by age. One condition, two prices — the simplest fork there is. <span class="kw" style="font-family:var(--mono)">IF</span> asks the question, <span class="kw" style="font-family:var(--mono)">THEN</span> names what happens when it's true, <span class="kw" style="font-family:var(--mono)">ELSE</span> names what happens when it's false, and <span class="kw" style="font-family:var(--mono)">ENDIF</span> closes the fork back up. Pick an age below — 19 is on the list, in case you fancy sending yourself through — then step the lantern through and watch which road lights up.</p>
       <div class="board">
         <div class="decl-code" id="forkCode1">
-          <div class="pcline"><span class="kw">IF</span> Age &gt;= 18</div>
-          <div class="pcline">  <span class="kw">THEN</span></div>
-          <div class="pcline">    Price <span class="arrow">←</span> 15</div>
-          <div class="pcline">    <span class="kw">OUTPUT</span> <span class="str">"Adult ticket"</span>, Price</div>
-          <div class="pcline">  <span class="kw">ELSE</span></div>
-          <div class="pcline">    Price <span class="arrow">←</span> 8</div>
-          <div class="pcline">    <span class="kw">OUTPUT</span> <span class="str">"Child ticket"</span>, Price</div>
-          <div class="pcline"><span class="kw">ENDIF</span></div>
+          <div class="pcline" id="f1-if"><span class="kw" id="f1-if-kw">IF</span> Age &gt;= 18</div>
+          <div class="pcline" id="f1-then">  <span class="kw">THEN</span></div>
+          <div class="pcline" id="f1-yesproc">    Price <span class="arrow">←</span> 15</div>
+          <div class="pcline" id="f1-yesout">    <span class="kw">OUTPUT</span> <span class="str">"Adult ticket"</span>, Price</div>
+          <div class="pcline" id="f1-else">  <span class="kw">ELSE</span></div>
+          <div class="pcline" id="f1-noproc">    Price <span class="arrow">←</span> 8</div>
+          <div class="pcline" id="f1-noout">    <span class="kw">OUTPUT</span> <span class="str">"Child ticket"</span>, Price</div>
+          <div class="pcline" id="f1-endif"><span class="kw">ENDIF</span></div>
         </div>
         <div id="walk1"></div>
       </div>
@@ -55,11 +55,11 @@
       <p>Sometimes an IF has no <span class="kw" style="font-family:var(--mono)">ELSE</span> at all — nothing is written for what happens when the answer is no. Cambridge allows that, and it does <em>not</em> mean the "no" road vanishes. It just means that road leads straight past, doing nothing, before rejoining the rest of the program. Below is a canteen loyalty stamp with no ELSE in sight. Walk both ticket types and watch the "no" road all the same.</p>
       <div class="board">
         <div class="decl-code" id="forkCode2">
-          <div class="pcline"><span class="kw">IF</span> Ticket = <span class="str">"Adult"</span></div>
-          <div class="pcline">  <span class="kw">THEN</span></div>
-          <div class="pcline">    Stamps <span class="arrow">←</span> Stamps + 1</div>
-          <div class="pcline"><span class="kw">ENDIF</span></div>
-          <div class="pcline"><span class="kw">OUTPUT</span> <span class="str">"Enjoy the show!"</span></div>
+          <div class="pcline" id="f2-if"><span class="kw" id="f2-if-kw">IF</span> Ticket = <span class="str">"Adult"</span></div>
+          <div class="pcline" id="f2-then">  <span class="kw">THEN</span></div>
+          <div class="pcline" id="f2-yesproc">    Stamps <span class="arrow">←</span> Stamps + 1</div>
+          <div class="pcline" id="f2-endif"><span class="kw">ENDIF</span></div>
+          <div class="pcline" id="f2-out"><span class="kw">OUTPUT</span> <span class="str">"Enjoy the show!"</span></div>
         </div>
         <p class="fork-note">Notice: there is no ELSE line at all. Walk it with a Child ticket and see what the "no" road actually does.</p>
         <div id="walk2"></div>
@@ -119,13 +119,13 @@
   <section class="disc" id="d4">
     <button class="disc-head" aria-expanded="false" data-toggle="d4">
       <span class="disc-star" aria-hidden="true">✦</span>
-      <span class="disc-title">AND is a narrow gate, OR is a wide one
-        <span class="disc-sub">double doors: both must open, or just one</span>
+      <span class="disc-title">AND needs both, OR needs either
+        <span class="disc-sub">same two switches, one gate — two different rules for opening it</span>
       </span>
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>A condition can combine two questions at once. <span class="kw" style="font-family:var(--mono)">AND</span> is a narrow gate — both doors have to swing open before anything gets through. <span class="kw" style="font-family:var(--mono)">OR</span> is a wide gate — either door opening is enough. Flip the two switches below, pick AND or OR, and watch the double doors.</p>
+      <p>A condition can combine two questions at once. <span class="kw" style="font-family:var(--mono)">AND</span> only opens the gate when both switches are on. <span class="kw" style="font-family:var(--mono)">OR</span> opens it as soon as either one is. The gate reads OPEN when the whole condition is true, and SHUT when it's false. Flip the two switches below, pick AND or OR, and watch the gate.</p>
       <div class="board">
         <div class="gate-switches">
           <button class="gate-switch" id="swRain4" type="button" aria-pressed="false">☂ Raining</button>
@@ -135,9 +135,8 @@
           <button class="gate-op-btn active" id="opAnd4" type="button" aria-pressed="true">AND</button>
           <button class="gate-op-btn" id="opOr4" type="button" aria-pressed="false">OR</button>
         </div>
-        <div class="doors" id="doors4">
-          <div class="door left" id="doorL4"></div>
-          <div class="door right" id="doorR4"></div>
+        <div class="gate-visual">
+          <div class="gate-panel" id="gatePanel4">SHUT <span class="gate-panel-val">(false)</span></div>
         </div>
         <div class="decl-code" id="gateCode4"></div>
         <div class="gate-result" id="gateResult4" aria-live="polite">Flip a switch to begin.</div>
@@ -146,11 +145,11 @@
       <div class="chips" id="chips4"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
-        <div class="nudge" id="ex4">Switch to AND, then turn on only Raining — the doors stay shut, because AND needs Raining AND Cold both true, and Cold is still off. Now also turn on Cold — both doors swing open, the coat rule fires. Switch to OR with the same two switches on: it was already open, no surprise. Now turn Cold back off, staying on OR — one door alone is enough, so it stays open: OR only needs one side true.</div>
+        <div class="nudge" id="ex4">Switch to AND, then turn on only Raining — the gate stays shut, because AND needs Raining AND Cold both true, and Cold is still off. Now also turn on Cold — the gate opens, the coat rule fires. Switch to OR with the same two switches on: it was already open, no surprise. Now turn Cold back off, staying on OR — one switch alone is enough, so the gate stays open: OR only needs one side true.</div>
         <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n4a">AND needs both doors open; OR needs at least one. Rain AND cold → coat. It's raining but warm — does the rule fire?</div>
+        <div class="nudge" id="n4a">AND needs both switches on; OR needs at least one. Rain AND cold → coat. It's raining but warm — does the rule fire?</div>
         <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n4b">No: AND fails if either part fails, even if the other part is true. Try it on the switches — one door open is never enough for AND, only for OR.</div>
+        <div class="nudge" id="n4b">No: AND fails if either part fails, even if the other part is true. Try it on the switches — one switch on is never enough for AND, only for OR.</div>
       </div>
     </div>
   </section>
@@ -165,7 +164,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p><span class="kw" style="font-family:var(--mono)">NOT</span> takes whatever a condition says and flips it — true becomes false, false becomes true. It doesn't need a second condition or a gate with two doors; it just turns the one sign around. Flip the switch and the NOT toggle below and watch both the raw answer and the flipped one — NOT only ever cares about true and false, never about whether the result still sounds sensible in plain English.</p>
+      <p><span class="kw" style="font-family:var(--mono)">NOT</span> takes whatever a condition says and flips it — true becomes false, false becomes true. It doesn't need a second condition or a gate with two switches; it just turns the one sign around. Flip the switch and the NOT toggle below and watch both the raw answer and the flipped one — NOT only ever cares about true and false, never about whether the result still sounds sensible in plain English.</p>
       <div class="board">
         <div class="gate-switches">
           <button class="gate-switch" id="swRain5" type="button" aria-pressed="false">☂ Raining</button>
@@ -217,7 +216,7 @@
   <!-- ══════════ REFLECTION ══════════ -->
   <section class="reflect" id="reflect" hidden>
     <h2>Notice what just happened — an eleventh time</h2>
-    <p>You just gave programs the one power that makes them feel intelligent: taking a different path depending on what's true. You walked a single fork and watched the lantern choose a road, discovered that an unwritten ELSE is still a real road rather than a missing one, felt the reading cost of stacking fork after fork instead of reaching for CASE, built AND as a narrow double gate and OR as a wide one, flipped a condition's sign with NOT, and finally assembled a whole IF…THEN…ELSE…ENDIF yourself from loose parts until it snapped together.</p>
+    <p>You just gave programs the one power that makes them feel intelligent: taking a different path depending on what's true. You walked a single fork and watched the lantern choose a road, discovered that an unwritten ELSE is still a real road rather than a missing one, felt the reading cost of stacking fork after fork instead of reaching for CASE, built AND as a gate that needs both switches and OR as one that needs just either, flipped a condition's sign with NOT, and finally assembled a whole IF…THEN…ELSE…ENDIF yourself from loose parts until it snapped together.</p>
     <p class="soft">Whenever you're ready, the next discovery is where forks learn to repeat themselves — the same conditions you just tamed, now running round in loops. No rush at all — the stars keep.</p>
   </section>
 
