@@ -243,12 +243,12 @@
     <div class="disc-body">
       <p>Catching an error is only half the job — something has to happen next. This is <strong>ARQ</strong> (automatic repeat request): the sender sends, the receiver checks, and the receiver sends back a small reply of its own — a positive acknowledgement (<strong>ACK</strong>) if all is well, or a negative one (<strong>NAK</strong>) asking for a resend if it isn't. And if that reply never turns up at all? The sender keeps a timer running — a <strong>timeout</strong> — and resends anyway rather than wait forever. Play out all three below as a message thread: the sender's own messages sit on the left, the receiver's on the right — the same left/right the wire diagrams above already use.</p>
       <div class="board">
-        <div class="arq-buttons">
+        <div class="thread-buttons">
           <button class="loop-btn" id="cleanBtn5" type="button">Deliver it cleanly</button>
           <button class="loop-btn" id="damagedBtn5" type="button">Damage it in transit</button>
           <button class="loop-btn" id="lostAckBtn5" type="button">Lose the acknowledgement</button>
         </div>
-        <div class="arq-log" id="arqLog5" aria-live="polite"></div>
+        <div class="thread-log" id="arqLog5" aria-live="polite"></div>
       </div>
       <p class="chips-label">Play out…</p>
       <div class="chips" id="chips5"></div>
@@ -305,7 +305,7 @@
 
   <nav class="module-nav" aria-label="module navigation">
     <a class="nav-link prev" href="13-the-journey-of-a-message.html">← Module 13 · The Journey of a Message</a>
-    <span class="nav-soft">More discoveries are still being written.</span>
+    <a class="nav-link next" href="15-locked-letters.html">Module 15 · Locked Letters →</a>
   </nav>
 
   <footer>Module 14 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>

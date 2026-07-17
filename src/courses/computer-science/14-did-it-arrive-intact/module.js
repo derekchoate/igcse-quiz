@@ -4,14 +4,16 @@
    board (eight fixed data bulbs + a parity bulb the learner calculates,
    never toggles by hand) sends down a wire where a "gremlin" flips exactly
    one data bulb (D3) or exactly two (D4), and the receiver's recount either
-   catches the damage or is fooled by it. D2's duplex sort and D5's ARQ
-   exchange are hand-rolled (mirroring Module 13's D1/D5 dual tap+drag
-   pattern): the shared `matcher` kit hardcodes awardStar("d3", ...) with
-   Module 9's pseudocode-pairing wording, so it isn't safely reusable here —
-   this module even has its OWN #d3 (the parity trick), which would make
-   that mismatch actively wrong rather than just unhelpful.
+   catches the damage or is fooled by it. D2's duplex sort is hand-rolled
+   (mirroring Module 13's D1/D5 dual tap+drag pattern): the shared `matcher`
+   kit hardcodes awardStar("d3", ...) with Module 9's pseudocode-pairing
+   wording, so it isn't safely reusable here — this module even has its OWN
+   #d3 (the parity trick), which would make that mismatch actively wrong
+   rather than just unhelpful. D5's ARQ exchange runs on the shared `thread`
+   kit, which also drives Module 15's D2 courier-problem log — the same
+   component, so the two look and behave identically.
    Runs inside the shared engine IIFE, so $, $$, reduceMotion, sparks, toast,
-   awardStar and makeChips are all in scope. */
+   awardStar, makeChips and makeThread are all in scope. */
 
   const VALUES8 = [128, 64, 32, 16, 8, 4, 2, 1];
   function toBits(n) { return VALUES8.map(v => (n & v) ? 1 : 0); }
@@ -505,41 +507,37 @@
     });
   });
 
-  /* ═══ D5: ask again — ARQ played out as a text-message thread ═══
+  /* ═══ D5: ask again — ARQ played out on the shared `thread` kit ═══
      Same left/right convention as the wire diagrams above (sender on the
-     left, receiver on the right), just rendered as chat bubbles instead of
-     travelling dots. A small role label appears above a bubble only when
-     the speaker changes from the line before — consecutive messages from
-     the same side share one label, the same grouping real messaging apps
-     use — and the one line that isn't really anyone's message (the ACK
-     that never turns up) renders as a centred system note with no bubble
-     and no side, exactly like a "message not delivered" notice. */
+     left, receiver on the right). The kit also drives Module 15's D2
+     courier-problem log, so the two look and behave identically. */
   const arqLog5 = $("#arqLog5");
+  const playThread5 = makeThread(arqLog5, { left: "Sender", right: "Receiver" });
   const ARQ_SEQ = {
     "clean": [
-      { text: "Sending the message.", cls: "sender" },
-      { text: "Checking it… all correct.", cls: "receiver" },
-      { text: "Sending back a positive acknowledgement (ACK).", cls: "receiver" },
-      { text: "Acknowledgement received. Done in one round trip.", cls: "sender" }
+      { text: "Sending the message.", side: "left" },
+      { text: "Checking it… all correct.", side: "right" },
+      { text: "Sending back a positive acknowledgement (ACK).", side: "right" },
+      { text: "Acknowledgement received. Done in one round trip.", side: "left" }
     ],
     "damaged": [
-      { text: "Sending the message.", cls: "sender" },
-      { text: "Checking it… an error's there.", cls: "receiver" },
-      { text: "Sending back a negative acknowledgement (NAK).", cls: "receiver" },
-      { text: "NAK received — resending.", cls: "sender" },
-      { text: "Checking it again… all correct this time.", cls: "receiver" },
-      { text: "Sending back a positive acknowledgement (ACK).", cls: "receiver" },
-      { text: "Acknowledgement received. Done.", cls: "sender" }
+      { text: "Sending the message.", side: "left" },
+      { text: "Checking it… an error's there.", side: "right" },
+      { text: "Sending back a negative acknowledgement (NAK).", side: "right" },
+      { text: "NAK received — resending.", side: "left" },
+      { text: "Checking it again… all correct this time.", side: "right" },
+      { text: "Sending back a positive acknowledgement (ACK).", side: "right" },
+      { text: "Acknowledgement received. Done.", side: "left" }
     ],
     "lost-ack": [
-      { text: "Sending the message.", cls: "sender" },
-      { text: "Checking it… all correct.", cls: "receiver" },
-      { text: "Sending back a positive acknowledgement (ACK)…", cls: "receiver" },
-      { text: "The acknowledgement never arrives.", cls: "system" },
-      { text: "No reply within the time limit — a timeout. Resending, just in case.", cls: "sender" },
-      { text: "Checking it again… still correct.", cls: "receiver" },
-      { text: "Sending back a positive acknowledgement (ACK).", cls: "receiver" },
-      { text: "Acknowledgement received. Done.", cls: "sender" }
+      { text: "Sending the message.", side: "left" },
+      { text: "Checking it… all correct.", side: "right" },
+      { text: "Sending back a positive acknowledgement (ACK)…", side: "right" },
+      { text: "The acknowledgement never arrives.", side: "system" },
+      { text: "No reply within the time limit — a timeout. Resending, just in case.", side: "left" },
+      { text: "Checking it again… still correct.", side: "right" },
+      { text: "Sending back a positive acknowledgement (ACK).", side: "right" },
+      { text: "Acknowledgement received. Done.", side: "left" }
     ]
   };
   const check5 = makeChips($("#chips5"), ["clean", "damaged", "lost-ack"],
@@ -548,34 +546,7 @@
     (label, remaining) => "Played out " + label + ". " + remaining + " more to try.");
 
   function playArq5(key) {
-    const seq = ARQ_SEQ[key];
-    arqLog5.innerHTML = "";
-    let lastSide = null;
-    seq.forEach((step, i) => {
-      const delay = reduceMotion ? 0 : i * 450;
-      setTimeout(() => {
-        if (step.cls === "system") {
-          const note = document.createElement("div");
-          note.className = "arq-system";
-          note.textContent = step.text;
-          arqLog5.appendChild(note);
-          lastSide = null; // the next real message always gets its own label back
-        } else {
-          if (step.cls !== lastSide) {
-            const label = document.createElement("div");
-            label.className = "arq-role " + step.cls;
-            label.textContent = step.cls === "sender" ? "Sender" : "Receiver";
-            arqLog5.appendChild(label);
-          }
-          const line = document.createElement("div");
-          line.className = "arq-line " + step.cls;
-          line.textContent = step.text;
-          arqLog5.appendChild(line);
-          lastSide = step.cls;
-        }
-        if (i === seq.length - 1) check5(key);
-      }, delay);
-    });
+    playThread5(ARQ_SEQ[key], { reduceMotion, stepDelay: 450, onDone: () => check5(key) });
   }
   $("#cleanBtn5").addEventListener("click", () => playArq5("clean"));
   $("#damagedBtn5").addEventListener("click", () => playArq5("damaged"));

@@ -1,12 +1,13 @@
 /* Module 14 — Did It Arrive Intact?: lesson-specific styling only.
-   meta.uses: ["chips"] — target chips are pulled in for D1/D6's chip pairs.
-   D2's link sorter and D5's ARQ log are hand-rolled (same call as Module
-   13's D1/D5: the shared `matcher` kit hardcodes awardStar("d3", ...) with
-   Module 9 wording, so it isn't safely reusable for a different discovery
-   id). D3/D4's nine bulbs (eight data + one parity) are all plain
-   non-interactive spans built straight in module.js — the parity bulb is
-   calculated by a button, never toggled by hand, so this module no longer
-   needs the board kit at all. */
+   meta.uses: ["chips", "thread"] — target chips are pulled in for D1/D6's
+   chip pairs, and the `thread` kit renders D5's ARQ log (shared with Module
+   15's D2 courier-problem log — see thread.css for that styling). D2's link
+   sorter is hand-rolled (same call as Module 13's D1/D5: the shared
+   `matcher` kit hardcodes awardStar("d3", ...) with Module 9 wording, so
+   it isn't safely reusable for a different discovery id). D3/D4's nine
+   bulbs (eight data + one parity) are all plain non-interactive spans built
+   straight in module.js — the parity bulb is calculated by a button, never
+   toggled by hand, so this module no longer needs the board kit at all. */
 
 :root{
   --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
@@ -209,41 +210,9 @@
 .parity-check-box.disagree::before{content:"–"}
 .parity-check-box.disagree{border-color:#8D97B0;background:rgba(141,151,176,.14);color:#EAE6DC}
 
-/* ── D5: ARQ played out as a text-message thread — sender on the left,
-   receiver on the right, matching the same left/right the wire diagrams
-   above already use. `.arq-log` is a flex column so each bubble/label/note
-   can position itself independently with `align-self`. ── */
-.arq-buttons{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:14px}
-.arq-log{display:flex;flex-direction:column;gap:3px;min-height:1.4em;padding:4px 2px}
-.arq-role{
-  font-family:'Sora',sans-serif;font-size:11px;letter-spacing:.4px;text-transform:uppercase;
-  margin:10px 4px 3px;
-}
-.arq-role.sender{align-self:flex-start;color:var(--teal)}
-.arq-role.receiver{align-self:flex-end;color:var(--glow)}
-.arq-line{
-  max-width:80%;font-size:14.5px;line-height:1.4;color:var(--ink);
-  padding:9px 14px;border-radius:16px;
-}
-.arq-line.sender{
-  align-self:flex-start;background:#1C2748;border:1px solid var(--card-edge);
-  border-bottom-left-radius:4px;
-}
-.arq-line.receiver{
-  align-self:flex-end;background:rgba(255,184,77,.16);border:1px solid rgba(255,184,77,.32);
-  border-bottom-right-radius:4px;
-}
-/* Not really anyone's message — the ACK that never arrives — so it gets no
-   bubble, no side and no role label, the same way a messaging app shows
-   "not delivered" as a small centred note rather than pretending it's a
-   message from either person. */
-.arq-system{
-  align-self:center;font-size:12.5px;color:var(--ink-soft);font-style:italic;
-  margin:8px 0;text-align:center;
-}
-@media (max-width:420px){
-  .arq-line{max-width:88%}
-}
+/* D5's ARQ log is now the shared `thread` kit (thread.css) — sender on the
+   left, receiver on the right, matching the same left/right the wire
+   diagrams above already use. */
 
 /* ── D6: barcode digits ── */
 .barcode-digits{display:flex;flex-wrap:wrap;align-items:center;gap:5px;justify-content:center;margin:6px 0 12px}

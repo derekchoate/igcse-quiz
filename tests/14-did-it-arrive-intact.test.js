@@ -5,9 +5,10 @@ const {
   reflectVisible
 } = require("./helpers/loadModule");
 
-// This module's D2 sorter, D3/D4 parity board and D5 ARQ log are bespoke to
-// this lesson, so tests drive the real markup/ids directly rather than
-// needing new shared fixtures.
+// This module's D2 sorter and D3/D4 parity board are bespoke to this lesson,
+// so tests drive the real markup/ids directly rather than needing new shared
+// fixtures. D5's ARQ log runs on the shared `thread` kit (also used by
+// Module 15's D2), but is still exercised through its own #arqLog5 markup.
 function linkChip(id) {
   return document.querySelector('.link-chip[data-id="' + id + '"]');
 }
@@ -297,9 +298,9 @@ describe("Module 14: Did It Arrive Intact?", () => {
       document.getElementById("cleanBtn5").click();
       jest.advanceTimersByTime(2000);
       jest.useRealTimers();
-      const lines = Array.from(document.querySelectorAll("#arqLog5 .arq-line"));
+      const lines = Array.from(document.querySelectorAll("#arqLog5 .thread-line"));
       const ackLine = lines.find(l => l.textContent.includes("positive acknowledgement"));
-      expect(ackLine.classList.contains("receiver")).toBe(true);
+      expect(ackLine.classList.contains("right")).toBe(true);
     });
 
     test("consecutive messages from the same side share one role label, like a real chat thread", () => {
@@ -310,7 +311,7 @@ describe("Module 14: Did It Arrive Intact?", () => {
 
       // sender, receiver, receiver, sender — the receiver's two consecutive
       // turns share a single label instead of repeating it.
-      const roles = Array.from(document.querySelectorAll("#arqLog5 .arq-role")).map(r => r.textContent);
+      const roles = Array.from(document.querySelectorAll("#arqLog5 .thread-role")).map(r => r.textContent);
       expect(roles).toEqual(["Sender", "Receiver", "Sender"]);
     });
 
@@ -320,13 +321,13 @@ describe("Module 14: Did It Arrive Intact?", () => {
       jest.advanceTimersByTime(4000);
       jest.useRealTimers();
 
-      const note = Array.from(document.querySelectorAll("#arqLog5 .arq-system")).find(n => n.textContent.includes("never arrives"));
+      const note = Array.from(document.querySelectorAll("#arqLog5 .thread-system")).find(n => n.textContent.includes("never arrives"));
       expect(note).toBeTruthy();
-      expect(note.classList.contains("sender")).toBe(false);
-      expect(note.classList.contains("receiver")).toBe(false);
+      expect(note.classList.contains("left")).toBe(false);
+      expect(note.classList.contains("right")).toBe(false);
 
       // 8 scripted steps, one of which is the system note above rather than a bubble.
-      expect(document.querySelectorAll("#arqLog5 .arq-line").length).toBe(7);
+      expect(document.querySelectorAll("#arqLog5 .thread-line").length).toBe(7);
     });
   });
 

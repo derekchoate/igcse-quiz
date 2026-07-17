@@ -1,0 +1,6 @@
+{
+  "number": 15,
+  "slug": "15-locked-letters",
+  "title": "Locked Letters",
+  "uses": ["chips", "thread"]
+}
