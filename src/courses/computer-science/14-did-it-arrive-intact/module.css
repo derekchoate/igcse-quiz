@@ -1,0 +1,292 @@
+/* Module 14 — Did It Arrive Intact?: lesson-specific styling only.
+   meta.uses: ["chips"] — target chips are pulled in for D1/D6's chip pairs.
+   D2's link sorter and D5's ARQ log are hand-rolled (same call as Module
+   13's D1/D5: the shared `matcher` kit hardcodes awardStar("d3", ...) with
+   Module 9 wording, so it isn't safely reusable for a different discovery
+   id). D3/D4's nine bulbs (eight data + one parity) are all plain
+   non-interactive spans built straight in module.js — the parity bulb is
+   calculated by a button, never toggled by hand, so this module no longer
+   needs the board kit at all. */
+
+:root{
+  --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+}
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+.shred-label{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal)}
+.chips-label{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);margin:4px 0 8px}
+
+/* ── shared button look ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn.ghost{margin-top:12px}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.loop-btn[hidden]{display:none}
+
+/* ── D1: serial vs parallel race ── */
+.tx-control{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin-bottom:14px}
+.tx-control input[type="range"]{width:min(220px,60vw);accent-color:var(--teal)}
+.tx-val{font-family:var(--mono);font-size:13.5px;color:var(--teal);min-width:11em;text-align:left}
+.tx-lane{margin:14px 0}
+.tx-lane-label{display:block;font-family:'Sora',sans-serif;font-size:11.5px;color:var(--ink-soft);letter-spacing:.3px;text-transform:uppercase;margin-bottom:6px}
+.tx-track{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;min-height:34px;align-items:center;background:#0E1730;border:1px dashed var(--card-edge);border-radius:12px;padding:8px}
+.tx-bulb{
+  width:22px;height:22px;border-radius:50%;flex:0 0 auto;
+  background:#1C2748;border:2px solid #33406B;transition:all .3s;
+}
+.tx-bulb.on{
+  background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 55%, var(--glow-deep));
+  border-color:var(--glow);box-shadow:0 0 14px rgba(255,184,77,.55);
+}
+.tx-bulb.pending, .data-bulb.pending, .parity-bulb.pending{opacity:.35}
+
+/* ── shared: sender → wire(s) → receiver diagram (D1's tx-lanes, D3/D4's parity board) ── */
+.wire-map{margin:4px 0 10px}
+.wire-svg{width:100%;height:auto;display:block}
+.wire-path{fill:none;stroke:var(--card-edge);stroke-width:2;stroke-linecap:round}
+.wire-bus-bar{stroke:var(--card-edge);stroke-width:2;stroke-linecap:round}
+.wire-node{fill:#0E1730;stroke:var(--teal);stroke-width:1.5}
+.wire-node-label{font-family:'Sora',sans-serif;font-size:10.5px;fill:var(--ink-soft)}
+.wire-token circle{fill:#1C2748;stroke:#33406B;stroke-width:1.5;transition:fill .3s,stroke .3s,filter .3s}
+.wire-token text{font-family:var(--mono);font-size:9px;fill:var(--ink-soft);text-anchor:middle;transition:fill .3s}
+.wire-token.on circle{fill:var(--glow);stroke:var(--glow)}
+.wire-token.on text{fill:#3A2606}
+.wire-token.arrived.on circle{filter:drop-shadow(0 0 4px rgba(255,184,77,.6))}
+.wire-sample-line{stroke:var(--teal);stroke-width:1.5;stroke-dasharray:4 4;opacity:0;transition:opacity .35s ease}
+.wire-sample-line.active{opacity:.85}
+
+/* ── D2: link pool + three duplex bins ── */
+.link-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:16px}
+.link-chip{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:10px 14px;cursor:pointer;max-width:280px;text-align:left;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.link-chip:hover{border-color:var(--teal)}
+.link-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.link-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.link-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.link-chip.dragging{opacity:.3}
+.link-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.dupe-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:560px){.dupe-bins{grid-template-columns:1fr 1fr 1fr}}
+.dupe-bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:96px;transition:border-color .2s, background .2s}
+.dupe-bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.dupe-bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:13px;letter-spacing:.4px;
+  text-transform:uppercase;color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:center;
+}
+.dupe-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.dupe-bin-list{display:flex;flex-direction:column;gap:6px;min-height:1px}
+.dupe-bin-item{font-size:13px;color:var(--ink);background:rgba(255,184,77,.1);border-radius:8px;padding:7px 9px}
+
+/* ── D3/D4: nine-bulb parity board — eight data bulbs sit as one block, the
+   ninth (parity) bulb held apart by extra gap and carrying no number of its
+   own. `.data-octet` is a CSS grid (not a wrapping flex row) so it's always
+   exactly 4+4 on a narrow screen, never an uneven wrap; `.byte-parity-row`
+   is a plain flex row, so its cross-axis default centres the parity bulb on
+   the vertical midpoint of that stack for free, with no extra media-query
+   rule needed. */
+.byte-parity-row{display:flex;align-items:center;justify-content:center;gap:26px;margin:10px 0}
+.data-octet{display:grid;grid-template-columns:repeat(8,auto);gap:6px;justify-content:center}
+.data-bulb{
+  width:38px;height:38px;border-radius:50%;
+  background:#1C2748;border:2px solid #33406B;transition:all .25s;
+}
+.data-bulb.on{
+  background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 55%, var(--glow-deep));
+  border-color:var(--glow);box-shadow:0 0 18px rgba(255,184,77,.6);
+}
+.parity-bulb{
+  width:38px;height:38px;border-radius:50%;flex:0 0 auto;
+  background:#1C2748;border:2.5px solid var(--teal);transition:all .25s;
+}
+.parity-bulb.on{
+  background:radial-gradient(circle at 35% 30%, #FFE3AE, var(--glow) 55%, var(--glow-deep));
+  box-shadow:0 0 18px rgba(255,184,77,.6);
+}
+@media (max-width:420px){
+  .data-octet{grid-template-columns:repeat(4,auto)}
+  .data-bulb, .parity-bulb{width:30px;height:30px}
+  .byte-parity-row{gap:16px}
+}
+
+/* ── D3/D4: the pen-circle + checkmark that plays once the parity bulb lands ──
+   byte-check-inner shrink-wraps tightly around the bulb row (display:
+   inline-block, centred via text-align on its own parent) instead of the
+   bulb row's own full-board-width box — so the SVG's uniform inset (same
+   value on all four sides) actually reads as equal spacing around the
+   bulbs, not just around empty centred whitespace either side of them.
+   The ring itself is a <rect pathLength="100"> — declaring pathLength
+   makes stroke-dasharray/dashoffset:100 exact regardless of the rect's
+   real rendered size (responsive bulb widths included), which is what a
+   hand-guessed dasharray value on the previous ellipse could never
+   guarantee — so "hidden at rest, drawn on demand" cannot leak again. */
+.byte-check-wrap{margin:24px 0 28px;text-align:center}
+.byte-check-inner{position:relative;display:inline-block}
+.byte-check-svg{position:absolute;inset:-14px;width:calc(100% + 28px);height:calc(100% + 28px);pointer-events:none;overflow:visible}
+.byte-check-ring{
+  fill:none;stroke:var(--teal);stroke-width:4;vector-effect:non-scaling-stroke;
+  stroke-dasharray:100;stroke-dashoffset:100;
+  transition:stroke .3s ease;
+}
+.byte-check-ring.drawing{transition:stroke-dashoffset 700ms linear, stroke .3s ease;stroke-dashoffset:0}
+/* Teal while it's just checking; turns the same amber as the flag next to
+   it the moment the total actually disagrees, so the ring and the flag
+   read as one signal, not two unrelated colours. */
+.byte-check-ring.disagree{stroke:var(--glow)}
+.byte-checkmark{
+  position:absolute;top:-22px;right:-16px;
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:#1C2748;border:2px solid #7ED0A0;color:#7ED0A0;
+  font-family:'Sora',sans-serif;font-size:15px;font-weight:700;line-height:1;
+  opacity:0;transform:scale(.4);
+  transition:opacity .3s ease, transform .3s ease;
+}
+.byte-checkmark.show{opacity:1;transform:scale(1)}
+
+/* One shared badge style, two different meanings, one element each: "!" for
+   the moment parity disagrees (genuinely caught), "?" for the moment it
+   agrees but the byte is still wrong (genuinely fooled — a nudge to wonder
+   why a tick doesn't always mean "correct"). Both share the checkmark's
+   exact top-right corner rather than a corner of their own — by
+   construction all three are mutually exclusive (an unchanged byte can only
+   ever trigger the checkmark; a disagreeing total can only trigger "!";
+   anything left over is the "?" case), so there's nothing for them to
+   collide with. Amber, never red: this project never marks anything as a
+   failure, so both read as "parity noticed something", the same neutral
+   fact the dash checkbox and the parity-check sentence below already state
+   in words — just more visible, for the moment it's worth a second look. */
+.byte-flag{
+  position:absolute;top:-22px;right:-16px;
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:#1C2748;border:2px solid var(--glow);color:var(--glow);
+  font-family:'Sora',sans-serif;font-size:15px;font-weight:700;line-height:1;
+  opacity:0;transform:scale(.4);
+  transition:opacity .3s ease, transform .3s ease;
+}
+.byte-flag.show{opacity:1;transform:scale(1)}
+
+/* The receiver's own live "N of 8 data bulbs lit" count — the parity bulb
+   is never folded into this figure, matching parityStatus's own "N of 8
+   data bulbs" line above it. The parity bulb's own on/off state is named
+   separately once it lands, and only the resulting total is called
+   "even"/"odd" in prose — never a merged N-of-9 number. Plus a small
+   checkbox that only appears once the parity bulb lands. It always settles
+   into one of two visible states, never a blank "did anything happen?" gap:
+   ticked (green) if that total came out even, or a plain dash (neutral,
+   same ink as the rest of the text) if it didn't. Deliberately a
+   *different* fact from the ring's green check above (which is about
+   whether the byte value itself is right) — the dash just means "this
+   total doesn't add up", the same neutral, non-judgemental fact the
+   parity-check sentence below states in words. */
+.byte-count-line{display:flex;align-items:center;justify-content:center;gap:8px}
+.parity-check-box{
+  width:18px;height:18px;flex:0 0 auto;border-radius:4px;
+  border:2px solid #33406B;background:#1C2748;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Sora',sans-serif;font-size:12px;font-weight:700;line-height:1;color:transparent;
+  opacity:0;transform:scale(.6);
+  transition:opacity .3s ease, transform .3s ease, border-color .3s, background .3s, color .3s;
+}
+.parity-check-box.shown{opacity:1;transform:scale(1)}
+.parity-check-box.agree::before{content:"✓"}
+.parity-check-box.agree{border-color:#7ED0A0;background:rgba(126,208,160,.15);color:#7ED0A0}
+.parity-check-box.disagree::before{content:"–"}
+.parity-check-box.disagree{border-color:#8D97B0;background:rgba(141,151,176,.14);color:#EAE6DC}
+
+/* ── D5: ARQ played out as a text-message thread — sender on the left,
+   receiver on the right, matching the same left/right the wire diagrams
+   above already use. `.arq-log` is a flex column so each bubble/label/note
+   can position itself independently with `align-self`. ── */
+.arq-buttons{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:14px}
+.arq-log{display:flex;flex-direction:column;gap:3px;min-height:1.4em;padding:4px 2px}
+.arq-role{
+  font-family:'Sora',sans-serif;font-size:11px;letter-spacing:.4px;text-transform:uppercase;
+  margin:10px 4px 3px;
+}
+.arq-role.sender{align-self:flex-start;color:var(--teal)}
+.arq-role.receiver{align-self:flex-end;color:var(--glow)}
+.arq-line{
+  max-width:80%;font-size:14.5px;line-height:1.4;color:var(--ink);
+  padding:9px 14px;border-radius:16px;
+}
+.arq-line.sender{
+  align-self:flex-start;background:#1C2748;border:1px solid var(--card-edge);
+  border-bottom-left-radius:4px;
+}
+.arq-line.receiver{
+  align-self:flex-end;background:rgba(255,184,77,.16);border:1px solid rgba(255,184,77,.32);
+  border-bottom-right-radius:4px;
+}
+/* Not really anyone's message — the ACK that never arrives — so it gets no
+   bubble, no side and no role label, the same way a messaging app shows
+   "not delivered" as a small centred note rather than pretending it's a
+   message from either person. */
+.arq-system{
+  align-self:center;font-size:12.5px;color:var(--ink-soft);font-style:italic;
+  margin:8px 0;text-align:center;
+}
+@media (max-width:420px){
+  .arq-line{max-width:88%}
+}
+
+/* ── D6: barcode digits ── */
+.barcode-digits{display:flex;flex-wrap:wrap;align-items:center;gap:5px;justify-content:center;margin:6px 0 12px}
+/* The printed barcode's own boundary — a visible rounded rectangle, not
+   just gap, so the computed tile sitting outside it reads unmistakably as
+   "worked out about the barcode", never as a fourteenth digit belonging to it. */
+.barcode-real{
+  display:flex;flex-wrap:wrap;gap:5px;justify-content:center;
+  background:#0E1730;border:1.5px solid var(--card-edge);border-radius:14px;
+  padding:10px 12px;
+}
+.barcode-digit{
+  font-family:var(--mono);font-size:17px;font-weight:600;color:var(--ink);
+  background:#1A2440;border:1.5px solid var(--card-edge);border-radius:8px;
+  width:30px;height:40px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color .22s, background .22s, color .22s;
+}
+.barcode-digit:hover{border-color:var(--teal)}
+.barcode-digit:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.barcode-digit.changed{border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.1)}
+.barcode-digit.check{
+  border:2.5px solid var(--teal);color:var(--teal);cursor:default;
+  background:rgba(123,196,180,.1);
+}
+/* The live "computed" tile — held apart from the printed check digit by
+   extra gap rather than a label of its own, same convention as the parity
+   bulb in D3/D4. Teal while it matches (the same colour the printed tile
+   already always wears), amber the moment it doesn't — never red. */
+.barcode-digit.computed{margin-left:14px;cursor:default;transition:border-color .22s, background .22s, color .22s}
+.barcode-digit.computed.match{border-color:var(--teal);color:var(--teal);background:rgba(123,196,180,.1)}
+.barcode-digit.computed.mismatch{border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.1)}
+/* Hidden entirely while the two check digits match, not just dimmed — the
+   same amber "!" badge D3/D4 use the moment their own total disagrees, so
+   this reads as the same kind of catch, not a new visual idea. */
+.barcode-flag{
+  display:none;width:24px;height:24px;border-radius:50%;flex:0 0 auto;
+  margin-left:8px;align-items:center;justify-content:center;
+  background:#1C2748;border:2px solid var(--glow);color:var(--glow);
+  font-family:'Sora',sans-serif;font-size:13px;font-weight:700;line-height:1;
+}
+.barcode-flag.show{display:flex}
+@media (max-width:420px){.barcode-digit{width:24px;height:34px;font-size:15px}}
+
+/* ── shared chip/nudge tweaks ── */
+.chip{font-size:14.5px}
+.nudge code{font-family:var(--mono);font-size:14px;color:var(--ink)}

@@ -1,0 +1,311 @@
+
+  <section class="hero">
+    <h1>Wires are noisy places. <span class="lit">One bulb flips in transit and "HELLO" becomes "HALLO".</span></h1>
+    <p>Every message in Module 13 travelled across real wires, real radio links, real fibre — and every one of those is capable of quietly getting a bit wrong along the way. Computers catch this millions of times a second, using a handful of tricks you're about to build yourself: two ways of sending bits, three ways of talking, a parity bulb that catches damage (and one famous case where it doesn't), a card exchange that gets a message through no matter what, and a barcode that polices its own accuracy.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Send, sort and corrupt things as many times as you like — nothing here ever runs out or gets marked wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — one lane or eight ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">One lane or eight
+        <span class="disc-sub">send the same byte down a single wire and down eight at once</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here are two ways to send a byte. <strong>Serial</strong> sends its eight bits one after another down a single wire — slower, but there's only ever one wire to keep in sync. <strong>Parallel</strong> sends all eight bits at once, each on its own wire — much faster, but all eight wires have to agree on timing. Below, the byte for <strong>19</strong> (his age, in the secret language: <code>00010011</code>) is about to travel down both. Each travelling dot carries a small number — its <strong>bit position</strong>, counted from the right, so the rightmost bit (the 1s column) is position 1 and the leftmost (the 128s column) is position 8. Drag the cable-length slider, then press send and watch each lane arrive.</p>
+      <div class="board">
+        <div class="tx-control">
+          <label class="shred-label" for="distanceSlider1">Cable length</label>
+          <input type="range" id="distanceSlider1" min="0" max="100" step="10" value="0">
+          <span class="tx-val" id="distanceVal1">a short desk cable</span>
+        </div>
+        <button class="loop-btn primary" id="sendBtn1" type="button">Send 19 down both cables ▶</button>
+        <div class="tx-lane">
+          <span class="tx-lane-label">Serial — one wire</span>
+          <div class="wire-map">
+            <svg class="wire-svg" viewBox="0 0 340 64" aria-hidden="true">
+              <path id="serialWire1" class="wire-path" d="M28,28 L312,28"></path>
+              <circle class="wire-node" cx="28" cy="28" r="8"></circle>
+              <circle class="wire-node" cx="312" cy="28" r="8"></circle>
+              <text class="wire-node-label" x="28" y="52" text-anchor="middle">Sender</text>
+              <text class="wire-node-label" x="312" y="52" text-anchor="middle">Receiver</text>
+              <g id="serialTokens1"></g>
+            </svg>
+          </div>
+          <div class="tx-track" id="serialLane1"></div>
+          <p class="fork-note" id="serialResult1" aria-live="polite">Received: — </p>
+        </div>
+        <div class="tx-lane">
+          <span class="tx-lane-label">Parallel — eight wires</span>
+          <div class="wire-map">
+            <svg class="wire-svg" viewBox="0 0 340 184" aria-hidden="true">
+              <line class="wire-bus-bar" x1="28" y1="8" x2="28" y2="153"></line>
+              <line class="wire-bus-bar" x1="312" y1="8" x2="312" y2="153"></line>
+              <path id="parallelWire1-0" class="wire-path" d="M28,14 L312,14"></path>
+              <path id="parallelWire1-1" class="wire-path" d="M28,33 L312,33"></path>
+              <path id="parallelWire1-2" class="wire-path" d="M28,52 L312,52"></path>
+              <path id="parallelWire1-3" class="wire-path" d="M28,71 L312,71"></path>
+              <path id="parallelWire1-4" class="wire-path" d="M28,90 L312,90"></path>
+              <path id="parallelWire1-5" class="wire-path" d="M28,109 L312,109"></path>
+              <path id="parallelWire1-6" class="wire-path" d="M28,128 L312,128"></path>
+              <path id="parallelWire1-7" class="wire-path" d="M28,147 L312,147"></path>
+              <line id="parallelSampleLine1" class="wire-sample-line" x1="300" y1="4" x2="300" y2="157"></line>
+              <text class="wire-node-label" x="28" y="172" text-anchor="middle">Sender</text>
+              <text class="wire-node-label" x="312" y="172" text-anchor="middle">Receiver</text>
+              <g id="parallelTokens1"></g>
+            </svg>
+          </div>
+          <p class="fork-note">The teal dashed line marks the instant the receiver reads all eight wires at once — any dot still short of it hasn't arrived in time.</p>
+          <div class="tx-track" id="parallelLane1"></div>
+          <p class="fork-note" id="parallelResult1" aria-live="polite">Received: — </p>
+        </div>
+      </div>
+      <p class="chips-label">Try sending at…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Leave the slider at "a short desk cable" and press Send — watch the serial dot travel the single wire one bit at a time, while all eight parallel dots glide together and reach the dashed line just as it appears. Both lanes receive 19 correctly. Now drag the slider all the way to "across a whole building" and press Send again — serial still receives 19, just slower, because it only ever had one wire to keep straight. In the parallel diagram this time, seven dots reach the dashed line together but the eighth — a lit dot that should read as on — is still short of it when the line appears. The receiver reads that wire anyway, sees it as off, and gets 3, not 19. Over that distance its eight wires didn't quite agree on when each bit arrived, and one bit that should have stayed on got read as off.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Send once with the slider low, then once with it high, and watch the parallel diagram's dashed line each time — on one of the two sends, a lit dot is still lagging behind it, and the total comes out lower than 19 because of it.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">This exact problem is why USB ("universal serial bus") replaced the older parallel cables computers used for printers and hard drives — once cables get longer or speeds get higher, keeping one wire in sync beats keeping eight of them in sync.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — walkie-talkie, corridor, phone call ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Walkie-talkie, corridor, phone call
+        <span class="disc-sub">sort six real links into simplex, half-duplex or full-duplex</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Three ways data can flow. <strong>Simplex</strong> only ever goes one direction — like a one-way street. <strong>Half-duplex</strong> goes both directions, but never at the same time — like a corridor too narrow for two people to pass, so one direction goes, then the other. <strong>Full-duplex</strong> goes both directions at once — like a phone call, where both people can talk and listen simultaneously. Note that this is about which <em>directions</em> data can flow, not how many physical wires are involved — a single wire can be full-duplex if the electronics allow it. Tap a scenario below, then tap the bin you think it belongs in.</p>
+      <div class="board">
+        <div class="link-pool" id="linkPool2"></div>
+        <div class="dupe-bins" id="dupeBins2"></div>
+        <p class="fork-note" id="status2" aria-live="polite">Tap a scenario to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">"A radio station broadcasting to your car radio" only ever sends, and your radio only ever receives — that's <strong>Simplex</strong>. "Two hikers talking on walkie-talkies" can both talk and both listen, but never at the same moment — that's <strong>Half-duplex</strong>. "A phone call, where both people can talk and listen at the same time" is <strong>Full-duplex</strong> — both directions, simultaneously.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Ask two questions of each scenario: can data go both ways at all? If yes — can it go both ways at the very same moment, or does it have to take turns?</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">"A corridor too narrow for two people to pass" and "two hikers on walkie-talkies" both belong in the same bin as each other — turn-taking is the giveaway for Half-duplex, whatever the scenario looks like on the surface.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — the parity trick ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The parity trick
+        <span class="disc-sub">work out the ninth bulb so the lit count comes out even, then send it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's the convention this wire uses, stated plainly so it never has to be guessed: sender and receiver agree, in advance, that every byte sent will always have an <strong>even</strong> total once the check bulb is folded in. The eight bulbs below are fixed — they're carrying 19 again, already lit — sitting a little apart from a ninth bulb outlined in teal: the <strong>parity bulb</strong>, kept separate from that data count on purpose. You don't set it by hand — press "Calculate the parity bulb" and it counts the eight data bulbs, works out whether it needs to light to reach an even total, explains the sum, then lights it if it does. Once the total reads even, send it — a gremlin will flip exactly one of the eight <em>data</em> bulbs somewhere in transit. The parity bulb itself always arrives exactly as it was sent, on or off — never touched — so watch what a single changed data bulb alone does to the total, and whether the receiver notices. Same numbering as before: each data dot is labelled by its bit position counted from the right (1 for the 1s column, up to 8 for the 128s column); the parity dot doesn't carry a number of its own.</p>
+      <div class="board">
+        <p class="fork-note">Bulbs 1–8 carry the byte for 19. Bulb 9 is the parity bulb.</p>
+        <div class="byte-parity-row">
+          <div class="data-octet" id="dataRow3"></div>
+          <span class="parity-bulb pending" id="parityBulb3" aria-hidden="true"></span>
+        </div>
+        <p class="fork-note" id="parityStatus3" aria-live="polite">3 of 8 data bulbs lit — odd. Work out the parity bulb, then send.</p>
+        <button class="loop-btn" id="calcBtn3" type="button">Calculate the parity bulb ▶</button>
+        <button class="loop-btn primary" id="sendBtn3" type="button" hidden>Send it down the wire ▶</button>
+        <div class="wire-map">
+          <svg class="wire-svg" viewBox="0 0 340 64" aria-hidden="true">
+            <path id="parityWire3" class="wire-path" d="M28,28 L312,28"></path>
+            <circle class="wire-node" cx="28" cy="28" r="8"></circle>
+            <circle class="wire-node" cx="312" cy="28" r="8"></circle>
+            <text class="wire-node-label" x="28" y="52" text-anchor="middle">Sender</text>
+            <text class="wire-node-label" x="312" y="52" text-anchor="middle">Receiver</text>
+            <g id="parityTokens3"></g>
+          </svg>
+        </div>
+        <p class="fork-note">Watch the nine dots travel one at a time — the gremlin's flip happens to one of the first eight (data) dots mid-wire, changing colour partway across, not at either end. The ninth (parity) dot always arrives exactly as it was sent.</p>
+        <p class="fork-note">A second row of bulbs below relights as each dot lands — this is the byte the receiver is actually reconstructing, bulb by bulb, its parity bulb greyed out until it lands too, same as the eight data bulbs beside it. Underneath it, a live count of just those eight data bulbs climbs the same way the line above did before you sent, and once bulb 9 (the parity bulb) itself lands, its own on/off state is named too — never folded into the data count, only into the final "total even/odd" it produces. At that same moment, a teal ring circles the row like a pen checking it over, and a small checkbox next to the count fills in either way: ticked if the received total came out even, or a plain dash if it didn't. A green check on the ring itself appears separately, only if the byte it circled is genuinely correct — and if the total disagrees, the ring is drawn in amber instead of teal, and a small amber flag lights up in the corner too: parity's own way of saying it caught something.</p>
+        <div class="byte-check-wrap">
+          <div class="byte-check-inner">
+            <div class="byte-parity-row">
+              <div class="data-octet" id="byteRow3"></div>
+              <span class="parity-bulb pending" id="byteParityBulb3" aria-hidden="true" hidden></span>
+            </div>
+            <svg class="byte-check-svg" aria-hidden="true">
+              <rect class="byte-check-ring" id="byteCheckRing3" x="0" y="0" width="100%" height="100%" rx="14" ry="14" pathLength="100"></rect>
+            </svg>
+            <span class="byte-checkmark" id="byteCheckmark3" aria-hidden="true">✓</span>
+            <span class="byte-flag" id="byteFlag3" aria-hidden="true">!</span>
+            <span class="byte-flag" id="byteQuestion3" aria-hidden="true">?</span>
+          </div>
+        </div>
+        <p class="fork-note byte-count-line" aria-live="polite">
+          <span id="byteResult3"></span>
+          <span class="parity-check-box" id="byteParityCheck3" aria-hidden="true"></span>
+        </p>
+        <p class="fork-note" id="result3" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">The eight data bulbs already read 3 lit — odd. Press "Calculate the parity bulb" — it counts those eight, works out that an odd count needs the ninth bulb lit to reach an even total (3 + 1 = 4, even), and lights it. The status line now reads "…ready to send", and the Send button appears in its place. Press it: nine dots head down the wire one after another. As each of the first eight lands, the receiver's own row of bulbs underneath relights live to match — grey until it arrives, then correct — and the count beneath it climbs — "Receiving… (1 of 8 data bulbs arrived)", "Receiving… (2 of 8 data bulbs arrived)", and so on — while partway across the wire, one dot changes colour: the gremlin's flip, happening mid-transit, not at either end. It's one of the eight <em>data</em> dots this time, not the ninth — watch for the change among the first eight, not the last. By the time all eight have landed, the data count reads "4 of 8 data bulbs lit — even", not the "3 of 8 — odd" you sent. Bulb 9 (the parity bulb) lands last, completely unchanged — still on, exactly as sent — so the line finishes "Received: 4 of 8 data bulbs lit — even. The parity bulb arrived on, making the total odd." The parity bulb's own reading never moved; it's the data count that changed, and that alone is what flips the total from even to odd. Watch the little checkbox next to it: it fills in with a plain dash, not a tick, because that total came out odd — that dash <em>is</em> the catch. Meanwhile the ring circling the row like a pen checking it over is drawn in amber, not teal — no green check appears this time, because the byte really is wrong now (51, not 19) — and a small amber flag lights up in the corner too, parity's own way of flagging that the total didn't add up. The parity check below states the same comparison in words: you sent an even total, the receiver gets an odd one, and since sender and receiver agreed the total should always be even, that flip is the catch. Nobody needed to know which bulb changed, only that the total didn't add up any more.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Press "Calculate the parity bulb" first — it reads the eight data bulbs, works out whether an even total needs the ninth one lit, and shows you the sum. Only then does the Send button appear.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">The eight data bulbs read 3 lit — an odd number. Odd needs one more to become even, so the parity bulb has to switch on: 3 + 1 = 4.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — the gremlin flips two ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The gremlin flips two
+        <span class="disc-sub">same trick, but this time two bulbs change — see what the receiver concludes</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Same nine bulbs, same rule — even total, always, the parity bulb kept separate from the data count that produces it, and never touched by the gremlin. Press "Calculate the parity bulb" again, then send. This time the gremlin is in a mood to flip <strong>two</strong> of the eight data bulbs instead of one. Watch the total the receiver ends up with, and decide for yourself whether anything looks wrong.</p>
+      <div class="board">
+        <p class="fork-note">Bulbs 1–8 carry the byte for 19 again. Bulb 9 is the parity bulb.</p>
+        <div class="byte-parity-row">
+          <div class="data-octet" id="dataRow4"></div>
+          <span class="parity-bulb pending" id="parityBulb4" aria-hidden="true"></span>
+        </div>
+        <p class="fork-note" id="parityStatus4" aria-live="polite">3 of 8 data bulbs lit — odd. Work out the parity bulb, then send.</p>
+        <button class="loop-btn" id="calcBtn4" type="button">Calculate the parity bulb ▶</button>
+        <button class="loop-btn primary" id="sendBtn4" type="button" hidden>Send it down the wire ▶</button>
+        <div class="wire-map">
+          <svg class="wire-svg" viewBox="0 0 340 64" aria-hidden="true">
+            <path id="parityWire4" class="wire-path" d="M28,28 L312,28"></path>
+            <circle class="wire-node" cx="28" cy="28" r="8"></circle>
+            <circle class="wire-node" cx="312" cy="28" r="8"></circle>
+            <text class="wire-node-label" x="28" y="52" text-anchor="middle">Sender</text>
+            <text class="wire-node-label" x="312" y="52" text-anchor="middle">Receiver</text>
+            <g id="parityTokens4"></g>
+          </svg>
+        </div>
+        <p class="fork-note">Watch the nine dots travel one at a time — this time two of the first eight (data) dots change colour mid-wire, not just one, and the ninth (parity) dot stays exactly as it was sent.</p>
+        <p class="fork-note">A second row of bulbs below relights as each dot lands — this is the byte the receiver is actually reconstructing, bulb by bulb, its parity bulb greyed out until it lands too, with its own live data-bulb count settling in underneath, and the parity bulb's own on/off state named separately once bulb 9 lands. A teal ring circles that row like a pen checking it over, and the checkbox next to the count fills in — same tick-or-dash test as before, but watch which one appears, and whether it agrees with the ring, this time. If the total disagrees, the ring turns amber and a small flag lights up, same as before — but watch what happens if it doesn't.</p>
+        <div class="byte-check-wrap">
+          <div class="byte-check-inner">
+            <div class="byte-parity-row">
+              <div class="data-octet" id="byteRow4"></div>
+              <span class="parity-bulb pending" id="byteParityBulb4" aria-hidden="true" hidden></span>
+            </div>
+            <svg class="byte-check-svg" aria-hidden="true">
+              <rect class="byte-check-ring" id="byteCheckRing4" x="0" y="0" width="100%" height="100%" rx="14" ry="14" pathLength="100"></rect>
+            </svg>
+            <span class="byte-checkmark" id="byteCheckmark4" aria-hidden="true">✓</span>
+            <span class="byte-flag" id="byteFlag4" aria-hidden="true">!</span>
+            <span class="byte-flag" id="byteQuestion4" aria-hidden="true">?</span>
+          </div>
+        </div>
+        <p class="fork-note byte-count-line" aria-live="polite">
+          <span id="byteResult4"></span>
+          <span class="parity-check-box" id="byteParityCheck4" aria-hidden="true"></span>
+        </p>
+        <p class="fork-note" id="result4" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Press "Calculate the parity bulb" — the same sum as before, 3 + 1 = 4, so it lights, bringing the total to even — then press Send. Nine dots head down the wire one after another. This time two of the eight data dots change colour mid-wire — one flips on, one flips off, and the parity bulb (the ninth dot) is left alone entirely, arriving exactly as sent. Bulbs 1–8 land first: the receiver's row relights live, grey until each one arrives, and the data count climbs and lands back on "3 of 8 data bulbs lit — odd" — the very same reading as before, since one bulb turning on and another turning off cancel out in the count, even though they're not the same two bulbs any more. Bulb 9 lands last, still on, exactly as sent, so the line finishes "Received: 3 of 8 data bulbs lit — odd. The parity bulb arrived on, making the total even." — word for word what you sent. Watch the little checkbox next to it: it still ticks, because that total really is even — the ring stays its ordinary teal too, and the little amber flag from D3 stays dark, because as far as parity can tell, nothing needs flagging. But look up at the corner again: a small amber question mark lights up there instead — nothing in the numbers told it to, which is exactly the point. Look at the byte row itself: it's not the same three bulbs lit any more, so the actual value is 35, not 19 — and no green check appears on the ring either, because the byte really is wrong, and nothing here pretends otherwise. Same count, same parity reading, same tick — but a question mark where a flag would have been, and a genuinely different byte. That's parity's real limit: it only ever checks how many bulbs are lit, never which ones.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Count the lit data bulbs after the gremlin strikes twice — is that count the same kind of number (even or odd) as before it struck? Then look at the two marks the send leaves behind: the checkbox next to the count, and the green check on the ring itself — do they agree with each other, or not?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Even again — so the receiver sees nothing wrong and accepts the byte as sent, 35 and all. Parity only ever catches an <em>odd</em> number of flips; two flips (or four, or any even number) cancel each other out from parity's point of view. That's exactly why real systems also use checksums — a second, different kind of total — to catch some of what a single parity bulb misses.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 — ask again ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Ask again
+        <span class="disc-sub">send → check → acknowledge, or timeout → resend — play out all three ways it can go</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Catching an error is only half the job — something has to happen next. This is <strong>ARQ</strong> (automatic repeat request): the sender sends, the receiver checks, and the receiver sends back a small reply of its own — a positive acknowledgement (<strong>ACK</strong>) if all is well, or a negative one (<strong>NAK</strong>) asking for a resend if it isn't. And if that reply never turns up at all? The sender keeps a timer running — a <strong>timeout</strong> — and resends anyway rather than wait forever. Play out all three below as a message thread: the sender's own messages sit on the left, the receiver's on the right — the same left/right the wire diagrams above already use.</p>
+      <div class="board">
+        <div class="arq-buttons">
+          <button class="loop-btn" id="cleanBtn5" type="button">Deliver it cleanly</button>
+          <button class="loop-btn" id="damagedBtn5" type="button">Damage it in transit</button>
+          <button class="loop-btn" id="lostAckBtn5" type="button">Lose the acknowledgement</button>
+        </div>
+        <div class="arq-log" id="arqLog5" aria-live="polite"></div>
+      </div>
+      <p class="chips-label">Play out…</p>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Press "Deliver it cleanly" — the sender sends, the receiver checks and finds nothing wrong, and the receiver sends back an ACK. Done in one round trip. Now press "Damage it in transit" — the receiver's check fails, so it sends back a NAK, and the sender resends until a check finally passes. Now press "Lose the acknowledgement" — the receiver's check passes and it sends an ACK, but that ACK never arrives back; the sender's timer runs out (a timeout) with no reply, so it resends just in case, and the receiver — having already been fine the first time — checks it again and acknowledges once more.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Watch who sends the acknowledgement in every single scenario — it's always the receiver replying back to the sender, never the other way round.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">In the third scenario, nothing was actually wrong with the message or the check — only the acknowledgement itself went missing. The timeout is what rescues that situation: no reply within the time limit is itself treated as a reason to resend.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 — the last digit isn't part of the number ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The last digit isn't part of the number
+        <span class="disc-sub">corrupt a barcode's digits and watch the check digit notice</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's the barcode from a can of soft drink — thirteen digits. Only the first twelve are the actual product number. The thirteenth, outlined in teal, is a <strong>check digit</strong>: a value worked out from the other twelve using a fixed rule, stuck on the end purely so a scanner can tell if a digit got misread. It isn't part of the number at all — it's a running spot-check on it. Tap any of the twelve number digits to bump it (it cycles 0–9), and watch what the check digit has to say about it. A fourteenth tile, held a little apart, shows that same rule worked out live from whichever twelve digits are currently on screen — as a digit you can look at directly, not a number you have to read off in a sentence — teal while it matches the printed one, amber the moment it doesn't, with a small amber flag lighting up right beside it the instant the two disagree. The same idea is used on ISBNs, the check-digit codes printed on every book.</p>
+      <div class="board">
+        <div class="barcode-digits" id="barcodeDigits6"></div>
+        <p class="fork-note" id="checkStatus6" aria-live="polite"></p>
+        <button class="loop-btn ghost" id="resetBtn6" type="button">Put it back exactly as printed</button>
+      </div>
+      <p class="chips-label">Try corrupting…</p>
+      <div class="chips" id="chips6"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">As printed, the fourteenth tile — the computed check digit — reads teal, the same as the printed one: no error would be caught. Tap the very first digit once to bump it by one — the fourteenth tile immediately turns amber and shows a different number, a small amber flag lights up right beside it, and the note underneath says the computed check digit no longer matches the printed one, exactly as if a scanner had misread that digit for real. Press "Put it back exactly as printed" to restore it — the flag disappears again — then try tapping one of the last few digits instead: same result, any single digit changing anywhere in the number throws the check off.</div>
+        <button class="nudge-btn" data-nudge="n6a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n6a">Try an early digit first, then reset and try one nearer the end — the check digit reacts to a change anywhere in the number, not just the ones close to it.</div>
+        <button class="nudge-btn" data-nudge="n6b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n6b">The exact arithmetic behind the check digit doesn't matter here — what matters is the idea: it's calculated from the other twelve digits, and any single digit changing breaks the match. That's the whole trick, on every barcode and every ISBN you've ever scanned.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a fourteenth time</h2>
+    <p>You raced a byte down one wire and eight, and watched distance break the one that has to keep more things in sync. You sorted real links by which directions they let data flow, regardless of how many wires were involved. You built a parity bulb from scratch, watched it catch a single flip clean, and then watched it get genuinely fooled by two — not a mistake, a real and famous limit of the trick. You played out a full ARQ exchange three different ways, including the one where nothing was wrong except the reply. And you corrupted a real barcode's digits and watched its own check digit notice every single time.</p>
+    <p class="soft">Whenever you're ready, the next discovery is about a different kind of protection altogether — not catching damage, but keeping a message secret from anyone who intercepts it perfectly intact. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="13-the-journey-of-a-message.html">← Module 13 · The Journey of a Message</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 14 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
