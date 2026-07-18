@@ -20,7 +20,7 @@ function nextBtn() {
 
 describe("Module 24: Gatekeepers", () => {
   beforeEach(() => {
-    loadModule("24-gatekeepers.html");
+    loadModule("26-gatekeepers.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
