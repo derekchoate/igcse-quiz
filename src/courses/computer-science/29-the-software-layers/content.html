@@ -1,0 +1,180 @@
+
+  <section class="hero">
+    <h1>Between your tap and the transistors, <span class="lit">a whole stack of software is quietly translating.</span></h1>
+    <p>Every time you open an app, you're standing on top of a tower. Right underneath you is the app itself. Underneath that sits the <strong>operating system</strong> — the busy piece of software that actually runs the device and keeps every app fed with what it needs. Underneath that sits the raw hardware from Module 16, which can't do anything at all until something switches it on. And running through the whole tower, constantly, is a quiet system of polite interruptions that keeps everything responsive without anyone waiting around. Tonight you'll sort real software into its floor, meet the operating system's jobs one at a time, and watch an interrupt happen calmly, in slow motion, so you can see for yourself that it's routine — never a fault.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Sort, match, trigger, order — none of it can be done badly. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Sort the software pile
+        <span class="disc-sub">system software vs application software — onto the right floor</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><strong>System software</strong> provides the services the computer itself requires just to function — this includes the operating system and utility software. <strong>Application software</strong> provides the services the user wants — the things you actually opened the device to do. (Worth saying plainly: the operating system is not the wallpaper or the desktop picture you see — it's the whole engine running underneath everything, including that picture.) Below is a pile of six kinds of software. Sort each one onto the floor it belongs on.</p>
+      <div class="board">
+        <div class="sl-chip-pool" id="softPool1"></div>
+        <div class="sl-tiers" id="tierBins1"></div>
+        <p class="sl-status" id="status1" aria-live="polite">Tap a piece of software to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Tap "Web browser", then tap the "Application software" floor — a browser is a service you, the user, wanted, so it lands on top. Tap "Compiler", then tap "System software" — a compiler is a service the computer needs to translate other programs, so it belongs underneath, alongside the operating system. Work through the rest the same way: ask "did I want this, or does the machine need it just to run at all?"</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">For each one, ask: is this something the person using the device asked for directly (a game, a browser), or something the computer needs behind the scenes just to keep functioning (an operating system, a driver, a utility, a compiler)?</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Only two of the six belong on the top floor — the browser and the game. Everything else (operating system, compiler, device driver, utility software) is working underneath, in service of the machine rather than in service of one particular request.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The busy floor
+        <span class="disc-sub">match each of the operating system's jobs to what it's doing right now</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>"Operating system" sounds like one thing, but it's really several jobs running at once. Below are nine of them, stated exactly as the syllabus names them, each with its own mini-scenario. Match each scenario to the job it's describing — one of them (handling interrupts) you'll meet properly, in full slow motion, in the very next discovery.</p>
+      <div class="board">
+        <div class="sl-chip-pool" id="officePool2"></div>
+        <div class="sl-offices" id="officeBins2"></div>
+        <p class="sl-status" id="status2" aria-live="polite">Tap a scenario to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Tap "Your sibling logs into the same laptop and sees their own desktop, not yours", then tap "Managing user accounts" — that scenario is entirely about the OS keeping separate people's stuff separate, which is exactly what that job means. Tap "You plug in a mouse you've never used, and the pointer just starts moving", then tap "Managing peripherals and drivers" — the OS recognised new hardware and made it work without you doing anything. Keep going the same way: read the scenario, ask which single job it's really an example of.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Each scenario is really only demonstrating one job, even though a few sound like they could overlap. Read for the single thing actually happening — what's being kept track of, switched between, protected, or made possible.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Files being found again later → managing files. A warning interrupting typing, then typing resuming → handling interrupts. Tapping an icon instead of typing commands → providing an interface. Ten tabs each kept separate → managing memory. Two things happening "at once" → managing multitasking. An app just running without you building an OS first → providing a platform for running applications. A password before unlocking → providing system security.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Ring the bell
+        <span class="disc-sub">fire a real interrupt mid-task and watch it happen calmly</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>An <strong>interrupt</strong> is a signal that tells the CPU "something else needs attention right now" — a key pressed, a print job queued, a battery running low. The word sounds alarming, but the event itself is completely routine; your device handles dozens of these every second without you noticing. Here's exactly what happens, every time: the CPU <strong>bookmarks its place</strong> (same idea, new costume — that's the Program Counter from Module 16, saved before anything else happens), it <strong>services the interrupt</strong> (deals with whatever needs attention), and then it <strong>resumes exactly where it left off</strong>. Nothing is lost, nothing breaks — it only ever pauses. Start the task below, then fire all three kinds of interrupt while it's running.</p>
+      <div class="board">
+        <div class="sl-task" id="taskTrack3"></div>
+        <button class="loop-btn primary" id="continueBtn3" type="button">Continue the task ▶</button>
+        <div class="sl-btn-row">
+          <button class="loop-btn" id="keyBtn3" type="button">A key is pressed</button>
+          <button class="loop-btn" id="printBtn3" type="button">A print job arrives</button>
+          <button class="loop-btn" id="batteryBtn3" type="button">Battery gets low</button>
+        </div>
+        <ul class="sl-log" id="log3" aria-live="polite"></ul>
+        <p class="sl-note">Interrupts like these happen dozens of times a second on every device you own. This is normal — working exactly as designed, never a fault.</p>
+      </div>
+      <p class="chips-label">Fire all three kinds…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Press "Continue the task" a couple of times so it's properly under way, then press "A key is pressed". Watch the log: the CPU bookmarks step 2, services the interrupt (the character gets stored and shown on screen), then resumes right at step 2 — the task never lost its place. Now press the other two buttons the same way, whenever you like, in any order. Each one runs the same calm three-part pattern: bookmark, service, resume.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Watch what the CPU does in the very instant the bell rings — before it does anything about the interrupt at all.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">It wrote something down before leaving — its place in the task. That's what lets it come back afterwards and pick up exactly where it stopped, instead of starting over or losing the thread. Interrupts pause. They never destroy.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Why not just wait?
+        <span class="disc-sub">polling vs interrupts — watch the CPU waste laps on a silent printer</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>There's an obvious-sounding alternative to interrupts: why not just have the CPU keep checking "is the printer ready yet? is it ready yet?" over and over until the answer is yes? That's called <strong>polling</strong>, and it works — but watch what it costs below. Run the same wait two ways: polling, where the CPU checks again and again, and interrupt-driven, where the CPU gets on with other useful work until the printer itself speaks up.</p>
+      <div class="board">
+        <div class="sl-btn-row">
+          <button class="loop-btn primary" id="pollBtn4" type="button">Try polling the printer</button>
+          <button class="loop-btn" id="interruptBtn4" type="button">Try using an interrupt instead</button>
+        </div>
+        <div class="sl-reveal" id="pollReveal4" hidden>
+          <div class="sl-reveal-label">Polling</div>
+          <ul class="sl-log" id="pollLog4"></ul>
+        </div>
+        <div class="sl-reveal" id="interruptReveal4" hidden>
+          <div class="sl-reveal-label">Interrupt-driven</div>
+          <ul class="sl-log" id="interruptLog4"></ul>
+        </div>
+      </div>
+      <p class="chips-label">Try both approaches…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Press "Try polling the printer" — the log fills with tick after tick of "checked the printer — not ready", eight wasted checks in a row before the ninth finally finds it ready. Press "Try using an interrupt instead" — the CPU spends those same eight ticks doing other useful work, and only stops for a moment when the printer itself raises the interrupt to say it's ready. Same wait, same printer — completely different use of the CPU's time.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Count how many of the polling log's lines are the CPU finding out nothing has changed yet.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Polling spends CPU time asking a question that's usually "not yet" — over and over, on the off chance this is the tick it changes. An interrupt flips who does the asking: the printer speaks up when it actually has something to say, and the CPU is free until then.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The morning routine
+        <span class="disc-sub">firmware, bootloader, operating system — snap the power-on sequence into order</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Nothing runs on nothing. Hardware needs firmware to wake it up; the operating system needs that firmware to get started; and every app needs the operating system underneath it. <strong>Firmware</strong> is permanent software built into the hardware itself, and the particular piece of firmware that starts everything off is called the <strong>bootloader</strong>. Below are four shuffled steps of what happens between switching a device on and the operating system being ready. Tap them into order, one at a time.</p>
+      <div class="board">
+        <div class="sl-track" id="stepTrack5"></div>
+        <div class="sl-chip-pool" id="stepPool5"></div>
+        <p class="sl-status" id="status5" aria-live="polite">Tap the step you think comes first.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Tap "Power reaches the hardware — switches flip, but nothing has 'started' yet" first — it snaps into slot 1, because it's the very first thing that happens, before any software has run at all. Tap "Firmware (the bootloader) runs directly on the hardware and looks for the operating system" next — it snaps into slot 2, since firmware is the first software to run, sitting right on the bare hardware. Keep going the same way, always asking "what has to already be running before this step is even possible?"</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Read each step and ask what it needs underneath it to even be possible. Whichever step needs nothing running yet has to go first.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">The order is: hardware gets power → firmware (the bootloader) runs on that hardware and finds the operating system → the bootloader loads the operating system and hands over control → the operating system finishes starting up, ready for applications. Firmware and the operating system are two different layers, not the same thing wearing two names.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a twenty-ninth time</h2>
+    <p>You sorted six real pieces of software onto the floor they actually belong on, and separated "what the computer needs" from "what the user wanted" without a single one left over. You matched nine of the operating system's real jobs to scenarios that could have come straight from your own device, in the exact wording the syllabus uses. You fired three different kinds of interrupt into a running task, in slow motion, and watched the CPU bookmark its place, deal with the interrupt, and resume — proving to yourself that the word "interrupt" describes something calm and routine, never a fault. You watched a CPU waste eight laps politely asking a silent printer whether it was ready yet, then watched the same wait cost nothing at all once an interrupt was doing the asking instead. And you put the whole power-on sequence in order, floor by floor, from bare hardware all the way up to an operating system ready to run whatever you open next.</p>
+    <p class="soft">Whenever you're ready, the next discovery goes one layer deeper still — the actual language you type to give a computer instructions, and the two very different kinds of translator that turn it into something the CPU from Module 16 can actually chew. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="28-talking-to-the-network.html">← Module 28 · Talking to the Network</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 29 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
