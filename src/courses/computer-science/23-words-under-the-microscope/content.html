@@ -1,0 +1,211 @@
+
+  <section class="hero">
+    <h1>Your name is data. <span class="lit">Time to slice it, flip it, and measure it.</span></h1>
+    <p>Every word a program ever handles — a name, a password, a search box — is just a row of characters sitting in numbered positions. Cambridge gives you a small toolkit for operating on that row: <span class="kw" style="font-family:var(--mono)">LENGTH</span> measures it, <span class="kw" style="font-family:var(--mono)">SUBSTRING</span> slices a piece out, <span class="kw" style="font-family:var(--mono)">UCASE</span>/<span class="kw" style="font-family:var(--mono)">LCASE</span> flip its case, and <span class="kw" style="font-family:var(--mono)">RANDOM</span>/<span class="kw" style="font-family:var(--mono)">ROUND</span> tame a machine's dice into a whole number. The table below turns whatever you type into physical tiles, one per character, each carrying its own position number — position 1 is always the very first tile, never position 0.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Tap tiles however you like — a bracket that isn't where you meant it yet is just a bracket still moving, never a mistake. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Measure it
+        <span class="disc-sub">LENGTH counts every tile — including the ones you might not expect</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><span class="kw" style="font-family:var(--mono)">LENGTH(word)</span> hands back one whole number: how many characters are sitting in the box, full stop. Type any word below — your own name is a good place to start — and watch its tiles appear, one per character, each numbered from 1. Then try typing something with a space in it, like a first and last name together.</p>
+      <div class="board">
+        <div class="op-input">
+          <label for="msWord1">Type any word (your own name is a good place to start)</label>
+          <input id="msWord1" type="text" placeholder="e.g. your name" maxlength="40">
+        </div>
+        <div class="wtiles" id="msTiles1"></div>
+        <div class="op-readout" id="msReadout1"></div>
+        <p class="op-status" id="msStatus1" aria-live="polite">That's the placeholder word settling in — type your own above and watch the count follow it live.</p>
+      </div>
+      <p class="chips-label">Notice both of these…</p>
+      <div class="chips" id="chips1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Type "Ice Cream" and LENGTH reads back 9 — I, c, e, space, C, r, e, a, m. That space in the middle is still a tile sitting in the box, so it still counts. LENGTH never skips a character just because it's easy to overlook.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Type a word into the box — any word — and watch tiles appear underneath it, one per character. Count them yourself, then check LENGTH's answer against your count.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Try typing two words with a space between them, like a first name and a last name. Does the space get its own tile? Does LENGTH count it?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The sliding bracket
+        <span class="disc-sub">SUBSTRING(word, start, length) — position first, count second</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><span class="kw" style="font-family:var(--mono)">SUBSTRING</span> takes three pieces of information in this exact order: the word itself, then a <em>start</em> position, then a <em>length</em> — how many letters to grab counting forward from there. Cambridge always counts positions starting at 1, never 0. Below, tap any tile to plant the start of the bracket, then tap a second tile to stretch it — the bracket always covers everything between your two taps, whichever order you tapped them in.</p>
+      <div class="board">
+        <div class="op-input">
+          <label for="sbWord2">Type any word (or keep this one)</label>
+          <input id="sbWord2" type="text" placeholder="e.g. COMPUTER" maxlength="24" value="COMPUTER">
+        </div>
+        <div class="wtiles" id="sbTiles2"></div>
+        <div class="op-readout" id="sbCode2"></div>
+        <div class="step-bar">
+          <button class="btn ghost" id="sbClear2" type="button">↺ Clear the bracket</button>
+        </div>
+        <p class="op-status" id="sbStatus2" aria-live="polite">Tap any tile to begin.</p>
+      </div>
+      <p class="chips-label">Position the bracket to match all three…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Tap tile 3 to start the bracket, then tap tile 6 to stretch it — the bracket now spans positions 3 to 6, four tiles wide. SUBSTRING(word, 3, 4) reads back whatever those four tiles spell out. The first number is WHERE the bracket starts; the second is HOW MANY letters it grabs from there — it is never an end position.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Slide the bracket so it starts at the 3rd tile.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Now stretch it to cover 4 tiles. SUBSTRING(word, 3, 4) — position first, length second. Cambridge counts from 1.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">SHOUTING and whispering
+        <span class="disc-sub">UCASE and LCASE flip every character together</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><span class="kw" style="font-family:var(--mono)">UCASE</span> flips a whole word to capitals; <span class="kw" style="font-family:var(--mono)">LCASE</span> flips it to lower case — both act on every character at once, never just one letter. Try both below. Then there's a quieter reason this pair matters: a computer treats "Cat" and "cat" as two completely different strings unless something evens out the case first.</p>
+      <div class="board">
+        <div class="op-input">
+          <label for="ccWord3">Type any word or phrase</label>
+          <input id="ccWord3" type="text" placeholder="e.g. Whisper" maxlength="40" value="Whisper">
+        </div>
+        <div class="op-readout" id="ccDisplay3"></div>
+        <div class="step-bar">
+          <button class="btn" id="ccUcase3" type="button">UCASE — SHOUT it</button>
+          <button class="btn ghost" id="ccLcase3" type="button">LCASE — whisper it</button>
+        </div>
+        <p class="op-status" id="ccStatus3" aria-live="polite">Press either button and watch every letter flip together.</p>
+      </div>
+      <div class="board">
+        <p class="op-status" style="margin-top:0">A quick reason this pair matters beyond volume: does "Cat" match "cat"?</p>
+        <div class="cc-compare-row" id="ccCompareRow3"></div>
+        <div class="step-bar">
+          <button class="btn ghost" id="ccCompareRaw3" type="button">Compare them as typed</button>
+          <button class="btn" id="ccCompareUcase3" type="button">UCASE both, then compare</button>
+        </div>
+        <p class="op-status" id="ccCompareStatus3" aria-live="polite">Try comparing them as typed first.</p>
+      </div>
+      <p class="chips-label">Try every move…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">UCASE("quiet") reads back "QUIET" — every letter flips together, never just the first. LCASE("QUIET") reads back "quiet" the same way, in reverse. And when a program compares "Cat" to "cat" directly, it gets FALSE — a capital C and a lowercase c are simply different characters to a machine. UCASE both sides first ("CAT" vs "CAT") and the comparison becomes TRUE. That's exactly why comparisons so often UCASE everything before comparing.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Type any word, then press each button once and watch what changes — and what never does (the letters themselves, just their case).</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Compare "Cat" and "cat" as typed first, then UCASE both and compare again. The only thing different between those two comparisons is the case.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Dice inside the machine
+        <span class="disc-sub">RANDOM makes an awkward decimal; ROUND tames it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><span class="kw" style="font-family:var(--mono)">RANDOM()</span> takes no information in at all — it just hands back a decimal somewhere between 0 and 1, every single time. On its own that's an awkward number to actually use, so <span class="kw" style="font-family:var(--mono)">ROUND(value, places)</span> rounds it to a stated number of decimal places. Multiply RANDOM()'s decimal by 6 first and ROUND it to 0 places, and you've tamed it into a clean whole number between 0 and 6. Press Roll a few times and watch both numbers settle.</p>
+      <div class="board">
+        <div class="rd-readouts">
+          <div class="rd-stat"><span class="rd-stat-label"><span class="kw">RANDOM</span>() — raw</span><span class="rd-stat-val" id="rdRaw4">—</span></div>
+          <div class="rd-stat"><span class="rd-stat-label"><span class="kw">ROUND</span>(<span class="kw">RANDOM</span>() * 6, 0) — tamed</span><span class="rd-stat-val" id="rdTamed4">—</span></div>
+        </div>
+        <p class="op-status" id="rdStatus4" aria-live="polite">Not rolled yet.</p>
+        <div class="step-bar">
+          <button class="btn" id="rdRoll4" type="button">Roll ▸</button>
+        </div>
+      </div>
+      <p class="chips-label">Notice all three…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">One roll might hand back RANDOM() = 0.714 — always a decimal, always somewhere between 0 and 1. Multiply that by 6 first: 0.714 × 6 = 4.284. Then ROUND(4.284, 0) rounds that to the nearest whole number — 4. Roll enough times and every whole number from 0 right up to 6 turns up sooner or later, never anything outside that range.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Press Roll a few times and watch the raw number on top — it never drops below 0 or climbs above 1.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">RANDOM() alone gives an awkward decimal. Multiplying by 6 stretches that decimal across a 0-to-6 range, and ROUND(…, 0) is what actually rounds it down to a whole number — the same taming trick works for any range, not just this one.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Build a monogram
+        <span class="disc-sub">SUBSTRING and UCASE, working together</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A monogram is just two initials, capitalised, side by side — and you already have every tool needed to build one: SUBSTRING to grab a single letter, UCASE to capitalise it. Type a full name below, then tap a tile to grab your first initial, and tap a second tile to grab your second one. No typing of code required — just tapping the tiles until the monogram reads the way you want it.</p>
+      <div class="board">
+        <div class="op-input">
+          <label for="mgName5">Type a full name (yours, or any two names)</label>
+          <input id="mgName5" type="text" placeholder="e.g. Ada Lovelace" maxlength="40" value="Ada Lovelace">
+        </div>
+        <div class="wtiles" id="mgTiles5"></div>
+        <div class="op-readout" id="mgCode5"></div>
+        <div class="mg-monogram" id="mgMonogram5">??</div>
+        <div class="step-bar">
+          <button class="btn ghost" id="mgReset5" type="button">↺ Start over</button>
+        </div>
+        <p class="op-status" id="mgStatus5" aria-live="polite">Tap any tile to grab your first initial.</p>
+      </div>
+      <p class="chips-label">Build the real monogram…</p>
+      <div class="chips" id="chips5"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Take "Ada Lovelace". Tap tile 1 to grab the first initial — UCASE(SUBSTRING(Name, 1, 1)) reads back "A". Now count along to the first letter after the space: A-d-a-space, so the next name starts at tile 5. Tap tile 5 to grab the second initial — UCASE(SUBSTRING(Name, 5, 1)) reads back "L". Put them together and the monogram is AL.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Tap any tile to grab your first initial, then tap a second tile for your second initial. No typing required — just tapping tiles.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Your first initial always sits at position 1. Count tiles from the space onward to find exactly where your second name's first letter sits, then tap that one.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a twenty-third time</h2>
+    <p>Your own words just became something you could operate on directly. You measured a word with LENGTH and caught the space hiding in plain sight. You slid and stretched a bracket until SUBSTRING's two numbers — position, then count — stopped feeling arbitrary. You flipped case both ways with UCASE and LCASE, and saw exactly why comparisons UCASE both sides before trusting a match. You tamed RANDOM's awkward decimal into a whole number with ROUND. And you built a real monogram out of nothing but tile positions — the same SUBSTRING and UCASE, doing real work on your own name.</p>
+    <p class="soft">Whenever you're ready, the next discovery is where a single name gives way to many — one name, many numbered compartments, holding a whole list at once. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="22-the-detectives-table.html">← Module 22 · The Detective's Table</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 23 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
