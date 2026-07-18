@@ -1,0 +1,9 @@
+{
+  "number": 19,
+  "slug": "19-faster-smaller-everywhere",
+  "title": "Faster, Smaller, Everywhere",
+  "uses": [
+    "chips",
+    "cycler"
+  ]
+}
