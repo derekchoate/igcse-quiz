@@ -18,7 +18,7 @@ function binHead(label) {
 
 describe("Module 18: Senses and Voices", () => {
   beforeEach(() => {
-    loadModule("18-senses-and-voices.html");
+    loadModule("20-senses-and-voices.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
