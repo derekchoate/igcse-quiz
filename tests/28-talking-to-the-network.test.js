@@ -7,7 +7,7 @@ const {
 
 describe("Module 26: Talking to the Network", () => {
   beforeEach(() => {
-    loadModule("26-talking-to-the-network.html");
+    loadModule("28-talking-to-the-network.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
