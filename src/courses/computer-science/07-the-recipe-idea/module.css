@@ -29,7 +29,13 @@
 .sort-item.solved .sort-btn:not(.chosen){display:none}
 .sort-tag{display:inline-block;margin-top:10px;font-family:'Sora',sans-serif;font-size:13px;color:var(--glow)}
 
-/* D4: decomposition board */
+/* D4: the metro map trick (abstraction) — reuses .sort-item/.sort-btn/.sort-tag
+   from D2/D3 for the keep/drop sort, and .own-box from D5's free-text pattern
+   for the "name it" moment; only the spacing between the two needs a rule. */
+.name-it-box{margin-top:18px}
+.name-it-hint{margin-top:10px}
+
+/* D4→D5: decomposition board */
 .decomp-board{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .decomp-col{background:#1A2440;border:1px solid var(--card-edge);border-radius:12px;padding:12px 14px}
 .decomp-col.filled{border-color:rgba(255,184,77,.5)}
