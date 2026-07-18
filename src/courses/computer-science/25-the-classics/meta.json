@@ -1,0 +1,9 @@
+{
+  "number": 25,
+  "slug": "25-the-classics",
+  "title": "The Classics",
+  "uses": [
+    "chips",
+    "cycler"
+  ]
+}
