@@ -17,7 +17,7 @@ function seatAt(containerId, r, c) {
 
 describe("Module 22: Many Boxes, One Name", () => {
   beforeEach(() => {
-    loadModule("22-many-boxes-one-name.html");
+    loadModule("24-many-boxes-one-name.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
