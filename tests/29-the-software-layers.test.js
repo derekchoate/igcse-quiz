@@ -7,7 +7,7 @@ const {
 
 describe("Module 27: The Software Layers", () => {
   beforeEach(() => {
-    loadModule("27-the-software-layers.html");
+    loadModule("29-the-software-layers.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
