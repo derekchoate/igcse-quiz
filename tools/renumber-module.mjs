@@ -1,6 +1,12 @@
 // Part 2 of the Module 16 split: mechanically renumber one old module (17-36)
 // up by 2, on a branch that has already merged its already-renumbered
-// predecessor. Run from the repo root: node tools/renumber-module.mjs <oldNum>
+// predecessor. Run from the repo root:
+//   node tools/renumber-module.mjs <oldNum> <slug-without-number>
+// The slug argument is required (not inferred from a number prefix) because
+// old numbers (17-36) and final numbers (19-38) overlap — by the time
+// oldNum=19 is being renumbered, a directory "19-faster-smaller-everywhere"
+// already exists (that's final module 19, renamed from old 17). A bare
+// prefix search for "19-" would match either one.
 //
 // Handles, for the module being renumbered:
 //   - directory rename {old}-{slug} -> {new}-{slug}
@@ -30,8 +36,9 @@ import { execSync } from "node:child_process";
 import path from "node:path";
 
 const oldNum = Number(process.argv[2]);
-if (!oldNum || oldNum < 17 || oldNum > 35) {
-  console.error("Usage: node tools/renumber-module.mjs <oldNum 17-35>");
+const expectedSlug = process.argv[3];
+if (!oldNum || oldNum < 17 || oldNum > 35 || !expectedSlug) {
+  console.error("Usage: node tools/renumber-module.mjs <oldNum 17-35> <slug-without-number>");
   process.exit(1);
 }
 const newNum = oldNum + 2;
@@ -66,15 +73,32 @@ function article(n) {
   return /^[aeiou]/.test(w) ? "an" : "a";
 }
 
-function findDir(num) {
-  const entries = readdirSync(COURSES);
-  const match = entries.find(e => e.startsWith(num + "-"));
-  if (!match) throw new Error("No directory found for module " + num);
-  return match;
+function findDirExact(num, slugBody) {
+  const dirName = num + "-" + slugBody;
+  if (!existsSync(path.join(COURSES, dirName))) {
+    throw new Error("No directory found at " + dirName);
+  }
+  return dirName;
 }
 
-const oldDirName = findDir(oldNum);
-const slug = oldDirName.slice(String(oldNum).length + 1); // strip "NN-"
+// Old numbers (17-36) and final numbers (19-38) overlap, so more than one
+// directory can share a leading-number prefix once earlier modules in the
+// stack are already renumbered. Disambiguate by cross-checking meta.json's
+// own "number" field, not just the directory name.
+function findDirByFinalNumber(num) {
+  const entries = readdirSync(COURSES);
+  const candidates = entries.filter(e => e.startsWith(num + "-"));
+  for (const c of candidates) {
+    const metaPath = path.join(COURSES, c, "meta.json");
+    if (!existsSync(metaPath)) continue;
+    const meta = JSON.parse(readFileSync(metaPath, "utf8"));
+    if (meta.number === num) return c;
+  }
+  throw new Error("No directory found whose meta.json number is " + num + " (candidates: " + candidates.join(", ") + ")");
+}
+
+const oldDirName = findDirExact(oldNum, expectedSlug);
+const slug = expectedSlug;
 const newDirName = newNum + "-" + slug;
 const oldDir = path.join(COURSES, oldDirName);
 const newDir = path.join(COURSES, newDirName);
@@ -128,7 +152,7 @@ if (existsSync(oldTestPath)) {
 }
 
 // 5. predecessor's "next" nav link -> real link to this module
-const predDirName = findDir(newNum - 1); // predecessor must already carry its FINAL number
+const predDirName = findDirByFinalNumber(newNum - 1); // predecessor must already carry its FINAL number
 const predContentPath = path.join(COURSES, predDirName, "content.html");
 let predHtml = readFileSync(predContentPath, "utf8");
 const title = meta.title;
