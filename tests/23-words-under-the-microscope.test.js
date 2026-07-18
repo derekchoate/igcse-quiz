@@ -16,7 +16,7 @@ function tileAt(containerId, pos) {
 
 describe("Module 21: Words Under the Microscope", () => {
   beforeEach(() => {
-    loadModule("21-words-under-the-microscope.html");
+    loadModule("23-words-under-the-microscope.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
