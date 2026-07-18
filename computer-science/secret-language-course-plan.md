@@ -40,7 +40,7 @@ Two interleaved strands so theory never stacks up unrelieved:
 
 Suggested rhythm: alternate S and M modules. Prerequisites are marked per module; everything else is free order — and telling him so is part of the pedagogy.
 
-Milestone celebrations (no certificates, just moments): after M6 ("you can now read any file's raw bytes"), after M20 ("you can now predict what a program does before running it"), after M30 ("you have covered every dot point Cambridge can ask about").
+Milestone celebrations (no certificates, just moments): after M6 ("you can now read any file's raw bytes"), after M22 ("you can now predict what a program does before running it"), after M32 ("you have covered every dot point Cambridge can ask about").
 
 | # | Module | Strand | Syllabus ref |
 |---|--------|--------|--------------|
@@ -249,29 +249,51 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 16 · X-Ray the Machine
-**Ref:** 3.1 (Von Neumann; CPU components ALU/CU/registers PC, MAR, MDR, ACC, IR; buses; fetch–decode–execute) · **Needs:** M1
-**Hook:** "Everything since Module 1 runs on one loop that never stops: fetch, decode, execute. You're about to watch it happen in slow motion."
-**Goal:** Name CPU components and the five registers with their jobs; describe the FDE cycle in order; identify address/data/control buses.
-**Signature interaction:** A glass CPU — a schematic where he drives the FDE cycle one micro-step at a time with a crank; values visibly travel the buses between PC → MAR → memory → MDR → IR; ACC accumulates. Tiny 3-instruction programs (LOAD, ADD, STORE at concept level).
-**Discoveries:** (1) Meet the crew: match each register/unit to its one-line job (drag-pair); (2) One full fetch: crank through and watch PC increment — discover *when* it increments; (3) Decode and execute an ADD: ACC changes before his eyes; (4) The three roads: colour-coded buses; which bus carries what (state-match by dropping labelled parcels onto roads); (5) Run a whole 3-line program on the crank; predict ACC's final value first (private guess dial).
-**Nudge sample (PC timing):** ① "Watch the PC across one complete fetch." ② "Did it change before or after the instruction arrived in the IR?" ③ "During fetch — it's already pointing at the *next* instruction while this one executes."
-**Watch for:** MAR/MDR swapped (address vs data); thinking the ALU stores results long-term; control bus carrying data.
+### Module 16 · Meet the Machine
+**Ref:** 3.1 partial (CPU components ALU/CU/registers PC, MAR, MDR, ACC, IR) · **Needs:** M1
+**Hook:** "Every program you've written since Module 1 runs on one small machine with a name for every part."
+**Goal:** Name CPU components and the five registers with their jobs, met in small groups rather than all at once.
+**Signature interaction:** The machine map — a single schematic of all seven parts inside a CPU boundary, plus one external memory node outside it, that builds up across the module's discoveries: each one lights up and labels the 2-3 parts it just taught, on the same persistent diagram, with a gentle ambient flow animation along the CPU–memory link (reduced-motion safe, ornamental only — no cycle is actually run yet).
+**Discoveries:** (1) The two workers: CU and ALU (drag-pair) — the decider and the calculator; (2) The fetch trio: PC, MAR and MDR — next, where, and what; (3) The instruction and the notepad: CIR and ACC — what's being obeyed vs the running number; (4) Sort the whole crew: a recap match across all seven, now that the map is complete.
+**Nudge sample (MAR vs MDR):** ① "Ask whether this job is a place, a thing, or a role." ② "MAR and PC both hold addresses — what's different about *when* each one applies?" ③ "PC always points at what's next; MAR points at what's being looked up right now. MDR is the odd one out — it never holds an address at all."
+**Watch for:** MAR/MDR swapped (address vs data); PC vs MAR (next vs now); thinking the ALU stores results long-term.
 
 ---
 
-### Module 17 · Faster, Smaller, Everywhere
-**Ref:** 3.1 cont. (cores, cache, clock speed & performance; instruction set concept; embedded systems) · **Needs:** M16
+### Module 17 · One Shared Cabinet
+**Ref:** 3.1 cont. (Von Neumann; buses) · **Needs:** M16
+**Hook:** "Instructions and data live in the exact same cabinet."
+**Goal:** State the Von Neumann idea (one shared memory for instructions and data); identify address/data/control buses from a description or from a named register.
+**Signature interaction:** The same machine map from Module 16, now fully met — its bus strip lights up address/teal, data/amber or control/grey as parcels are sorted onto the correct road, so the diagram picks up colour rather than being redrawn.
+**Discoveries:** (1) One shared filing cabinet: sort five memory cells into instruction/data, then meet the twist — nothing about the storage itself told them apart; (2) The three roads: colour-coded buses, six parcels sorted to the road that carries them (state-match, echoed onto the shared map); (3) Which register, which road?: the same three roads, read a second way, straight off a named register; (4) Fetch, decode, execute — the shape of it: order the three named stages bird's-eye, before watching a single step run.
+**Nudge sample (buses):** ① "Ask what the parcel actually IS: a place, a thing, or a bare instruction to memory itself." ② "A place is always the Address bus; a thing being moved is always the Data bus." ③ "A command with nothing else attached, like 'read' or 'write', is always the Control bus, and only the Control bus."
+**Watch for:** Believing instructions and data are stored differently (the Von Neumann point is that they aren't); control bus carrying data.
+
+---
+
+### Module 18 · The Loop That Never Stops
+**Ref:** 3.1 cont. (fetch–decode–execute) · **Needs:** M17
+**Hook:** "Everything you've met since Module 16 runs on one loop that never stops."
+**Goal:** Describe the FDE cycle in order, with a crank-driven fetch, an ADD execute, and a full 3-line program.
+**Signature interaction:** The same machine map, now crank-driven — values visibly travel the buses between PC → MAR → memory → MDR → CIR; ACC accumulates. Tiny 3-instruction programs (LOAD, ADD, STORE at concept level), using the very memory cells sorted in Module 17.
+**Discoveries:** (1) Remember the crew?: a quick three-question warm-up, not the full seven; (2) One full fetch: crank through and watch PC increment — discover *when* it increments; (3) Decode and execute an ADD: ACC changes before his eyes; (4) Run a whole 3-line program on the crank; predict ACC's final value first (private guess dial).
+**Nudge sample (PC timing):** ① "Watch the PC across one complete fetch." ② "Did it change before or after the instruction arrived in the CIR?" ③ "During fetch — it's already pointing at the *next* instruction while this one executes."
+**Watch for:** Thinking the ALU stores results long-term; assuming a step needs a bus when it's happening entirely inside the CPU.
+
+---
+
+### Module 19 · Faster, Smaller, Everywhere
+**Ref:** 3.1 cont. (cores, cache, clock speed & performance; instruction set concept; embedded systems) · **Needs:** M18
 **Hook:** "Why does a £1,200 phone feel fast? And why does your washing machine — also a computer — cost less than the phone case?"
 **Goal:** Explain how clock speed, cores and cache affect performance (and the honest limits of each); define instruction set; identify embedded systems and their characteristics.
 **Signature interaction:** A build-a-chip bench — sliders for clock/cores/cache with an animated workload (many small tasks vs one long task) showing where each upgrade helps and where it doesn't (one long task ignores extra cores — discoverable, not stated).
-**Discoveries:** (1) The metronome: clock speed as ticks of the M16 crank, automated; (2) More hands: cores vs a stubbornly serial task; (3) The nearby shelf: cache as keeping busy tools within reach; (4) The dictionary of doables: instruction set in one screen; (5) Computers in disguise: sort household objects into embedded / general-purpose, then match embedded traits (dedicated function, firmware, low power).
+**Discoveries:** (1) The metronome: clock speed as ticks of the M18 crank, automated; (2) More hands: cores vs a stubbornly serial task; (3) The nearby shelf: cache as keeping busy tools within reach; (4) The dictionary of doables: instruction set in one screen; (5) Computers in disguise: sort household objects into embedded / general-purpose, then match embedded traits (dedicated function, firmware, low power).
 **Nudge sample (cores):** ① "Give the long single task four workers. Time it." ② "No faster — why might that be?" ③ "The task can't be split; extra cores help only when work runs in parallel."
 **Watch for:** "More GHz always = proportionally faster"; embedded = small (it's about *dedicated function*).
 
 ---
 
-### Module 18 · Senses and Voices
+### Module 20 · Senses and Voices
 **Ref:** 3.2 (input & output devices incl. sensors: acoustic, accelerometer, flow, gas, humidity, infrared, level, light, magnetic field, moisture, pH, pressure, proximity, temperature) · **Needs:** none hard
 **Hook:** "A computer in a box is deaf and mute. Devices are its senses and its voice — and your phone has more senses than you do."
 **Goal:** Classify devices as input/output; describe uses of the syllabus sensor list; pair sensors to scenarios.
@@ -282,7 +304,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 19 · Where Things Live
+### Module 21 · Where Things Live
 **Ref:** 3.3 (primary: RAM/ROM; secondary: magnetic, optical, solid-state; virtual memory; cloud storage) · **Needs:** M6 helpful
 **Hook:** "Close an unsaved document and it's gone. Save it and it survives a power cut. Two different worlds of memory — plus a third that lives on someone else's computer."
 **Goal:** Distinguish RAM/ROM; compare magnetic/optical/solid-state on speed, cost, durability, capacity; explain virtual memory's purpose and cost; evaluate cloud storage.
@@ -293,7 +315,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 20 · The Detective's Table
+### Module 22 · The Detective's Table
 **Ref:** 7.3 (trace tables: complete a trace table to document a dry run; identify errors) · **Needs:** M10–M12
 **Hook:** "You can now predict what any short program does before it runs — like reading a suspect's plan from their notes. This is the single most powerful skill in the whole course."
 **Goal:** Complete trace tables for algorithms with variables, loops, selection; use a trace to find a logic error; state an algorithm's purpose from its trace.
@@ -304,7 +326,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 21 · Words Under the Microscope
+### Module 23 · Words Under the Microscope
 **Ref:** 8.1 (string handling: LENGTH, SUBSTRING, UCASE, LCASE; library routines: ROUND, RANDOM; MOD/DIV revisited) · **Needs:** M10
 **Hook:** "Your name is data. Time to slice it, flip it, and measure it."
 **Goal:** Use LENGTH, SUBSTRING (with Cambridge's parameter order), UCASE/LCASE; use ROUND and RANDOM; combine them in small expressions.
@@ -315,29 +337,29 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 22 · Many Boxes, One Name
-**Ref:** 8.2 (1D and 2D arrays: declare with bounds, index, iterate with FOR, nested FOR for 2D) · **Needs:** M12, M20
+### Module 24 · Many Boxes, One Name
+**Ref:** 8.2 (1D and 2D arrays: declare with bounds, index, iterate with FOR, nested FOR for 2D) · **Needs:** M12, M22
 **Hook:** "Storing 30 scores in 30 separately named boxes would be misery. So: one name, many numbered compartments."
 **Goal:** Declare and index 1D/2D arrays; process arrays with (nested) FOR loops; trace array algorithms.
 **Signature interaction:** A pigeonhole wall — an array rendered as a physical wall of compartments with the index engraved on each; code steps light compartments as they're read/written; for 2D, the wall becomes a grid and nested loops sweep it visibly row by row (the sweep pattern is the "aha").
-**Discoveries:** (1) One name, five compartments: fill Scores[1..5] by hand; (2) The loop meets the wall: FOR i ← 1 TO 5 sweeps it — watch i drive the index; (3) Read out of bounds: reach for compartment 6 of 5 — the wall just… ends (gentle "there's no compartment there" — name the error kindly); (4) The grid: 2D seating plan, address a seat as [row, column]; (5) The sweep: nested FORs paint the grid in reading order; change loop order and watch it paint in *columns* instead — feel what nesting order means; (6) Mini-trace: trace a find-the-largest sweep on the wall (bridges to M23).
+**Discoveries:** (1) One name, five compartments: fill Scores[1..5] by hand; (2) The loop meets the wall: FOR i ← 1 TO 5 sweeps it — watch i drive the index; (3) Read out of bounds: reach for compartment 6 of 5 — the wall just… ends (gentle "there's no compartment there" — name the error kindly); (4) The grid: 2D seating plan, address a seat as [row, column]; (5) The sweep: nested FORs paint the grid in reading order; change loop order and watch it paint in *columns* instead — feel what nesting order means; (6) Mini-trace: trace a find-the-largest sweep on the wall (bridges to M25).
 **Nudge sample (nesting):** ① "Watch which counter changes fastest as the grid paints." ② "The inner loop finishes a whole row before the outer loop moves down." ③ "Inner = columns, outer = rows — swap them and the sweep turns sideways."
 **Watch for:** Index vs contents ("compartment 3" vs "the number 3"); bounds off-by-one; [row, col] order.
 
 ---
 
-### Module 23 · The Classics
-**Ref:** 7.5 (standard methods: totalling, counting, max/min/average, linear search, bubble sort; 8.1 use in code) — binary search is NOT in 0478; do not include beyond an optional "beyond the syllabus" whisper · **Needs:** M22
+### Module 25 · The Classics
+**Ref:** 7.5 (standard methods: totalling, counting, max/min/average, linear search, bubble sort; 8.1 use in code) — binary search is NOT in 0478; do not include beyond an optional "beyond the syllabus" whisper · **Needs:** M24
 **Hook:** "Five little algorithms run the world's paperwork. You already have every piece they're made of."
 **Goal:** Trace and construct totalling, counting, max/min/average, linear search, and bubble sort in pseudocode over arrays.
-**Signature interaction:** The pigeonhole wall from M22 with algorithm "lenses" — clip on the *linear search* lens and watch the checking finger move compartment to compartment; clip on *bubble sort* and adjacent compartments physically swap with a soft animation; a pass counter and "swaps this pass" tally make the stop-condition discoverable.
+**Signature interaction:** The pigeonhole wall from M24 with algorithm "lenses" — clip on the *linear search* lens and watch the checking finger move compartment to compartment; clip on *bubble sort* and adjacent compartments physically swap with a soft animation; a pass counter and "swaps this pass" tally make the stop-condition discoverable.
 **Discoveries:** (1) The running total: watch Total grow along the wall; (2) Counting with a condition: how many scores over 50; (3) King of the wall: max via the challenger metaphor (current champion vs each challenger); (4) The patient finger: linear search, including the not-found case and *why* you must check to the very end; (5) Bubbles rise: run bubble sort on a short array HE scrambles; discover that a pass with zero swaps means done; (6) Assemble one: drag pseudocode lines into order to rebuild max-finder (state-match snap).
 **Nudge sample (bubble stop):** ① "Watch the swap tally on the last pass." ② "Zero swaps happened. What must be true of the wall?" ③ "Already in order — that's the signal to stop, and it's how the algorithm knows without 'seeing' the whole array."
 **Watch for:** Initialising Max to 0 instead of the first element (breaks on all-negative data — let him discover via a trap array offered as an optional extra); bubble sort "sorted after one pass".
 
 ---
 
-### Module 24 · Gatekeepers
+### Module 26 · Gatekeepers
 **Ref:** 7.6 (validation: range, length, type, presence, format, check digit; verification: double entry, visual check; test data: normal, abnormal, extreme, boundary) · **Needs:** M11
 **Hook:** "Every form you've ever filled in had a bouncer. Meet the bouncer."
 **Goal:** Name and construct the validation checks; distinguish validation from verification; choose normal/abnormal/extreme/boundary test data for a given rule.
@@ -348,8 +370,8 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 25 · Building Blocks
-**Ref:** 8.1 (procedures & functions: define/call, parameters, RETURN, RETURNS type; local vs global scope) · **Needs:** M12, M21
+### Module 27 · Building Blocks
+**Ref:** 8.1 (procedures & functions: define/call, parameters, RETURN, RETURNS type; local vs global scope) · **Needs:** M12, M23
 **Hook:** "Real programs aren't one long scroll. They're built from named, reusable blocks — write once, use forever."
 **Goal:** Define and call procedures and functions with parameters; distinguish the two (RETURN); explain local vs global variables.
 **Signature interaction:** A workshop of machines — each procedure/function is a physical machine with input hoppers (parameters) and, for functions only, an output chute (RETURN); the main program is a conveyor that visits machines; local variables visibly live INSIDE a machine's glass case and vanish when it stops.
@@ -359,7 +381,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 26 · Talking to the Network
+### Module 28 · Talking to the Network
 **Ref:** 3.4 (NIC, MAC addresses, IP addresses IPv4/IPv6, static vs dynamic IP, routers) · **Needs:** M2, M13
 **Hook:** "Your device has two names: one burned in at the factory forever, one borrowed for the afternoon."
 **Goal:** State the NIC's role; distinguish MAC (permanent, hex, hardware) from IP (logical, changeable); IPv4 vs IPv6 at recognition level; explain what a router does.
@@ -370,7 +392,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 27 · The Software Layers
+### Module 29 · The Software Layers
 **Ref:** 4.1 (system vs application software; OS functions; interrupts & their handling; firmware, bootloader) · **Needs:** M16
 **Hook:** "Between you tapping the screen and the transistors doing physics sits a stack of software layers, each translating for the one below. And a system of polite interruptions keeps it all responsive."
 **Goal:** Classify system vs application software; list OS functions (memory management, file management, security, hardware/peripheral management, user interface, multitasking); explain interrupts with examples and why they matter.
@@ -381,18 +403,18 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 28 · From Human to Machine
-**Ref:** 4.2 (high-level vs low-level languages; assembly; compilers, interpreters, assemblers; IDE features) · **Needs:** M16, M9
-**Hook:** "You've been writing in a language for humans. The CPU from Module 16 only eats bulbs. Somebody has to translate — and the two main translators have very different personalities."
+### Module 30 · From Human to Machine
+**Ref:** 4.2 (high-level vs low-level languages; assembly; compilers, interpreters, assemblers; IDE features) · **Needs:** M18, M9
+**Hook:** "You've been writing in a language for humans. The CPU from Module 18 only eats bulbs. Somebody has to translate — and the two main translators have very different personalities."
 **Goal:** Compare high-level and low-level languages (pros/cons); describe compiler vs interpreter behaviour and trade-offs; state what an assembler does; name IDE features (editor, auto-correct/prettyprint, auto-completion, debugger/run-time environment, translator built in).
 **Signature interaction:** The two translators — the same 5-line program handed to Compiler (translates ALL of it, hands over a sealed executable, then goes home) and Interpreter (walks through line by line, alive at runtime, stops AT the error line). A bug is planted on line 4: watch each translator handle it — the whole distinction falls out of one comparison.
-**Discoveries:** (1) The ladder of languages: same tiny task in high-level, assembly, machine code — feel the readability gradient (M1/M16 payoff); (2) The two personalities: run the line-4 bug through both; (3) Who's faster, who's friendlier: sort trade-off cards onto each translator; (4) The assembler's small job: assembly mnemonics → machine code, 1:1; (5) Tour the workshop: an IDE mock where he hovers five features and matches them to what they save him from.
+**Discoveries:** (1) The ladder of languages: same tiny task in high-level, assembly, machine code — feel the readability gradient (M1/M18 payoff); (2) The two personalities: run the line-4 bug through both; (3) Who's faster, who's friendlier: sort trade-off cards onto each translator; (4) The assembler's small job: assembly mnemonics → machine code, 1:1; (5) Tour the workshop: an IDE mock where he hovers five features and matches them to what they save him from.
 **Nudge sample:** ① "Where did each translator stop when it hit line 4?" ② "The compiler reported it before running anything; the interpreter ran lines 1–3 first." ③ "Compilers translate everything up front; interpreters discover problems live, line by line."
 **Watch for:** "Compiled programs need the compiler to run" (they don't — that's the point); interpreter = slower *always* framing (nuance: development convenience); assembler translating high-level code.
 
 ---
 
-### Module 29 · Filing Cabinets that Answer Back
+### Module 31 · Filing Cabinets that Answer Back
 **Ref:** 9.1 (single-table databases; fields/records; data types; primary keys; SQL: SELECT, FROM, WHERE, ORDER BY, SUM, COUNT, AND/OR) · **Needs:** M11 helpful
 **Hook:** "A spreadsheet you can interrogate in something close to English — and it answers instantly, every time, without sighing."
 **Goal:** Define field/record/table/primary key; choose sensible data types; write SQL queries with SELECT/FROM/WHERE/ORDER BY and SUM/COUNT.
@@ -403,7 +425,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 30 · The Logic Machines
+### Module 32 · The Logic Machines
 **Ref:** 10.1 (NOT, AND, OR, NAND, NOR, XOR: symbols, functions; truth tables up to 3 inputs) · **Needs:** M11 (AND/OR intuition), M1
 **Hook:** "Underneath every IF statement, every ADD, every pixel: six tiny machines that each answer one yes/no question. Meet all six."
 **Goal:** Recognise the six gate symbols; state each gate's function; complete truth tables from a gate or expression (up to 3 inputs, 8 rows).
@@ -414,30 +436,30 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 31 · Circuits from Sentences
-**Ref:** 10.1 cont. (create circuits from problem statements / expressions / truth tables; complete truth tables; write logic expressions; max 3 inputs, 1 output) · **Needs:** M30
+### Module 33 · Circuits from Sentences
+**Ref:** 10.1 cont. (create circuits from problem statements / expressions / truth tables; complete truth tables; write logic expressions; max 3 inputs, 1 output) · **Needs:** M32
 **Hook:** "Now wire the six machines together. A safety alarm, a vending machine, a greenhouse fan — every rule you can say in a sentence, you can build in gates."
 **Goal:** Build a circuit from a problem statement, expression, or truth table; derive a truth table from a circuit; write the expression for a circuit — all three directions of the syllabus triangle.
-**Signature interaction:** A wiring board — drag gates from the M30 bench onto a canvas, drag wires between them, flip the input switches and watch signal glow propagate live through the wires to the output lamp; a target truth table sits alongside, its rows lighting as his circuit reproduces them (state-matching at its purest — the circuit is right when all 8 rows glow, and until then it's simply "not finished yet").
-**Discoveries:** (1) Wire your first pair: (A AND B) OR C, watch propagation; (2) Sentence to circuit: "the alarm sounds if the door opens while armed, or the smoke sensor fires" — translate clause by clause; (3) Circuit to table: given a mystery circuit, populate its table by testing (M30's lab-notebook mechanic); (4) Table to circuit: the reverse challenge, one row at a time; (5) Circuit to expression: read the wiring backwards into brackets; (6) The commission: one full problem statement → circuit → table → expression, the complete exam triangle disguised as finishing a client's job.
+**Signature interaction:** A wiring board — drag gates from the M32 bench onto a canvas, drag wires between them, flip the input switches and watch signal glow propagate live through the wires to the output lamp; a target truth table sits alongside, its rows lighting as his circuit reproduces them (state-matching at its purest — the circuit is right when all 8 rows glow, and until then it's simply "not finished yet").
+**Discoveries:** (1) Wire your first pair: (A AND B) OR C, watch propagation; (2) Sentence to circuit: "the alarm sounds if the door opens while armed, or the smoke sensor fires" — translate clause by clause; (3) Circuit to table: given a mystery circuit, populate its table by testing (M32's lab-notebook mechanic); (4) Table to circuit: the reverse challenge, one row at a time; (5) Circuit to expression: read the wiring backwards into brackets; (6) The commission: one full problem statement → circuit → table → expression, the complete exam triangle disguised as finishing a client's job.
 **Nudge sample (sentence→circuit):** ① "Underline the joining words in the sentence: while, or." ② "'While' means both must be true at once. Which gate is that?" ③ "AND for (door open, armed), then OR the smoke input into it."
 **Watch for:** Bracket-order in expressions vs circuit layering; simplifying circuits (Cambridge says build as stated, WITHOUT simplification — flag this explicitly, it costs real marks); more than 2 inputs into one gate (limit: 2, except NOT's 1).
 
 ---
 
-### Module 32 · The Web Beneath the Web
-**Ref:** 5.1 (internet vs WWW; URLs; HTTP/HTTPS; browser functions; DNS; cookies: session vs persistent) · **Needs:** M13, M26
+### Module 34 · The Web Beneath the Web
+**Ref:** 5.1 (internet vs WWW; URLs; HTTP/HTTPS; browser functions; DNS; cookies: session vs persistent) · **Needs:** M13, M28
 **Hook:** "The internet and the web are not the same thing — one is roads, one is what's delivered on them. And every address you type sets off a scavenger hunt you never see."
 **Goal:** Distinguish internet/WWW; dissect a URL; explain the browser's jobs; walk the DNS lookup chain; compare HTTP/HTTPS; explain session vs persistent cookies with honest pros/cons.
 **Signature interaction:** The address decoder + journey map — he types (or picks) a URL, it explodes into labelled parts (protocol/domain/path), then a "go" lever runs the full journey as an animated relay: browser → DNS lookup → IP returned → request → packets (M13 cameo) → page assembles. Each relay leg is pausable and inspectable.
-**Discoveries:** (1) Roads vs deliveries: sort statements into internet/WWW piles; (2) Explode a URL; (3) The phonebook nobody sees: DNS as name→number lookup (M26 payoff); (4) The padlock: HTTP vs HTTPS with the M15 lockboxes cameo — watch a snoop read one journey and not the other; (5) The memory of websites: session cookie (evaporates with the tab) vs persistent cookie (survives) shown as two kinds of wristband; sort honest uses (staying logged in, baskets) and concerns (tracking).
+**Discoveries:** (1) Roads vs deliveries: sort statements into internet/WWW piles; (2) Explode a URL; (3) The phonebook nobody sees: DNS as name→number lookup (M28 payoff); (4) The padlock: HTTP vs HTTPS with the M15 lockboxes cameo — watch a snoop read one journey and not the other; (5) The memory of websites: session cookie (evaporates with the tab) vs persistent cookie (survives) shown as two kinds of wristband; sort honest uses (staying logged in, baskets) and concerns (tracking).
 **Nudge sample (DNS):** ① "The browser has a name but the network needs a number. Who translates?" ② "Watch the first stop of the relay." ③ "The DNS server returns the IP for the domain — only then can the real request begin."
 **Watch for:** Internet = WWW (THE distinction the syllabus loves); cookies as programs/viruses; HTTPS "hides the website you visited" overstatement.
 
 ---
 
-### Module 33 · Money Made of Maths
-**Ref:** 5.2 (digital currency; blockchain: process of tracking transactions, blocks, hashing/chaining at syllabus depth) · **Needs:** M32 helpful
+### Module 35 · Money Made of Maths
+**Ref:** 5.2 (digital currency; blockchain: process of tracking transactions, blocks, hashing/chaining at syllabus depth) · **Needs:** M34 helpful
 **Hook:** "A currency with no bank, no vault, no country — kept honest by everyone watching everyone, and by mathematics that makes lying spectacularly expensive."
 **Goal:** Define digital currency; explain the problem it solves (trust without a central authority); describe blockchain as a chain of time-stamped transaction blocks where tampering breaks the chain.
 **Signature interaction:** A tamper-evident ledger — a visible chain of blocks, each carrying transactions and a "fingerprint" of the previous block; he plays villain, sneaks into block 3 and edits a transaction — and watches every subsequent block's fingerprint mismatch cascade down the chain in red-shifted amber, while copies of the ledger held by other nodes calmly disagree with his.
@@ -447,8 +469,8 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 34 · The Defenders
-**Ref:** 5.3 (threats: brute-force, data interception, DDoS, hacking, malware — virus, worm, Trojan, spyware, adware, ransomware — pharming, phishing, social engineering; protections: access levels, anti-malware, authentication incl. 2FA & biometrics, automating software updates, spelling/link checking, firewalls, privacy settings, proxy servers, SSL) · **Needs:** M15, M32
+### Module 36 · The Defenders
+**Ref:** 5.3 (threats: brute-force, data interception, DDoS, hacking, malware — virus, worm, Trojan, spyware, adware, ransomware — pharming, phishing, social engineering; protections: access levels, anti-malware, authentication incl. 2FA & biometrics, automating software updates, spelling/link checking, firewalls, privacy settings, proxy servers, SSL) · **Needs:** M15, M34
 **Hook:** "Every attack on a computer system targets the same weak point — and it's usually not the computer."
 **Goal:** Describe each threat and how it works; match protections to the threats they counter; recognise phishing tells.
 **Signature interaction:** Threat & shield pairing table — a two-sided card system: threat cards (each with a 15-second animated "how it works" vignette) and shield cards; he pairs them on a board where defensible pairings click in (several threats accept multiple shields — the board says "also works" rather than "wrong"). Plus a phishing line-up: five messages, spot the tells by tapping suspicious elements directly in the message (sender address, urgent tone, mismatched link) — tells glow when found, untapped ones simply wait.
@@ -458,8 +480,8 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 35 · Machines that Act Alone
-**Ref:** 6.1–6.2 (automated systems: sensors, microprocessors, actuators working together; scenarios incl. industry, transport, agriculture, weather, gaming, lighting, science; robotics: characteristics, uses, advantages/disadvantages) · **Needs:** M18
+### Module 37 · Machines that Act Alone
+**Ref:** 6.1–6.2 (automated systems: sensors, microprocessors, actuators working together; scenarios incl. industry, transport, agriculture, weather, gaming, lighting, science; robotics: characteristics, uses, advantages/disadvantages) · **Needs:** M20
 **Hook:** "Sensor, brain, muscle. Every automated system on Earth — greenhouse fans to self-driving cars — is those three words in a loop."
 **Goal:** Describe how sensors, microprocessor and actuators combine in given scenarios (the classic 6-mark answer structure, smuggled in); state robot characteristics (mechanical structure, electrical components, programmable); weigh advantages/disadvantages in context.
 **Signature interaction:** A build-a-loop workbench — for a chosen scenario he wires sensor → microprocessor (with a visible IF rule he sets on dials: "IF temp > 25") → actuator, then presses "let it live" and watches the system run unattended through a day/night cycle, reacting on its own. The emotional beat: *he built a thing that acts without him.*
@@ -469,8 +491,8 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 
 ---
 
-### Module 36 · Machines that Learn — and the Capstone
-**Ref:** 6.3 (AI: characteristics — data collection, rules, reasoning, learning/adapting; expert systems: knowledge base, rule base, inference engine, interface; machine learning definition) + 8.3 (file handling: open/close, read/write a line of text — folded in here as the capstone's storage) · **Needs:** M35, M25
+### Module 38 · Machines that Learn — and the Capstone
+**Ref:** 6.3 (AI: characteristics — data collection, rules, reasoning, learning/adapting; expert systems: knowledge base, rule base, inference engine, interface; machine learning definition) + 8.3 (file handling: open/close, read/write a line of text — folded in here as the capstone's storage) · **Needs:** M37, M27
 **Hook:** "The last module. Two ways to make a machine seem clever: give it every rule, or give it every example. Then: one small ceremony."
 **Goal:** State AI's characteristics; name the four expert-system components and their roles; define machine learning as a program adapting its own processes/data; use OPENFILE/READFILE/WRITEFILE/CLOSEFILE in pseudocode.
 **Signature interaction:** A working toy expert system — a "what garden bird is that?" identifier (a nod to a shared interest) whose four components are visible glass boxes: he watches a question travel interface → inference engine → rule base → knowledge base and back. Then he ADDS a rule and a fact himself and watches the system get smarter — the difference between rules-given and learning is then shown as a second panel where a tiny pattern-matcher improves from examples he feeds it.
@@ -485,8 +507,8 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 - **Reuse the M1 engine.** The bulb-switch factory, chip auto-detection, star/toast/spark system, nudge ladder and collapsible-discovery scaffold are all in `secret-language.html` — extract into a shared pattern and re-skin per module. Each module stays a single self-contained HTML file (no shared dependencies to break).
 - **One signature interaction per module,** everything else quiet — the signature is specified above in each plan.
 - **State-matching first, choice-mechanics second.** Where a plan says "sort" or "pair", implement as snap-on-defensible with warm redirects, never tallied errors.
-- **Persistence:** once hosted alongside the diagnostic suite, add the same autosave/export/import pattern; stars should sync to a simple per-module key so the constellation in M36 can assemble.
-- **Estimated build order for maximum early payoff:** M2 → M9 → M10 → M20 (the trace-table module is the highest-value single build in the course) → then alternate strands per the map.
+- **Persistence:** once hosted alongside the diagnostic suite, add the same autosave/export/import pattern; stars should sync to a simple per-module key so the constellation in M38 can assemble.
+- **Estimated build order for maximum early payoff:** M2 → M9 → M10 → M22 (the trace-table module is the highest-value single build in the course) → then alternate strands per the map.
 - **Cambridge-accuracy guardrails baked into plans:** 1-based SUBSTRING; MOD/DIV names; no binary search (not in 0478); logic circuits built *without simplification*, ≤3 inputs; pseudocode-only solutions on Paper 2; 1024-based storage units. Verify any module touching pseudocode against the current syllabus appendix (2026–28, v5 Dec 2025) before building, since operator names were revised in v4.
 
 *36 modules · Topics 1–10 complete · Paper 1 and Paper 2 both fully covered.*
