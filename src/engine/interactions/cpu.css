@@ -1,0 +1,86 @@
+/* ================= kit: cpu =================
+   The shared CPU-and-memory schematic (Modules 16-18). Mobile-first:
+   everything is a single stacked column at narrow widths so register boxes
+   never overflow a ~380px viewport; wider screens spread the register rows
+   out horizontally. The CPU's registers sit inside a bordered frame; memory
+   is drawn as a separate, dashed-edge node below the frame, joined by a
+   thin link — the "inside the CPU vs outside it" distinction is visual as
+   well as textual. */
+
+.cpu-mount{margin-top:6px}
+.cpu-board{display:flex;flex-direction:column;gap:14px}
+
+.cpu-frame{
+  position:relative;border:1.5px solid var(--card-edge);border-radius:14px;
+  padding:18px 10px 10px;display:flex;flex-direction:column;gap:8px;
+}
+.cpu-frame-tag{
+  position:absolute;top:-10px;left:12px;background:#10182B;padding:0 6px;
+  font-family:'Sora',sans-serif;font-size:11px;letter-spacing:.6px;
+  color:var(--ink-soft);text-transform:uppercase;
+}
+
+.cpu-row{display:grid;grid-template-columns:1fr;gap:8px}
+@media (min-width:480px){
+  .cpu-row-fetch{grid-template-columns:repeat(4,1fr)}
+  .cpu-row-exec{grid-template-columns:1fr 1fr 2fr}
+}
+.cpu-row-mem{max-width:320px;margin:0 auto}
+
+.cpu-box, .cpu-node, .cpu-tag{
+  background:#0E1730;border-radius:10px;padding:9px 8px;text-align:center;
+  display:flex;flex-direction:column;gap:3px;
+  transition:background .3s, border-color .3s, box-shadow .3s, opacity .3s;
+}
+.cpu-box, .cpu-node{border:1.5px solid var(--card-edge)}
+.cpu-node{border-style:dashed}
+.cpu-tag{border:1.5px dashed var(--card-edge);flex-direction:row;align-items:center;justify-content:center;gap:6px;padding:8px}
+.cpu-label{font-family:'Sora',sans-serif;font-size:12px;letter-spacing:.4px;color:var(--teal)}
+.cpu-val{font-family:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;font-size:14.5px;color:var(--ink);word-break:break-word}
+.cpu-box.changed, .cpu-node.changed{border-color:var(--glow);box-shadow:0 0 12px rgba(255,184,77,.35);background:rgba(255,184,77,.08)}
+.cpu-tag.active{border-color:var(--glow);border-style:solid;color:var(--glow);box-shadow:0 0 12px rgba(255,184,77,.3)}
+.cpu-tag .cpu-label{margin:0}
+
+/* not-yet-taught parts (Module 16 reveal mode): present in the DOM so the
+   layout never re-flows, but visibly not "met" yet */
+.cpu-box.dim, .cpu-tag.dim{opacity:.28}
+.cpu-box.dim .cpu-val, .cpu-tag.dim .cpu-val{color:var(--ink-soft)}
+.cpu-box.just-revealed, .cpu-tag.just-revealed{border-color:var(--glow);box-shadow:0 0 14px rgba(255,184,77,.4)}
+
+/* the link between the CPU frame and external memory — a soft ambient
+   pulse suggesting traffic, not an actual simulation; ornamental only, so
+   it's the first thing reduced-motion turns off */
+.cpu-link{
+  align-self:center;width:2px;height:20px;
+  background:linear-gradient(var(--card-edge), var(--teal), var(--card-edge));
+  background-size:100% 200%;
+  opacity:.6;
+}
+@media (prefers-reduced-motion: no-preference){
+  .cpu-link:not(.no-motion){animation:cpu-link-flow 2.6s linear infinite}
+}
+@keyframes cpu-link-flow{
+  0%{background-position:0 0}
+  100%{background-position:0 200%}
+}
+
+.cpu-bus{
+  font-family:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+  font-size:13px;color:var(--ink-soft);
+  background:#0E1730;border:1px dashed var(--card-edge);border-radius:10px;
+  padding:8px 12px;text-align:center;transition:color .25s, border-color .25s;
+}
+.cpu-bus.bus-address{border-color:var(--teal);border-style:solid;color:var(--teal)}
+.cpu-bus.bus-data{border-color:var(--glow);border-style:solid;color:var(--glow)}
+.cpu-bus.bus-control{border-color:var(--ink-soft);border-style:solid;color:var(--ink-soft)}
+
+.cpu-log{list-style:none;display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--ink-soft);min-height:1.4em}
+.cpu-log li{background:rgba(255,255,255,.03);border-radius:8px;padding:6px 10px}
+.cpu-log li:last-child{color:var(--ink)}
+
+.cpu-crank{align-self:center}
+
+@media (max-width:420px){
+  .cpu-val{font-size:13.5px}
+  .cpu-bus{font-size:12.5px}
+}

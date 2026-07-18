@@ -1,55 +1,31 @@
-/* Module 16 — X-Ray the Machine: lesson-specific styling only.
-   meta.uses: ["chips"] — the target chips kit is pulled in for D3's small/
-   large ADD-amount pair. D1's term-bin match, D4's bus sorter and the crank
-   schematic (D2/D3/D5) are all hand-rolled (same rationale as Modules 13-15:
-   the shared `matcher` kit hardcodes awardStar("d3", ...) with Module 9's
-   wording, and this module's own #d3 is the ADD decode/execute crank, not a
-   matching exercise, so it isn't safely reusable here — see module.js
-   header for the full note, including why the crank itself isn't built on
-   the shared `walk` kit). */
+/* Module 16 — Meet the Machine: lesson-specific styling only.
+   meta.uses: ["cpu"] — the shared machine-map kit (src/engine/interactions/
+   cpu.js/.css) provides the diagram that builds up across D1-D4. The
+   term-match UI (D1-D4, four uses of one local factory in module.js) is
+   hand-rolled, same rationale as the old file: the shared `matcher` kit
+   hardcodes awardStar("d3", ...) with Module 9's wording and isn't safely
+   reusable here. */
 
-:root{
-  --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
-}
-
+.cpu-intro{margin:0 0 22px}
 .board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
 .fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
-.field-label{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal)}
 
-/* ── shared button look ── */
-.loop-btn{
-  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
-  border:1.5px solid var(--card-edge);color:var(--ink-soft);
-  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
-}
-.loop-btn:hover{border-color:var(--teal)}
-.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
-.loop-btn:disabled{opacity:.5;cursor:default}
-.loop-btn[hidden]{display:none}
-
-/* ── shared slider control (D3's ADD amount, D5's guess dial) ── */
-.key-control{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin-bottom:14px}
-.key-control input[type="range"]{width:min(220px,60vw);accent-color:var(--teal)}
-.key-readout{font-family:var(--mono);font-size:13.5px;color:var(--teal);min-width:6em;text-align:left}
-
-/* ── D1 / D4 shared: pool of chips + bins/roads to sort them into ── */
-.def-pool, .scenario-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:16px}
-.def-chip, .scenario-chip{
+/* ── pool of job chips + the term bins they get sorted into ── */
+.def-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:16px}
+.def-chip{
   font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
   border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
   padding:10px 14px;cursor:pointer;max-width:320px;text-align:left;
   transition:border-color .22s, background .22s, color .22s, opacity .22s;
   touch-action:none;
 }
-.def-chip:hover, .scenario-chip:hover{border-color:var(--teal)}
-.def-chip:focus-visible, .scenario-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.def-chip.sel, .scenario-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
-.def-chip.placed, .scenario-chip.placed{opacity:.35;cursor:default;pointer-events:none}
-.def-chip.dragging, .scenario-chip.dragging{opacity:.3}
-.def-ghost, .scenario-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.def-chip:hover{border-color:var(--teal)}
+.def-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.def-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.def-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.def-chip.dragging{opacity:.3}
+.def-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
 
-/* D1: seven term bins (CU/ALU/PC/MAR/MDR/CIR/ACC) */
 .term-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
 @media (min-width:480px){.term-bins{grid-template-columns:1fr 1fr}}
 @media (min-width:760px){.term-bins{grid-template-columns:1fr 1fr 1fr}}
@@ -65,68 +41,8 @@
 .term-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .term-bin-body{font-size:13px;color:var(--ink);line-height:1.5;min-height:1.2em}
 
-/* D4: three roads (Address / Data / Control) */
-.benches{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
-@media (min-width:560px){.benches{grid-template-columns:1fr 1fr 1fr}}
-.bench{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:96px;transition:border-color .2s, background .2s}
-.bench.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
-.bench-head{
-  width:100%;font-family:'Sora',sans-serif;font-size:13px;letter-spacing:.4px;
-  text-transform:uppercase;color:var(--teal);background:none;border:none;
-  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
-  cursor:pointer;text-align:center;
-}
-.bench-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.bench-list{display:flex;flex-direction:column;gap:6px;min-height:1px}
-.bench-item{font-size:13px;color:var(--ink);background:rgba(255,184,77,.1);border-radius:8px;padding:7px 9px}
+.nudge code{font-family:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;font-size:14px;color:var(--ink)}
 
-/* ── D2 / D3 / D5 shared: the glass CPU schematic ──
-   Mobile-first: everything is a single stacked column at narrow widths so
-   register boxes never overflow a ~380px viewport; wider screens spread the
-   fetch row and the exec row out horizontally. */
-.cpu-mount{margin-top:6px}
-.cpu-board{display:flex;flex-direction:column;gap:14px}
-.cpu-row{display:grid;grid-template-columns:1fr;gap:8px}
-@media (min-width:480px){
-  .cpu-row-fetch{grid-template-columns:repeat(5,1fr)}
-  .cpu-row-exec{grid-template-columns:1fr 1fr 2fr}
-}
-.cpu-box, .cpu-node, .cpu-tag{
-  background:#0E1730;border-radius:10px;padding:9px 8px;text-align:center;
-  display:flex;flex-direction:column;gap:3px;transition:background .3s, border-color .3s, box-shadow .3s;
-}
-.cpu-box, .cpu-node{border:1.5px solid var(--card-edge)}
-.cpu-node{border-style:dashed}
-.cpu-tag{border:1.5px dashed var(--card-edge);flex-direction:row;align-items:center;justify-content:center;gap:6px;padding:8px}
-.cpu-label{font-family:'Sora',sans-serif;font-size:12px;letter-spacing:.4px;color:var(--teal)}
-.cpu-val{font-family:var(--mono);font-size:14.5px;color:var(--ink);word-break:break-word}
-.cpu-box.changed, .cpu-node.changed{border-color:var(--glow);box-shadow:0 0 12px rgba(255,184,77,.35);background:rgba(255,184,77,.08)}
-.cpu-tag.active{border-color:var(--glow);border-style:solid;color:var(--glow);box-shadow:0 0 12px rgba(255,184,77,.3)}
-.cpu-tag .cpu-label{margin:0}
-
-.cpu-bus{
-  font-family:var(--mono);font-size:13px;color:var(--ink-soft);
-  background:#0E1730;border:1px dashed var(--card-edge);border-radius:10px;
-  padding:8px 12px;text-align:center;transition:color .25s, border-color .25s;
-}
-.cpu-bus.bus-address{border-color:var(--teal);border-style:solid;color:var(--teal)}
-.cpu-bus.bus-data{border-color:var(--glow);border-style:solid;color:var(--glow)}
-.cpu-bus.bus-control{border-color:var(--ink-soft);border-style:solid;color:var(--ink-soft)}
-
-.cpu-log{list-style:none;display:flex;flex-direction:column;gap:5px;font-size:13.5px;color:var(--ink-soft);min-height:1.4em}
-.cpu-log li{background:rgba(255,255,255,.03);border-radius:8px;padding:6px 10px}
-.cpu-log li:last-child{color:var(--ink)}
-
-.cpu-crank{align-self:center}
-
-/* ── shared chip/nudge tweaks ── */
-.chip{font-size:14.5px}
-.nudge code{font-family:var(--mono);font-size:14px;color:var(--ink)}
-
-/* ── mobile tightening at ~380px: keep long chip labels and CPU boxes from
-   overflowing a narrow viewport ── */
 @media (max-width:420px){
-  .scenario-chip, .def-chip{max-width:100%;font-size:13.5px;padding:9px 12px}
-  .cpu-val{font-size:13.5px}
-  .cpu-bus{font-size:12.5px}
+  .def-chip{max-width:100%;font-size:13.5px;padding:9px 12px}
 }
