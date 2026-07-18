@@ -1,0 +1,9 @@
+{
+  "number": 30,
+  "slug": "30-from-human-to-machine",
+  "title": "From Human to Machine",
+  "uses": [
+    "chips",
+    "cycler"
+  ]
+}

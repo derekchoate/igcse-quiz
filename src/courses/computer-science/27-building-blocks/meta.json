@@ -1,0 +1,8 @@
+{
+  "number": 27,
+  "slug": "27-building-blocks",
+  "title": "Building Blocks",
+  "uses": [
+    "chips"
+  ]
+}

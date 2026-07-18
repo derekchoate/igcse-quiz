@@ -1,7 +1,7 @@
 
   <section class="hero">
     <h1>Two strangers who've never met just agreed a secret <span class="lit">while everyone was listening.</span></h1>
-    <p>That should be impossible. It happens every time you open a shopping website, message someone for the first time, or tap your card at a machine you've never used before. Module 14 was about noticing when a message arrives damaged. This one is about a different kind of protection — keeping a message's meaning hidden from anyone who intercepts it, perfectly intact. You'll build both tricks real systems use: one with a single secret both sides already share, and one far cleverer, built from a padlock anyone can use and a key that never leaves home.</p>
+    <p>That should be impossible. It happens every time you open a shopping website, message someone for the first time, or tap your card at a machine you've never used before. Module 14 was about noticing when a message arrives damaged. This one is about a different kind of protection: even when a message arrives perfectly intact, its meaning can still stay completely hidden from anyone who intercepted it along the way. You'll build both tricks real systems use: one with a single secret both sides already share, and one far cleverer, built from a padlock anyone can use and a key that never leaves home.</p>
     <div class="promise">
       <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Scramble, send and lock things as many times as you like — nothing here ever runs out or gets marked wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
     </div>
@@ -17,7 +17,8 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Here's the vocabulary this whole module runs on, stated plainly so nothing has to be guessed later. A message before anything happens to it is the <strong>plaintext</strong> — "MEET AT THE CANTEEN" below is plaintext. Scramble it and what comes out is <strong>ciphertext</strong> — unreadable without knowing how it was scrambled. The setting that controls the scrambling — here, a shift amount from 1 to 25 — is the <strong>key</strong>. This is <strong>symmetric encryption</strong>: scrambling and unscrambling use the exact same key. (Under the hood it's the same trick as Module 4's character codes — shift each letter's code along by the key, wrapping from Z back round to A.) Pick a key below, scramble the message, then imagine texting that exact key number to a friend so they can unscramble it back.</p>
+      <p>Here's the vocabulary this whole module runs on, stated plainly so nothing has to be guessed later. This module's scrambling trick treats each letter as a number — the same character codes from Module 4 — and turns it into a different letter by adding a fixed number to that code, wrapping back round from Z to A once the total runs past the end of the alphabet. For example, with a key of 1, A becomes B; with a key of 2, A becomes C — each letter just turns into whatever letter sits that many codes higher. A message before anything happens to it is the <strong>plaintext</strong> — "MEET AT THE CANTEEN" below is plaintext. Scramble it and what comes out is <strong>ciphertext</strong> — unreadable without knowing how it was scrambled. That fixed number you add to every letter's code — anywhere from 1 to 25 — is the <strong>key</strong>. This is <strong>symmetric encryption</strong>: scrambling and unscrambling use the exact same key.</p>
+      <p>Pick a key below, scramble the message, then imagine texting that exact key number to a friend so they can unscramble it back.</p>
       <div class="board">
         <p class="fork-note">Plaintext: <strong id="plainText1">MEET AT THE CANTEEN</strong></p>
         <div class="key-control">
@@ -56,14 +57,14 @@
       <p>A shared key is only useful once both people actually have it — which means, at some point, that key has to travel from one of you to the other. In the trick above you could just say the number out loud in the same room. Real messaging happens between people who've never met, sometimes on opposite sides of the world, so the key has to go by some route: a message, a call, a courier. Press the button below and watch one very ordinary way that can go.</p>
       <div class="board">
         <button class="loop-btn primary" id="sendKeyBtn2" type="button">Send the key by courier ▶</button>
-        <div class="courier-log" id="courierLog2" aria-live="polite"></div>
+        <div class="thread-log" id="courierLog2" aria-live="polite"></div>
       </div>
       <p class="soft">Notice something else here too: nothing stopped the message itself from being intercepted, either — a locked message travelling to a friend could be copied in transit just as easily as the key was. Encryption was never about preventing interception. It's about making an intercepted message worthless without the key that unlocks it.</p>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
         <div class="nudge" id="ex2">Press the button — the key leaves on the courier untouched, so your friend never suspects anything's wrong. But somewhere in the middle, the snoop got a copy too, and later uses it exactly like your friend did. Nothing about the delivery looked broken — that's exactly the problem: a perfectly successful delivery can still have been secretly copied along the way.</div>
         <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n2a">Watch closely for the one line where the key sits next to the snoop, not next to you or your friend.</div>
+        <div class="nudge" id="n2a">Watch for the centred notes rather than the bubbles — those are the moments the key changes hands away from both of you, and the one in amber is the snoop copying it.</div>
         <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
         <div class="nudge" id="n2b">This is the courier problem in a nutshell: for two people to share one secret key, that key has to move through space at some point — and anything that moves through space can, in principle, be copied by someone in between. Nobody here was careless; the flaw is built into having one shared secret at all.</div>
       </div>
@@ -80,11 +81,18 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Here's a completely different way round the courier problem. Instead of sharing one secret key, you make a padlock — the kind that snaps shut without a key, but only opens with one — and hand out as many identical copies of that open padlock as you like. Anyone, including someone you've never met, can take one and lock a message meant only for you. But there is only ever one key that opens it, and that key never leaves your own desk. This is <strong>asymmetric encryption</strong>: a <strong>public key</strong> (the padlock — safe to hand out to literally anyone) does the locking, and a <strong>private key</strong> (the one key, kept by you alone) does the unlocking. They are not the same key, and only one of them ever travels.</p>
+      <p>Here's a completely different way round the courier problem. Instead of sharing one secret key, you make a padlock — the kind that snaps shut without a key, but only opens with one — and hand out as many identical copies of that open padlock as you like. Anyone, including someone you've never met, can take one and lock a message meant only for you. But there is only ever one key that opens it, and that key never leaves your own desk.</p>
+      <p>This is <strong>asymmetric encryption</strong>: a <strong>public key</strong> (the padlock — safe to hand out to literally anyone) does the locking, and a <strong>private key</strong> (the one key, kept by you alone) does the unlocking. They are not the same key, and only one of them ever travels.</p>
       <div class="board">
         <p class="fork-note">Same message as Discovery 1 — new trick this time.</p>
         <div class="lockbox" id="lockbox3">
-          <span class="lockbox-badge" id="lockboxBadge3" aria-hidden="true"></span>
+          <svg class="lockbox-badge" id="lockboxBadge3" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <path class="lock-shackle-open" d="M13,20 V12 A8,9 0 0,1 29,7"></path>
+            <path class="lock-shackle-closed" d="M13,20 V13 A7,7 0 0,1 27,13 V20"></path>
+            <rect class="lock-body" x="9" y="19" width="22" height="16" rx="4"></rect>
+            <circle class="lock-keyhole" cx="20" cy="25" r="2.2"></circle>
+            <rect class="lock-keyhole-slot" x="19" y="25.3" width="2" height="5" rx="1"></rect>
+          </svg>
           <span class="lockbox-text" id="lockboxText3">MEET AT THE CANTEEN</span>
         </div>
         <p class="fork-note" id="lockStatus3" aria-live="polite">Not locked yet.</p>
@@ -172,7 +180,7 @@
 
   <nav class="module-nav" aria-label="module navigation">
     <a class="nav-link prev" href="14-did-it-arrive-intact.html">← Module 14 · Did It Arrive Intact?</a>
-    <a class="nav-link next" href="16-x-ray-the-machine.html">Module 16 · X-Ray the Machine →</a>
+    <a class="nav-link next" href="16-x-ray-the-machine.html">Module 16 · Meet the Machine →</a>
   </nav>
 
-  <footer>Module 15 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
+  <footer>Module 15 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>

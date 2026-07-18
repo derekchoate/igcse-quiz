@@ -2,5 +2,5 @@
   "number": 12,
   "slug": "12-round-and-round",
   "title": "Round and Round",
-  "uses": ["chips", "cycler"]
+  "uses": ["chips", "cycler", "walk"]
 }

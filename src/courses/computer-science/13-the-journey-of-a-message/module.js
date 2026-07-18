@@ -153,11 +153,107 @@
   ["Header", "Payload", "Trailer"].forEach(key => $("#labelBins1").appendChild(buildLabelBin1(key)));
   FRAGMENTS1.forEach(f => pool1.appendChild(buildFragChip1(f)));
 
-  /* ═══ D2: release the packets — shredder + divergent lanes + receiver ═══ */
-  const CHUNK2 = 4, LANES2 = 3;
+  /* ═══ shared: SVG route-map tokens + path-follow animation (D2, D3, D4) ═══
+     Every route map is three SVG paths sharing the same start point (the
+     sender node) and the same end point (the receiver node) — packets
+     genuinely originate together and land together, they just take
+     different roads in between (see the <svg> markup for #routeMap2/3/4 in
+     content.html). Each packet gets its own small SVG token that glides
+     along its assigned path via getPointAtLength + requestAnimationFrame
+     (the same technique the `walk` kit's flowDot uses), wrapped in a
+     try/catch since JSDOM doesn't implement SVG geometry methods under
+     test — the fallback there is an instant, synchronous onDone, matching
+     what reduceMotion does for real users. Logical arrival order/timing for
+     D2/D3/D4 is still driven by each discovery's own setTimeout stagger
+     (unchanged from before), so this animation is a cosmetic layer on top,
+     not a replacement for that timing. */
+  const ROUTE_SVG_NS = "http://www.w3.org/2000/svg";
+  const ROUTE_SENDER = { x: 30, y: 90 }, ROUTE_RECEIVER = { x: 310, y: 90 };
+  const ROUTE_GLIDE_MS = 1800;
+  function buildRouteToken(mount, num) {
+    const g = document.createElementNS(ROUTE_SVG_NS, "g");
+    g.setAttribute("class", "route-token");
+    g.setAttribute("transform", "translate(" + ROUTE_SENDER.x + "," + ROUTE_SENDER.y + ")");
+    const dot = document.createElementNS(ROUTE_SVG_NS, "circle");
+    dot.setAttribute("r", "9");
+    const label = document.createElementNS(ROUTE_SVG_NS, "text");
+    label.setAttribute("y", "3");
+    label.textContent = "#" + num;
+    g.appendChild(dot); g.appendChild(label);
+    mount.appendChild(g);
+    return g;
+  }
+  function travelToken(token, routePath, dur, targetFrac, onDone) {
+    let len = 0;
+    try { len = routePath.getTotalLength(); }
+    catch (e) { /* SVG geometry unsupported (e.g. jsdom under test) */ }
+    if (reduceMotion || !len || typeof routePath.getPointAtLength !== "function") {
+      onDone();
+      return;
+    }
+    const t0 = performance.now();
+    (function frame(now) {
+      let t = (now - t0) / dur; if (t > 1) t = 1;
+      const e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // easeInOutCubic
+      const pt = routePath.getPointAtLength(e * targetFrac * len);
+      token.setAttribute("transform", "translate(" + pt.x + "," + pt.y + ")");
+      if (t < 1) requestAnimationFrame(frame); else onDone();
+    })(t0);
+  }
+  function flowToken(token, routePath, dur, onDone) {
+    travelToken(token, routePath, dur, 1, () => {
+      token.setAttribute("transform", "translate(" + ROUTE_RECEIVER.x + "," + ROUTE_RECEIVER.y + ")");
+      onDone();
+    });
+  }
+  // A small burst of fragments scattering from (x, y) and fading — the same
+  // technique as the engine's own sparks() (core.js), but drawn as SVG
+  // circles in the route map's own coordinate space, and deliberately not
+  // amber: that colour means "achieved" everywhere else in the house style,
+  // and a lost packet isn't an achievement or a marked-wrong failure either
+  // — just its own colour scattering apart.
+  function routeBurst(mount, x, y) {
+    if (reduceMotion) return;
+    for (let i = 0; i < 7; i++) {
+      const angle = (i / 7) * Math.PI * 2 + (Math.random() * .5 - .25);
+      const dist = 20 + Math.random() * 16;
+      const frag = document.createElementNS(ROUTE_SVG_NS, "circle");
+      frag.setAttribute("class", "route-burst");
+      frag.setAttribute("cx", x); frag.setAttribute("cy", y); frag.setAttribute("r", "4");
+      frag.style.setProperty("--dx", (Math.cos(angle) * dist).toFixed(1) + "px");
+      frag.style.setProperty("--dy", (Math.sin(angle) * dist).toFixed(1) + "px");
+      frag.style.animationDelay = (Math.random() * .08).toFixed(2) + "s";
+      mount.appendChild(frag);
+      setTimeout(() => frag.remove(), 900);
+    }
+  }
+  // Travels partway (55% of the route, at the same pace flowToken would use
+  // for the full trip), then bursts apart instead of just fading — used
+  // where a packet is meant to go missing "somewhere on its route" rather
+  // than simply never leave.
+  const ROUTE_VANISH_FRAC = .55;
+  function vanishToken(token, routePath, dur, mount, onDone) {
+    travelToken(token, routePath, dur * ROUTE_VANISH_FRAC, ROUTE_VANISH_FRAC, () => {
+      let vanishPt = null;
+      try {
+        const len = routePath.getTotalLength();
+        vanishPt = routePath.getPointAtLength(ROUTE_VANISH_FRAC * len);
+      } catch (e) { /* SVG geometry unsupported (e.g. jsdom under test) */ }
+      if (vanishPt) {
+        token.setAttribute("transform", "translate(" + vanishPt.x + "," + vanishPt.y + ")");
+        routeBurst(mount, vanishPt.x, vanishPt.y);
+      }
+      token.classList.add("vanished");
+      onDone();
+    });
+  }
+
+  /* ═══ D2: release the packets — shredder + SVG route map + receiver ═══ */
+  const CHUNK2 = 4, ROUTE_COUNT2 = 3;
   let packets2 = [], slotEls2 = [];
   const msgInput2 = $("#msgInput2"), tray2 = $("#tray2");
-  const releaseBtn2 = $("#releaseBtn2"), lanesMount2 = $("#lanes2");
+  const releaseBtn2 = $("#releaseBtn2"), routeMap2 = $("#routeMap2"), routeTokens2 = $("#routeTokens2");
+  const routePaths2 = [$("#routePath2-1"), $("#routePath2-2"), $("#routePath2-3")];
   const receiver2 = $("#receiver2"), slotsMount2 = $("#slots2"), reassembled2 = $("#reassembled2");
   let released2 = false;
 
@@ -174,23 +270,11 @@
   }
   function escapeHtml(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
-  function buildLanes2(packets) {
-    lanesMount2.innerHTML = "";
-    const tracks = [];
-    for (let i = 0; i < LANES2; i++) {
-      const lane = document.createElement("div"); lane.className = "route-lane";
-      const label = document.createElement("span"); label.className = "route-lane-label"; label.textContent = "Route " + (i + 1);
-      const track = document.createElement("div"); track.className = "route-track";
-      lane.appendChild(label); lane.appendChild(track);
-      lanesMount2.appendChild(lane);
-      tracks.push(track);
-    }
+  function buildRouteTokens2(packets) {
+    routeTokens2.innerHTML = "";
     packets.forEach(p => {
-      const laneIndex = (p.num - 1) % LANES2;
-      const dot = document.createElement("span"); dot.className = "route-packet";
-      dot.textContent = "#" + p.num;
-      tracks[laneIndex].appendChild(dot);
-      p.dot = dot;
+      p.routePath = routePaths2[(p.num - 1) % ROUTE_COUNT2];
+      p.token = buildRouteToken(routeTokens2, p.num);
     });
   }
   function buildReceiver2(packets) {
@@ -211,7 +295,7 @@
   msgInput2.addEventListener("input", resetShred2);
   function resetShred2() {
     packets2 = []; released2 = false;
-    tray2.innerHTML = ""; lanesMount2.hidden = true; lanesMount2.innerHTML = "";
+    tray2.innerHTML = ""; routeMap2.hidden = true; routeTokens2.innerHTML = "";
     receiver2.hidden = true; slotsMount2.innerHTML = ""; reassembled2.textContent = "";
     releaseBtn2.hidden = true;
   }
@@ -224,14 +308,14 @@
     packets2 = shred(msg, CHUNK2);
     buildTray2(packets2);
     releaseBtn2.hidden = false;
-    lanesMount2.hidden = true; lanesMount2.innerHTML = "";
+    routeMap2.hidden = true; routeTokens2.innerHTML = "";
     receiver2.hidden = true; slotsMount2.innerHTML = ""; reassembled2.textContent = "";
     released2 = false;
   });
   releaseBtn2.addEventListener("click", () => {
     if (released2 || !packets2.length) return;
     released2 = true;
-    lanesMount2.hidden = false; buildLanes2(packets2);
+    routeMap2.hidden = false; buildRouteTokens2(packets2);
     receiver2.hidden = false; buildReceiver2(packets2);
     packets2.forEach((p, i) => {
       const delay = reduceMotion ? 0 : (i + 1) * 500;
@@ -239,17 +323,19 @@
     });
   });
   function arrivePacket2(p) {
-    p.arrived = true;
-    if (p.dot) p.dot.classList.add("arrived");
-    const slot = slotEls2[p.num - 1];
-    if (slot) {
-      slot.classList.add("filled");
-      $(".slot-val", slot).textContent = p.payload;
-    }
-    renderReassembled2(packets2);
-    if (packets2.every(x => x.arrived)) {
-      awardStar("d2", "A message you typed yourself, torn into numbered pieces, sent down different routes, and rebuilt whole. That's every message you've ever sent.");
-    }
+    flowToken(p.token, p.routePath, ROUTE_GLIDE_MS, () => {
+      p.arrived = true;
+      if (p.token) p.token.classList.add("arrived");
+      const slot = slotEls2[p.num - 1];
+      if (slot) {
+        slot.classList.add("filled");
+        $(".slot-val", slot).textContent = p.payload;
+      }
+      renderReassembled2(packets2);
+      if (packets2.every(x => x.arrived)) {
+        awardStar("d2", "A message you typed yourself, torn into numbered pieces, sent down different routes, and rebuilt whole. That's every message you've ever sent.");
+      }
+    });
   }
 
   /* ═══ D3: out of order on purpose — congestion slider ═══ */
@@ -257,6 +343,8 @@
   const packetsBase3 = shred(MSG3, CHUNK3);
   const slider3 = $("#congestionSlider3"), sliderVal3 = $("#congestionVal3");
   const arrivalLog3 = $("#arrivalLog3"), reassembled3 = $("#reassembled3");
+  const routeMap3 = $("#routeMap3"), routeTokens3 = $("#routeTokens3");
+  const routePaths3 = [$("#routePath3-1"), $("#routePath3-2"), $("#routePath3-3")];
   let sending3 = false;
   slider3.addEventListener("input", () => { sliderVal3.textContent = slider3.value + "%"; });
   const check3 = makeChips($("#chips3"), ["low", "high"],
@@ -270,24 +358,33 @@
     const packets = packetsBase3.map(p => Object.assign({}, p, { arrived: false }));
     arrivalLog3.textContent = "Arrival order: —";
     reassembled3.textContent = "Message so far: " + packets.map(p => "·".repeat(p.payload.length)).join("");
+    routeMap3.hidden = false; routeTokens3.innerHTML = "";
+    packets.forEach(p => {
+      p.routePath = routePaths3[(p.num - 1) % 3];
+      p.token = buildRouteToken(routeTokens3, p.num);
+    });
     const arrivalOrder = [];
     // Fixed base delay per lane (600/650/700ms) so, at zero congestion, arrival
     // order always matches send order (1, 2, 3). Only route 2 — packet 2's lane
-    // — grows with the slider, so raising it is what scrambles the order.
+    // — grows with the slider, so raising it is what scrambles the order. This
+    // delay models queueing before departure; once a packet leaves, it glides
+    // its route at the same calm pace as the other two (see flowToken above).
     const LANE_BASE3 = [600, 650, 700];
     packets.forEach(p => {
       const laneIndex = (p.num - 1) % 3;
       const isBusyRoute = laneIndex === 1; // route 2, matching the route-2 label
       const delay = reduceMotion ? 0 : LANE_BASE3[laneIndex] + (isBusyRoute ? congestion * 20 : 0);
       setTimeout(() => {
-        p.arrived = true;
-        arrivalOrder.push(p.num);
-        arrivalLog3.textContent = "Arrival order: " + arrivalOrder.map(n => "#" + n).join(", ");
-        reassembled3.textContent = "Message so far: " + packets.map(x => x.arrived ? x.payload : "·".repeat(x.payload.length)).join("");
-        if (packets.every(x => x.arrived)) {
-          sending3 = false;
-          check3(congestion <= 20 ? "low" : (congestion >= 80 ? "high" : null));
-        }
+        flowToken(p.token, p.routePath, ROUTE_GLIDE_MS, () => {
+          p.arrived = true;
+          arrivalOrder.push(p.num);
+          arrivalLog3.textContent = "Arrival order: " + arrivalOrder.map(n => "#" + n).join(", ");
+          reassembled3.textContent = "Message so far: " + packets.map(x => x.arrived ? x.payload : "·".repeat(x.payload.length)).join("");
+          if (packets.every(x => x.arrived)) {
+            sending3 = false;
+            check3(congestion <= 20 ? "low" : (congestion >= 80 ? "high" : null));
+          }
+        });
       }, delay);
     });
   });
@@ -296,6 +393,8 @@
   const MSG4 = "BRING SNACKS", CHUNK4 = 4;
   const packetsBase4 = shred(MSG4, CHUNK4);
   const dropToggle4 = $("#dropToggle4"), sendBtn4 = $("#sendBtn4");
+  const routeMap4 = $("#routeMap4"), routeTokens4 = $("#routeTokens4");
+  const routePaths4 = [$("#routePath4-1"), $("#routePath4-2"), $("#routePath4-3")];
   const slotsMount4 = $("#slots4"), gapNote4 = $("#gapNote4"), resendBtn4 = $("#resendBtn4");
   let drop4 = false, packets4 = [], slotEls4 = [];
   dropToggle4.addEventListener("click", () => {
@@ -318,18 +417,31 @@
     buildSlots4();
     gapNote4.textContent = "";
     resendBtn4.hidden = true;
+    routeMap4.hidden = false; routeTokens4.innerHTML = "";
+    packets4.forEach(p => {
+      p.routePath = routePaths4[(p.num - 1) % 3];
+      p.token = buildRouteToken(routeTokens4, p.num);
+    });
     packets4.forEach((p, i) => {
-      if (p.dropped) return;
       const delay = reduceMotion ? 0 : (i + 1) * 400;
       setTimeout(() => {
-        p.arrived = true;
-        const slot = slotEls4[p.num - 1];
-        slot.classList.add("filled");
-        $(".slot-val", slot).textContent = p.payload;
-        checkGap4();
-        if (!drop4 && packets4.every(x => x.arrived)) {
-          gapNote4.textContent = "Every packet arrived, nothing missing this time. Switch the toggle on and send again to see what happens when one doesn't turn up.";
+        if (p.dropped) {
+          // Goes missing "somewhere on its route" (matches the discovery's
+          // own wording) rather than never leaving — the token glides partway
+          // then bursts apart, instead of just never appearing.
+          vanishToken(p.token, p.routePath, ROUTE_GLIDE_MS, routeTokens4, () => {});
+          return;
         }
+        flowToken(p.token, p.routePath, ROUTE_GLIDE_MS, () => {
+          p.arrived = true;
+          const slot = slotEls4[p.num - 1];
+          slot.classList.add("filled");
+          $(".slot-val", slot).textContent = p.payload;
+          checkGap4();
+          if (!drop4 && packets4.every(x => x.arrived)) {
+            gapNote4.textContent = "Every packet arrived, nothing missing this time. Switch the toggle on and send again to see what happens when one doesn't turn up.";
+          }
+        });
       }, delay);
     });
   });
@@ -344,15 +456,21 @@
   resendBtn4.addEventListener("click", () => {
     const missing = packets4.find(p => p.dropped && !p.arrived);
     if (!missing) return;
-    missing.arrived = true; missing.dropped = false;
-    const slot = slotEls4[missing.num - 1];
-    slot.classList.add("filled");
-    $(".slot-val", slot).textContent = missing.payload;
     resendBtn4.hidden = true;
-    gapNote4.textContent = "Packet " + missing.num + " arrived on the second try — the message is whole.";
-    if (packets4.every(x => x.arrived)) {
-      awardStar("d4", "A gap noticed by its packet number, a resend, and a complete message — that's the very first look at how networks recover from loss.");
+    if (missing.token) {
+      missing.token.classList.remove("vanished");
+      missing.token.setAttribute("transform", "translate(" + ROUTE_SENDER.x + "," + ROUTE_SENDER.y + ")");
     }
+    flowToken(missing.token, missing.routePath, ROUTE_GLIDE_MS, () => {
+      missing.arrived = true; missing.dropped = false;
+      const slot = slotEls4[missing.num - 1];
+      slot.classList.add("filled");
+      $(".slot-val", slot).textContent = missing.payload;
+      gapNote4.textContent = "Packet " + missing.num + " arrived on the second try — the message is whole.";
+      if (packets4.every(x => x.arrived)) {
+        awardStar("d4", "A gap noticed by its packet number, a resend, and a complete message — that's the very first look at how networks recover from loss.");
+      }
+    });
   });
 
   /* ═══ D5: why bother? — sort statements into Benefit / Drawback ═══ */
