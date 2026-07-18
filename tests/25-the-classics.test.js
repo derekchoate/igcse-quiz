@@ -23,7 +23,7 @@ function slotForLine(n) {
 
 describe("Module 23: The Classics", () => {
   beforeEach(() => {
-    loadModule("23-the-classics.html");
+    loadModule("25-the-classics.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
