@@ -32,7 +32,7 @@ function benchHead(label) {
 
 describe("Module 17: Faster, Smaller, Everywhere", () => {
   beforeEach(() => {
-    loadModule("17-faster-smaller-everywhere.html");
+    loadModule("19-faster-smaller-everywhere.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {

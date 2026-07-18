@@ -82,6 +82,8 @@ Two parallel tracks, one method: **fading scaffolds across four rungs**. Nothing
 **Purpose:** command words as a decoding puzzle. *State* wants a fact; *describe* wants features in sentences; *explain* wants mechanism or reason; *compare* wants both sides linked; *suggest* invites application to the unfamiliar.
 **Mechanic:** pairs of near-identical questions differing only in command word, each with two candidate answers — he predicts which answer each question wants, discovering the system by contrast. Then reversal: given an answer, infer the question's command word. Include the mark-allocation rule of thumb (marks ≈ distinct creditable points) as a discovery, not a lecture.
 
+*Note (from the blueprint architecture): the recall/structured-recall command families — State/Define/Name/Give/Identify and tick/classify/complete-table/match/gap-fill — are the CS skill-blueprint tier (NAME IT / DEFINE IT and SORT IT / PLACE IT). X1's command-word contrasts are where those blueprints get their exam-facing stress test: "does your own-words definition earn the mark as written?"*
+
 ### X2 · Reading the Question (build: folds into X1 or standalone)
 **Mechanic:** real questions (re-skinned at first) shown as annotatable objects — he highlights the command word, the content target, the constraints, the mark count, in four colours. State-matched: the annotation lights when the four elements are found. This is the two-minute ritual he'll perform in the hall; it's built here as a game until it's automatic.
 
@@ -107,6 +109,8 @@ Four stages, each a consent door, each fully comfortable before the next is offe
 4. **P4 · The dress rehearsals:** timed sections → a half paper → one full paper, then if wanted a second in a less familiar room (graded environmental exposure toward the real hall). Debriefs harvest marks and — equally — evidence about comfort: what helped, what to request, what to bring.
 
 Throughout: mark schemes are always *his tool for reading examiners*, never an instrument used on him. The phrase "let's see what this answer can claim" does a lot of load-bearing work.
+
+**Currency check when re-skinning old material (from the CS paper-level audit).** Re-skinning at P1–P2 isn't only a change of costume — where the *current* syllabus tests a topic in a different representation than an old paper used, the modernisation has to happen too, or the question rehearses a form the real paper no longer asks. The known CS case: **pre-2023 database papers test QBE (query-by-example) grids, which the current 9.1 syllabus replaced with SQL** (Module 29 teaches SQL — SELECT/FROM/WHERE/ORDER BY/SUM/COUNT). Re-skin those QBE-grid questions as SQL before use; a raw QBE question is not a fair rehearsal of anything on the current paper, and its rows are excluded from the honest coverage count for the same reason. This is the CS twin of the cross-subject currency notes already logged (in the session handoff and `blueprint-architecture.md`): pre-2025 maths Paper 1s were **calculator** papers where the current Core P1 is non-calculator, and 0580 papers use **$ not £**. Whenever a past paper predates a syllabus structure change, check the representation against the current specimen before it becomes P-stage material.
 
 ---
 

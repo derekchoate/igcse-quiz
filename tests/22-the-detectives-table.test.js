@@ -25,7 +25,7 @@ function pickBtn(containerId, label) {
 
 describe("Module 20: The Detective's Table", () => {
   beforeEach(() => {
-    loadModule("20-the-detectives-table.html");
+    loadModule("22-the-detectives-table.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {

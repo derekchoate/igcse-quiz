@@ -1,23 +1,28 @@
 
   <section class="hero">
-    <h1>Everything you've built since Module 1 runs on one loop that <span class="lit">never stops.</span></h1>
-    <p>Every byte from Module 1, every box with a name from Module 10, every fork and every loop — all of it, underneath, is one machine running one cycle, over and over, millions of times a second: fetch an instruction, decode what it means, execute it. This module takes the lid off that machine. You'll meet its five registers and two working units by name, watch a single fetch happen in slow motion, make an ADD instruction change a number before your eyes, sort what travels on its three internal roads, and finally run a tiny three-line program yourself — predicting the answer before the machine gives it to you.</p>
+    <h1>Every program you've written since Module 1 runs on <span class="lit">one small machine</span> with a name for every part.</h1>
+    <p>Open up a CPU (central processing unit — the chip that actually runs your programs), built the ordinary way computers have used since the 1940s, and you find seven named parts working inside a boundary, plus one thing that always lives outside it: memory (RAM), holding the instructions and the data a program needs. This module meets that machine piece by piece — not all seven parts thrown at you at once, but three small groups, each explained properly before the next. Watch the diagram below fill in as you go: it's the same machine, the whole way through this course, from here on.</p>
     <div class="promise">
-      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Crank through anything as many times as you like — nothing here ever runs out or gets marked wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Match at your own pace, take a nudge whenever you fancy one, and nothing here ever runs out or gets marked wrong. Stars can never be taken away.
     </div>
   </section>
 
-  <!-- ══════════ DISCOVERY 1 — meet the crew ══════════ -->
+  <section class="cpu-intro">
+    <p class="fork-note">A quick convention, stated once so nothing has to be guessed later: parts with a <strong>solid</strong> edge below are registers — tiny stores that each hold exactly one value at a time, living inside the CPU. The part with a <strong>dashed</strong> edge is memory (RAM) — outside the CPU entirely, joined to it by the link you'll watch parts travel along later in the course. Right now every part except memory is still unmet — dimmed and unlabelled. Match each job below to reveal it.</p>
+    <div class="cpu-mount" id="cpuMountMachine"></div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — the two workers ══════════ -->
   <section class="disc open" id="d1">
     <button class="disc-head" aria-expanded="true" data-toggle="d1">
       <span class="disc-star" aria-hidden="true">✦</span>
-      <span class="disc-title">Meet the crew
-        <span class="disc-sub">match each part of the CPU to the one job it does</span>
+      <span class="disc-title">The two workers
+        <span class="disc-sub">meet CU and ALU — the CPU's decider and its calculator</span>
       </span>
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Open up a CPU (central processing unit — the chip that actually runs your programs) built the ordinary way computers have used since the 1940s, and you find two working units and five registers — tiny stores that each hold exactly one value at a time. Here they are, by name: <strong>CU</strong> (Control Unit), <strong>ALU</strong> (Arithmetic Logic Unit), <strong>PC</strong> (Program Counter), <strong>MAR</strong> (Memory Address Register), <strong>MDR</strong> (Memory Data Register), <strong>CIR</strong> (Current Instruction Register — some books call this one the IR, Instruction Register; same thing), and <strong>ACC</strong> (Accumulator). Tap a job below, then tap the part you think it belongs to — or drag it straight across.</p>
+      <p>Start with the two parts that <em>do</em> things, rather than just holding them. The <strong>CU</strong> (Control Unit) is the decider — it works out what each instruction means and sends out the signals that make every other part do its job, in the right order. The <strong>ALU</strong> (Arithmetic Logic Unit) is the calculator — it does the actual maths and comparisons, but only for an instant; it doesn't remember anything afterwards. Tap a job below, then tap the part you think it belongs to.</p>
       <div class="board">
         <div class="def-pool" id="defPool1"></div>
         <div class="term-bins" id="termBins1"></div>
@@ -25,128 +30,92 @@
       </div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
-        <div class="nudge" id="ex1">"Holds an address — the location in memory the CPU is about to read from or write to. Never the data itself, only the location" is describing the MAR. "Holds the actual data or instruction that has just travelled in from memory, or is about to travel out. Never an address" is describing the MDR. Notice those two are easy to mix up precisely because they sound similar — the trick is that one only ever holds a *place*, the other only ever holds a *thing*.</div>
+        <div class="nudge" id="ex1">"Decodes each instruction and sends out the signals that make every other component do its part, in the right order" is describing the CU — it's the one giving orders. "Does the actual maths and comparisons, but only for an instant" is describing the ALU — it's the one doing the sums.</div>
         <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n1a">For each job, ask: is this describing a *place* (an address), a *thing* being carried (data or an instruction), or a *role* (something this part always does)? That sorts the seven fairly quickly.</div>
+        <div class="nudge" id="n1a">Ask: is this job about *deciding what happens next*, or about *actually crunching a number*? Only one of the two parts calculates anything at all.</div>
         <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n1b">MAR and MDR are the pair everyone mixes up at first — MAR is the *address* (where), MDR is the *data* (what). PC is also an address, but a different one: it's always the address of the *next* instruction, not the one being worked on right now.</div>
+        <div class="nudge" id="n1b">The CU never does maths itself — it's the manager, not the calculator. The ALU never decides what to do next — it just does whatever sum it's handed, then forgets it instantly.</div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ DISCOVERY 2 — one full fetch ══════════ -->
+  <!-- ══════════ DISCOVERY 2 — the fetch trio ══════════ -->
   <section class="disc" id="d2">
     <button class="disc-head" aria-expanded="false" data-toggle="d2">
       <span class="disc-star" aria-hidden="true">✦</span>
-      <span class="disc-title">One full fetch
-        <span class="disc-sub">crank through a single fetch and catch the exact moment PC changes</span>
+      <span class="disc-title">The fetch trio
+        <span class="disc-sub">PC, MAR and MDR — next, where, and what</span>
       </span>
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Below is a glass CPU — every part see-through so you can watch a value move. A quick convention, stated once so nothing has to be guessed later: boxes with a <strong>solid</strong> edge are registers living inside the CPU. The box with a <strong>dashed</strong> edge is memory (RAM) — outside the CPU, reached only by the buses you'll meet properly in Discovery 4. A strip above the log names whichever bus is carrying something at that instant. Press the crank once per step and watch <strong>PC</strong> especially closely across the whole fetch — something about its timing is easy to assume wrong.</p>
+      <p>These three always work as a team. <strong>PC</strong> (Program Counter) holds the address of the <em>next</em> instruction to fetch — never the instruction itself, just where to find it. <strong>MAR</strong> (Memory Address Register) holds an address too, but a different one: the location in memory the CPU is <em>about to</em> read from or write to, right now. <strong>MDR</strong> (Memory Data Register) holds the actual data or instruction that has just travelled in from memory, or is about to travel out — never an address. Three registers, three jobs: next, where, and what. Tap a job, then tap the part it belongs to.</p>
       <div class="board">
-        <div class="cpu-mount" id="cpuMount2"></div>
+        <div class="def-pool" id="defPool2"></div>
+        <div class="term-bins" id="termBins2"></div>
+        <p class="fork-note" id="status2" aria-live="polite">Tap a job to begin.</p>
       </div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
-        <div class="nudge" id="ex2">Crank once: PC's address, 100, travels the address bus into MAR. Crank again: PC increments to 101 — already pointing at the NEXT instruction, before this one has even reached the CIR. Crank again: the control unit sends a READ signal along the control bus, telling memory to hand over what's stored at address 100. Crank again: memory sends back the instruction there — "LOAD 200" — along the data bus into MDR. Crank once more: MDR's contents copy into CIR. The instruction has arrived, ready to be decoded — and PC changed two steps before that, not at the end.</div>
+        <div class="nudge" id="ex2">"Holds the memory address of the next instruction to fetch" is PC — it's always looking ahead. "Holds an address — the location in memory the CPU is about to read from or write to" is MAR — it's the address being used right now, not the next one. "Holds the actual data or instruction that has just travelled in from memory" is MDR — the only one of the three holding a *thing*, not a *place*.</div>
         <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n2a">Watch PC across one complete fetch. Did it change before or after the instruction arrived in the CIR?</div>
+        <div class="nudge" id="n2a">Two of these three hold an address (a place); only one holds the actual value or instruction (a thing). Sort that split first.</div>
         <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n2b">It changes during fetch — it's already pointing at the next instruction while this one is still on its way in. That's the whole point of a program counter: it never falls behind, even mid-cycle.</div>
+        <div class="nudge" id="n2b">MAR and PC are the pair everyone mixes up — PC is always the address of what's <em>coming next</em>; MAR is the address of whatever's being looked up <em>right now</em>. MDR is the odd one out: it never holds an address at all, only the data or instruction that address pointed to.</div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ DISCOVERY 3 — decode and execute an ADD ══════════ -->
+  <!-- ══════════ DISCOVERY 3 — the instruction and the notepad ══════════ -->
   <section class="disc" id="d3">
     <button class="disc-head" aria-expanded="false" data-toggle="d3">
       <span class="disc-star" aria-hidden="true">✦</span>
-      <span class="disc-title">Decode and execute an ADD
-        <span class="disc-sub">pick an amount, then watch ACC change before your eyes</span>
+      <span class="disc-title">The instruction and the notepad
+        <span class="disc-sub">CIR holds what's being obeyed; ACC holds the running number</span>
       </span>
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Picture the CPU has already fetched its next instruction into the CIR: <strong>ADD</strong>, plus the address where the amount to add is stored. Its accumulator — ACC, the CPU's one working notepad for numbers — currently holds 19, your age. Pick an amount below, start the ADD, then crank through decode and execute.</p>
+      <p>Two parts left, and they're easy to confuse with parts you've already met. <strong>CIR</strong> (Current Instruction Register — some books call this one the IR, Instruction Register; same thing) holds whichever instruction is currently being decoded and carried out. <strong>ACC</strong> (Accumulator) holds the running result of whatever the ALU is calculating right now — the CPU's one working notepad for numbers. It's tempting to think the ALU itself remembers the answer, since it did the sum — it doesn't. The ALU calculates for one instant and forgets; ACC is what actually holds on to the result afterwards.</p>
       <div class="board">
-        <div class="key-control">
-          <label class="field-label" for="addSlider3">Amount to ADD — 1 to 20</label>
-          <input type="range" id="addSlider3" min="1" max="20" step="1" value="5">
-          <span class="key-readout" id="addVal3">Add: 5</span>
-        </div>
-        <button class="loop-btn primary" id="startAdd3" type="button">Start this ADD ▶</button>
-        <div class="cpu-mount" id="cpuMount3"></div>
+        <div class="def-pool" id="defPool3"></div>
+        <div class="term-bins" id="termBins3"></div>
+        <p class="fork-note" id="status3" aria-live="polite">Tap a job to begin.</p>
       </div>
-      <p class="chips-label">Try an amount that's…</p>
-      <div class="chips" id="chips3"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
-        <div class="nudge" id="ex3">Set the amount to 5 and press "Start this ADD". Crank once: the control unit decodes CIR — "ADD 201" means add whatever's stored at address 201 to ACC. Crank again: 201 travels the address bus into MAR. Crank again: memory sends back the value there, 5, along the data bus into MDR. Crank once more: the ALU adds MDR's 5 to ACC's 19. ACC updates to 24 — right in front of you. Notice the ALU did the sum, but it's ACC that keeps hold of the answer afterwards; the ALU itself doesn't remember a thing once it's done.</div>
+        <div class="nudge" id="ex3">"Holds whichever instruction is currently being decoded and carried out" is CIR. "Holds the running result of whatever the ALU is calculating right now" is ACC. Notice neither job mentions an address at all — by this point in the machine, addresses have done their job and it's all instructions and numbers.</div>
         <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n3a">Try a small amount (under 10) and then a large one (15 or more) — does ACC update the same way either time?</div>
+        <div class="nudge" id="n3a">One of these two holds an instruction (a command to obey); the other holds a number (a result so far). That split answers both at once.</div>
         <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n3b">It's tempting to think the ALU is where the answer lives afterwards, since it's the ALU that does the actual adding. It isn't — the ALU calculates for one instant and then forgets; ACC is the register that actually holds the running result.</div>
+        <div class="nudge" id="n3b">CIR holds the instruction itself — the thing being obeyed. ACC holds a number — the running result the ALU keeps adding to. The ALU does the work; ACC keeps the score.</div>
       </div>
     </div>
   </section>
 
-  <!-- ══════════ DISCOVERY 4 — the three roads ══════════ -->
+  <!-- ══════════ DISCOVERY 4 — sort the whole crew ══════════ -->
   <section class="disc" id="d4">
     <button class="disc-head" aria-expanded="false" data-toggle="d4">
       <span class="disc-star" aria-hidden="true">✦</span>
-      <span class="disc-title">The three roads
-        <span class="disc-sub">sort six parcels onto the bus that actually carries them</span>
+      <span class="disc-title">Sort the whole crew
+        <span class="disc-sub">all seven parts, one quick recap now you've met every one</span>
       </span>
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Every value you watched travel in Discoveries 2 and 3 moved along one of exactly three roads. The <strong>address bus</strong> carries a location in memory — never the value stored there, only where to find it. The <strong>data bus</strong> carries the actual thing being moved — a number, or an instruction fresh out of memory (an instruction counts as data here; it's just being carried, not obeyed yet). The <strong>control bus</strong> carries signals and commands only — "read this", "write that" — never a location and never a value. Tap a parcel below, then tap the road you think it travels on.</p>
+      <p>The diagram above is complete now — every part you've met over the last three discoveries, in one place. One last check: all seven jobs, all seven parts, in any order you like. If one feels shaky, open the discovery above it again — nothing here is locked, and re-reading never costs a thing.</p>
       <div class="board">
-        <div class="scenario-pool" id="scenarioPool4"></div>
-        <div class="benches" id="benches4"></div>
-        <p class="fork-note" id="status4" aria-live="polite">Tap a parcel to begin.</p>
+        <div class="def-pool" id="defPool4"></div>
+        <div class="term-bins" id="termBins4"></div>
+        <p class="fork-note" id="status4" aria-live="polite">Tap a job to begin.</p>
       </div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
-        <div class="nudge" id="ex4">"The address 104, on its way from PC into MAR" is a location — that's the Address bus. "A READ signal, telling memory to hand something over" is a command with no location and no value attached — that's the Control bus. "The value 24, arriving from memory into MDR" is an actual number being carried — that's the Data bus.</div>
+        <div class="nudge" id="ex4">If you're unsure where to start: sort by *place vs thing vs role* first. MAR and PC hold places (addresses). MDR, CIR and ACC hold things (data, an instruction, a number). CU and ALU hold neither — they're roles, not stores: one decides, one calculates.</div>
         <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n4a">Ask what the parcel actually IS: a place, a thing, or a bare instruction to memory itself?</div>
+        <div class="nudge" id="n4a">Work through the groups in the order you met them: the two workers first, then the fetch trio, then the last pair.</div>
         <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n4b">A place (an address) is always the Address bus. A thing being moved — a value or a fetched instruction — is always the Data bus. A command with nothing else attached, like "read" or "write", is always the Control bus, and only the Control bus.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════ DISCOVERY 5 — run a whole three-line program ══════════ -->
-  <section class="disc" id="d5">
-    <button class="disc-head" aria-expanded="false" data-toggle="d5">
-      <span class="disc-star" aria-hidden="true">✦</span>
-      <span class="disc-title">Run a whole three-line program
-        <span class="disc-sub">predict ACC's final value, then crank through and see</span>
-      </span>
-      <span class="chev" aria-hidden="true">▾</span>
-    </button>
-    <div class="disc-body">
-      <p>Here's a tiny three-line program, at the concept level (never mind the exact machine code — that's a later module). Line 1, <strong>LOAD 200</strong>: copy whatever's stored at address 200 into ACC. Line 2, <strong>ADD 201</strong>: add whatever's stored at address 201 to ACC. Line 3, <strong>STORE 202</strong>: copy ACC's value out to address 202. Address 200 holds 19 (your age); address 201 holds 6. Before you crank a single step, take a private guess at what ACC will hold once all three lines have run. Nobody sees this guess but you — there's no wrong answer here, only a chance to check your own thinking against the machine.</p>
-      <div class="board">
-        <div class="key-control">
-          <label class="field-label" for="guessDial5">My private guess for ACC's final value</label>
-          <input type="range" id="guessDial5" min="0" max="50" step="1" value="19">
-          <span class="key-readout" id="guessVal5">Guess: 19</span>
-        </div>
-        <button class="loop-btn primary" id="lockGuess5" type="button">Lock in my guess and start the program ▶</button>
-        <div class="cpu-mount" id="cpuMount5"></div>
-        <p class="fork-note" id="guessResult5" aria-live="polite"></p>
-      </div>
-      <div class="nudge-zone">
-        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
-        <div class="nudge" id="ex5">Line 1 fetches, decodes and executes LOAD 200 — 19 copies straight into ACC (no ALU needed, LOAD is just a delivery). Line 2 fetches, decodes and executes ADD 201 — the ALU adds 6 to ACC's 19, making 25. Line 3 fetches, decodes and executes STORE 202 — ACC's 25 copies out to address 202. STORE never changes ACC itself; it only copies ACC's value elsewhere. Final answer: 25.</div>
-        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n5a">Work out what LOAD and ADD actually do to ACC, in order, before you crank anything.</div>
-        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n5b">LOAD 200 copies 19 into ACC. ADD 201 adds 6 to whatever ACC already holds. STORE just copies ACC's value out to memory — it never changes ACC's value at all.</div>
+        <div class="nudge" id="n4b">CU decides, ALU calculates. PC points at what's next, MAR points at what's happening now, MDR carries the actual data. CIR holds the instruction being obeyed; ACC holds the running number. Seven parts, seven one-word jobs.</div>
       </div>
     </div>
   </section>
@@ -154,8 +123,8 @@
   <!-- ══════════ REFLECTION ══════════ -->
   <section class="reflect" id="reflect" hidden>
     <h2>Notice what just happened — a sixteenth time</h2>
-    <p>You matched all seven parts of a CPU to their one-line jobs, without a single one left over. You cranked through a whole fetch in slow motion and caught the CPU cheating, in a sense — PC updates to the next instruction long before this one finishes. You picked your own amount, watched ACC actually change during a decode and execute, and confirmed the ALU calculates but never remembers. You sorted six parcels correctly onto the address, data and control buses. And you predicted ACC's final value on a real three-line program before the machine told you — and now you know exactly why it landed where it did.</p>
-    <p class="soft">Whenever you're ready, the next discovery zooms out from this one loop to what makes some CPUs faster than others — cores, cache and clock speed. No rush at all — the stars keep.</p>
+    <p>You met the CPU's seven named parts in three small, sensible groups instead of all at once — the two workers, the fetch trio, and the instruction-and-notepad pair — and watched the diagram at the top of the page fill itself in as you went. Then you checked all seven, in any order, now that each one has a story attached rather than just a label.</p>
+    <p class="soft">Whenever you're ready, the next discovery names something you've already half-noticed about this machine: instructions and data live in the very same memory. No rush at all — the stars keep.</p>
   </section>
 
   <div class="index-nav">
@@ -167,4 +136,4 @@
     <a class="nav-link next" href="17-faster-smaller-everywhere.html">Module 17 · Faster, Smaller, Everywhere →</a>
   </nav>
 
-  <footer>Module 16 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
+  <footer>Module 16 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>

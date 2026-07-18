@@ -19,7 +19,7 @@ function binHead(label) {
 
 describe("Module 19: Where Things Live", () => {
   beforeEach(() => {
-    loadModule("19-where-things-live.html");
+    loadModule("21-where-things-live.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
