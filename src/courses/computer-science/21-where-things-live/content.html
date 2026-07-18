@@ -1,0 +1,196 @@
+
+  <section class="hero">
+    <h1>Close an unsaved document and it's gone. <span class="lit">Save it, and it survives a power cut.</span></h1>
+    <p>A "power cut" is a sudden blackout — the electricity simply stops. Your computer holds two totally different kinds of memory at once, and only one of them notices when that happens. This module walks a memory city block by block: the district that forgets everything the instant power stops, the district that never forgets its one fixed job, three rival warehouses for keeping things long-term, an overflow bus that quietly kicks in when a district fills up, and a fourth district that lives on someone else's computer entirely.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Flip the switch, sort the cards, open one app too many — nothing here ever runs out or gets marked wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — pull the plug ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Pull the plug
+        <span class="disc-sub">flip the power and see exactly which district actually goes dark</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><strong>RAM</strong> (random access memory) is where anything you're actively doing lives right now — the sentence you're mid-typing, the tab you have open, the level of a game you haven't saved yet. It's <strong>primary storage</strong>: memory the CPU can reach directly, without going through anything else. Everything else on the map below survives with no power at all: <strong>ROM</strong> (read only memory, also primary storage), the <strong>secondary storage</strong> built into the device itself, and anything already saved to the <strong>cloud</strong>. Flip the switch below as many times as you like and watch which one district actually goes dark.</p>
+      <div class="board">
+        <div class="city-map" id="cityMap1">
+          <div class="district lit" id="ramDistrict1">
+            <span class="district-label">RAM</span>
+            <span class="district-note">primary storage</span>
+          </div>
+          <div class="district lit">
+            <span class="district-label">ROM</span>
+            <span class="district-note">primary storage</span>
+          </div>
+          <div class="district lit">
+            <span class="district-label">Secondary storage</span>
+            <span class="district-note">disk / chip</span>
+          </div>
+          <div class="district lit">
+            <span class="district-label">Cloud</span>
+            <span class="district-note">someone else's computer</span>
+          </div>
+        </div>
+        <button class="loop-btn primary" id="powerSwitch1" type="button">Pull the plug</button>
+        <p class="fork-note" id="powerReadout1" aria-live="polite">All four districts are lit. Try flipping the power.</p>
+      </div>
+      <p>Now for the real thing: sort six ordinary things by what actually happens to them the instant the power cuts.</p>
+      <div class="board">
+        <div class="sort-pool" id="pool1"></div>
+        <div class="sort-bins" id="bins1"></div>
+        <p class="fork-note" id="status1" aria-live="polite">Tap a thing to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">"A document you've been typing but haven't saved yet" is sitting only in RAM — pull the plug and it's gone, no matter how good it was. "A photo already saved onto the phone's storage" is sitting on secondary storage, which never needed power to remember it in the first place — it survives untouched. Same question every time: is this thing only in RAM right now, or has it already landed somewhere that doesn't need power to remember?</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">For each thing, ask: if the power vanished this exact second, would this specific thing still exist afterwards?</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Only RAM is wiped by a power cut. Anything already saved — to the device's own storage, or to the cloud — survives, and so do the fixed startup instructions living in ROM. If it hasn't been saved anywhere yet, it was only ever in RAM.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — ROM, the unforgetting ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">ROM, the unforgetting
+        <span class="disc-sub">sort six traits into RAM's or ROM's, and see why a computer needs both</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>RAM and ROM are both primary storage — both sit close enough to the CPU for it to reach them directly — but they do opposite jobs. RAM can be written to and rewritten constantly, and forgets everything the instant power stops. ROM holds one fixed set of instructions: the very first ones the computer follows the moment it's switched on, before it has loaded anything else at all, and its contents normally can't be changed by whoever's using the machine. That's why a computer needs both — without RAM, it would have nowhere to keep anything it's actively doing; without ROM, it wouldn't know what to do the instant it wakes up, since RAM itself starts every power-on completely empty. One thing ROM is <em>not</em>, by the way: a place for your files. Your photos, documents and apps all live on secondary storage — Discovery 3, coming right up. ROM's one job is those startup instructions, nothing else.</p>
+      <div class="board">
+        <div class="sort-pool" id="pool2"></div>
+        <div class="sort-bins" id="bins2"></div>
+        <p class="fork-note" id="status2" aria-live="polite">Tap a trait to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">"Loses everything the instant power stops" is RAM — that's the whole point of Discovery 1. "Holds the instructions followed the moment the computer is switched on, before anything else has loaded" is ROM — nothing else can do that job, since RAM is empty at that exact moment. Ask what the trait is really about: something changing and disappearing, or something fixed and permanent?</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Ask two questions about each trait: does it change while the computer runs, and does it survive with no power? RAM changes and vanishes; ROM stays fixed and survives.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Anything about actively working, changing, or vanishing belongs to RAM. Anything about fixed startup instructions, or contents a user can't normally change, belongs to ROM.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — three warehouses ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Three warehouses
+        <span class="disc-sub">spinning platters, laser discs, pure electronics — sort their traits into a comparison table</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><strong>Secondary storage</strong> isn't directly reachable by the CPU the way RAM and ROM are, but it's what actually keeps data for the long term — permanently, with no power needed. Three rival technologies do this job, each with its own honest trade-offs. <strong>Magnetic storage</strong> — the hard disk drive (HDD) — stores data on spinning platters, written and read using electromagnets: call it <em>the spin-drive</em>. <strong>Optical storage</strong> — CD, DVD, Blu-ray — stores data as tiny marks burned into a spinning disc, read by a laser: call it <em>the disc</em>. <strong>Solid-state storage</strong> — SSD, memory cards, USB drives — stores data purely in transistors, with nothing that physically spins or moves at all: call it <em>the chip</em>. Capacity is measured in the same units from Module 6 (gigabytes, terabytes) — worth a peek back if those feel rusty. Sort the nine trait cards below into the warehouse each one actually describes, building up a real comparison table as you go.</p>
+      <div class="board">
+        <div class="sort-pool" id="pool3"></div>
+        <div class="sort-bins cols-3" id="bins3"></div>
+        <p class="fork-note" id="status3" aria-live="polite">Tap a trait card to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">"Stores data on spinning magnetic platters, written and read using electromagnets" is a straight description of the spin-drive's own mechanism, so it fits there directly. "Has no moving parts to be jolted, which is a big part of why phones and laptops use this instead" is about the chip — no moving parts is its whole identity. "Typically holds far less data than the other two, and scratches easily" is about the disc — smallest capacity, most fragile surface. Match the trait to the one warehouse whose actual mechanism or trade-off it's describing.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Some cards describe how a warehouse physically works; others describe a trade-off (how fast, how cheap, how tough, how much it holds). Read each card and ask which one warehouse it's actually true of.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Only one warehouse has genuinely moving parts (the spin-drive), only one uses a laser on a spinning disc (the disc), and only one is pure electronics with nothing moving at all (the chip). Start with the cards you're sure of, and the rest narrow down fast.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — the overflow bus ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The overflow bus
+        <span class="disc-sub">open one app too many, and feel a real, visible speed penalty</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>RAM is finite — the district below holds exactly four slots. When every slot's full and one more app is opened, the computer doesn't just refuse: it creates <strong>virtual memory</strong>, quietly paging the oldest app out to secondary storage to free up a slot, then loading the new one in. Worth saying plainly, since it's an easy thing to get backwards: virtual memory is <em>not</em> extra RAM appearing from nowhere for free. It's a trick — borrowing space on the disk as overflow — and disk is dramatically slower than RAM, so anything paged out there costs real time to bring back. Virtual memory's whole job is keeping everything running, not making everything run fast. Press the button below until RAM fills up, then once more to trigger the overflow, and watch the tick cost.</p>
+      <div class="board">
+        <div class="city-map" id="cityMap4">
+          <div class="district lit ram-bank-district">
+            <span class="district-label">RAM · 4 slots</span>
+            <div class="ram-bank" id="ramBank4"></div>
+          </div>
+          <div class="district lit">
+            <span class="district-label">Secondary storage</span>
+            <span class="district-note">paged-out apps land here</span>
+            <div class="paged-list" id="pagedList4"></div>
+          </div>
+        </div>
+        <button class="loop-btn primary" id="openApp4" type="button">Open another app ▶</button>
+        <ul class="bench-log" id="benchLog4" aria-live="polite"></ul>
+      </div>
+      <p class="chips-label">Try…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Open four apps: each lands straight in an empty RAM slot for 1 tick apiece — no swapping needed, since there's room. Open a fifth: RAM has nowhere left, so the oldest app already there gets paged out to secondary storage to make space, and only then does the new app load into the freed slot — 20 ticks total this time, twenty times slower than a normal open. Nothing was lost and nothing failed; it just got noticeably slower, because disk stood in for RAM for a moment.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Where do the extra pages actually go once RAM's four slots are all full?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">They go to secondary storage — and disk is much slower than RAM. Virtual memory keeps everything running, not running fast.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 — someone else's computer ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Someone else's computer
+        <span class="disc-sub">sort cloud storage's real upsides from its honest downsides</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><strong>Cloud storage</strong> means your data lives on servers owned by someone else, reachable remotely over the internet, rather than sitting only on a disk or chip inside your own device. That's genuinely useful — and genuinely has real costs, not just upsides. Sort the eight statements below into what's honestly a plus and what's honestly a downside; a fair comparison needs both columns, not just the flattering one.</p>
+      <div class="board">
+        <div class="sort-pool" id="pool5"></div>
+        <div class="sort-bins" id="bins5"></div>
+        <p class="fork-note" id="status5" aria-live="polite">Tap a statement to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">"You can open the same file from your phone, your laptop, or a friend's computer" is a genuine upside — the file lives on a server, not tied to one device. "Without an internet connection, you often can't reach your own files at all" is an honest downside — that dependency is real, and it's fair to name it rather than hide it. Read each statement and ask: is this actually a plus of storing things remotely, or an actual cost of doing so?</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">For each statement, ask whether it describes something the cloud makes easier, or something it makes you depend on or pay for.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">The honest downsides cluster around three things: needing an internet connection, trusting somewhere else with your files, and an ongoing cost instead of a one-off. Everything else in the pile is a genuine upside.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a twenty-first time</h2>
+    <p>You flipped the power and watched exactly one district of a computer's memory go dark, then sorted six ordinary things by that same honest question. You told RAM's traits apart from ROM's, and saw why a computer genuinely needs both rather than either one alone. You built a real comparison table across three rival storage technologies — a spin-drive, a disc, and a chip — from nine trait cards, no two of them interchangeable. You filled a four-slot RAM district until it overflowed, and felt the real, twenty-times-slower cost of virtual memory's quiet trick for yourself. And you sorted cloud storage's honest upsides from its honest downsides, instead of only hearing the flattering half.</p>
+    <p class="soft">Whenever you're ready, the next discovery turns everything you've learned about variables, selection and loops into a single new skill: reading a short program's own notes and predicting exactly what it will do before it ever runs. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="20-senses-and-voices.html">← Module 20 · Senses and Voices</a>
+    <a class="nav-link next" href="22-the-detectives-table.html">Module 22 · The Detective's Table →</a>
+  </nav>
+
+  <footer>Module 21 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>

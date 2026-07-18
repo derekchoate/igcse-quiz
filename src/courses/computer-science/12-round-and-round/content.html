@@ -1,7 +1,7 @@
 
   <section class="hero">
     <h1>Everything computers are feared and admired for <span class="lit">comes down to this: they repeat without getting bored.</span></h1>
-    <p>Every fork in Module 11 sent the lantern down one road, once. Tonight the lantern runs a loop — a circular track it can go round again and again, exactly as many times as the code says. Three keywords each define a different shape of loop: <span class="kw" style="font-family:var(--mono)">FOR</span> counts a known number of laps, <span class="kw" style="font-family:var(--mono)">WHILE</span> checks its condition <em>before</em> it boards, and <span class="kw" style="font-family:var(--mono)">REPEAT</span> checks <em>after</em> — so it always makes at least one lap. Set the dials, tap Step for one lap at a time or Run to let it go, and the station board reports exactly what the loop is doing, lap after lap.</p>
+    <p>Every fork in Module 11 sent the lantern down one road, once. Tonight the lantern runs a loop — repeating exactly as many times as the code says, not just once. Three keywords each define a different shape of loop: <span class="kw" style="font-family:var(--mono)">FOR</span> counts a known number of laps round a circular track, <span class="kw" style="font-family:var(--mono)">WHILE</span> checks its condition <em>before</em> it boards, and <span class="kw" style="font-family:var(--mono)">REPEAT</span> checks <em>after</em> — so it always makes at least one lap. Each shape gets its own diagram below; tap through at your own pace and watch exactly what the loop is doing, lap after lap.</p>
     <div class="promise">
       <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Laps run as many times as you like — nothing about a loop ever runs out or gets marked wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
     </div>
@@ -17,7 +17,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p><span class="kw" style="font-family:var(--mono)">FOR</span> is for when you already know exactly how many laps you want. <code>FOR Lap ← Start TO End STEP Step</code> runs its body once for every value from Start to End, moving by Step each time, then <span class="kw" style="font-family:var(--mono)">NEXT Lap</span> closes the loop. Both ends count — <code>FOR 1 TO 5</code> makes five laps, not four. Set the three dials below, tap Step for one lap at a time or Run to send the lantern round the whole track, and read the station board to see how many laps it actually made.</p>
+      <p><span class="kw" style="font-family:var(--mono)">FOR</span> is for when you already know exactly how many laps you want. <code>FOR Lap ← Start TO End STEP Step</code> runs its body once for every value from Start to End, moving by Step each time, then <span class="kw" style="font-family:var(--mono)">NEXT Lap</span> closes the loop. Both ends count — <code>FOR 1 TO 5</code> makes five laps, not four. One line of pseudocode, but three separate things happen each lap — set the three dials below, then tap Step to work through them one at a time: check the bound, run the body, move the counter on — and only once the counter's actually moved does the lantern hop to the next station. Tap Run to let the whole thing play out, and read the station board to see how many laps it actually made.</p>
       <div class="board">
         <div class="loop-dials" id="dials1"></div>
         <div class="decl-code" id="code1"></div>
@@ -46,21 +46,26 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p><span class="kw" style="font-family:var(--mono)">WHILE</span> <em>condition</em> <span class="kw" style="font-family:var(--mono)">DO</span> … <span class="kw" style="font-family:var(--mono)">ENDWHILE</span> tests its condition <em>first</em>, before the body ever runs. If that very first test comes back false, the body never runs — not even once. Set how many people are waiting in Queue below, then Step or Run the loop and read the station board. Try Queue at zero on purpose — see what a loop that runs zero times actually looks like.</p>
+      <p><span class="kw" style="font-family:var(--mono)">WHILE</span> <em>condition</em> <span class="kw" style="font-family:var(--mono)">DO</span> … <span class="kw" style="font-family:var(--mono)">ENDWHILE</span> tests its condition <em>first</em>, before the body ever runs. If that very first test comes back false, the body never runs — not even once. Below is that idea drawn as a flowchart: the diamond guards the door. Set how many people are waiting in Queue, then tap the chart to check Queue &gt; 0 — a "no" goes straight down to Stop without ever boarding anyone, and only a "yes" lets the lantern into Board one passenger, which then loops back up to the diamond for another check. Try Queue at zero on purpose — see what a loop that runs zero times actually looks like.</p>
       <div class="board">
         <div class="loop-dials" id="dials2"></div>
-        <div class="decl-code" id="code2"></div>
-        <div id="engine2"></div>
+        <div class="decl-code" id="whileCode2">
+          <div class="pcline" id="w2-cond"><span class="kw" id="w2-cond-kw">WHILE</span> Queue &gt; 0 <span class="kw">DO</span></div>
+          <div class="pcline" id="w2-body1">  <span class="kw">OUTPUT</span> <span class="str">"Boarding — queue now "</span>, Queue - 1</div>
+          <div class="pcline" id="w2-body2">  Queue <span class="arrow">←</span> Queue - 1</div>
+          <div class="pcline" id="w2-endwhile"><span class="kw">ENDWHILE</span></div>
+        </div>
+        <div id="walk2"></div>
       </div>
       <p class="chips-label">Try a queue that…</p>
       <div class="chips" id="chips2"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
-        <div class="nudge" id="ex2">Set Queue to 0 and press Step once: the board reads "Queue is 0 — WHILE tests the condition first and it's already false, so the body never runs." Nothing boards, the loop finishes instantly, and that's not a mistake — it's exactly what WHILE is supposed to do. Now set Queue to 3 and press Run: three people board, one lap at a time, and the loop finishes once Queue reaches 0.</div>
+        <div class="nudge" id="ex2">Set Queue to 0, then tap the chart once: the diamond checks Queue &gt; 0, finds it false immediately, and the "no" arrow carries the lantern straight down to Stop — the log reads "Queue is 0 — WHILE tests the condition first and it's already false, so the body never runs." Nothing boards, and that's not a mistake — it's exactly what WHILE is supposed to do. Now set Queue to 3 and tap through: each "yes" sends the lantern into Board one passenger, then back up to the diamond, three times, until Queue reaches 0 and "no" finally carries it on to Stop.</div>
         <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
         <div class="nudge" id="n2a">Check what WHILE actually tests, and when it tests it — before the body runs, or after? That order is the whole trick.</div>
         <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n2b">Set Queue to 0 and press Step exactly once. Read the station board carefully — did the body run before the loop finished, or not at all?</div>
+        <div class="nudge" id="n2b">Set Queue to 0 and tap the chart exactly once. Watch which node the lantern reaches — did it ever touch Board one passenger, or did "no" carry it straight past?</div>
       </div>
     </div>
   </section>
@@ -75,19 +80,23 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p><span class="kw" style="font-family:var(--mono)">REPEAT</span> … <span class="kw" style="font-family:var(--mono)">UNTIL</span> <em>condition</em> runs its body first, and only checks the condition afterwards — so the body always runs at least once, even if the very first guess would have matched anyway. Below is a door code that keeps trying: pick a guess, tap Step to try it, and keep going until Code matches — 19 is on the dial, in case you fancy sending yourself through. Notice: even a lucky guess of 19 still has to run the body once before the loop finds out it can stop.</p>
+      <p><span class="kw" style="font-family:var(--mono)">REPEAT</span> … <span class="kw" style="font-family:var(--mono)">UNTIL</span> <em>condition</em> runs its body first, and only checks the condition afterwards — so the body always runs at least once, even if the very first guess would have matched anyway. Below is that same idea drawn as a flowchart: tap it to send the lantern into <span class="kw" style="font-family:var(--mono)">INPUT</span> Code, tap a code to feed it a guess, then tap the chart again to check <span class="kw" style="font-family:var(--mono)">UNTIL</span> Code = "19" — a "no" sends the lantern straight back round to INPUT Code for another try, and only a "yes" lets it carry on to Stop. 19 is one of the four codes on offer, in case you fancy sending yourself through. Notice: even a lucky guess of 19 still has to travel all the way round that loop once before the lantern can reach Stop.</p>
       <div class="board">
-        <div class="loop-dials" id="dials3"></div>
-        <div class="decl-code" id="code3"></div>
-        <div id="engine3"></div>
+        <div class="decl-code" id="repeatCode3">
+          <div class="pcline" id="w3-repeat"><span class="kw" id="w3-repeat-kw">REPEAT</span></div>
+          <div class="pcline" id="w3-body1">  <span class="kw">OUTPUT</span> <span class="str">"Try the door code"</span></div>
+          <div class="pcline" id="w3-body2">  <span class="kw">INPUT</span> Code</div>
+          <div class="pcline" id="w3-until"><span class="kw">UNTIL</span> Code = <span class="str">"19"</span></div>
+        </div>
+        <div id="walk3"></div>
       </div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
-        <div class="nudge" id="ex3">Try 07 — no match, the board says the loop goes again. Try 42 — no match, again. Try 63 — no match, again. Try 19 — it matches, UNTIL Code = 19 is finally true, and the loop stops right there: four laps in total. Now reset and set the dial to 19 straight away: the body still runs once before the loop can even check — one lap, not zero.</div>
+        <div class="nudge" id="ex3">Tap the chart to enter the loop, then tap 07 — no match, so the diamond's "no" arrow carries the lantern straight back round to INPUT Code. Tap the chart, tap 42 — no match, back round again. Tap 63 — no match, back round once more. Tap 19, then tap the chart to check it — this time "yes" carries the lantern on to Stop: the door opens after four attempts. Now tap ↺ Start over and pick 19 as your very first guess: the lantern still has to travel all the way round the loop before Stop lights up — one attempt, not zero.</div>
         <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n3a">REPEAT always runs the body first. Reset, set the dial to 19 immediately, and press Step exactly once — does it still take a lap to notice the match?</div>
+        <div class="nudge" id="n3a">REPEAT always runs the body first. Start over, pick 19 immediately, and tap the chart to check it — does the lantern still have to complete the loop once before Stop lights up?</div>
         <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n3b">Change the dial and press Step again after a non-match — the loop keeps going until UNTIL is true. The body runs one more time on every guess, matching or not, because the check always comes after.</div>
+        <div class="nudge" id="n3b">Every "no" from the diamond sends the lantern back round to INPUT Code, never on to Stop — that loop-back arrow is the whole shape of REPEAT. Watch the trace log underneath: it's the same two questions, asked again and again, until "yes" finally opens the door.</div>
       </div>
     </div>
   </section>
@@ -129,7 +138,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Here's a loop with a bug baked in on purpose. <span class="kw" style="font-family:var(--mono)">WHILE</span> Count &lt; 10 <span class="kw" style="font-family:var(--mono)">DO</span> … <span class="kw" style="font-family:var(--mono)">ENDWHILE</span> — but nothing inside it ever changes Count. Press Run and watch the lantern take lap after lap after lap: Count never moves, so the condition never turns false. Nothing is going to break and nothing here is being tested except your eye for what's missing. When you've watched enough, pull the big plug below — it's always right there, no rush.</p>
+      <p>Here's a loop with a bug baked in on purpose, drawn as the same kind of flowchart as WHILE checks before boarding. <span class="kw" style="font-family:var(--mono)">WHILE</span> Count &lt; 10 <span class="kw" style="font-family:var(--mono)">DO</span> … <span class="kw" style="font-family:var(--mono)">ENDWHILE</span> — but nothing inside it ever changes Count. Press Run and watch the diamond and the print line trade the glow back and forth, lap after lap after lap: Count never moves, so the condition never turns false, and the "no" road down to Stop just sits there in the diagram, drawn but never lit. Nothing is going to break and nothing here is being tested except your eye for what's missing. When you've watched enough, pull the big plug below — it's always right there, no rush.</p>
       <div class="board">
         <div class="decl-code" id="code5"></div>
         <div id="engine5"></div>
@@ -166,4 +175,4 @@
     <a class="nav-link next" href="13-the-journey-of-a-message.html">Module 13 · The Journey of a Message →</a>
   </nav>
 
-  <footer>Module 12 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
+  <footer>Module 12 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
