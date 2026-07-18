@@ -7,7 +7,7 @@ const {
 
 describe("Module 28: From Human to Machine", () => {
   beforeEach(() => {
-    loadModule("28-from-human-to-machine.html");
+    loadModule("30-from-human-to-machine.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
