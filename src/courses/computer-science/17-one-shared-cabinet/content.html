@@ -1,0 +1,135 @@
+
+  <section class="hero">
+    <h1>Instructions and data live in <span class="lit">the exact same cabinet.</span></h1>
+    <p>Every part you met in Module 16 lives inside the CPU. Memory — outside it — is where both the program's instructions and the numbers it works on actually sit, addressed the same way, in the same store. This is the idea computers have been built on since the 1940s, usually named after the mathematician who described it: the <strong>Von Neumann</strong> model. This module names that idea properly, then colours in the three roads (the buses) that carry things back and forth across the link you saw in Module 16 — using the same machine map, now fully met.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Sort at your own pace, take a nudge whenever you fancy one, and nothing here ever runs out or gets marked wrong. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — one shared filing cabinet ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">One shared filing cabinet
+        <span class="disc-sub">sort five memory cells into instruction or data — then notice the twist</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below are five cells from memory, each with an address and whatever's stored there. Sort each one: is it an <strong>instruction</strong> (a step for the CPU to obey) or <strong>data</strong> (a value for it to work on)? Tap a cell, then tap the bin you think it belongs to.</p>
+      <div class="board">
+        <div class="def-pool" id="defPool1"></div>
+        <div class="term-bins" id="termBins1"></div>
+        <p class="fork-note" id="status1" aria-live="polite">Tap a cell to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">"Address 100 holds: LOAD 200" is a step for the CPU to obey — Instruction. "Address 200 holds: 19" is a plain value with nothing to obey — Data. Notice both addresses are just numbers in the same memory; nothing about the storage itself marks one as different from the other.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Ask: does this cell tell the CPU to *do* something, or just give it a *number* to use?</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Once all five are sorted, look at the addresses themselves — 100, 101, 102 and 200, 201 are all just memory locations, stored and fetched in exactly the same way. The only thing that decides "instruction" or "data" is what the CPU intends to do with what it finds there — never the storage itself. That's the Von Neumann idea: one shared memory for everything.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cpu-intro">
+    <p class="fork-note">The machine map from Module 16 — every part already met. Below, the strip under the diagram lights up to show whichever road (bus) is carrying something.</p>
+    <div class="cpu-mount" id="cpuMountMachine"></div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — the three roads ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The three roads
+        <span class="disc-sub">sort six parcels onto the bus that actually carries them</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Everything that moves between the CPU and memory travels along one of exactly three roads. The <strong>address bus</strong> carries a location in memory — never the value stored there, only where to find it. The <strong>data bus</strong> carries the actual thing being moved — a number, or an instruction fresh out of memory (an instruction counts as data here; it's just being carried, not obeyed yet). The <strong>control bus</strong> carries signals and commands only — "read this", "write that" — never a location and never a value. Tap a parcel below, then tap the road you think it travels on — watch the strip above light up to match.</p>
+      <div class="board">
+        <div class="scenario-pool" id="scenarioPool2"></div>
+        <div class="benches" id="benches2"></div>
+        <p class="fork-note" id="status2" aria-live="polite">Tap a parcel to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">"The address 104, on its way from PC into MAR" is a location — that's the Address bus. "A READ signal, telling memory to hand something over" is a command with no location and no value attached — that's the Control bus. "The value 24, arriving from memory into MDR" is an actual number being carried — that's the Data bus.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Ask what the parcel actually IS: a place, a thing, or a bare instruction to memory itself?</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">A place (an address) is always the Address bus. A thing being moved — a value or a fetched instruction — is always the Data bus. A command with nothing else attached, like "read" or "write", is always the Control bus, and only the Control bus.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — which register, which road? ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Which register, which road?
+        <span class="disc-sub">read the answer straight off the machine map</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One more pass, this time starting from a register rather than a raw description — the same map, read a different way. Pick the road for each.</p>
+      <div class="board" id="quiz3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">"The value arriving in MDR, fresh from memory" — MDR always holds a thing, so that's the Data bus. "PC's address, on its way into MAR" — an address travelling to another address-holder, so that's the Address bus.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Remember which registers hold places (PC, MAR) and which hold things (MDR, CIR) from Module 16 — that answers most of these on its own.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">MAR and PC only ever hold addresses, so anything moving into or out of them travels the Address bus. MDR and CIR hold actual values or instructions, so anything moving into or out of them travels the Data bus — even when what's moving is an instruction, not a number.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — fetch, decode, execute: the shape of it ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Fetch, decode, execute — the shape of it
+        <span class="disc-sub">put the three named stages in order, bird's-eye, before you watch them run</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One shape, three stages, repeated millions of times a second. <strong>Fetch</strong> gets the next instruction from memory. <strong>Decode</strong> works out what it means. <strong>Execute</strong> actually carries it out. Nothing here is running yet — that's next — just the order, so it's familiar before you watch it happen in slow motion. Tap a stage, then tap the position you think it belongs to.</p>
+      <div class="board">
+        <div class="def-pool" id="defPool4"></div>
+        <div class="term-bins" id="termBins4"></div>
+        <p class="fork-note" id="status4" aria-live="polite">Tap a stage to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Fetch has to happen before there's anything to decode — so Fetch is 1st. Decode has to happen before the CPU knows what to execute — so Decode is 2nd. Execute is what's left — 3rd, always last.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Ask which stage has nothing to work with yet until an earlier one has finished.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Fetch → Decode → Execute, always in that order — you can't decode an instruction you haven't fetched, and you can't execute one you haven't decoded.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a seventeenth time</h2>
+    <p>You sorted five memory cells and caught the twist yourself: instructions and data share one cabinet, and only the CPU's intentions tell them apart. You sorted six parcels onto the address, data and control roads, watching the shared map light up to match. You read the same three roads a second way, straight off individual registers. And you put fetch, decode and execute in order, bird's-eye, before watching a single step run.</p>
+    <p class="soft">Whenever you're ready, the next discovery finally sets this whole machine moving — one micro-step at a time, on a crank you control. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="16-x-ray-the-machine.html">← Module 16 · Meet the Machine</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 17 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
