@@ -46,37 +46,65 @@ Feature: Module 7 — The Recipe Idea
       | Input    |
       | Storage  |
 
-  Scenario Outline: Discovery 4 — each wrong choice gives its own redirect, none lock
+  Scenario: Discovery 4 — sorting all six map details into keep/drop
     When I open discovery 4
+    And I sort the step "stations are on the line" as "Keep" in discovery 4
+    And I sort the step "lines cross" as "Keep" in discovery 4
+    And I sort the step "line colour or number" as "Keep" in discovery 4
+    And I sort the step "distance in kilometres" as "Drop" in discovery 4
+    And I sort the step "tracks curve" as "Drop" in discovery 4
+    And I sort the step "streets and rivers" as "Drop" in discovery 4
+    Then the name-it box in discovery 4 is visible
+
+  Scenario: Discovery 4 — a wrong side redirects without locking
+    When I open discovery 4
+    And I sort the step "stations are on the line" as "Drop" in discovery 4
+    Then the step "stations are on the line" in discovery 4 is not solved
+    And the element "#toast" contains "would someone using the map need this"
+    And discovery 4 is not complete
+
+  Scenario: Discovery 4 — writing your own definition after sorting awards the star
+    When I open discovery 4
+    And I sort the step "stations are on the line" as "Keep" in discovery 4
+    And I sort the step "lines cross" as "Keep" in discovery 4
+    And I sort the step "line colour or number" as "Keep" in discovery 4
+    And I sort the step "distance in kilometres" as "Drop" in discovery 4
+    And I sort the step "tracks curve" as "Drop" in discovery 4
+    And I sort the step "streets and rivers" as "Drop" in discovery 4
+    And I write "Keep what the job needs, drop what it doesn't." in the name-it box for discovery 4
+    Then discovery 4 is complete
+
+  Scenario Outline: Discovery 5 — each wrong choice gives its own redirect, none lock
+    When I open discovery 5
     And I choose "<choice>" in the decomposition
     Then the element "#toast" contains "<redirect>"
-    And discovery 4 is not complete
+    And discovery 5 is not complete
 
     Examples:
       | choice                       | redirect                    |
       | A brighter light by the door | doesn't fix the actual hole |
       | The doorbell button          | already on the board        |
 
-  Scenario: Discovery 4 — the correct choice fills the Output column
-    When I open discovery 4
+  Scenario: Discovery 5 — the correct choice fills the Output column
+    When I open discovery 5
     And I choose "A notification sent to your phone" in the decomposition
     Then the Output column shows "A notification sent to your phone"
-    And discovery 4 is complete
+    And discovery 5 is complete
 
-  Scenario: Discovery 5 — filling only some boxes does not award the star
-    When I open discovery 5
+  Scenario: Discovery 6 — filling only some boxes does not award the star
+    When I open discovery 6
     And I fill the decomposition box "input" with "something"
     And I fill the decomposition box "process" with "something"
     And I fill the decomposition box "output" with "something"
-    Then discovery 5 is not complete
+    Then discovery 6 is not complete
 
-  Scenario: Discovery 5 — filling all four boxes awards the star
-    When I open discovery 5
+  Scenario: Discovery 6 — filling all four boxes awards the star
+    When I open discovery 6
     And I fill the decomposition box "input" with "something"
     And I fill the decomposition box "process" with "something"
     And I fill the decomposition box "output" with "something"
     And I fill the decomposition box "storage" with "something else"
-    Then discovery 5 is complete
+    Then discovery 6 is complete
 
   @visual
   Scenario: Visual baseline

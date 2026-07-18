@@ -1,0 +1,37 @@
+/* Module 18 — The Loop That Never Stops: lesson-specific styling only.
+   meta.uses: ["cpu", "chips"] — the shared machine-map kit drives all three
+   crank discoveries (D2-D4); the target `chips` kit is pulled in for D3's
+   small/large ADD-amount pair. D1's warm-up quiz is hand-rolled, same shape
+   as Module 17's D3 (not shared across files — see that module's header). */
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+.field-label{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal)}
+
+/* ── shared button look ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.loop-btn[hidden]{display:none}
+
+/* ── shared slider control (D3's ADD amount, D4's guess dial) ── */
+.key-control{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin-bottom:14px}
+.key-control input[type="range"]{width:min(220px,60vw);accent-color:var(--teal)}
+.key-readout{font-family:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;font-size:13.5px;color:var(--teal);min-width:6em;text-align:left}
+
+/* ── D1: quiz rows ── */
+.quiz-row{border-bottom:1px solid var(--card-edge);padding:14px 0}
+.quiz-row:last-child{border-bottom:none}
+.quiz-text{font-size:14.5px;color:var(--ink);margin:0 0 10px}
+.quiz-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.quiz-choice.chosen-right{border-color:var(--glow);background:rgba(255,184,77,.16);color:var(--glow)}
+.quiz-row.solved .quiz-text{color:var(--ink-soft)}
+
+.chip{font-size:14.5px}
+.nudge code{font-family:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;font-size:14px;color:var(--ink)}

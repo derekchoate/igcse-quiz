@@ -5,12 +5,13 @@ const {
   reflectVisible
 } = require("./helpers/loadModule");
 
-// This module's D2 courier log, D3 lockbox reveal, D4 bench sorter and D5
-// term-bin matcher are all bespoke to this lesson (see module.js header: the
-// shared `matcher` kit hardcodes awardStar("d3", ...) with Module 9's wording,
-// and this module's own #d3 is the padlock trick, not a matching exercise —
-// so tests drive the real markup/ids directly rather than needing new shared
-// fixtures).
+// D3 lockbox reveal, D4 bench sorter and D5 term-bin matcher are bespoke to
+// this lesson (see module.js header: the shared `matcher` kit hardcodes
+// awardStar("d3", ...) with Module 9's wording, and this module's own #d3
+// is the padlock trick, not a matching exercise — so tests drive the real
+// markup/ids directly rather than needing new shared fixtures). D2's
+// courier log runs on the shared `thread` kit (also used by Module 14's
+// D5), but is still exercised through its own #courierLog2 markup.
 function scenarioChip(id) {
   return document.querySelector('.scenario-chip[data-id="' + id + '"]');
 }
@@ -81,17 +82,37 @@ describe("Module 15: Locked Letters", () => {
       expect(isDiscoveryDone("d2")).toBe(true);
     });
 
-    test("the snoop is the one who copies the key and later unlocks the message, not the sender or friend", () => {
+    test("the snoop's copy and later unlock render as centred system notes, not a bubble from either side", () => {
       jest.useFakeTimers();
       document.getElementById("sendKeyBtn2").click();
       jest.advanceTimersByTime(3000);
       jest.useRealTimers();
 
-      const lines = Array.from(document.querySelectorAll("#courierLog2 .courier-line"));
-      const copyLine = lines.find(l => l.textContent.includes("copies the key"));
-      const unlockLine = lines.find(l => l.textContent.includes("unlocks their own copy"));
-      expect(copyLine.classList.contains("snoop")).toBe(true);
-      expect(unlockLine.classList.contains("snoop")).toBe(true);
+      const notes = Array.from(document.querySelectorAll("#courierLog2 .thread-system"));
+      const copyNote = notes.find(l => l.textContent.includes("copies the key"));
+      const unlockNote = notes.find(l => l.textContent.includes("unlocks their own copy"));
+      expect(copyNote.classList.contains("alert")).toBe(true);
+      expect(unlockNote.classList.contains("alert")).toBe(true);
+
+      const lines = Array.from(document.querySelectorAll("#courierLog2 .thread-line"));
+      expect(lines.some(l => l.textContent.includes("copies the key"))).toBe(false);
+      expect(lines.some(l => l.textContent.includes("unlocks their own copy"))).toBe(false);
+    });
+
+    test("you and your friend render as left/right bubbles, matching Module 14's ARQ thread", () => {
+      jest.useFakeTimers();
+      document.getElementById("sendKeyBtn2").click();
+      jest.advanceTimersByTime(3000);
+      jest.useRealTimers();
+
+      const lines = Array.from(document.querySelectorAll("#courierLog2 .thread-line"));
+      const youLine = lines.find(l => l.textContent.includes("Writing the shared key"));
+      const friendLine = lines.find(l => l.textContent.includes("Receiving the slip"));
+      expect(youLine.classList.contains("left")).toBe(true);
+      expect(friendLine.classList.contains("right")).toBe(true);
+
+      const roles = Array.from(document.querySelectorAll("#courierLog2 .thread-role")).map(r => r.textContent);
+      expect(roles).toEqual(["You", "Friend", "You"]);
     });
   });
 

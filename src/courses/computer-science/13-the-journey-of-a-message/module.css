@@ -79,18 +79,36 @@
 .packet-payload{background:#1A2440;color:var(--ink);font-size:14px;font-weight:600}
 .packet-trailer{background:rgba(255,184,77,.1);color:var(--glow);font-size:11px}
 
-.route-lanes{display:flex;flex-direction:column;gap:14px;margin:16px 0}
-.route-lane{display:flex;flex-direction:column;gap:4px}
-.route-lane-label{font-family:'Sora',sans-serif;font-size:11.5px;color:var(--ink-soft);letter-spacing:.3px;text-transform:uppercase}
-.route-track{position:relative;height:34px;background:#0E1730;border:1px dashed var(--card-edge);border-radius:999px;padding:0 6px}
-.route-packet{
-  display:inline-flex;align-items:center;justify-content:center;
-  position:relative;top:6px;margin-right:6px;
-  width:24px;height:24px;border-radius:50%;font-size:10px;font-family:var(--mono);
-  background:var(--card);border:1.5px solid var(--teal);color:var(--teal);
-  transition:transform .3s, background .3s, color .3s, border-color .3s;
+/* The route map: one sender node, three SVG paths that all start and end at
+   the same two points but bow apart in between, one receiver node. Each
+   packet gets its own token (circle + number) that travels its path via
+   getPointAtLength in module.js — see flowToken2. Position updates are set
+   directly as an SVG transform attribute per animation frame (not a CSS
+   transition); only the arrival colour change transitions here. */
+.route-map{margin:16px 0}
+.route-svg{width:100%;height:auto;display:block}
+.route-path{fill:none;stroke:var(--card-edge);stroke-width:2;stroke-dasharray:5 5;stroke-linecap:round}
+.route-path-label{font-family:'Sora',sans-serif;font-size:11px;letter-spacing:.3px;text-transform:uppercase;fill:var(--ink-soft);text-anchor:middle}
+.route-node{fill:#0E1730;stroke:var(--teal);stroke-width:1.5}
+.route-node-label{font-family:'Sora',sans-serif;font-size:10.5px;fill:var(--ink-soft)}
+.route-token{transition:opacity .5s ease}
+.route-token circle{fill:var(--card);stroke:var(--teal);stroke-width:1.5;transition:fill .3s,stroke .3s}
+.route-token text{font-family:var(--mono);font-size:9px;fill:var(--teal);text-anchor:middle;transition:fill .3s}
+.route-token.arrived circle{fill:var(--glow);stroke:var(--glow)}
+.route-token.arrived text{fill:#3A2606}
+.route-token.vanished{opacity:0}
+/* the burst a dropped packet scatters into instead of just fading — see
+   routeBurst in module.js; teal, matching the packet's own in-transit
+   colour (it's the packet's own material scattering), deliberately not
+   amber (that colour means "achieved" everywhere else in the house style) */
+.route-burst{fill:var(--teal);animation:route-burst .65s ease-out forwards}
+@keyframes route-burst{
+  from{opacity:1;transform:translate(0,0) scale(1)}
+  to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.15)}
 }
-.route-packet.arrived{background:var(--glow);border-color:var(--glow);color:#3A2606;transform:translateX(6px)}
+@media (prefers-reduced-motion:reduce){
+  .route-burst{animation:none;opacity:0}
+}
 
 .receiver{margin-top:14px}
 .receiver-slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px}
