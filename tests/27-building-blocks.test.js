@@ -12,7 +12,7 @@ function callD1(name) {
 
 describe("Module 25: Building Blocks", () => {
   beforeEach(() => {
-    loadModule("25-building-blocks.html");
+    loadModule("27-building-blocks.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
