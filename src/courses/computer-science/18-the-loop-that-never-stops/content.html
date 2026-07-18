@@ -1,0 +1,139 @@
+
+  <section class="hero">
+    <h1>Everything you've met since Module 16 runs on one loop that <span class="lit">never stops.</span></h1>
+    <p>Every part, named. Every road, coloured. Now: motion. Fetch an instruction, decode what it means, execute it — over and over, millions of times a second, on the very machine you've spent two modules getting to know. This module puts a crank in your hand and lets you turn it yourself: one full fetch in slow motion, an ADD instruction that actually changes a number in front of you, and finally a whole three-line program, with you predicting the answer before the machine gives it to you.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Crank through anything as many times as you like — nothing here ever runs out or gets marked wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — remember the crew? ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Remember the crew?
+        <span class="disc-sub">a quick warm-up before the machine starts moving</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Before the crank comes out, a fast recall — three quick questions, not the full seven. Pick the part each job belongs to.</p>
+      <div class="board" id="quiz1"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">"Decides what each instruction means and sends out the signals to match" is CU — it's the manager, not the calculator, and it never holds an address the way CIR does.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">If you're unsure, think back to the groups from Module 16: the two workers, the fetch trio, the instruction-and-notepad pair.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">CU decides, PC points at what's next, ACC keeps the running number. If any of the three still feels shaky, Module 16 is only a click away in the navigation at the bottom of this page — nothing here is locked.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — one full fetch ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">One full fetch
+        <span class="disc-sub">crank through a single fetch and catch the exact moment PC changes</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>The machine map is back, this time with a crank. A strip above the log names whichever bus is carrying something at that instant — the same roads you coloured in Module 17. Press the crank once per step and watch <strong>PC</strong> especially closely across the whole fetch — something about its timing is easy to assume wrong.</p>
+      <div class="board">
+        <div class="cpu-mount" id="cpuMount2"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Crank once: PC's address, 100, travels the address bus into MAR. Crank again: PC increments to 101 — already pointing at the NEXT instruction, before this one has even reached the CIR. Crank again: the control unit sends a READ signal along the control bus, telling memory to hand over what's stored at address 100. Crank again: memory sends back the instruction there — "LOAD 200" — along the data bus into MDR. Crank once more: MDR's contents copy into CIR. The instruction has arrived, ready to be decoded — and PC changed two steps before that, not at the end.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Watch PC across one complete fetch. Did it change before or after the instruction arrived in the CIR?</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">It changes during fetch — it's already pointing at the next instruction while this one is still on its way in. That's the whole point of a program counter: it never falls behind, even mid-cycle.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — decode and execute an ADD ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Decode and execute an ADD
+        <span class="disc-sub">pick an amount, then watch ACC change before your eyes</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Picture the CPU has already fetched its next instruction into the CIR: <strong>ADD</strong>, plus the address where the amount to add is stored. Its accumulator — ACC, the CPU's one working notepad for numbers — currently holds 19, your age. Pick an amount below, start the ADD, then crank through decode and execute.</p>
+      <div class="board">
+        <div class="key-control">
+          <label class="field-label" for="addSlider3">Amount to ADD — 1 to 20</label>
+          <input type="range" id="addSlider3" min="1" max="20" step="1" value="5">
+          <span class="key-readout" id="addVal3">Add: 5</span>
+        </div>
+        <button class="loop-btn primary" id="startAdd3" type="button">Start this ADD ▶</button>
+        <div class="cpu-mount" id="cpuMount3"></div>
+      </div>
+      <p class="chips-label">Try an amount that's…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Set the amount to 5 and press "Start this ADD". Crank once: the control unit decodes CIR — "ADD 201" means add whatever's stored at address 201 to ACC. Crank again: 201 travels the address bus into MAR. Crank again: memory sends back the value there, 5, along the data bus into MDR. Crank once more: the ALU adds MDR's 5 to ACC's 19. ACC updates to 24 — right in front of you. Notice the ALU did the sum, but it's ACC that keeps hold of the answer afterwards; the ALU itself doesn't remember a thing once it's done.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Try a small amount (under 10) and then a large one (15 or more) — does ACC update the same way either time?</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">It's tempting to think the ALU is where the answer lives afterwards, since it's the ALU that does the actual adding. It isn't — the ALU calculates for one instant and then forgets; ACC is the register that actually holds the running result.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — run a whole three-line program ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Run a whole three-line program
+        <span class="disc-sub">predict ACC's final value, then crank through and see</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's a tiny three-line program, at the concept level (never mind the exact machine code — that's a later module). Line 1, <strong>LOAD 200</strong>: copy whatever's stored at address 200 into ACC. Line 2, <strong>ADD 201</strong>: add whatever's stored at address 201 to ACC. Line 3, <strong>STORE 202</strong>: copy ACC's value out to address 202. Address 200 holds 19 (your age); address 201 holds 6 — the very cells you sorted in Module 17. Before you crank a single step, take a private guess at what ACC will hold once all three lines have run. Nobody sees this guess but you — there's no wrong answer here, only a chance to check your own thinking against the machine.</p>
+      <div class="board">
+        <div class="key-control">
+          <label class="field-label" for="guessDial4">My private guess for ACC's final value</label>
+          <input type="range" id="guessDial4" min="0" max="50" step="1" value="19">
+          <span class="key-readout" id="guessVal4">Guess: 19</span>
+        </div>
+        <button class="loop-btn primary" id="lockGuess4" type="button">Lock in my guess and start the program ▶</button>
+        <div class="cpu-mount" id="cpuMount4"></div>
+        <p class="fork-note" id="guessResult4" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Line 1 fetches, decodes and executes LOAD 200 — 19 copies straight into ACC (no ALU needed, LOAD is just a delivery). Line 2 fetches, decodes and executes ADD 201 — the ALU adds 6 to ACC's 19, making 25. Line 3 fetches, decodes and executes STORE 202 — ACC's 25 copies out to address 202. STORE never changes ACC itself; it only copies ACC's value elsewhere. Final answer: 25.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Work out what LOAD and ADD actually do to ACC, in order, before you crank anything.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">LOAD 200 copies 19 into ACC. ADD 201 adds 6 to whatever ACC already holds. STORE just copies ACC's value out to memory — it never changes ACC's value at all.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — an eighteenth time</h2>
+    <p>You warmed up on the crew you met two modules ago, then took the crank yourself. You cranked through a whole fetch in slow motion and caught the CPU cheating, in a sense — PC updates to the next instruction long before this one finishes. You picked your own amount, watched ACC actually change during a decode and execute, and confirmed the ALU calculates but never remembers. And you predicted ACC's final value on a real three-line program before the machine told you — and now you know exactly why it landed where it did.</p>
+    <p class="soft">Whenever you're ready, the next discovery zooms out from this one loop to what makes some CPUs faster than others — cores, cache and clock speed. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="17-one-shared-cabinet.html">← Module 17 · One Shared Cabinet</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 18 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
