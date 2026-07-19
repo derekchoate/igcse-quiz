@@ -87,7 +87,7 @@ function defendAllThreats() {
 
 describe("Module 34: The Defenders", () => {
   beforeEach(() => {
-    loadModule("34-the-defenders.html");
+    loadModule("36-the-defenders.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
