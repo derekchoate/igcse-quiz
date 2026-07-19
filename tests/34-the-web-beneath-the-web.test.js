@@ -20,7 +20,7 @@ function sortItem(poolId, binsId, itemId, binLabel) {
 
 describe("Module 32: The Web Beneath the Web", () => {
   beforeEach(() => {
-    loadModule("32-the-web-beneath-the-web.html");
+    loadModule("34-the-web-beneath-the-web.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
