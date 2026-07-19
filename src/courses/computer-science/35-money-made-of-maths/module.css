@@ -1,0 +1,143 @@
+/* Module 33 — Money Made of Maths: lesson-specific styling only.
+   meta.uses is ["chips"] — chips.css/.js comes from that kit. No shared kit
+   covers a ledger, a set of ledger copies or a fingerprinted block chain, so
+   the `.board`/`.loop-btn` shells (mirroring Modules 10-32) and every
+   `.mc-*`/`.sl-*` class below are hand-rolled here. `.sl-*` mirrors Module
+   32's own bin-sorter copy (rule of two — nothing else in this file needs a
+   different shape for D5's fact/hype sort) — not the shared `matcher` kit,
+   which hardcodes discovery "d3" and would award the wrong star here.
+
+   Palette note (flagged explicitly per the build brief): the course plan's
+   own wording for this signature interaction described the mismatch
+   cascade as "red-shifted amber". The house palette has no red at all, and
+   the design contract bans red/error-coded visuals outright — this file
+   never uses one. A block whose grip is intact reads with the same solid
+   teal already used elsewhere for a quiet "done" state (.sl-bin.filled,
+   .ww-relay-node.done in Module 32) — see .mc-block.matched /
+   .mc-copy.matched below. The villain's own edit — an action taken on
+   purpose, not a mistake — reads with the amber "primary action" treatment
+   already used for .loop-btn.primary — see .mc-block.edited /
+   .mc-copy.edited. A block whose grip has *failed* (the consequence, not
+   the action) reads with a desaturated, dashed soft-ink outline — dimmed
+   rather than alarmed — see .mc-block.flagged below. */
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+.sl-status{font-size:14px;color:var(--ink-soft);margin:10px 0 4px;text-align:center;min-height:20px}
+
+/* ── shared button look, mirrors Modules 12-32 ── */
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+  margin:4px 6px 4px 0;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn:disabled{opacity:.5;cursor:default}
+.loop-btn[hidden]{display:none}
+
+/* ── shared tap-or-drag chip pool + bins (D5) ── */
+.sl-chip-pool{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.sl-chip{
+  font-family:'Atkinson Hyperlegible',sans-serif;font-size:15px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:11px 14px;cursor:pointer;text-align:left;width:100%;
+  transition:border-color .22s, background .22s, color .22s, opacity .22s;
+  touch-action:none;
+}
+.sl-chip:hover{border-color:var(--teal)}
+.sl-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sl-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.sl-chip.placed{opacity:.35;cursor:default;pointer-events:none}
+.sl-chip.dragging{opacity:.3}
+.sl-chip-ghost{position:fixed;z-index:80;pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+.sl-bins{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:8px}
+@media (min-width:520px){.sl-bins{grid-template-columns:1fr 1fr}}
+.sl-bin{background:#121A32;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px;min-height:80px;transition:border-color .2s, background .2s}
+.sl-bin.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.sl-bin.filled{border-style:solid;border-color:rgba(123,196,180,.5)}
+.sl-bin-head{
+  width:100%;font-family:'Sora',sans-serif;font-size:13.5px;letter-spacing:.2px;
+  color:var(--teal);background:none;border:none;
+  border-bottom:1px solid var(--card-edge);padding:0 0 8px;margin-bottom:8px;
+  cursor:pointer;text-align:left;
+}
+.sl-bin-head:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sl-bin-body{font-size:14px;color:var(--ink);line-height:1.5}
+.sl-bin-body .sl-bin-line{margin-top:4px}
+.sl-bin-body .sl-bin-line:first-child{margin-top:0}
+
+/* ── D1: the one-book ledger ── */
+.mc-ledger{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
+.mc-ledger-row{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:10px 14px;
+  transition:border-color .25s, background .25s;
+}
+.mc-ledger-row.edited{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.mc-ledger-text{font-size:14.5px;color:var(--ink);flex:1 1 220px}
+
+/* ── D2 / D4's "other copies" panel: a set of independent ledger copies ── */
+.mc-copies{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0}
+@media (min-width:560px){.mc-copies{grid-template-columns:repeat(3,1fr)}}
+#othersPanel4.mc-copies{grid-template-columns:1fr}
+@media (min-width:520px){#othersPanel4.mc-copies{grid-template-columns:1fr 1fr}}
+.mc-copy{
+  background:#0E1730;border:1.5px solid var(--card-edge);border-radius:12px;padding:12px 14px;
+  transition:border-color .25s, background .25s;
+}
+.mc-copy-title{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal);margin-bottom:8px}
+.mc-copy-line{font-size:13.5px;color:var(--ink);line-height:1.5;margin-top:4px}
+.mc-copy-line:first-of-type{margin-top:0}
+.mc-copy.matched{border-color:rgba(123,196,180,.55)}
+.mc-copy.edited{border-color:var(--glow);background:rgba(255,184,77,.08)}
+.mc-copy.flagged{border-style:dashed;border-color:var(--ink-soft);background:rgba(141,151,176,.08)}
+
+/* ── D3 / D4: the fingerprinted block chain, stacked vertically at every
+   width so a chain of five never needs a horizontal layout that could
+   overflow a narrow screen ── */
+.mc-chain{display:flex;flex-direction:column;gap:12px;margin-bottom:6px}
+.mc-block{
+  background:#0E1730;border:1.5px dashed var(--card-edge);border-radius:12px;padding:12px 14px;
+  transition:border-color .25s, background .25s;
+}
+.mc-block-head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.mc-block-label{font-family:'Sora',sans-serif;font-size:14px;color:var(--ink)}
+.mc-block-fp{font-family:ui-monospace, Menlo, Consolas, monospace;font-size:13px;color:var(--teal);letter-spacing:.3px}
+.mc-block-tx{font-size:14.5px;color:var(--ink);margin-bottom:6px}
+.mc-block-grip{font-size:13px;color:var(--ink-soft);line-height:1.5;margin-bottom:6px}
+
+/* grip intact — the quiet "done" state, same teal used for a filled bin or
+   a completed relay stop elsewhere in this course */
+.mc-block.matched{border-style:solid;border-color:rgba(123,196,180,.55)}
+.mc-block.matched .mc-block-fp{color:var(--teal)}
+
+/* the villain's own edit — deliberate, not a mistake, so it reads with the
+   same amber used for a primary action button, not an error colour */
+.mc-block.edited{border-style:solid;border-color:var(--glow);background:rgba(255,184,77,.08)}
+.mc-block.edited .mc-block-fp{color:var(--glow)}
+
+/* a grip that has failed — the consequence, not the action. Desaturated
+   and dashed rather than alarmed; never red, never the wrong-pile toast
+   colour used for a mis-sorted chip elsewhere in this course */
+.mc-block.flagged{border-style:dashed;border-color:var(--ink-soft);background:rgba(141,151,176,.1)}
+.mc-block.flagged .mc-block-fp{color:var(--ink-soft)}
+.mc-block.flagged .mc-block-grip{color:var(--ink)}
+
+/* ── mobile tightening at ~380px ── */
+@media (max-width:420px){
+  .loop-btn{font-size:13px;padding:8px 13px}
+  .sl-chip{font-size:13.5px;padding:9px 12px}
+  .sl-bin-head{font-size:12.5px}
+  .sl-bin-body{font-size:13px}
+  .mc-ledger-text{font-size:13.5px}
+  .mc-copy-title{font-size:12px}
+  .mc-copy-line{font-size:13px}
+  .mc-block-label{font-size:13px}
+  .mc-block-fp{font-size:12px}
+  .mc-block-tx{font-size:13.5px}
+  .mc-block-grip{font-size:12.5px}
+}
