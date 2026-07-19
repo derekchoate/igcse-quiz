@@ -1,0 +1,179 @@
+
+  <section class="hero">
+    <h1>You've been writing in a language for humans. <span class="lit">The CPU from Module 18 only eats bulbs.</span></h1>
+    <p>Every DECLARE, every ← arrow from Module 9, every LOAD and ADD you predicted in Module 18 — none of it is what the CPU actually runs. Somebody, or something, has to translate all the way down to the bulbs. Tonight you'll meet the two very different translators that do that job, watch the exact same tiny bug reveal their whole personalities, sort their trade-offs, watch the small single-purpose translator that handles assembly language, and finally tour the workshop of tools built around all of this — the IDE.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Sort, watch, match — none of it can be done badly. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The ladder of languages
+        <span class="disc-sub">the same tiny task, three ways — feel the readability drop</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Remember Module 18's three-line program — LOAD the age 19, ADD 6 to it, STORE the answer? Here's that exact same task, written at three different levels. <strong>High-level language</strong> reads close to English and is written for a person first. <strong>Assembly language</strong> is a form of <strong>low-level language</strong> that trades words for short mnemonics — LOAD, ADD, STORE — standing in for the machine's own operations. <strong>Machine code</strong> is the only one the CPU actually runs: pure bulbs, an operation code followed by an address, exactly like the bytes from Module 1. Tap the button below to climb the ladder one rung at a time.</p>
+      <div class="board">
+        <button class="loop-btn primary" id="ladderBtn1" type="button"></button>
+        <div class="fh-panel" id="ladderPanel1"></div>
+      </div>
+      <p>Now sort four real trade-offs onto the level they actually describe.</p>
+      <div class="board">
+        <div class="fh-chip-pool" id="tradePool1"></div>
+        <div class="fh-bins" id="tradeBins1"></div>
+        <p class="fh-status" id="status1" aria-live="polite">Tap a trade-off to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Tap "The same program can often run on a different make of computer with little or no change", then tap "High-level language" — that's machine independence, one of high-level's biggest wins. Tap "Written directly in terms of the machine's own registers and addresses, so it's hard for a person to read", then tap "Low-level language" — that's exactly the readability cost you just felt climbing the ladder above. Work through the other two the same way.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">For each trade-off, ask: does this describe something easier for a *person*, or something closer to the *hardware*? Person-friendly things belong to high-level; hardware-close things belong to low-level.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">High-level language: easier to read, write and fix mistakes in; the same program can often run on a different machine with little change. Low-level language (assembly and machine code): hard for a person to read since everything is spelled out at register-and-address level; but it gives direct control over specific hardware. Neither side is simply "better" — they're built for different jobs.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The two personalities
+        <span class="disc-sub">hand the same bug to two different translators and watch what each one does</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below is a small five-line demonstration program, written in Module 9's pseudocode dialect. It has a tiny bug planted on purpose, right on line 4 — the variable is spelled <code>Scoer</code> instead of <code>Score</code>. That's not anything you did; it's baked into this program deliberately, because it's the perfect way to see two translators' very different personalities. A <strong>compiler</strong> translates the whole program before running any of it, then hands over a sealed, ready-to-run file and is done. An <strong>interpreter</strong> stays alive the whole time, translating and running one line at a time as it goes. Hand this exact program to each one in turn and watch how differently they respond to precisely the same bug.</p>
+      <div class="board">
+        <div class="fh-prog" id="prog2"></div>
+        <div class="fh-btn-row">
+          <button class="loop-btn primary" id="compileBtn2" type="button">Give it to the Compiler ▶</button>
+          <button class="loop-btn" id="interpretBtn2" type="button">Hand it to the Interpreter ▶</button>
+        </div>
+        <div class="fh-reveal" id="compileReveal2" hidden>
+          <div class="fh-reveal-label">Compiler</div>
+          <ul class="fh-log" id="compileLog2"></ul>
+        </div>
+        <div class="fh-reveal" id="interpretReveal2" hidden>
+          <div class="fh-reveal-label">Interpreter</div>
+          <ul class="fh-log" id="interpretLog2"></ul>
+        </div>
+      </div>
+      <p class="chips-label">Try both translators…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Press "Give it to the Compiler ▶" — it reads and translates all five lines first, reaches line 4, doesn't recognise Scoer anywhere, and stops translating before a single line has run: one error report, naming line 4. Press "Hand it to the Interpreter ▶" — it runs line 1, then line 2, then line 3 for real, then reaches line 4, doesn't recognise Scoer either, and stops right there, mid-run. Same bug, same line — completely different moment of discovery.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Watch exactly when each log stops producing new lines, relative to line 4 — and notice whether anything ran for real before that point.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">The compiler reported it before running anything at all. The interpreter ran lines 1–3 for real first, then discovered the problem live, right at line 4. Compilers translate everything up front; interpreters discover problems live, line by line, as they go.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Who's faster, who's friendlier
+        <span class="disc-sub">sort six real trade-offs onto the translator they actually belong to</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>It's tempting to think a compiled program still needs its compiler nearby to run — it doesn't. Once compiled, the executable file stands on its own. An interpreted program is different: the interpreter itself has to be present and running every single time the program is used. That's one real trade-off among several. Sort the six below onto Compiler or Interpreter.</p>
+      <div class="board">
+        <div class="fh-chip-pool" id="tradePool3"></div>
+        <div class="fh-bins" id="tradeBins3"></div>
+        <p class="fh-status" id="status3" aria-live="polite">Tap a trade-off to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Tap "Produces a sealed, ready-to-run executable file, so the finished program doesn't need the original translator installed to run afterwards", then tap "Compiler" — that's exactly the independence a compiled program gets. Tap "Has to be present and running every single time the program is used", then tap "Interpreter" — the opposite situation. Work through the rest asking the same question: does this happen once, up front, or does it happen every time the program runs?</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Ask of each card: does this describe something that happens once, before the finished program is even used — or something that has to keep happening every time it runs?</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Compiler: reports every error across the whole program in one go before anything runs; produces a standalone executable; the finished program usually runs faster since no translating happens during execution. Interpreter: best for catching problems the moment you reach them while still writing; runs and translates one line at a time so results appear immediately; has to be present every time the program is used. Development convenience versus a fast, independent finished program — that's the real trade, not simply "one is better".</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The assembler's small job
+        <span class="disc-sub">match three assembly lines to their machine code, one for one</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>An <strong>assembler</strong> is the small, single-purpose translator that turns an assembly language program into machine code — nothing else. It's easy to assume it can also handle a high-level language like Discovery 1's pseudocode, but it can't: an assembler only ever reads assembly language, one mnemonic at a time, and produces exactly one machine code instruction for each one it reads. No decisions, no rewriting — pure one-for-one substitution. Here's the mnemonic table it works from, stated plainly: <strong>LOAD → 0001</strong>, <strong>ADD → 0010</strong>, <strong>STORE → 0011</strong> (the address afterwards is carried straight across in binary, unchanged). Match each assembly line below to the machine code it becomes.</p>
+      <div class="board">
+        <div class="fh-chip-pool" id="asmPool4"></div>
+        <div class="fh-bins" id="asmBins4"></div>
+        <p class="fh-status" id="status4" aria-live="polite">Tap an assembly line to begin.</p>
+        <p class="fh-reveal-caption" id="revealNote4" hidden>Three lines went in, three lines came out — nothing added, nothing left out, nothing decided. That's the whole of what an assembler does, and it only ever works on assembly language, never on the pseudocode from Discovery 1.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Tap "LOAD 200", then tap "0001 11001000" — LOAD becomes opcode 0001, and 200 in binary is 11001000, carried straight across from Module 1's counting. Tap "ADD 201", then tap "0010 11001001" — ADD becomes opcode 0010, 201 is one more than 200 in binary. Tap "STORE 202" last, onto "0011 11001010" — the same pattern, one line, one substitution, every time.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Use the mnemonic table above to find the opcode first, then check that the address's binary matches the decimal address on the assembly line.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">LOAD 200 → 0001 11001000. ADD 201 → 0010 11001001. STORE 202 → 0011 11001010. Each mnemonic maps to exactly one opcode, and each address just gets written out in binary — the assembler isn't thinking about any of it, it's substituting.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Tour the workshop
+        <span class="disc-sub">match what an IDE gives you to what it actually saves you from</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>An <strong>IDE</strong> (Integrated Development Environment) bundles a whole workshop of tools around writing and running code, so you're never hunting down seven separate pieces of software. Below are the seven features Cambridge names for an IDE, each stated exactly as the syllabus names it. Match each scenario to the feature it's describing.</p>
+      <div class="board">
+        <div class="fh-chip-pool" id="idePool5"></div>
+        <div class="fh-bins" id="ideBins5"></div>
+        <p class="fh-status" id="status5" aria-live="polite">Tap a scenario to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Tap "It automatically lays the code out with consistent indenting and spacing, so it's tidy to read back later", then tap "Prettyprint" — that's exactly what prettyprint means, stated plainly. Tap "It names the exact line a problem is on, and often what's wrong, instead of leaving you to hunt through the whole program by eye", then tap "Error diagnostics" — the clue is right there in the name. Work through the rest by reading what's actually being saved you.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Auto-completion, auto-correction and prettyprint all sound similar — separate them by asking: is this finishing something I'm typing, fixing something as I type, or tidying the whole layout afterwards?</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Code editor: line numbers, colour-coding, a proper canvas. Run-time environment: the program actually runs right there. Translator: a compiler or interpreter already built in. Error diagnostics: names the line and the likely problem. Auto-completion: offers to finish what you're typing. Auto-correction: quietly fixes a small slip as you type. Prettyprint: lays the whole thing out tidily afterwards.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirtieth time</h2>
+    <p>You climbed the same three-line program up a ladder from readable pseudocode to raw bulbs, and sorted four real trade-offs onto the level they actually belong to. You handed one small, deliberately planted bug to two different translators and watched a compiler report it before running anything at all, while an interpreter ran three real lines first and only then stopped, live, at the exact line — the whole distinction falling out of one comparison. You sorted six honest trade-offs between "translate once, run fast, stand alone" and "translate live, catch problems the moment you reach them". You matched three assembly lines to the machine code they become, one for one, and saw for yourself that an assembler only ever substitutes — it never decides. And you toured an IDE's seven real features and matched each one to what it actually saves you from doing by hand.</p>
+    <p class="soft">Whenever you're ready, the next discovery moves from a single program to a whole table of data you can interrogate almost in English. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="29-the-software-layers.html">← Module 29 · The Software Layers</a>
+    <a class="nav-link next" href="31-filing-cabinets-that-answer-back.html">Module 31 · Filing Cabinets that Answer Back →</a>
+  </nav>
+
+  <footer>Module 30 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
