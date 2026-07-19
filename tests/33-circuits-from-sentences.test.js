@@ -19,7 +19,7 @@ function pickGate(chainId, slotIndex, name) {
 
 describe("Module 31: Circuits from Sentences", () => {
   beforeEach(() => {
-    loadModule("31-circuits-from-sentences.html");
+    loadModule("33-circuits-from-sentences.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
