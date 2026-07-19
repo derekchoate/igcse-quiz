@@ -29,9 +29,9 @@ function completeD5InOrder() {
   ["ow", "wf", "cw", "or", "rf", "cr"].forEach(tapSeqChip);
 }
 
-describe("Module 36: Machines that Learn", () => {
+describe("Module 38: Machines that Learn", () => {
   beforeEach(() => {
-    loadModule("36-machines-that-learn.html");
+    loadModule("38-machines-that-learn.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
@@ -211,7 +211,7 @@ describe("Module 36: Machines that Learn", () => {
   test("the reflection card carries the sanctioned ceremony line, verbatim", () => {
     document.getElementById("assembleBtn6").click();
     const h2 = document.querySelector("#reflect h2");
-    expect(h2.textContent).toBe("36 discoveries. No marks were ever given. You taught yourself a subject.");
+    expect(h2.textContent).toBe("38 discoveries. No marks were ever given. You taught yourself a subject.");
   });
 
   test("'exam' appears nowhere in the module except inside the one optional door", () => {
