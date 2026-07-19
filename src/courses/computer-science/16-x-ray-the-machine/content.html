@@ -1,14 +1,14 @@
 
   <section class="hero">
     <h1>Every program you've written since Module 1 runs on <span class="lit">one small machine</span> with a name for every part.</h1>
-    <p>Open up a CPU (central processing unit — the chip that actually runs your programs), built the ordinary way computers have used since the 1940s, and you find seven named parts working inside a boundary, plus one thing that always lives outside it: memory (RAM), holding the instructions and the data a program needs. This module meets that machine piece by piece — not all seven parts thrown at you at once, but three small groups, each explained properly before the next. Watch the diagram below fill in as you go: it's the same machine, the whole way through this course, from here on.</p>
+    <p>Open up a CPU (central processing unit — the chip that actually runs your programs) and you find seven named parts. In that same computer, you will also find another critial component: memory (RAM), holding the instructions and data a program needs. This machine has been built the same way since the 1940s. This module meets it piece by piece — not all seven parts thrown at you at once, but three small groups, each explained properly before the next. Watch the diagram below fill in as you go: it's the same machine, the whole way through this course, from here on.</p>
     <div class="promise">
       <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Match at your own pace, take a nudge whenever you fancy one, and nothing here ever runs out or gets marked wrong. Stars can never be taken away.
     </div>
   </section>
 
   <section class="cpu-intro">
-    <p class="fork-note">A quick convention, stated once so nothing has to be guessed later: parts with a <strong>solid</strong> edge below are registers — tiny stores that each hold exactly one value at a time, living inside the CPU. The part with a <strong>dashed</strong> edge is memory (RAM) — outside the CPU entirely, joined to it by the link you'll watch parts travel along later in the course. Right now every part except memory is still unmet — dimmed and unlabelled. Match each job below to reveal it.</p>
+    <p class="fork-note">A quick convention, stated once so nothing has to be guessed later: parts with a <strong>solid</strong> edge below are registers — tiny stores that each hold exactly one value at a time, living inside the CPU. The part with a <strong>dashed</strong> edge is memory (RAM) — outside the CPU entirely. It's joined to the CPU by a link you'll meet later in the course. Right now every part except memory is still unmet — dimmed and unlabelled. Match each job below to reveal it.</p>
     <div class="cpu-mount" id="cpuMountMachine"></div>
   </section>
 
@@ -22,7 +22,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Start with the two parts that <em>do</em> things, rather than just holding them. The <strong>CU</strong> (Control Unit) is the decider — it works out what each instruction means and sends out the signals that make every other part do its job, in the right order. The <strong>ALU</strong> (Arithmetic Logic Unit) is the calculator — it does the actual maths and comparisons, but only for an instant; it doesn't remember anything afterwards. Tap a job below, then tap the part you think it belongs to.</p>
+      <p>Meet the two parts that do the CPU's actual work: the decider and the calculator. The <strong>CU</strong> (Control Unit) is the decider — it works out what each instruction means and sends out the signals that make every other part do its job, in the right order. The <strong>ALU</strong> (Arithmetic Logic Unit) is the calculator — it does the actual maths and comparisons, but only for an instant. It doesn't remember anything afterwards. Tap a job below, then tap the part you think it belongs to.</p>
       <div class="board">
         <div class="def-pool" id="defPool1"></div>
         <div class="term-bins" id="termBins1"></div>
@@ -49,7 +49,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>These three always work as a team. <strong>PC</strong> (Program Counter) holds the address of the <em>next</em> instruction to fetch — never the instruction itself, just where to find it. <strong>MAR</strong> (Memory Address Register) holds an address too, but a different one: the location in memory the CPU is <em>about to</em> read from or write to, right now. <strong>MDR</strong> (Memory Data Register) holds the actual data or instruction that has just travelled in from memory, or is about to travel out — never an address. Three registers, three jobs: next, where, and what. Tap a job, then tap the part it belongs to.</p>
+      <p>Meet the fetch trio: PC, MAR and MDR — three parts that always work as a team. <strong>PC</strong> (Program Counter) holds the address of the <em>next</em> instruction to fetch — never the instruction itself, just where to find it. <strong>MAR</strong> (Memory Address Register) holds an address too, but a different one: the location in memory the CPU is <em>about to</em> read from or write to, right now. <strong>MDR</strong> (Memory Data Register) holds the actual data or instruction — whatever has just travelled in from memory, or is about to travel out. It never holds an address. Three registers, three jobs: next, where, and what. Tap a job, then tap the part it belongs to.</p>
       <div class="board">
         <div class="def-pool" id="defPool2"></div>
         <div class="term-bins" id="termBins2"></div>
@@ -76,7 +76,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Two parts left, and they're easy to confuse with parts you've already met. <strong>CIR</strong> (Current Instruction Register — some books call this one the IR, Instruction Register; same thing) holds whichever instruction is currently being decoded and carried out. <strong>ACC</strong> (Accumulator) holds the running result of whatever the ALU is calculating right now — the CPU's one working notepad for numbers. It's tempting to think the ALU itself remembers the answer, since it did the sum — it doesn't. The ALU calculates for one instant and forgets; ACC is what actually holds on to the result afterwards.</p>
+      <p>Two parts left, and they're easy to confuse with parts you've already met. <strong>CIR</strong> (Current Instruction Register) holds whichever instruction is currently being decoded and carried out. Some books call it the IR — Instruction Register — same thing. <strong>ACC</strong> (Accumulator) holds the running result of whatever the ALU is calculating right now — the CPU's one working notepad for numbers. It's tempting to think the ALU remembers the answer, since it did the sum. It doesn't — the ALU calculates for one instant, then forgets. ACC is what actually holds on to the result afterwards.</p>
       <div class="board">
         <div class="def-pool" id="defPool3"></div>
         <div class="term-bins" id="termBins3"></div>
@@ -123,7 +123,7 @@
   <!-- ══════════ REFLECTION ══════════ -->
   <section class="reflect" id="reflect" hidden>
     <h2>Notice what just happened — a sixteenth time</h2>
-    <p>You met the CPU's seven named parts in three small, sensible groups instead of all at once — the two workers, the fetch trio, and the instruction-and-notepad pair — and watched the diagram at the top of the page fill itself in as you went. Then you checked all seven, in any order, now that each one has a story attached rather than just a label.</p>
+    <p>You met the CPU's seven named parts in three small, sensible groups instead of all at once: the two workers, the fetch trio, and the instruction-and-notepad pair. The diagram at the top of the page filled itself in as you went. Then you checked all seven, in any order, now that each one has a story attached rather than just a label.</p>
     <p class="soft">Whenever you're ready, the next discovery names something you've already half-noticed about this machine: instructions and data live in the very same memory. No rush at all — the stars keep.</p>
   </section>
 
