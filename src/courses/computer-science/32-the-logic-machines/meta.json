@@ -1,0 +1,9 @@
+{
+  "number": 32,
+  "slug": "32-the-logic-machines",
+  "title": "The Logic Machines",
+  "uses": [
+    "chips",
+    "board"
+  ]
+}
