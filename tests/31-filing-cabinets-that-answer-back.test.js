@@ -7,7 +7,7 @@ const {
 
 describe("Module 29: Filing Cabinets that Answer Back", () => {
   beforeEach(() => {
-    loadModule("29-filing-cabinets-that-answer-back.html");
+    loadModule("31-filing-cabinets-that-answer-back.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
