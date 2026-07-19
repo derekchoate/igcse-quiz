@@ -1,47 +1,80 @@
 /* ================= Module 12 — Round and Round =================
-   The signature interaction: a loop engine — a circular track the lantern
-   runs round, with a station board reporting the loop's counter/condition
-   each lap, and Step / Run / Go slow / Reset controls. The same ring
-   scaffold (appendRing) and tick engine (buildLoopEngine) are reused by
-   D1 (FOR), D2 (WHILE) and D3 (REPEAT) with different step() logic; D5's
-   runaway train is a bespoke, continuously-ticking variant of the same
-   ring because its shape (no discrete "attempt", a genuine race condition
-   with a kill switch) doesn't fit the turn-based engine. D4 is a tap/drag
-   sort onto three platforms, mirroring the kit `matcher`'s dual tap+drag
-   path without pulling in the kit itself (six-into-three doesn't fit its
-   1:1 slot model). Runs inside the shared engine IIFE, so $, $$,
-   reduceMotion, sparks, toast, awardStar and makeChips are all in scope. */
+   The signature interaction is split by what each loop shape actually
+   needs to show. D1 (FOR) is a loop engine — a circular track the
+   lantern runs round, with a station board reporting the loop's
+   counter each lap, and Step / Run / Go slow / Reset controls (ring
+   scaffold: appendRing; tick engine: buildLoopEngine) — a lap count is
+   genuinely a number of stations, so a ring fits; it's the only
+   discovery still built this way. D2 (WHILE), D3 (REPEAT) and D5 (the
+   runaway train) are all flowcharts instead (the kit `walk`, same shape
+   M11 used for IF) — "checks before"/"checks after" are about *where
+   the loop-back arrow points*, not a lap count, so a ring never fit
+   them as well as it fit D1. D2 puts the decision first with "no"
+   bypassing straight to Stop; D3 puts the body first with "no" routing
+   back into it instead of merging at Stop; D5 reuses D2's exact shape
+   (decision-first, loop-back from the body) but drives it with a
+   bespoke, continuously-ticking timer instead of `makeWalk`'s
+   click-to-step engine — a genuine runaway spectacle (lap climbing into
+   the thousands, an unstoppable ping-pong between check and body)
+   doesn't fit a one-tap-per-node model, and its "no" road to Stop is
+   drawn but never reached, since nothing inside ever changes Count. D4
+   is a tap/drag sort onto three platforms, mirroring the kit `matcher`'s
+   dual tap+drag path without pulling in the kit itself (six-into-three
+   doesn't fit its 1:1 slot model). Runs inside the shared engine IIFE,
+   so $, $$, reduceMotion, sparks, toast, awardStar, makeChips, makeWalk,
+   ARROW_DEFS, syncCodeHighlight are all in scope. */
 
-  /* ═══ shared ring scaffold (decorative track; the real state lives on
-     the station board text) ═══ */
+  /* ═══ shared ring scaffold (station count/labels optional) — used by
+     D1 only now: one labelled station per real Lap value the dials
+     could reach, so the ring itself shows what "how many laps" means,
+     and the lantern hops straight between the values actually visited
+     instead of the ring just decorating ═══ */
   const RING_STATIONS = 10;
   function mkBtn(cls, label) {
     const b = document.createElement("button");
     b.type = "button"; b.className = cls; b.textContent = label;
     return b;
   }
-  function appendRing(mount) {
+  function appendRing(mount, labels) {
     const ringWrap = document.createElement("div"); ringWrap.className = "loop-ring";
     const track = document.createElement("div"); track.className = "loop-track";
-    for (let i = 0; i < RING_STATIONS; i++) {
-      const angle = (i / RING_STATIONS) * 2 * Math.PI - Math.PI / 2;
-      const dot = document.createElement("span"); dot.className = "loop-station";
-      dot.style.left = (50 + 42 * Math.cos(angle)) + "%";
-      dot.style.top = (50 + 42 * Math.sin(angle)) + "%";
-      track.appendChild(dot);
-    }
     const lantern = document.createElement("div");
     lantern.className = "loop-lantern"; lantern.setAttribute("aria-hidden", "true");
+    let count = RING_STATIONS;
+
+    function layoutDots(labelValues) {
+      Array.from(track.querySelectorAll(".loop-station")).forEach(el => el.remove());
+      ringWrap.classList.toggle("labeled", !!labelValues);
+      for (let i = 0; i < count; i++) {
+        const angle = (i / count) * 2 * Math.PI - Math.PI / 2;
+        const dot = document.createElement("span"); dot.className = "loop-station";
+        dot.style.left = (50 + 42 * Math.cos(angle)) + "%";
+        dot.style.top = (50 + 42 * Math.sin(angle)) + "%";
+        if (labelValues) {
+          const lab = document.createElement("span"); lab.className = "loop-station-label";
+          lab.textContent = String(labelValues[i]);
+          dot.appendChild(lab);
+        }
+        track.insertBefore(dot, lantern);
+      }
+    }
     track.appendChild(lantern);
+    if (labels) { count = Math.max(1, labels.length); }
+    layoutDots(labels);
     ringWrap.appendChild(track);
     mount.appendChild(ringWrap);
     function placeAt(i) {
-      const angle = (i / RING_STATIONS) * 2 * Math.PI - Math.PI / 2;
+      const angle = (i / count) * 2 * Math.PI - Math.PI / 2;
       lantern.style.left = (50 + 42 * Math.cos(angle)) + "%";
       lantern.style.top = (50 + 42 * Math.sin(angle)) + "%";
     }
     placeAt(0);
-    return { ringWrap, lantern, placeAt };
+    function rebuild(labelValues) {
+      count = labelValues ? Math.max(1, labelValues.length) : RING_STATIONS;
+      layoutDots(labelValues);
+      placeAt(0);
+    }
+    return { ringWrap, lantern, placeAt, rebuild, get count() { return count; } };
   }
 
   /* ═══ shared turn-based loop engine (used by D1/D2/D3) ═══
@@ -53,7 +86,7 @@
     const showRun = opts.showRun !== false;
 
     const bar = document.createElement("div"); bar.className = "loop-bar";
-    const stepBtn = mkBtn("loop-btn", "Step one lap ▸");
+    const stepBtn = mkBtn("loop-btn", "Step ▸");
     bar.appendChild(stepBtn);
     let runBtn = null, slowBtn = null;
     if (showRun) {
@@ -65,7 +98,7 @@
     bar.appendChild(resetBtn);
     mount.appendChild(bar);
 
-    const ring = appendRing(mount);
+    const ring = appendRing(mount, opts.ringValues ? opts.ringValues() : null);
     const board = document.createElement("p");
     board.className = "station-board"; board.setAttribute("aria-live", "polite");
     mount.appendChild(board);
@@ -84,7 +117,10 @@
       st = r.state;
       renderCode();
       board.textContent = r.boardText;
-      if (r.advanceLantern !== false) { pos = (pos + 1) % RING_STATIONS; ring.placeAt(pos); }
+      if (r.advanceLantern !== false) {
+        pos = r.lanternPos !== undefined ? r.lanternPos : (pos + 1) % ring.count;
+        ring.placeAt(pos);
+      }
       if (r.finished) {
         finished = true; stopRun();
         stepBtn.disabled = true; if (runBtn) runBtn.disabled = true;
@@ -117,7 +153,8 @@
     }
     resetBtn.addEventListener("click", () => reset());
     function reset() {
-      stopRun(); finished = false; pos = 0; ring.placeAt(0);
+      stopRun(); finished = false; pos = 0;
+      if (opts.ringValues) { ring.rebuild(opts.ringValues()); } else { ring.placeAt(0); }
       stepBtn.disabled = false; if (runBtn) runBtn.disabled = false;
       ring.ringWrap.classList.remove("done");
       st = opts.initState();
@@ -131,29 +168,79 @@
   /* ═══ D1: FOR — a countdown he parameterises ═══ */
   let engine1;
   let f1Start = 5, f1End = 1, f1Step = -1;
+  // FOR bundles three distinct actions — check the bound, run the body,
+  // move the counter on — into what reads as a single line of pseudocode.
+  // So it doesn't quietly skip the execution order the way one bundled tap
+  // used to, each Step now advances exactly one of those three phases, and
+  // only the increment phase moves the lantern — check and body both leave
+  // it exactly where it was, since the counter itself hasn't changed yet.
+  // FOR Lap ← Start TO End STEP Step reads as one line but is really three
+  // separate statements glued together — set the counter, name the bound
+  // it's checked against, name the amount it moves by — so each gets its
+  // own highlight instead of lighting the whole line as one block.
   function for1BuildCode(s) {
-    const cur = !s.done ? " cur" : "";
-    return '<div class="pcline"><span class="kw">FOR</span> Lap <span class="arrow">←</span> ' + f1Start +
-      ' <span class="kw">TO</span> ' + f1End + ' <span class="kw">STEP</span> ' + f1Step + '</div>' +
-      '<div class="pcline' + cur + '">  <span class="kw">OUTPUT</span> <span class="str">"Lap"</span>, Lap</div>' +
-      '<div class="pcline"><span class="kw">NEXT</span> Lap</div>';
+    const initCur = s.phase === null ? " cur" : "";
+    const condCur = !s.done && s.phase === "check" ? " cur" : "";
+    const bodyCur = !s.done && s.phase === "body" ? " cur" : "";
+    const stepCur = !s.done && s.phase === "increment" ? " cur" : "";
+    return '<div class="pcline">' +
+      '<span class="pc-seg' + initCur + '" id="w1-init"><span class="kw">FOR</span> Lap <span class="arrow">←</span> ' + f1Start + '</span> ' +
+      '<span class="pc-seg' + condCur + '" id="w1-cond"><span class="kw">TO</span> ' + f1End + '</span> ' +
+      '<span class="pc-seg' + stepCur + '" id="w1-step"><span class="kw">STEP</span> ' + f1Step + '</span>' +
+      '</div>' +
+      '<div class="pcline' + bodyCur + '">  <span class="kw">OUTPUT</span> <span class="str">"Lap"</span>, Lap</div>' +
+      '<div class="pcline' + stepCur + '"><span class="kw">NEXT</span> Lap</div>';
   }
   function for1Tick(s) {
-    const passes = f1Step > 0 ? s.lap <= f1End : s.lap >= f1End;
-    if (!passes) {
+    // Not yet started, or the counter just moved on — time to check the
+    // bound again before anything else can happen.
+    if (s.phase === null || s.phase === "increment") {
+      const cmp = f1Step > 0 ? "≤" : "≥";
+      const passes = f1Step > 0 ? s.lap <= f1End : s.lap >= f1End;
+      if (!passes) {
+        return {
+          state: Object.assign({}, s, { phase: "check", done: true }),
+          boardText: "Checking Lap " + cmp + " " + f1End + ": is " + s.lap + " " + cmp + " " + f1End +
+            "? No — the loop finishes after " + s.laps + " lap" + (s.laps === 1 ? "" : "s") + ".",
+          finished: true, advanceLantern: false
+        };
+      }
       return {
-        state: Object.assign({}, s, { done: true }),
-        boardText: "Condition Lap " + (f1Step > 0 ? "≤" : "≥") + " " + f1End + " is now false — loop finished after " +
-          s.laps + " lap" + (s.laps === 1 ? "" : "s") + ".",
-        finished: true, advanceLantern: false
+        state: Object.assign({}, s, { phase: "check" }),
+        boardText: "Checking Lap " + cmp + " " + f1End + ": is " + s.lap + " " + cmp + " " + f1End + "? Yes — the body runs next.",
+        finished: false, advanceLantern: false
       };
     }
-    const lapVal = s.lap, laps = s.laps + 1, nextLap = lapVal + f1Step;
+    // The check just passed — run the body.
+    if (s.phase === "check") {
+      const laps = s.laps + 1;
+      return {
+        state: Object.assign({}, s, { phase: "body", laps: laps }),
+        boardText: "Lap " + s.lap + " — OUTPUT \"Lap\", " + s.lap + " (lap " + laps + " so far).",
+        finished: false, advanceLantern: false
+      };
+    }
+    // The body just ran — move the counter on, and only now the lantern.
+    const nextLap = s.lap + f1Step;
+    const lo = Math.min(f1Start, f1End), hi = Math.max(f1Start, f1End);
+    const hasNextDot = nextLap >= lo && nextLap <= hi;
     return {
-      state: { lap: nextLap, laps: laps, done: false },
-      boardText: "Lap " + lapVal + " — OUTPUT \"Lap\", " + lapVal + " (lap " + laps + " so far)",
-      finished: false
+      state: { lap: nextLap, laps: s.laps, phase: "increment", done: false },
+      boardText: "NEXT Lap: Lap ← Lap + Step = " + s.lap + " + (" + f1Step + ") = " + nextLap + ".",
+      finished: false,
+      advanceLantern: hasNextDot,
+      lanternPos: hasNextDot ? Math.abs(nextLap - f1Start) : undefined
     };
+  }
+  // Every whole-number station between Start and End, so the ring always
+  // shows the full range — the lantern then hops straight from used station
+  // to used station (see for1Tick's lanternPos), skipping the ones Step
+  // passes over instead of hiding them.
+  function for1FullRange() {
+    const dir = f1End >= f1Start ? 1 : -1;
+    const values = [];
+    for (let v = f1Start; dir > 0 ? v <= f1End : v >= f1End; v += dir) values.push(v);
+    return values;
   }
   function mkDial(container, label, values, formatFn, onChange) {
     const wrap = document.createElement("div"); wrap.className = "loop-dial";
@@ -173,81 +260,140 @@
     v => v + " laps",
     (label, remaining) => "Made it happen — " + label + ". " + remaining + " more to find.");
   engine1 = buildLoopEngine("engine1", "code1", {
-    initState: () => ({ lap: f1Start, laps: 0, done: false }),
+    initState: () => ({ lap: f1Start, laps: 0, done: false, phase: null }),
     buildCode: for1BuildCode,
     step: for1Tick,
+    ringValues: for1FullRange,
     onFinish: s => check1(s.laps)
   });
 
-  /* ═══ D2: WHILE — checks before boarding ═══ */
-  let engine2;
-  let q2 = 3;
-  function while2BuildCode(s) {
-    const cur = !s.done ? " cur" : "";
-    return '<div class="pcline' + cur + '"><span class="kw">WHILE</span> Queue &gt; 0 <span class="kw">DO</span></div>' +
-      '<div class="pcline">  <span class="kw">OUTPUT</span> <span class="str">"Boarding — queue now "</span>, Queue - 1</div>' +
-      '<div class="pcline">  Queue <span class="arrow">←</span> Queue - 1</div>' +
-      '<div class="pcline"><span class="kw">ENDWHILE</span></div>';
-  }
-  function while2Tick(s) {
-    if (!(s.queue > 0)) {
-      const msg = s.ran === 0
+  // makeWalk (kit `walk`) expects each module to supply its own hint text —
+  // it's chrome around the click-to-step mechanic, not part of the kit.
+  // Shared by D2 and D3, the two flowchart-based discoveries in this module.
+  const HINT_STEP = "Tap the chart to move the lantern ▸";
+  const HINT_ASK = "↑ pick a value to try";
+  const HINT_DONE = "Stop reached ✦ — tap ↺ to try it again";
+  // syncCodeHighlight (kit `walk`) keeps D2/D3's separate pseudocode panels
+  // lit in step with their charts — see opts.onEnter on each makeWalk call.
+
+  /* ═══ D2: WHILE — checks before boarding, drawn as a flowchart (the kit
+     `walk`, same family as D3) with the check guarding the door: the
+     decision comes first, "no" bypasses the body entirely and goes
+     straight to Stop, and only "yes" enters the body — which then loops
+     back up to the decision, never straight to Stop, so the check always
+     runs again before another passenger can board. ═══ */
+  let q2 = 3, walk2;
+  const WHILE_SVG2 =
+    '<svg viewBox="0 0 320 400" role="img" aria-label="Queue WHILE DO flowchart">' + ARROW_DEFS +
+    '<line class="arw" x1="160" y1="48" x2="160" y2="90"/>' +
+    '<g data-edge="yes"><line class="arw" x1="160" y1="178" x2="160" y2="224"/><text class="elbl" x="176" y="204">yes</text></g>' +
+    '<path class="arw" d="M100,244 L30,244 L30,134 L102,134"/>' +
+    '<g data-edge="no"><path class="arw" d="M218,134 L280,134 L280,348 L210,348"/><text class="elbl" x="252" y="124">no</text></g>' +
+    '<g class="fcn" data-id="start"><rect class="shp" x="110" y="12" width="100" height="36" rx="18"/><text class="lbl" x="160" y="31">Start</text></g>' +
+    '<g class="fcn" data-id="dec"><polygon class="shp" points="160,90 218,134 160,178 102,134"/>' + fcLbl3(["Queue >", "0?"], 160, 138) + '</g>' +
+    '<g class="fcn" data-id="proc"><rect class="shp" x="100" y="224" width="120" height="40" rx="9"/>' + fcLbl3(["Board one", "passenger"], 160, 248) + '</g>' +
+    '<g class="fcn" data-id="stop"><rect class="shp" x="110" y="330" width="100" height="36" rx="18"/><text class="lbl" x="160" y="349">Stop</text></g>' +
+    '</svg>';
+  const WHILE_FLOW2 = {
+    "start>dec": "M160,48 L160,90",
+    "dec>proc": "M160,178 L160,224",
+    "proc>dec": "M100,244 L30,244 L30,134 L102,134",
+    "dec>stop": "M218,134 L280,134 L280,348 L210,348"
+  };
+  const WHILE_ANCHORS2 = { start: null, dec: { x: 250, y: 134 }, proc: { x: 236, y: 244 }, stop: { x: 250, y: 348 } };
+  const WHILE_LINES2 = {
+    start: ["w2-cond-kw"], dec: ["w2-cond"], proc: ["w2-body1", "w2-body2"],
+    stop: ["w2-endwhile"]
+  };
+  const D2_NODES = {
+    start: { kind: "term", next: "dec" },
+    dec: { kind: "dec", cond: s => s.queue > 0, yes: "proc", no: "stop" },
+    proc: {
+      kind: "proc",
+      set: s => { s.prevQueue = s.queue; s.ran = (s.ran || 0) + 1; s.queue = s.queue - 1; },
+      say: s => "Queue was " + s.prevQueue + " — condition true, so board one passenger. Queue now " + s.queue + ".",
+      next: "dec"
+    },
+    stop: {
+      kind: "term",
+      say: s => s.ran === 0
         ? "Queue is " + s.queue + " — WHILE tests the condition first and it's already false, so the body never runs."
-        : "Queue is 0 — WHILE tests the condition first, and now it's false, so the loop finishes after " + s.ran + " lap" + (s.ran === 1 ? "" : "s") + ".";
-      return { state: Object.assign({}, s, { done: true }), boardText: msg, finished: true, advanceLantern: false };
+        : "Queue is 0 — WHILE tests the condition first, and now it's false, so the loop finishes after " + s.ran + " lap" + (s.ran === 1 ? "" : "s") + "."
     }
-    const newQueue = s.queue - 1, ran = s.ran + 1;
-    return {
-      state: { queue: newQueue, ran: ran, done: false },
-      boardText: "Queue was " + s.queue + " — condition true, so board one passenger. Queue now " + newQueue + ".",
-      finished: false
-    };
-  }
-  mkDial($("#dials2"), "Queue", [3, 0, 1, 5], v => String(v), v => { q2 = v; if (engine2) engine2.reset(); });
+  };
+  mkDial($("#dials2"), "Queue", [3, 0, 1, 5], v => String(v), v => { q2 = v; if (walk2) walk2.reset(); });
   const check2 = makeChips($("#chips2"), [0, 1, 3, 5],
     () => awardStar("d2", "Every queue length tried, including zero — WHILE checks first, so a false start means the body never runs at all, not even once."),
     v => (v === 0 ? "ran zero times" : "ran " + v + " time" + (v > 1 ? "s" : "")),
     (label, remaining) => "Noticed — a queue that " + label + ". " + remaining + " more to try.");
-  engine2 = buildLoopEngine("engine2", "code2", {
-    initState: () => ({ queue: q2, ran: 0, done: false }),
-    buildCode: while2BuildCode,
-    step: while2Tick,
+  walk2 = makeWalk("walk2", {
+    nodes: D2_NODES,
+    svg: WHILE_SVG2,
+    start: "start", badge: { key: "queue", label: "Queue" }, anchors: WHILE_ANCHORS2, flow: WHILE_FLOW2,
+    init: () => ({ queue: q2, ran: 0 })
+  }, {
+    onEnter: id => syncCodeHighlight("whileCode2", WHILE_LINES2, id),
     onFinish: s => check2(s.ran)
   });
 
-  /* ═══ D3: REPEAT — checks after, the door-code retry ═══ */
-  let engine3;
-  let code3Guess = "07";
-  function repeat3BuildCode(s) {
-    const cur = !s.done ? " cur" : "";
-    return '<div class="pcline"><span class="kw">REPEAT</span></div>' +
-      '<div class="pcline' + cur + '">  <span class="kw">OUTPUT</span> <span class="str">"Try the door code"</span></div>' +
-      '<div class="pcline' + cur + '">  <span class="kw">INPUT</span> Code</div>' +
-      '<div class="pcline"><span class="kw">UNTIL</span> Code = <span class="str">"19"</span></div>';
-  }
-  function repeat3Tick(s) {
-    const guess = code3Guess, tries = s.tries + 1, matched = guess === "19";
-    if (matched) {
-      return {
-        state: { tries: tries, done: true },
-        boardText: "Tried " + guess + " — it matches! UNTIL Code = 19 is now true, so the loop stops. That's " + tries +
-          " lap" + (tries === 1 ? "" : "s") + " in total" + (tries === 1 ? " — even a first-guess match still had to run the body once." : "."),
-        finished: true, advanceLantern: false
-      };
+  /* ═══ D3: REPEAT — checks after, drawn as a flowchart with a loop-back
+     arrow (the kit `walk`, same shape M11 used for IF) instead of the
+     ring: "checks after" isn't a lap count, it's a "no" edge that routes
+     back into the body instead of merging at Stop, so a flowchart says it
+     more directly than any number of dots could. ═══ */
+  function fcLbl3(text, x, y) {
+    if (Array.isArray(text)) {
+      return '<text class="lbl" x="' + x + '" y="' + (y - 7) + '">' + text[0] + '</text>' +
+        '<text class="lbl" x="' + x + '" y="' + (y + 9) + '">' + text[1] + '</text>';
     }
-    return {
-      state: { tries: tries, done: false },
-      boardText: "Tried " + guess + " — UNTIL Code = 19 is false, so REPEAT loops again.",
-      finished: false
-    };
+    return '<text class="lbl" x="' + x + '" y="' + y + '">' + text + '</text>';
   }
-  mkDial($("#dials3"), "Code", ["07", "42", "63", "19"], v => v, v => { code3Guess = v; if (engine3) engine3.reset(); });
-  engine3 = buildLoopEngine("engine3", "code3", {
-    initState: () => ({ tries: 0, done: false }),
-    buildCode: repeat3BuildCode,
-    step: repeat3Tick,
-    showRun: false,
-    onFinish: s => awardStar("d3", "The door code opened — however many guesses it took, the body ran at least once before the check could even happen. That's what REPEAT…UNTIL always guarantees.")
+  const REPEAT_SVG3 =
+    '<svg viewBox="0 0 300 380" role="img" aria-label="Door-code REPEAT UNTIL flowchart">' + ARROW_DEFS +
+    '<line class="arw" x1="150" y1="48" x2="150" y2="90"/>' +
+    '<line class="arw" x1="150" y1="130" x2="150" y2="176"/>' +
+    '<g data-edge="yes"><line class="arw" x1="150" y1="264" x2="150" y2="320"/><text class="elbl" x="166" y="294">yes</text></g>' +
+    '<g data-edge="no"><path class="arw" d="M92,220 L20,220 L20,110 L88,110"/><text class="elbl" x="54" y="202">no</text></g>' +
+    '<g class="fcn" data-id="start"><rect class="shp" x="100" y="12" width="100" height="36" rx="18"/><text class="lbl" x="150" y="31">Start</text></g>' +
+    '<g class="fcn" data-id="ask"><polygon class="shp" points="100,90 220,90 208,130 88,130"/>' + fcLbl3("INPUT Code", 150, 114) + '</g>' +
+    '<g class="fcn" data-id="dec"><polygon class="shp" points="150,176 208,220 150,264 92,220"/>' + fcLbl3(["Code =", '"19"?'], 150, 224) + '</g>' +
+    '<g class="fcn" data-id="stop"><rect class="shp" x="100" y="320" width="100" height="36" rx="18"/><text class="lbl" x="150" y="339">Stop</text></g>' +
+    '</svg>';
+  const REPEAT_FLOW3 = {
+    "start>ask": "M150,48 L150,90",
+    "ask>dec": "M150,130 L150,176",
+    "dec>stop": "M150,264 L150,320",
+    "dec>ask": "M92,220 L20,220 L20,110 L88,110"
+  };
+  const REPEAT_ANCHORS3 = { start: null, ask: { x: 252, y: 112 }, dec: { x: 240, y: 220 }, stop: { x: 252, y: 338 } };
+  const REPEAT_LINES3 = { start: ["w3-repeat-kw"], ask: ["w3-body1", "w3-body2"], dec: ["w3-until"] };
+  const D3_NODES = {
+    start: { kind: "term", next: "ask" },
+    ask: {
+      kind: "io", read: "ask", var: "guess",
+      ask: "Pick a code to try:", options: ["07", "42", "63", "19"],
+      set: s => { s.tries = (s.tries || 0) + 1; },
+      say: s => "Attempt " + s.tries + " — INPUT Code",
+      readSay: v => "Tried " + v,
+      next: "dec"
+    },
+    dec: {
+      kind: "dec",
+      cond: s => s.guess === "19",
+      yes: "stop", no: "ask",
+      say: s => "Code = \"19\"? " + (s.guess === "19" ? "true — carry on to Stop." : "false — REPEAT sends the lantern back to INPUT Code.")
+    },
+    stop: { kind: "term", say: s => "Door opens after " + s.tries + " attempt" + (s.tries === 1 ? "" : "s") + "." }
+  };
+  makeWalk("walk3", {
+    nodes: D3_NODES,
+    svg: REPEAT_SVG3,
+    start: "start", badge: { key: "guess", label: "Code" }, anchors: REPEAT_ANCHORS3, flow: REPEAT_FLOW3,
+    init: () => ({ guess: null, tries: 0 })
+  }, {
+    onEnter: id => syncCodeHighlight("repeatCode3", REPEAT_LINES3, id),
+    onFinish: s => awardStar("d3", "The door opened after " + s.tries + " attempt" + (s.tries === 1 ? "" : "s") +
+      " — however many guesses it took, the body ran at least once before the check could even happen. That's what REPEAT…UNTIL always guarantees.")
   });
 
   /* ═══ D4: pick the loop — six scenarios, three platforms ═══ */
@@ -379,13 +525,20 @@
   ["FOR", "WHILE", "REPEAT"].forEach(key => $("#platforms4").appendChild(buildPlatform4(key)));
   SCENARIOS4.forEach(s => pool4.appendChild(buildScenarioChip4(s)));
 
-  /* ═══ D5: the runaway train — build one, watch it, pull the plug ═══ */
+  /* ═══ D5: the runaway train — the same WHILE flowchart shape as D2, but
+     a bespoke, continuously-ticking variant instead of `makeWalk`'s
+     click-to-step: a genuine runaway spectacle (lap climbing into the
+     thousands, an unstoppable ping-pong between check and body) doesn't
+     fit a one-tap-per-node engine, so this hand-rolls the same diamond +
+     process + loop-back visual and drives its highlight/edge classes on
+     a timer instead. The "no" road to Stop is still drawn — it's simply
+     never reached, because nothing inside the loop ever changes Count. */
   (function () {
     const codeEl = $("#code5");
     codeEl.innerHTML =
       '<div class="pcline">Count <span class="arrow">←</span> 0</div>' +
-      '<div class="pcline" id="whileLine5"><span class="kw">WHILE</span> Count &lt; 10 <span class="kw">DO</span></div>' +
-      '<div class="pcline">  <span class="kw">OUTPUT</span> <span class="str">"Still going..."</span></div>' +
+      '<div class="pcline" id="whileLine5"><span class="kw" id="whileKw5">WHILE</span> Count &lt; 10 <span class="kw">DO</span></div>' +
+      '<div class="pcline" id="outLine5">  <span class="kw">OUTPUT</span> <span class="str">"Still going..."</span></div>' +
       '<div class="pcline"><span class="kw">ENDWHILE</span></div>';
 
     const mount = $("#engine5");
@@ -395,30 +548,62 @@
     bar.appendChild(runBtn); bar.appendChild(plugBtn);
     mount.appendChild(bar);
 
-    const ring = appendRing(mount);
+    const svgWrap = document.createElement("div");
+    svgWrap.className = "fc-svg-wrap done";
+    svgWrap.innerHTML =
+      '<svg viewBox="0 0 320 400" role="img" aria-label="Runaway WHILE Count less than 10 flowchart">' + ARROW_DEFS +
+      '<line class="arw" x1="160" y1="48" x2="160" y2="90"/>' +
+      '<g data-edge="yes"><line class="arw" x1="160" y1="178" x2="160" y2="224"/><text class="elbl" x="176" y="204">yes</text></g>' +
+      '<g data-edge="loop"><path class="arw" d="M100,244 L30,244 L30,134 L102,134"/></g>' +
+      '<g data-edge="no"><path class="arw" d="M218,134 L280,134 L280,348 L210,348"/><text class="elbl" x="252" y="124">no</text></g>' +
+      '<g class="fcn" data-id="start"><rect class="shp" x="110" y="12" width="100" height="36" rx="18"/><text class="lbl" x="160" y="31">Start</text></g>' +
+      '<g class="fcn" data-id="dec"><polygon class="shp" points="160,90 218,134 160,178 102,134"/>' + fcLbl3(["Count <", "10?"], 160, 138) + '</g>' +
+      '<g class="fcn" data-id="proc"><rect class="shp" x="100" y="224" width="120" height="40" rx="9"/>' + fcLbl3(["OUTPUT", '"Still going…"'], 160, 248) + '</g>' +
+      '<g class="fcn" data-id="stop"><rect class="shp" x="110" y="330" width="100" height="36" rx="18"/><text class="lbl" x="160" y="349">Stop</text></g>' +
+      '</svg>';
+    mount.appendChild(svgWrap);
+    const decEl = svgWrap.querySelector('[data-id="dec"]');
+    const procEl = svgWrap.querySelector('[data-id="proc"]');
+    const yesEdge = svgWrap.querySelector('[data-edge="yes"]');
+    const loopEdge = svgWrap.querySelector('[data-edge="loop"]');
+
     const board = document.createElement("p");
     board.className = "station-board"; board.setAttribute("aria-live", "polite");
     board.textContent = "Count is 0. Press Run it to watch the loop take off.";
     mount.appendChild(board);
 
-    let lap = 0, pos = 0, timer = null, spinning = false, pulled = false;
+    let lap = 0, onProc = false, timer = null, spinning = false, pulled = false;
     function boardText() {
       return "Lap " + lap.toLocaleString() + " and climbing — Count is still 0. WHILE Count < 10 DO keeps testing true, because nothing inside ever changes Count.";
     }
     runBtn.addEventListener("click", () => {
       if (pulled || spinning) return;
       spinning = true; runBtn.disabled = true;
-      $("#whileLine5").classList.add("cur");
+      decEl.classList.add("cur");
       if (reduceMotion) {
+        // Settled straight into "it's been checking forever" — the whole
+        // condition line lights up, same as an ordinary recheck would.
         lap = 12482;
+        $("#whileLine5").classList.add("cur");
         board.textContent = boardText();
         return;
       }
+      // WHILE checks before it runs the body, so the very first moment
+      // (nothing evaluated yet) only lights the WHILE keyword — once
+      // ticking begins, every recheck highlights the whole condition line.
+      $("#whileKw5").classList.add("cur");
       let ticks = 0;
       timer = setInterval(() => {
         ticks++;
+        onProc = !onProc;
+        $("#whileKw5").classList.remove("cur");
+        decEl.classList.toggle("cur", !onProc);
+        procEl.classList.toggle("cur", onProc);
+        $("#whileLine5").classList.toggle("cur", !onProc);
+        $("#outLine5").classList.toggle("cur", onProc);
+        yesEdge.classList.toggle("taken", onProc);
+        loopEdge.classList.toggle("taken", !onProc);
         lap += Math.ceil(lap / 6) + 1;
-        pos = (pos + 1) % RING_STATIONS; ring.placeAt(pos);
         board.textContent = boardText();
         if (ticks >= 60 && timer) { clearInterval(timer); timer = null; }
       }, 70);
@@ -427,11 +612,14 @@
       if (pulled) return;
       pulled = true; spinning = false;
       if (timer) { clearInterval(timer); timer = null; }
+      $("#whileKw5").classList.remove("cur");
       $("#whileLine5").classList.remove("cur");
+      $("#outLine5").classList.remove("cur");
       runBtn.disabled = true;
-      ring.ringWrap.classList.add("done");
+      decEl.classList.remove("cur"); procEl.classList.remove("cur");
+      yesEdge.classList.remove("taken"); loopEdge.classList.remove("taken");
       board.textContent = "Phew — pulled the plug at lap " + lap.toLocaleString() +
-        ". Count is still 0: the loop kept testing 0 < 10, which never turns false, because nothing inside the loop ever changes Count.";
+        ". Count is still 0: the loop kept testing 0 < 10, which never turns false, because nothing inside the loop ever changes Count. The \"no\" road to Stop is right there in the diagram — it just can never be reached.";
       showBugPicker5();
     });
   })();

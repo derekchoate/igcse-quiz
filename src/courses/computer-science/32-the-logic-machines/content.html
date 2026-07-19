@@ -1,0 +1,213 @@
+
+  <section class="hero">
+    <h1>Underneath every IF, every ADD, every pixel: <span class="lit">six tiny machines that only ever answer yes or no.</span></h1>
+    <p>Every one of those six machines is called a <strong>logic gate</strong>. Each one takes one or two switches worth of input and lights a single lamp on the other side — nothing fancier than that. Tonight you build all six on a real bench: input switches on the left (the very same bulbs from Module 1, doing a new job), a symbol in the middle, one output lamp on the right. Flip every combination you can and watch the notebook beneath each bench fill itself in as you go — it's a record of what you tried, never a form to hand in.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Every cell in every notebook lights up the moment you actually try that combination — nothing to submit, nothing that can be wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">NOT, the contrarian
+        <span class="disc-sub">the only gate with just one input — and all it does is disagree</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Cambridge draws NOT as a triangle pointing at its output, with a small circle — called a <strong>bubble</strong> — sitting right on the tip. That bubble is the entire trick: wherever it appears on any gate, it means "flip whatever arrives." NOT is also the one gate in this whole module with a single input; every other gate you meet tonight takes exactly two, never more, never fewer. Flip the one switch below, labelled A, and watch the notebook fill in both of its rows.</p>
+      <div class="board gm-board" id="board1">
+        <div class="bench-host" id="benchNOT1"></div>
+        <div class="gm-table-wrap" id="tableNOT1"></div>
+        <p class="chips-label">Tick these off as you flip A…</p>
+        <div class="chips" id="chips1"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Leave A off — the readout says "A = 0 → output = 1", the lamp is lit, and the notebook's first row fills in: 0 → 1. Now flip A on — the readout flips to "A = 1 → output = 0", the lamp goes dark, and the second row fills in: 1 → 0. Two switch positions, two rows, and the notebook is already complete — that's the whole gate.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">There are only two possible things A can be — try both, in either order, and you'll have found everything NOT can ever do.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">NOT never looks at anything except true and false — it doesn't care what A represents in the real world. A off gives an output of 1; A on gives an output of 0. That's the entire rule, both rows of it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">AND & OR on the bench
+        <span class="disc-sub">the narrow gate and the wide gate from Module 11 — now wired for real</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Back in Module 11, AND was a narrow double door — both had to open — and OR was a wide one, where either door opening was enough. Here they are as real components, with the symbols Cambridge actually draws. <strong>AND</strong> is flat along its back edge and rounded at the front, like a capital D lying on its side. <strong>OR</strong> curves inward along its back edge and comes to a point at the front, like a shield. Both gates take exactly two inputs, A and B, never more. Flip every combination on both benches below and fill in both notebooks.</p>
+      <div class="board gm-board" id="board2">
+        <div class="gate-pair">
+          <div class="gate-col">
+            <div class="bench-host" id="benchAND2"></div>
+            <div class="gm-table-wrap" id="tableAND2"></div>
+          </div>
+          <div class="gate-col">
+            <div class="bench-host" id="benchOR2"></div>
+            <div class="gm-table-wrap" id="tableOR2"></div>
+          </div>
+        </div>
+        <p class="chips-label">Tick these off as you complete each notebook…</p>
+        <div class="chips" id="chips2"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">On the AND bench, switch A on with B still off — the lamp stays dark, because AND needs both switches true at once. Now switch B on too — both are true, and the lamp finally lights. On the OR bench, switch A on with B off — the lamp lights straight away, because OR only needs one true input. Try every combination on both benches until every row of both notebooks has filled itself in.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Each bench has exactly four possible switch combinations — off/off, off/on, on/off, on/on. Try all four on the AND bench, then all four on the OR bench.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">AND only lights for one single combination out of the four — both switches on. OR lights for three out of the four — every combination except both switches off. Same two switches, two very different gates, exactly like the double doors in Module 11.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The N-twins
+        <span class="disc-sub">NAND and NOR are AND and OR wearing a NOT hat — the bubble is the hat</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Take AND's symbol and add a bubble to its output, and you get <strong>NAND</strong> — an AND gate wearing a NOT hat, flipping its answer on the way out. Add that same bubble to OR's symbol and you get <strong>NOR</strong>. The bubble always means exactly the same single thing wherever it turns up: flip this. NAND isn't a vague "not quite AND" — it's precisely AND's answer, inverted, every single time, with nothing fuzzy about it. Same goes for NOR and OR. Fill in both notebooks below.</p>
+      <div class="board gm-board" id="board3">
+        <div class="gate-pair">
+          <div class="gate-col">
+            <div class="bench-host" id="benchNAND3"></div>
+            <div class="gm-table-wrap" id="tableNAND3"></div>
+          </div>
+          <div class="gate-col">
+            <div class="bench-host" id="benchNOR3"></div>
+            <div class="gm-table-wrap" id="tableNOR3"></div>
+          </div>
+        </div>
+        <p class="chips-label">Tick these off as you complete each notebook…</p>
+        <div class="chips" id="chips3"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">On the NAND bench, switch both A and B on — an ordinary AND gate would light here, but NAND's bubble flips it, so the lamp actually goes dark. Switch either one back off — AND would go dark, so NAND's bubble flips that to lit instead. On the NOR bench, leave both switches off — OR would stay dark, so NOR's bubble flips it to lit; switch either one on and NOR goes dark exactly where OR would have lit.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Work out what plain AND would do for a combination, then flip that one answer — that's exactly what NAND does. Same trick for NOR against OR.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">NAND lights for every combination except both-on — the one combination that lit plain AND. NOR lights only for both-off — the one combination that left plain OR dark. The bubble never does anything except invert, but it inverts every single row, not just some of them.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">XOR, the difference detector
+        <span class="disc-sub">lights only when its two inputs disagree — the exact sum bit from Module 3</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>XOR shares OR's curved shape, but with one extra curved line drawn just behind its back edge — that second line is the only thing telling XOR and OR apart on paper. XOR answers one very specific question: <em>are these two inputs different?</em> Try the four combinations below and watch when the lamp lights.</p>
+      <div class="board gm-board" id="board4">
+        <div class="bench-host" id="benchXOR4"></div>
+        <div class="gm-table-wrap" id="tableXOR4"></div>
+        <p class="chips-label">Find all four combinations…</p>
+        <div class="chips" id="chips4"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Leave both switches off — they agree (both false), so the lamp stays dark. Switch only A on — now they disagree, and the lamp lights. Switch B on too, leaving A on — they agree again (both true this time), and the lamp goes dark, even though both switches are lit. Finally switch A back off, leaving only B on — they disagree once more, and the lamp lights again. It lit for 01 and 10, and stayed dark for 00 and 11 — exactly the "are these different?" rule, nothing more.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Try the four combinations and watch exactly when the lamp lights, not just whether either switch is on.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">It lit for 01 and 10, but not for 00 or 11. XOR only cares whether the two inputs disagree — two lit switches leave it just as dark as two unlit ones. Remember the addition machine from Module 3? The sum bulb that lit for exactly one lit input, and stayed dark when both bulbs agreed, was XOR the entire time — and the carry bulb beside it, which only ever lit when both inputs were true, was AND all along.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Three inputs, eight rows
+        <span class="disc-sub">the counting pattern behind every truth table — the Module 1 payoff, one more time</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Every gate you've met tonight takes at most two inputs — Cambridge draws it that way without exception. So how can a three-input truth table exist at all? By chaining gates together. The box below is really two AND gates wired one after another: A AND B first, and that result AND C second. Module 33 shows the wiring in full; tonight, just flip A, B and C in every combination and watch the notebook fill its eight rows. Order matters here: Cambridge always lists the rows counting in binary — 000, 001, 010, 011, 100, 101, 110, 111 — exactly the byte-counting trick from Module 1, just three switches instead of eight. Get that counting pattern into your fingers now, and every truth table you fill in from here on falls into the same order without having to think about it — it's also how Cambridge expects the rows ordered.</p>
+      <div class="board gm-board" id="board5">
+        <div class="chain-host" id="chainHost5"></div>
+        <div class="gm-table-wrap" id="table3input5"></div>
+        <p class="chips-label">Work through all eight rows, in counting order if you like…</p>
+        <div class="chips" id="chips5"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Leave A, B and C all off — that's row 000, and both AND gates stay dark, so the final lamp stays dark too: output 0. Switch only C on — that's row 001, still 0, since the first AND gate (A and B) never lit. Now switch A and B on too, leaving C on — that's row 111: the first AND gate lights because A and B are both true, and the second AND gate lights because that result and C are both true. Output 1, and that's the only row where every switch is lit.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Count in binary with three switches, exactly like the very first byte you ever lit in Module 1: 000, then 001, then 010, and so on up to 111. Working through them in that order means you'll never wonder whether you've missed a row.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">The final lamp only lights on row 111 — every other row leaves at least one of the two chained AND gates dark, and one dark AND gate anywhere in the chain is enough to keep the final lamp off too.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Name that gate
+        <span class="disc-sub">three mystery machines, identified from behaviour alone</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Each machine below hides its symbol and its name behind a plain box printed with a question mark. Flip its switches, watch when the lamp lights, and once you're confident, pick which of the five two-input gates it's actually wearing. A pick that doesn't match yet simply tells you what you actually saw, so you can look again — trying is never wrong here, and the real symbol reveals itself the moment you land on it.</p>
+      <div class="board gm-board" id="board6">
+        <div class="mystery-grid">
+          <div class="mystery-col" id="mysteryA6"></div>
+          <div class="mystery-col" id="mysteryB6"></div>
+          <div class="mystery-col" id="mysteryC6"></div>
+        </div>
+        <p class="chips-label">Name every machine…</p>
+        <div class="chips" id="chips6"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">Take Machine A: switch both inputs on, and the lamp stays dark; switch either one off, and the lamp lights. Every combination except both-on lights it — that's NAND's whole rule, so NAND is the pick. The symbol reveals itself the moment you choose it: an AND shape wearing a bubble, exactly as you'd now expect.</div>
+        <button class="nudge-btn" data-nudge="n6a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n6a">Try every combination on a machine before picking a name — off/off, off/on, on/off, on/on. Whichever gate's rule matches every single one of those four results is the one wearing that box.</div>
+        <button class="nudge-btn" data-nudge="n6b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n6b">Ask yourself, for each machine: does it light for just one combination, or three? Does it care whether the inputs agree or disagree? Those two questions alone sort all five candidates apart.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirty-second time</h2>
+    <p>You built all six of the machines that everything since Module 1 has secretly been running on. NOT flipped a single switch on its own. AND and OR turned out to be the exact narrow gate and wide gate from Module 11, now wearing real symbols. NAND and NOR showed you that a bubble always means the same thing, no matter which gate it sits on. XOR turned out to be the very sum bulb you watched light up back in Module 3, and its neighbour the carry bulb was AND all along. A three-input notebook fell into place the moment you counted through it the way you counted a byte in Module 1. And three mystery machines gave up their names to nothing but patient testing, four combinations at a time.</p>
+    <p class="soft">Whenever you're ready, the next discoveries wire these six machines together into real circuits — an alarm, a vending machine, a greenhouse fan, built from exactly the parts you just met. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="31-filing-cabinets-that-answer-back.html">← Module 31 · Filing Cabinets that Answer Back</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 32 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
