@@ -1,7 +1,7 @@
 
   <section class="hero">
     <h1>Instructions and data live in <span class="lit">the exact same cabinet.</span></h1>
-    <p>Every part you met in Module 16 lives inside the CPU. Memory — outside it — is where both the program's instructions and the numbers it works on actually sit, addressed the same way, in the same store. This is the idea computers have been built on since the 1940s, usually named after the mathematician who described it: the <strong>Von Neumann</strong> model. This module names that idea properly, then colours in the three roads (the buses) that carry things back and forth across the link you saw in Module 16 — using the same machine map, now fully met.</p>
+    <p>Every part you met in Module 16 lives inside the CPU (central processing unit). Memory, outside the CPU, is where both the program's instructions and the numbers it works on sit — addressed the same way, in the same store. This is the idea computers have been built on since the 1940s, usually named after the mathematician who described it: the <strong>Von Neumann</strong> model. This module names that idea properly, then colours in the three roads — the buses — that carry things back and forth across the link you saw in Module 16. Same machine map, now fully met.</p>
     <div class="promise">
       <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Sort at your own pace, take a nudge whenever you fancy one, and nothing here ever runs out or gets marked wrong. Stars can never be taken away.
     </div>
@@ -35,7 +35,7 @@
   </section>
 
   <section class="cpu-intro">
-    <p class="fork-note">The machine map from Module 16 — every part already met. Below, the strip under the diagram lights up to show whichever road (bus) is carrying something.</p>
+    <p class="fork-note">The machine map from Module 16 — every part already met: CU (Control Unit), ALU (Arithmetic Logic Unit), PC (Program Counter), MAR (Memory Address Register), MDR (Memory Data Register), CIR (Current Instruction Register) and ACC (Accumulator). Below, the strip under the diagram lights up to show whichever road (bus) is carrying something.</p>
     <div class="cpu-mount" id="cpuMountMachine"></div>
   </section>
 
@@ -49,7 +49,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Everything that moves between the CPU and memory travels along one of exactly three roads. The <strong>address bus</strong> carries a location in memory — never the value stored there, only where to find it. The <strong>data bus</strong> carries the actual thing being moved — a number, or an instruction fresh out of memory (an instruction counts as data here; it's just being carried, not obeyed yet). The <strong>control bus</strong> carries signals and commands only — "read this", "write that" — never a location and never a value. Tap a parcel below, then tap the road you think it travels on — watch the strip above light up to match.</p>
+      <p>Everything that moves between the CPU and memory travels along one of exactly three roads. The <strong>address bus</strong> carries a location in memory — never the value stored there, only where to find it. The <strong>data bus</strong> carries the actual thing being moved — a number, or an instruction fresh out of memory. (An instruction counts as data here: it's just being carried, not obeyed yet.) The <strong>control bus</strong> carries signals and commands only — "read this", "write that" — never a location and never a value. Tap a parcel below, then tap the road you think it travels on — watch the strip above light up to match.</p>
       <div class="board">
         <div class="scenario-pool" id="scenarioPool2"></div>
         <div class="benches" id="benches2"></div>
@@ -61,7 +61,7 @@
         <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
         <div class="nudge" id="n2a">Ask what the parcel actually IS: a place, a thing, or a bare instruction to memory itself?</div>
         <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n2b">A place (an address) is always the Address bus. A thing being moved — a value or a fetched instruction — is always the Data bus. A command with nothing else attached, like "read" or "write", is always the Control bus, and only the Control bus.</div>
+        <div class="nudge" id="n2b">A place (an address) is always the Address bus. A thing being moved — a value or a fetched instruction — is always the Data bus. A command with nothing else attached, like "read" or "write", is always the Control bus.</div>
       </div>
     </div>
   </section>
@@ -76,7 +76,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>One more pass, this time starting from a register rather than a raw description — the same map, read a different way. Pick the road for each.</p>
+      <p>One more pass at the same three roads. This time, each scenario is anchored to one register — PC (Program Counter), MAR (Memory Address Register), MDR (Memory Data Register) or CIR (Current Instruction Register), the tiny CPU stores you met in Module 16. Work out what that register holds, and the road follows. Pick the road for each.</p>
       <div class="board" id="quiz3"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
@@ -99,7 +99,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>One shape, three stages, repeated millions of times a second. <strong>Fetch</strong> gets the next instruction from memory. <strong>Decode</strong> works out what it means. <strong>Execute</strong> actually carries it out. Nothing here is running yet — that's next — just the order, so it's familiar before you watch it happen in slow motion. Tap a stage, then tap the position you think it belongs to.</p>
+      <p>One shape, three stages, repeated millions of times a second. <strong>Fetch</strong> gets the next instruction from memory. <strong>Decode</strong> works out what it means. <strong>Execute</strong> actually carries it out. Nothing here is running yet — that's next. This is just the order, so it's already familiar once you watch it happen in slow motion. Tap a stage, then tap the position you think it belongs to.</p>
       <div class="board">
         <div class="def-pool" id="defPool4"></div>
         <div class="term-bins" id="termBins4"></div>
@@ -129,7 +129,7 @@
 
   <nav class="module-nav" aria-label="module navigation">
     <a class="nav-link prev" href="16-x-ray-the-machine.html">← Module 16 · Meet the Machine</a>
-    <span class="nav-soft">More discoveries are still being written.</span>
+    <a class="nav-link next" href="18-the-loop-that-never-stops.html">Module 18 · The Loop That Never Stops →</a>
   </nav>
 
   <footer>Module 17 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
