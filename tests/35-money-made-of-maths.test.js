@@ -33,7 +33,7 @@ function inspectAllBlocks() {
 
 describe("Module 33: Money Made of Maths", () => {
   beforeEach(() => {
-    loadModule("33-money-made-of-maths.html");
+    loadModule("35-money-made-of-maths.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
