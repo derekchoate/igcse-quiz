@@ -53,7 +53,21 @@
         </div>
         <div class="packet-tray" id="tray2" aria-live="polite"></div>
         <button class="loop-btn primary" id="releaseBtn2" type="button" hidden>Release the packets ▶</button>
-        <div class="route-lanes" id="lanes2" hidden></div>
+        <div class="route-map" id="routeMap2" hidden>
+          <svg class="route-svg" viewBox="0 0 340 180" aria-hidden="true">
+            <path id="routePath2-1" class="route-path" d="M30,90 C 115,26 225,26 310,90"></path>
+            <path id="routePath2-2" class="route-path" d="M30,90 L310,90"></path>
+            <path id="routePath2-3" class="route-path" d="M30,90 C 115,154 225,154 310,90"></path>
+            <text class="route-path-label" x="170" y="16">Route 1</text>
+            <text class="route-path-label" x="170" y="80">Route 2</text>
+            <text class="route-path-label" x="170" y="172">Route 3</text>
+            <circle class="route-node" cx="30" cy="90" r="9"></circle>
+            <circle class="route-node" cx="310" cy="90" r="9"></circle>
+            <text class="route-node-label" x="30" y="114" text-anchor="middle">Sender</text>
+            <text class="route-node-label" x="310" y="114" text-anchor="middle">Receiver</text>
+            <g id="routeTokens2"></g>
+          </svg>
+        </div>
         <div class="receiver" id="receiver2" hidden>
           <p class="fork-note">Arriving at the receiver, in whatever order they turn up:</p>
           <div class="receiver-slots" id="slots2"></div>
@@ -89,6 +103,21 @@
           <span class="congestion-val" id="congestionVal3">0%</span>
         </div>
         <button class="loop-btn primary" id="sendBtn3" type="button">Send the packets ▶</button>
+        <div class="route-map" id="routeMap3" hidden>
+          <svg class="route-svg" viewBox="0 0 340 180" aria-hidden="true">
+            <path id="routePath3-1" class="route-path" d="M30,90 C 115,26 225,26 310,90"></path>
+            <path id="routePath3-2" class="route-path" d="M30,90 L310,90"></path>
+            <path id="routePath3-3" class="route-path" d="M30,90 C 115,154 225,154 310,90"></path>
+            <text class="route-path-label" x="170" y="16">Route 1</text>
+            <text class="route-path-label" x="170" y="80">Route 2</text>
+            <text class="route-path-label" x="170" y="172">Route 3</text>
+            <circle class="route-node" cx="30" cy="90" r="9"></circle>
+            <circle class="route-node" cx="310" cy="90" r="9"></circle>
+            <text class="route-node-label" x="30" y="114" text-anchor="middle">Sender</text>
+            <text class="route-node-label" x="310" y="114" text-anchor="middle">Receiver</text>
+            <g id="routeTokens3"></g>
+          </svg>
+        </div>
         <p class="fork-note" id="arrivalLog3" aria-live="polite">Arrival order: —</p>
         <p class="reassembly-line" id="reassembled3" aria-live="polite">Message so far: · · ·</p>
       </div>
@@ -119,6 +148,21 @@
       <div class="board">
         <button class="loop-btn ghost" id="dropToggle4" type="button" aria-pressed="false">Make packet 2 go missing</button>
         <button class="loop-btn primary" id="sendBtn4" type="button">Send the packets ▶</button>
+        <div class="route-map" id="routeMap4" hidden>
+          <svg class="route-svg" viewBox="0 0 340 180" aria-hidden="true">
+            <path id="routePath4-1" class="route-path" d="M30,90 C 115,26 225,26 310,90"></path>
+            <path id="routePath4-2" class="route-path" d="M30,90 L310,90"></path>
+            <path id="routePath4-3" class="route-path" d="M30,90 C 115,154 225,154 310,90"></path>
+            <text class="route-path-label" x="170" y="16">Route 1</text>
+            <text class="route-path-label" x="170" y="80">Route 2</text>
+            <text class="route-path-label" x="170" y="172">Route 3</text>
+            <circle class="route-node" cx="30" cy="90" r="9"></circle>
+            <circle class="route-node" cx="310" cy="90" r="9"></circle>
+            <text class="route-node-label" x="30" y="114" text-anchor="middle">Sender</text>
+            <text class="route-node-label" x="310" y="114" text-anchor="middle">Receiver</text>
+            <g id="routeTokens4"></g>
+          </svg>
+        </div>
         <div class="receiver" id="receiver4">
           <div class="receiver-slots" id="slots4"></div>
           <p class="fork-note" id="gapNote4" aria-live="polite"></p>
@@ -179,4 +223,4 @@
     <a class="nav-link next" href="14-did-it-arrive-intact.html">Module 14 · Did It Arrive Intact? →</a>
   </nav>
 
-  <footer>Module 13 of 36 · Made for one particular learner · No marks were given in the making of this page.</footer>
+  <footer>Module 13 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
