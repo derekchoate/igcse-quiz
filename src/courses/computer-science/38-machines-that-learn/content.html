@@ -1,0 +1,211 @@
+
+  <section class="hero">
+    <h1>Two ways to make a machine seem clever: <span class="lit">give it every rule, or give it every example.</span></h1>
+    <p>Tonight's toy is a small bird identifier — a nod to the birds you'll actually hear outside a Malaysian window: mynas, bulbuls, sunbirds. First you'll open it up and watch it reason from rules you can see, the way Module 27's building blocks always did exactly what they were told. Then you'll build a second, completely different little machine that never gets told a rule at all — only examples — and watch its own guess sharpen on its own. Last of all, the pseudocode this whole course has been building toward: how a program keeps what it's learned after the power goes off. Then, right at the end, one small thing that isn't a discovery at all.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Where there's something to sort or sequence, a tap that doesn't land gets a warm redirect, never a red cross. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — tour the four boxes ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Tour the four boxes
+        <span class="disc-sub">every expert system, underneath, is built from exactly these four parts</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>An expert system is a program built to reason the way a specialist would, in one narrow area — here, identifying a bird from what you've noticed about it. However complicated it looks from outside, it's always built from exactly four parts, each with one job. Tap each box below to open it and read what it does. Order doesn't matter — just open all four.</p>
+      <div class="board">
+        <div class="xs-tour" id="tour1">
+          <div class="xs-box">
+            <button type="button" class="xs-box-btn" id="boxBtn-interface" aria-expanded="false">Interface</button>
+            <p class="xs-box-panel" id="boxPanel-interface" hidden>The part a person actually talks to. It asks the question and shows the answer — everything else below is invisible to whoever's using it.</p>
+          </div>
+          <div class="xs-box">
+            <button type="button" class="xs-box-btn" id="boxBtn-engine" aria-expanded="false">Inference engine</button>
+            <p class="xs-box-panel" id="boxPanel-engine" hidden>The part that reasons. It takes a question from the interface and works through the rule base, checking each rule's conditions against the facts held in the knowledge base, until it finds a rule that fits.</p>
+          </div>
+          <div class="xs-box">
+            <button type="button" class="xs-box-btn" id="boxBtn-rulebase" aria-expanded="false">Rule base</button>
+            <p class="xs-box-panel" id="boxPanel-rulebase" hidden>The set of IF…THEN rules the system has been given — the actual expertise, written down as conditions and conclusions. The rule base holds the rules; it doesn't reason about them itself.</p>
+          </div>
+          <div class="xs-box">
+            <button type="button" class="xs-box-btn" id="boxBtn-knowledge" aria-expanded="false">Knowledge base</button>
+            <p class="xs-box-panel" id="boxPanel-knowledge" hidden>The facts the system currently holds — specific, concrete information, like what's actually been noticed about one particular bird. This is what a rule's conditions get checked against.</p>
+          </div>
+        </div>
+        <p class="fork-note" id="status1" aria-live="polite">Tap a box to open it.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Tap "Interface" — it opens to explain that it's simply the part a person talks to. Tap the other three in any order you like; nothing here has a trick order, the only thing that matters is that all four get opened once.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">The rule base and the inference engine are the two that get mixed up most — the rule base just holds the rules, sitting there like a filing cabinet; the inference engine is the one that actually does the checking.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — ask it something ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Ask it something
+        <span class="disc-sub">trace one question all the way through the four boxes and back</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Someone's noticed a bird in the garden: a grey-brown body, and a soft cooing call. Press "Trace it" repeatedly and watch the question actually travel — interface to inference engine to rule base to knowledge base, and back again with an answer.</p>
+      <div class="board">
+        <div class="xs-trace" id="timeline2" aria-live="polite"></div>
+        <button type="button" class="loop-btn primary" id="traceBtn2">Trace it ▶</button>
+        <p class="xs-answer" id="answer2" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Just keep pressing "Trace it" until the button disappears — six presses, one hop of the reasoning revealed each time, ending with the interface handing back an answer: Zebra Dove.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Watch the rule base offer more than one candidate rule before the inference engine finds the one that actually fits — a grey-brown body alone matches two different birds' rules; the second condition is what decides between them.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — teach it ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Teach it
+        <span class="disc-sub">a sighting the rule base can't answer yet — until you hand it what it's missing</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A new sighting: an olive-green body, and a thin, down-curved bill. Trace it the same way as before, and see what the inference engine reports back this time.</p>
+      <div class="board">
+        <div class="xs-trace" id="timeline3" aria-live="polite"></div>
+        <button type="button" class="loop-btn primary" id="traceBtn3">Trace it ▶</button>
+        <p class="fork-note" id="noMatchNote3" aria-live="polite" hidden></p>
+        <button type="button" class="loop-btn" id="teachBtn3" hidden>Teach it the missing piece ▶</button>
+        <div class="xs-teach-card" id="teachCard3" hidden></div>
+        <button type="button" class="loop-btn primary" id="askAgainBtn3" hidden>Ask it again ▶</button>
+        <p class="xs-answer" id="answer3" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Press "Trace it" through to the end — the inference engine will report that nothing in the rule base fits, which is a perfectly good diagnosis, not a fault. Press "Teach it the missing piece" to add a new fact and a new rule, then "Ask it again" and trace it once more: this time it lands on Olive-backed Sunbird.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">"No rule matched" doesn't mean the reasoning went wrong — the inference engine checked every rule it had, correctly, and none of them fit. The rule base is what's missing something, not the reasoning.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Expert systems only ever get smarter one way: somebody hands them a new fact and a new rule. They don't work anything out for themselves — that's the whole contrast Discovery 4 is about to make.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — the other way ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The other way
+        <span class="disc-sub">the very same mystery bird, solved with zero rules — just examples</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Same mystery sighting as before: an olive-green body, a thin down-curved bill. This time the machine gets no rules at all — just labelled examples, one at a time. Press "Feed it an example" and watch its own best guess update after each one.</p>
+      <div class="board">
+        <div class="xs-trace" id="timeline4" aria-live="polite"></div>
+        <button type="button" class="loop-btn primary" id="feedBtn4">Feed it an example ▶</button>
+        <p class="fork-note" id="note4" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Just keep pressing "Feed it an example" — five presses, five labelled examples, and the matcher's best guess for the mystery sighting sharpens a little after each one, without you ever telling it a single rule.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">An early guess that isn't confident yet isn't wrong — it's exactly what "still learning" looks like with only one or two examples to go on. Keep feeding it more.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Notice the example that ISN'T a sunbird — a thick, straight bill instead of a thin curved one. That example sharpens the guess just as much as the ones that do match, by ruling a feature out.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 — files, the last piece ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Files, the last piece
+        <span class="disc-sub">save what it just learned, so switching it off doesn't lose it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Everything the expert system was taught in Discovery 3 lives in memory — and memory empties the moment the power goes off. Below are six pseudocode lines, shuffled: three that save the new fact to a file, and three that read it straight back. Tap them, one at a time, in the only order that actually works.</p>
+      <div class="board">
+        <div class="seq-build" id="seqBuild5" aria-live="polite"></div>
+        <div class="seq-pool" id="seqPool5"></div>
+        <p class="fork-note" id="status5" aria-live="polite">Tap the line that has to come first.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">The whole sequence, in the only order that works: open the file FOR WRITE, WRITEFILE the new fact into it, CLOSEFILE it — then open the very same file again, this time FOR READ, READFILE the fact back out, and CLOSEFILE it once more. Below, you'd just tap the six tiles in that order; nothing to type.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Nothing can be read from or written to a file until it's been OPENFILEd — and a file can only be open in one mode, READ or WRITE, at a time.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">A file opened FOR WRITE has to be CLOSEFILEd before it can ever be reopened FOR READ — the two modes never overlap, and forgetting the CLOSEFILE in between is the single easiest step to miss.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 — the ceremony ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The ceremony
+        <span class="disc-sub">one small, honest picture of the whole thing, and then you're done</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Six stars sit above this page tonight, one for every discovery you've just opened. Below is a small, honest picture of the other thirty-five — not a live readout, because there's genuinely no wire yet connecting this page to any of the others to check their stars one by one. Just the plain shape of the fact that you opened every one of them, once each, in whatever order actually suited you. Press the button when you're ready to see it.</p>
+      <div class="board">
+        <div class="const-zone">
+          <p class="const-label">Tonight, on this page — six real stars</p>
+          <div class="const-grid const-grid-mine" id="constMine"></div>
+        </div>
+        <div class="const-zone">
+          <p class="const-label">The other thirty-five modules — a picture, not a readout</p>
+          <div class="const-grid const-grid-rest" id="constRest"></div>
+        </div>
+        <button type="button" class="loop-btn primary" id="assembleBtn6">Assemble the constellation ▶</button>
+        <p class="fork-note" id="ceremonyNote6" aria-live="polite" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">There's nothing to get right here at all — press "Assemble the constellation" whenever you feel like it, and the picture appears exactly the same way regardless of when you press it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION — the ceremony's real ending ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>38 discoveries. No marks were ever given. You taught yourself a subject.</h2>
+    <p>You did this from a genuinely blank start — no retained schoolwork to lean on, no teacher setting the pace — one discovery at a time, on whatever evenings actually worked, peeking ahead whenever you felt like it, because peeking ahead was always allowed. Thirty-eight modules is honestly all of it: every topic Cambridge 0478 covers, at the level it actually asks for, with nothing deliberately made smaller or easier than it really is.</p>
+    <p class="soft">Nothing above resets and nothing expires — every star this course has given you is still sitting exactly where you left it, on whichever page you left it, for as long as that page stays open to you. There's genuinely nothing that has to happen next. If it's ever useful, the same shape is planned for other subjects too — but that's a distant, unhurried thing, not tonight's business.</p>
+    <div class="exam-door">
+      <button class="nudge-btn" data-nudge="examDoorPanel" id="examDoorBtn">curious what the exam looks like?</button>
+      <div class="nudge" id="examDoorPanel">Cambridge publishes real past exam papers for 0478 online — the actual question sheets, with worked answers, from real past sittings. This course was never built around them, and nothing here needed them — but if you're ever curious what all thirty-eight discoveries above turn into on paper, in the exact wording an exam room would use, that's where to look. No rush, and no need to go looking tonight.</div>
+    </div>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="37-machines-that-act-alone.html">← Module 37 · Machines that Act Alone</a>
+    <span class="nav-soft">That's the course — all thirty-eight.</span>
+  </nav>
+
+  <footer>Module 38 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>

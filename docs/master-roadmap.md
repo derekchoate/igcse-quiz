@@ -25,7 +25,7 @@ Module counts are now settled across all three subjects (audits adjudicated and 
 
 | Course | Code | Modules | Syllabus cycle targeted |
 |--------|------|---------|-------------------------|
-| Computer Science | 0478 | **36** | 2026–2028 |
+| Computer Science | 0478 | **38** | 2026–2028 |
 | Mathematics (Core) | 0580 | **52** | 2025–2027 |
 | English (First Language) | 0500 | **29** | 2027–2029 |
 
@@ -81,7 +81,7 @@ At the planning low end (H1 ≈ 3–4 h/wk, H2 ≈ 1.5 modules/wk foreground):
 
 | Course | Modules | New-module weeks (foreground) | + Bridge tail | ≈ Time-to-readiness (foreground) |
 |--------|---------|-------------------------------|---------------|----------------------------------|
-| CS | 36 | ~20–24 wks | ~2–3 mo | **~8–9 months** |
+| CS | 38 | ~20–24 wks | ~2–3 mo | **~8–9 months** |
 | Maths | 52 | ~28–35 wks | ~2–3 mo | **~10–12 months** |
 | English (modules only) | 29 | ~16–20 wks | ~2–3 mo | ~6–7 months **but gated by H4 (reading calendar), not by module weeks** |
 
@@ -131,7 +131,7 @@ Each course goes to a sitting only when **all** of its gates read green. Every g
 
 **CS 0478 — go when:**
 
-- All **36** modules explored; the minted skill-blueprint tier (NAME IT / DEFINE IT, SORT IT / PLACE IT) is applied reliably, and describe-the-process / describe-the-structure prompts are handled comfortably (the audit's ≈87%-of-gap-marks tier).
+- All **38** modules explored; the minted skill-blueprint tier (NAME IT / DEFINE IT, SORT IT / PLACE IT) is applied reliably, and describe-the-process / describe-the-structure prompts are handled comfortably (the audit's ≈87%-of-gap-marks tier).
 - The QBE→SQL database currency re-skin has been met (Strand P), so DB questions arrive in SQL, not legacy QBE grids.
 - Bridge composition + exam-craft rungs completed to the learner's consent; a couple of full current-format papers have been met **calmly** (calm is the signal, not the score).
 
@@ -168,4 +168,4 @@ Each course goes to a sitting only when **all** of its gates read green. Every g
 
 ---
 
-*Roadmap v1 — 2026-07-11. Built on settled counts (CS 36, maths 52, English 29) with both maths-audit flags closed. Revisit the weekly-hours assumptions (§4) once real intake data exists in the Constellation pools; the whole schedule re-derives from them.*
+*Roadmap v1 — 2026-07-11. Built on settled counts (CS 36, maths 52, English 29) with both maths-audit flags closed. Revisit the weekly-hours assumptions (§4) once real intake data exists in the Constellation pools; the whole schedule re-derives from them. CS count updated to 38 (2026-07-19) after Module 16 was split into three modules — see `computer-science/secret-language-course-plan.md` and `audit/catalogue-amendments-cs-adjudicated.md`.*

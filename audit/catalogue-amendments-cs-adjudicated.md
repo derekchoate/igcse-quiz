@@ -78,6 +78,7 @@ v1's CS section was **genre-level only** (never paper-verified) and made three c
 **Course plan (`secret-language-course-plan.md`) — minimal, like English:**
 
 4. **No new modules — 36 stands.** Homes already exist for every gap topic (the CS1/CS2 mapping above is exhaustive against the 36-module map).
+   **Superseded 2026-07-19:** Module 16 (X-Ray the Machine) was split into three modules — Meet the Machine, One Shared Cabinet, The Loop That Never Stops — because it crammed Von Neumann/CPU-component vocabulary, the fetch-decode-execute cycle, bus classification and a synthesis program into one sitting. This was a pacing/scope decision made independently of this audit's content-completeness finding above (which still holds — no new *content* gap was found); it grows the course to **38 modules**. See `computer-science/secret-language-course-plan.md` and PR #46.
 5. **M7 · The Recipe Idea:** add an **abstraction** discovery alongside decomposition (7.1), with its own NAME-IT mint. This is the only course-content change (CS3).
 6. **Production notes:** the NAME-IT/DEFINE-IT stress test (own-wording vs mark-scheme) is placed per module wherever a term is first understood; SORT-IT/PLACE-IT is the catalogue name for the existing sort/match mechanics so their outputs file into the unified library.
 
