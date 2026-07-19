@@ -1,0 +1,9 @@
+{
+  "number": 33,
+  "slug": "33-circuits-from-sentences",
+  "title": "Circuits from Sentences",
+  "uses": [
+    "chips",
+    "board"
+  ]
+}

@@ -1,0 +1,94 @@
+/* Module 31 — Circuits from Sentences: lesson-specific styling only.
+   meta.uses is ["chips","board"] — chips.css/.js and board.css (the .bit/
+   .bulb switch visuals from Module 1, reused again here for every raw
+   input switch and every indicator lamp) come from those kits.
+
+   There is no shared "gates" kit yet (only Module 30 and this module use
+   gate rendering, and extracting one would mean editing Module 30's files,
+   which this branch isn't allowed to touch beyond its one permitted nav
+   edit) — so the `.gm-*`/`.gate-*` class names below intentionally mirror
+   Module 30's own module.css, recreated here rather than imported, to keep
+   the visual language identical without touching Module 30's files. The
+   `.circuit-*`/`.gate-pick-*`/`.gm-target-*` classes are new, specific to
+   the two-gate chained wiring board this module adds. */
+
+.gm-board{text-align:left}
+
+/* ── raw input switches + indicator lamps (Q lamp, mid-carry lamp) ── */
+.gate-switches{display:flex;justify-content:center;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:4px}
+.chain-switches{margin-bottom:10px}
+.gate-bench-label{font-family:'Sora',sans-serif;font-size:14.5px;color:var(--teal);letter-spacing:.3px;margin:0 0 6px;text-align:center}
+.gate-diagram{display:flex;justify-content:center;margin:2px 0}
+.gate-svg{width:100%;max-width:190px;height:auto}
+.gwire{stroke:#33406B;stroke-width:3;fill:none;transition:stroke .25s,filter .25s}
+.gwire.on{stroke:var(--glow);filter:drop-shadow(0 0 4px rgba(255,184,77,.6))}
+.gbody{fill:#1C2748;stroke:#33406B;stroke-width:2.5;transition:fill .25s,stroke .25s}
+.gate-svg.fired .gbody{fill:rgba(255,184,77,.16);stroke:var(--glow)}
+.gbubble{fill:#121A32;stroke:#33406B;stroke-width:2.5;transition:stroke .25s}
+.gate-svg.fired .gbubble{stroke:var(--glow)}
+.gwire-extra{stroke:#33406B;stroke-width:2;fill:none}
+.gate-lamp-wrap{display:flex;justify-content:center;margin-top:2px}
+.lamp-out{cursor:default}
+.gate-readout{text-align:center;font-family:'Sora',sans-serif;font-size:14px;color:var(--ink-soft);min-height:20px;margin:6px 0 2px}
+
+/* ── the notebook / target table beneath a board ── */
+.gm-table-wrap{overflow-x:auto;border:1px solid var(--card-edge);border-radius:10px;background:#0E1730;margin:10px 0 4px;-webkit-overflow-scrolling:touch}
+.gm-table{border-collapse:collapse;width:100%;min-width:210px;font-size:14px;margin:0 auto}
+.gm-table th,.gm-table td{padding:7px 12px;text-align:center;border-bottom:1px solid var(--card-edge);white-space:nowrap}
+.gm-table thead th{font-family:'Sora',sans-serif;font-size:12.5px;color:var(--teal);border-bottom:1.5px solid var(--card-edge)}
+.gm-table tbody tr:last-child td{border-bottom:none}
+.gm-table td{color:var(--ink-soft)}
+.gm-table tr.tested td{color:var(--ink)}
+.gm-table tr.tested td:last-child{color:var(--glow);font-weight:600}
+.gm-table tr.matched td{color:var(--ink);background:rgba(255,184,77,.08)}
+.gm-table tr.matched td:last-child{color:var(--glow);font-weight:600}
+.chain-progress{text-align:center;font-family:'Sora',sans-serif;font-size:13.5px;color:var(--ink-soft);margin:6px 0 2px}
+
+/* ── the two-gate chained wiring board — the signature interaction ── */
+.circuit-chain{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:6px}
+.gate-slot{
+  width:100%;max-width:420px;background:#0E1730;border:1px solid var(--card-edge);
+  border-radius:12px;padding:14px 10px;text-align:center;
+}
+.chain-link{display:flex;flex-direction:column;align-items:center;gap:2px;margin:2px 0}
+.chain-link-label{font-size:12.5px;color:var(--ink-soft);text-align:center;max-width:280px}
+.chain-output{display:flex;flex-direction:column;align-items:center;margin-top:2px}
+
+/* ── gate-type picker row: current selection is a live setting, never a
+   guess — every candidate stays clickable, always changeable, no lock ── */
+.gate-picker{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:8px 0 2px}
+.gate-pick-btn{
+  font-family:'Sora',sans-serif;font-size:13px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:6px 12px;cursor:pointer;transition:all .22s;
+}
+.gate-pick-btn:hover{border-color:var(--teal)}
+.gate-pick-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.gate-pick-btn.active{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+
+/* ── expression multiple-choice (D5, D6) — same option-button language as
+   Module 30's "name that gate" picks, reused for reading wiring backwards ── */
+.expr-option-row{display:flex;flex-direction:column;gap:8px;margin:10px 0 8px}
+.expr-option-btn{
+  font-family:'Sora',sans-serif;font-size:14.5px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink);
+  border-radius:12px;padding:10px 14px;cursor:pointer;transition:all .22s;text-align:left;
+}
+.expr-option-btn:hover{border-color:var(--teal)}
+.expr-option-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.expr-option-btn.locked{background:var(--glow);color:#3A2606;border-color:var(--glow);pointer-events:none}
+.expr-status{font-size:14px;color:var(--ink-soft);min-height:36px;margin-top:4px}
+.expr-status.solved{color:var(--glow)}
+
+/* ── mobile tightening at ~380px: a wiring board with switches, two gate
+   slots, a lamp and a target table is visually dense, so this gets a
+   dedicated pass rather than inheriting Module 30's breakpoint numbers ── */
+@media (max-width:420px){
+  .gate-switches{gap:8px}
+  .gate-svg{max-width:150px}
+  .gate-slot{padding:12px 6px}
+  .gm-table th,.gm-table td{padding:6px 6px;font-size:12px}
+  .gate-readout{font-size:12.5px}
+  .gate-pick-btn{font-size:12px;padding:5px 9px}
+  .expr-option-btn{font-size:13.5px;padding:9px 11px}
+}
