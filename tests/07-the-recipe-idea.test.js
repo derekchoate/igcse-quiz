@@ -17,7 +17,7 @@ describe("Module 7: The Recipe Idea", () => {
   test("starts at zero stars, with no discovery pre-completed", () => {
     expect(starCount()).toBe("✦ 0");
     expect(reflectVisible()).toBe(false);
-    ["d1", "d2", "d3", "d4", "d5"].forEach(id => {
+    ["d1", "d2", "d3", "d4", "d5", "d6"].forEach(id => {
       expect(isDiscoveryDone(id)).toBe(false);
     });
   });
@@ -88,8 +88,39 @@ describe("Module 7: The Recipe Idea", () => {
     expect(isDiscoveryDone("d3")).toBe(true);
   });
 
-  test("discovery 4: each wrong choice gives its own specific redirect, none lock the board", () => {
-    const choices = document.querySelectorAll("#decompChoices4 .decomp-choice");
+  test("discovery 4: sorting all six map details into keep/drop reveals the name-it box and awards the star on writing a definition", () => {
+    const items = document.querySelectorAll("#sortList4 .sort-item");
+    expect(items.length).toBe(6);
+    const answers = ["Keep", "Keep", "Keep", "Drop", "Drop", "Drop"];
+
+    expect(document.getElementById("nameIt4").hidden).toBe(true);
+
+    items.forEach((item, i) => {
+      sortBtnByLabel(item, answers[i]).click();
+      expect(item.classList.contains("solved")).toBe(true);
+    });
+
+    expect(isDiscoveryDone("d4")).toBe(false); // sort alone doesn't award the star
+    expect(document.getElementById("nameIt4").hidden).toBe(false);
+
+    const ta = document.getElementById("ownDefinition4");
+    expect(ta).toBeTruthy();
+    ta.value = "Abstraction means keeping only what the job needs and dropping the rest.";
+    ta.dispatchEvent(new Event("input"));
+
+    expect(isDiscoveryDone("d4")).toBe(true);
+  });
+
+  test("discovery 4: picking the wrong side redirects without locking the item", () => {
+    const items = document.querySelectorAll("#sortList4 .sort-item");
+    const wrongBtn = sortBtnByLabel(items[0], "Drop"); // the station order is worth keeping, not dropping
+    wrongBtn.click();
+    expect(items[0].classList.contains("solved")).toBe(false);
+    expect(document.getElementById("toast").innerHTML).toMatch(/would someone using the map need this/);
+  });
+
+  test("discovery 5: each wrong choice gives its own specific redirect, none lock the board", () => {
+    const choices = document.querySelectorAll("#decompChoices5 .decomp-choice");
     const byText = t => Array.from(choices).find(b => b.textContent === t);
 
     byText("A brighter light by the door").click();
@@ -98,39 +129,39 @@ describe("Module 7: The Recipe Idea", () => {
 
     byText("The doorbell button").click();
     expect(document.getElementById("toast").innerHTML).toMatch(/already on the board/);
-    expect(isDiscoveryDone("d4")).toBe(false);
+    expect(isDiscoveryDone("d5")).toBe(false);
   });
 
-  test("discovery 4: the correct choice fills the Output column and awards the star", () => {
-    const choices = document.querySelectorAll("#decompChoices4 .decomp-choice");
+  test("discovery 5: the correct choice fills the Output column and awards the star", () => {
+    const choices = document.querySelectorAll("#decompChoices5 .decomp-choice");
     const correct = Array.from(choices).find(b => b.textContent === "A notification sent to your phone");
     correct.click();
 
-    const outputCol = document.querySelectorAll("#decompBoard4 .decomp-col")[2]; // Input, Process, Output, Storage
+    const outputCol = document.querySelectorAll("#decompBoard5 .decomp-col")[2]; // Input, Process, Output, Storage
     expect(outputCol.querySelector("h4").textContent).toBe("Output");
     expect(outputCol.querySelector(".decomp-placeholder")).toBeNull();
     expect(outputCol.textContent).toMatch(/A notification sent to your phone/);
-    expect(isDiscoveryDone("d4")).toBe(true);
+    expect(isDiscoveryDone("d5")).toBe(true);
 
     // board is locked after solving
     Array.from(choices).forEach(b => expect(b.hasAttribute("disabled")).toBe(true));
   });
 
-  test("discovery 5: filling all four boxes awards the star; partial does not", () => {
+  test("discovery 6: filling all four boxes awards the star; partial does not", () => {
     const boxes = ["own-input", "own-process", "own-output"];
     boxes.forEach(id => {
       const ta = document.getElementById(id);
       ta.value = "something";
       ta.dispatchEvent(new Event("input"));
     });
-    expect(isDiscoveryDone("d5")).toBe(false);
+    expect(isDiscoveryDone("d6")).toBe(false);
 
     document.getElementById("own-storage").value = "something else";
     document.getElementById("own-storage").dispatchEvent(new Event("input"));
-    expect(isDiscoveryDone("d5")).toBe(true);
+    expect(isDiscoveryDone("d6")).toBe(true);
   });
 
-  test("all five discoveries unlock the reflection card", () => {
+  test("all six discoveries unlock the reflection card", () => {
     document.querySelectorAll("#stageList1 .stage-item").forEach(item => item.querySelector(".stage-btn").click());
 
     const d2answers = ["Input", "Process", "Output", "Storage"];
@@ -139,7 +170,13 @@ describe("Module 7: The Recipe Idea", () => {
     const d3answers = ["Input", "Storage", "Process", "Output", "Storage", "Process"];
     document.querySelectorAll("#sortList3 .sort-item").forEach((item, i) => sortBtnByLabel(item, d3answers[i]).click());
 
-    Array.from(document.querySelectorAll("#decompChoices4 .decomp-choice"))
+    const d4answers = ["Keep", "Keep", "Keep", "Drop", "Drop", "Drop"];
+    document.querySelectorAll("#sortList4 .sort-item").forEach((item, i) => sortBtnByLabel(item, d4answers[i]).click());
+    const ownDefinition = document.getElementById("ownDefinition4");
+    ownDefinition.value = "Keep what the job needs, drop what it doesn't.";
+    ownDefinition.dispatchEvent(new Event("input"));
+
+    Array.from(document.querySelectorAll("#decompChoices5 .decomp-choice"))
       .find(b => b.textContent === "A notification sent to your phone").click();
 
     ["own-input", "own-process", "own-output", "own-storage"].forEach(id => {
@@ -148,7 +185,7 @@ describe("Module 7: The Recipe Idea", () => {
       ta.dispatchEvent(new Event("input"));
     });
 
-    expect(starCount()).toBe("✦ 5");
+    expect(starCount()).toBe("✦ 6");
     expect(reflectVisible()).toBe(true);
   });
 });

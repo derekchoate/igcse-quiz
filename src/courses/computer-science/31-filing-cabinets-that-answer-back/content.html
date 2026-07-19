@@ -1,0 +1,206 @@
+
+  <section class="hero">
+    <h1>A spreadsheet you can interrogate <span class="lit">in something close to English</span> — and it answers instantly, every time, without sighing.</h1>
+    <p>Meet Kedai Boba's order book — eight real orders, six real fields, sitting in one genuine table the whole way through tonight. You'll work out what a field and a record actually are, discover the one rule every table enforces without exception, then start asking it real questions in Structured Query Language (SQL) — Cambridge's own dialect for exactly this. Every clause you add updates the table immediately.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Every tile you snap into place changes the table live, right in front of you — nothing to run, nothing to check, nothing that can be wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Meet the order book
+        <span class="disc-sub">fields down the columns, records along the rows — and the one column that must never repeat</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Cambridge names six basic data types a field can hold: text/alphanumeric, character, Boolean, integer, real, and date/time. Kedai Boba's order book below only needs three of those six. A <strong>field</strong> is one property, running the whole way down a single column — every record shares it, but each one holds its own value. A <strong>record</strong> is one whole entry, running the whole way across a single row — every property about one order, gathered together. And a <strong>primary key</strong> is whichever field is guaranteed to hold a different value in every single record — here, that's OrderID. It happens to sit in the leftmost column, but that's only this table's layout; a primary key is about uniqueness, never position. Explore a field and a record below, then try adding two new orders and see exactly what the table allows.</p>
+      <div class="board qb-board" id="board1">
+        <div class="qb-table-wrap" id="qbTable1"></div>
+        <div class="qb-picker-row">
+          <label class="qb-label" for="fieldPicker1">Explore a field</label>
+          <select class="qb-select" id="fieldPicker1"><option value="">Choose a field…</option></select>
+        </div>
+        <p class="qb-caption" id="fieldCaption1" aria-live="polite">Pick a field above to see what it means.</p>
+        <div class="qb-picker-row">
+          <label class="qb-label" for="recordPicker1">Explore a record</label>
+          <select class="qb-select" id="recordPicker1"><option value="">Choose a record…</option></select>
+        </div>
+        <p class="qb-caption" id="recordCaption1" aria-live="polite">Pick a record above to see what it means.</p>
+        <div class="qb-btn-row">
+          <button class="loop-btn" id="dupBtn1" type="button">Try adding OrderID 1004 (already used)</button>
+          <button class="loop-btn primary" id="newBtn1" type="button">Try adding OrderID 1009 (unused)</button>
+        </div>
+        <p class="qb-caption" id="keyCaption1" aria-live="polite">Try adding a new order with one of the buttons above.</p>
+        <p class="chips-label">Tick these off as you explore…</p>
+        <div class="chips" id="chips1"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Pick "OrderID" from the field dropdown — the caption explains it's the field every record shares, and that it happens to double as the primary key. Pick "Aisyah's order" from the record dropdown — the caption shows her whole row as one record: OrderID, drink, size, price and quantity, all together. Now press "Try adding OrderID 1004" — the table calmly explains OrderID 1004 already belongs to Haziq, because a primary key can never repeat. Press "Try adding OrderID 1009" last — with a brand-new number, there's nothing to object to.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">A field is one property, running all the way down a column. A record is one whole entry, running all the way across a row. Pick one of each from the dropdowns above and read what lights up.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">OrderID happens to sit in the leftmost column here, but that's just this table's layout — being a primary key has nothing to do with position. What makes OrderID the primary key is that no two records are ever allowed to share one, which is exactly what the two buttons above just showed you.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Your first question
+        <span class="disc-sub">SELECT two fields FROM the table — nothing more is required to ask something real</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Every SQL query starts the same way: <strong>SELECT</strong> names which fields you want to see, and <strong>FROM</strong> names which table to look in — both written in capitals, exactly like that, every time. Below is Kedai Boba's whole order book, all six fields present. Tap two of the field names beneath it, and watch both the table and the line above it update together, live — that line is the actual SQL statement your taps are building, word for word.</p>
+      <div class="board qb-board" id="board2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Tap "Customer" — the table narrows to just that one column, and the line above updates to SELECT Customer FROM Orders. Now also tap "Price (RM)" — two chips are lit, the table shows two columns, and the line reads SELECT Customer, Price FROM Orders. That's a complete question — "show me who ordered what it cost" — asked in Cambridge's own syntax.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">SELECT is the very first word of almost every query you'll ever write — it simply lists which columns you want to see. Tap any two chips above and watch the table follow.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">SELECT chooses columns, never rows — every one of Kedai Boba's eight orders is still here underneath, just showing fewer of its properties at a time. Narrowing rows is a different clause, coming up next.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Narrow it down
+        <span class="disc-sub">WHERE picks rows, not columns — then combine two conditions with AND or OR</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>SELECT chooses <em>columns</em>. <strong>WHERE</strong> chooses <em>rows</em> — it's the single easiest thing to mix up in this whole topic, so it's worth stating plainly before you touch anything: SELECT decides what you can see about each order; WHERE decides which orders you see at all. Set a condition below and the table keeps every field but drops any row that doesn't match. One more convention, stated outright: text values go inside single quotes, like <code>'Large'</code> — numbers never do, like <code>10</code>. Combine two conditions with <strong>AND</strong> or <strong>OR</strong> — the exact narrow gate and wide gate you built with switches back in Module 11 (both doors must open for AND, either one is enough for OR), except the doors now open onto real rows of data.</p>
+      <div class="board qb-board" id="board3">
+        <p class="chips-label">Tick these off as you build…</p>
+        <div class="chips" id="chips3"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Set Condition 1 to Price &lt; RM8.90 — the table narrows to only the cheaper orders, and the line above reads WHERE Price &lt; 8.90, with no quotes, because Price is a number. Tap "+ Add another condition", set Condition 2 to Size = 'Large', and try AND first — notice how much smaller the table gets, since both doors now have to open. Switch to OR with the same two conditions — the table grows back, since only one door needs to open.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Which clause chooses columns, and which one chooses rows? SELECT does the first job — WHERE does the second. It's the classic mix-up, and now you can check it directly against the table.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">WHERE Price &lt; 5 — SELECT picks columns, WHERE picks rows. Set a condition above and watch which rows survive, not which columns do.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Line them up
+        <span class="disc-sub">ORDER BY puts rows in a sequence — ASCENDING or DESCENDING, your call</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><strong>ORDER BY</strong> doesn't remove a single row — it only decides what order they're listed in. Cambridge spells the direction out in full, never abbreviated: <strong>ASCENDING</strong> for smallest-to-largest (or earliest-to-latest, or alphabetical, depending on the field), <strong>DESCENDING</strong> for the reverse. Pick a field below and toggle the direction — every row in the table reshuffles live around whichever one you choose.</p>
+      <div class="board qb-board" id="board4">
+        <p class="chips-label">Tick these off as you try both directions…</p>
+        <div class="chips" id="chips4"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Leave the field as Price and press ASCENDING — the cheapest order rises to the very top, and the line above reads ORDER BY Price ASCENDING. Now press DESCENDING with the same field — the most expensive order jumps to the top instead, and only that one word changes in the line above.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">ORDER BY doesn't remove a single row — it only changes the order they're listed in. Try switching the field it sorts by and watch the whole table reshuffle.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Cambridge spells this out in full: ORDER BY … ASCENDING for smallest-to-largest, ORDER BY … DESCENDING for the reverse. No abbreviations — the whole word, every time.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Let it count
+        <span class="disc-sub">COUNT and SUM answer questions a single row never could</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Some real questions aren't about which rows match — they're about a whole column at once. <strong>COUNT</strong> answers "how many records are there?" without listing a single one. <strong>SUM</strong> adds every value in a chosen field into one total. Below, COUNT always counts OrderID — Kedai Boba's primary key, which is guaranteed to exist exactly once per record, so it's a safe, reliable thing to count. Try both tiles and watch a whole column collapse into a single number.</p>
+      <div class="board qb-board" id="board5">
+        <p class="chips-label">Tick these off as you try both…</p>
+        <div class="chips" id="chips5"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Press COUNT — the line above reads SELECT COUNT(OrderID) FROM Orders, and the answer is 8, one for every order in the whole table, without listing a single row. Press SUM instead, leaving the dropdown on Price (RM) — the line reads SELECT SUM(Price) FROM Orders, and the answer adds every single order's price into one total.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">COUNT and SUM don't show you the rows at all — they hand back one single number, calculated across the whole column. Press each tile and read what number comes back.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">COUNT(OrderID) counts how many records there are — using the primary key is a safe choice, since it's guaranteed to be there once for every record, never blank, never repeated. SUM(Price) adds up every value in that one column into a single total.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Three real questions
+        <span class="disc-sub">build a query for each — the answer card lights the moment your result matches</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Time to put every clause from tonight to work on three real questions about Kedai Boba's orders. Build whatever query you think answers each one — pick a field to filter on with WHERE, decide whether you need COUNT or SUM, combine two conditions if a question needs it. There's no submit button here either: the moment your live result matches a question's real answer, that question's card lights up on its own. Work on them in any order, and feel free to keep adjusting after a card lights — nothing about it can un-light.</p>
+      <div class="board qb-board" id="board6"></div>
+      <div class="qb-targets">
+        <div class="qb-target" id="target1">
+          <p class="qb-target-q">1. How many orders are for a Large drink?</p>
+          <p class="qb-target-a" aria-live="polite">Build a query above until this lights up.</p>
+        </div>
+        <div class="qb-target" id="target2">
+          <p class="qb-target-q">2. What is the combined price of every Brown Sugar Boba Milk order?</p>
+          <p class="qb-target-a" aria-live="polite">Build a query above until this lights up.</p>
+        </div>
+        <div class="qb-target" id="target3">
+          <p class="qb-target-q">3. How many orders are for a Large drink AND cost more than RM10?</p>
+          <p class="qb-target-a" aria-live="polite">Build a query above until this lights up.</p>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">For question 1, press "+ Add a condition", set the field to Size, the comparison to =, and the value to Large. Then set Result to COUNT(OrderID). Watch the number update live — once it settles on 4, the first answer card lights up on its own, no button to press. Try the other two questions the same way: pick the fields the question is really asking about, and let the number tell you when you've got there.</div>
+        <button class="nudge-btn" data-nudge="n6a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n6a">Read each question for what it's actually asking: is it a headcount (COUNT), a running total (SUM), or does it need a WHERE first, before either of those makes sense? Build the WHERE first, then choose the Result shape last.</div>
+        <button class="nudge-btn" data-nudge="n6b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n6b">Question 1 needs WHERE Size = 'Large' with Result set to COUNT(OrderID). Question 2 needs WHERE Drink = 'Brown Sugar Boba Milk' with Result set to SUM(Price). Question 3 needs both Size = 'Large' AND Price &gt; 10, still with Result set to COUNT(OrderID) — the same narrow gate from Module 11, doing the exact same job on real data.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirty-first time</h2>
+    <p>You met Kedai Boba's whole order book and worked out, hands-on, what a field, a record and a primary key actually are — including watching the table calmly refuse a repeated OrderID. You wrote your first real SELECT … FROM query, then narrowed it with WHERE, and combined two conditions with AND and OR — the same narrow gate and wide gate from Module 11, now sorting real rows instead of switches. You lined the whole table up both ASCENDING and DESCENDING, collapsed a whole column into a single number with COUNT and SUM, and finally answered three genuine questions about the data by building a live query for each one, watching the answer arrive rather than being told it.</p>
+    <p class="soft">Whenever you're ready, the next discoveries head underneath all of this, into the six tiny logic machines — AND, OR, NOT and their cousins — that every WHERE condition, every IF, and every circuit in the machine is quietly built from. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="30-from-human-to-machine.html">← Module 30 · From Human to Machine</a>
+    <a class="nav-link next" href="32-the-logic-machines.html">Module 32 · The Logic Machines →</a>
+  </nav>
+
+  <footer>Module 31 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
