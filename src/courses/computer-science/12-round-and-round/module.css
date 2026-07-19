@@ -18,6 +18,8 @@
 .pcline{font-family:var(--mono);font-size:15px;line-height:1.6;padding:7px 12px;border-radius:8px;white-space:pre-wrap;word-break:break-word}
 .pcline.cur{background:rgba(255,184,77,.12);box-shadow:inset 0 0 0 1px rgba(255,184,77,.4)}
 .kw{color:var(--teal)}
+.kw.cur,.pc-seg.cur{background:rgba(255,184,77,.16);box-shadow:inset 0 0 0 1px rgba(255,184,77,.4);border-radius:4px;padding:1px 4px;margin:-1px -4px}
+.kw.cur{color:var(--glow)}
 .arrow{color:var(--glow);font-weight:700}
 .str{color:#E6B98A}
 
@@ -45,11 +47,18 @@
 .loop-btn.lever{background:rgba(255,184,77,.1);border-color:var(--glow);color:var(--glow);font-weight:600}
 .loop-btn:disabled{opacity:.5;cursor:default}
 
-/* ── the circular track (decorative — the real state lives on the station
-   board and the pseudocode panel, never only in the ring's motion) ── */
+/* ── the circular track (D2/D3/D5: decorative, the real state lives on the
+   station board and the pseudocode panel; D1: one station per actual lap
+   value, labelled, so the ring itself shows the lap count, not just motion) ── */
 .loop-ring{width:168px;height:168px;margin:0 auto 16px;position:relative}
+.loop-ring.labeled{width:208px;height:208px}
 .loop-track{position:absolute;inset:0;border-radius:50%;border:2px dashed var(--card-edge)}
 .loop-station{position:absolute;width:8px;height:8px;margin:-4px;border-radius:50%;background:#28345A}
+.loop-ring.labeled .loop-station{
+  width:22px;height:22px;margin:-11px;background:#1A2440;border:1.5px solid var(--card-edge);
+  display:flex;align-items:center;justify-content:center;
+}
+.loop-station-label{font-family:var(--mono);font-size:11px;color:var(--ink-soft);line-height:1;user-select:none}
 .loop-lantern{
   position:absolute;width:16px;height:16px;margin:-8px;border-radius:50%;
   background:var(--glow);box-shadow:0 0 12px rgba(255,184,77,.6);

@@ -1,0 +1,190 @@
+
+  <section class="hero">
+    <h1>Every attack on a computer system targets the same weak point. <span class="lit">And it's usually not the computer.</span></h1>
+    <p>Malware, brute-force attempts, DDoS floods, hacking, pharming, phishing, social engineering, data interception — eight different-sounding words for people and code trying to reach data that isn't theirs. Nearly all of them share one soft target in common, and it's rarely a line of code: it's whoever's sitting at the keyboard, tired, in a hurry, or simply trusting. Tonight you meet all six kinds of malicious software by the one trait that gives each away, sort real threats by what they actually attack, spot the tells in five phishing messages built to look completely ordinary, and build a defence stack pairing real protections — including the padlock trick from Module 15 and the address bar from Module 34 — against the threats they actually counter.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. In the defence stack, several threats accept more than one shield — the board says "also works," never "wrong." In the phishing line-up, tap anything you like; a real tell glows the moment you find it, and whatever you haven't found yet just sits there waiting, not counted against you. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — the malware family album ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The malware family album
+        <span class="disc-sub">six kinds of malicious software, each one caught by a single distinguishing trait</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><strong>Malware</strong> — malicious software — is the umbrella term for all six of the cards below. "Virus" is just one kind sheltering under that umbrella, not another name for the whole family. What tells the six apart from each other isn't really the damage each one does — several of them can end in the same mess — it's how each one behaves: whether it needs a host file, whether it needs a person to run something, whether it lies about what it is. Tap each card below to reveal the one trait that identifies it.</p>
+      <div class="board">
+        <div class="mw-cards" id="cards1"></div>
+        <div class="chips" id="chips1"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Press "See how it spreads" on Virus — its trait is that it attaches itself to a legitimate file or program, and only spreads once a person shares or runs that file. Notice the shape of what makes it a virus: not the damage it does, but that it needs a host file and a human action to travel at all. Every other card below reveals the exact same way, one trait each.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Malware is the umbrella word for all six of these — malicious software, full stop. Virus is just one kind under that umbrella, not a stand-in for the rest.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">For each card, ask one question only: does this one need a host file, or a person to act, in order to spread — or does it manage entirely without either?</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — on the wire, or on the person ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">On the wire, or on the person
+        <span class="disc-sub">sort eight threats by what they actually attack — the system, or the human using it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Every threat below falls into one of two families. An <strong>attack on the wire</strong> goes straight at the system — the network, the login, the code — with no conversation involved at all. An <strong>attack on the person</strong> goes straight at whoever's using the system, through trust, authority or urgency, and doesn't need to break anything technical at all. Read each threat's own description, then sort it onto the pile it belongs on.</p>
+      <div class="board">
+        <div class="sl-chip-pool" id="pool2"></div>
+        <div class="sl-bins" id="bins2"></div>
+        <p class="sl-status" id="status2">Tap a threat to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Take "Brute-force attack — trying every possible password, one after another, usually automated, until one of them happens to work." — that attacks the login system itself, automatically, with no human being talked into anything. Attacks on the wire pile. Now take "Social engineering — manipulating a person directly, through trust, authority or urgency, rather than attacking the system at all." — there's no system being broken into, just a person being persuaded. Attacks on the person pile.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">For each threat, ask: is a machine being attacked directly, or is a person being talked into doing something?</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Malware and pharming both run entirely through code, with no conversation involved anywhere — they belong on the wire, even though what they're often chasing (a fake bank page, for instance) is exactly what phishing chases too, by talking to a person instead.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — the phishing line-up ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The phishing line-up
+        <span class="disc-sub">five real-looking messages — tap the parts that give each one away</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below are five messages, each built to look ordinary. Three parts of every message are tappable: the sender's address, the phrase doing the pushing, and the button that claims to lead somewhere. Tap any of them, on any message, in any order — there's nothing to get wrong here. A genuine tell glows the moment you tap it and explains itself. A part that's actually fine just tells you so, calmly, and points you elsewhere in the same message. Nothing you haven't found yet counts against you.</p>
+      <div class="board">
+        <div class="ph-messages" id="lineup3"></div>
+        <p class="fork-note" id="lineupNote3" aria-live="polite">0 of 13 tells found so far, across all five messages.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Tap "From: NusaBank Security &lt;security@nusabank-support-team.com&gt;" on the first message — read it character by character, and nusabank-support-team.com isn't NusaBank's actual domain, nusabank.com.my. That's one tell, glowing. Now tap the urgent phrase and the link on that same message too — all three light up, on this message alone.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Read the sender's address character by character.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">bank-secure-login.com is not yourbank.com. What else in the message is pushing you to hurry?</div>
+        <button class="nudge-btn" data-nudge="n3c" style="margin-top:10px">One more nudge?</button>
+        <div class="nudge" id="n3c">Urgency, a lookalike domain, and a mismatched link — three tells, one delete button. Not every message here uses all three, but every one uses at least two.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — pharming vs phishing ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Pharming vs phishing
+        <span class="disc-sub">two completely different roads that end at the exact same fake bank page</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><strong>Phishing</strong> sends you a fake letter — a message that has to arrive, and has to talk you into clicking. <strong>Pharming</strong> rigs the signpost itself — no message needed at all, because the road you'd have taken correctly has been quietly re-pointed, often by corrupting the DNS lookup from Module 34 that turns a domain name into an address. Two completely different mechanisms, aimed at the same fake destination. Reveal both routes below, one step at a time, and watch them arrive at the same place by entirely different means.</p>
+      <div class="board">
+        <div class="pv-routes">
+          <div class="pv-route" id="routeA4"></div>
+          <div class="pv-route" id="routeB4"></div>
+        </div>
+        <p class="fork-note" id="convergeNote4" aria-live="polite" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Reveal all three steps of Route A — a message arrives, you tap its link, you land on a fake page and type your details in. Then reveal all three steps of Route B — no message at all this time, just a tampered lookup redirecting you the moment you type the address correctly yourself. Same fake page, both times, by two entirely different roads in.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Notice which route starts with a message landing in your inbox, and which one starts with you typing an address yourself.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Phishing is the fake letter — it needs you to receive something and act on it. Pharming is the fake signpost — it needs nothing from you except typing an address you already knew correctly.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 — build the defence stack ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Build the defence stack
+        <span class="disc-sub">pair each threat with a shield that actually defends against it — several take more than one</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Tap a threat card below to pick it, then tap a shield you think genuinely defends against it. A pairing that holds up clicks straight in. Several threats here accept more than one valid shield — attach a second one and the board says "also works," never "wrong." A shield that doesn't touch that threat just says so, warmly, so you can try another. (Firewalls and anti-malware get lumped together a lot — they're not the same job at all; that becomes obvious once you see what each one actually pairs with.)</p>
+      <div class="board">
+        <div class="ds-threats" id="threats5"></div>
+        <div class="ds-shields" id="shields5"></div>
+        <p class="fork-note" id="status5" aria-live="polite">Tap a threat to begin, then tap a shield you think defends against it.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Tap "Brute-force attack," then tap "Authentication" — they click together, because proving who you are (a password, a fingerprint, a one-time code) is exactly what stands between a brute-force attempt and a working login. Now tap "Malware," then tap "Anti-malware" — another click. Tap "Malware" again, then "Automating software updates" — that clicks in too, and the board says "also works," because malware and out-of-date software are the same weak point seen from two different angles.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Pick a threat card first — it'll highlight. Then tap a shield you think actually stops that kind of attack.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">A shield doesn't have to be the only one that works for a threat — several here take more than one. If a pairing doesn't click, that shield simply isn't built for that job; try another.</div>
+        <button class="nudge-btn" data-nudge="n5c" style="margin-top:10px">One more nudge?</button>
+        <div class="nudge" id="n5c">Firewalls and anti-malware are easy to mix up. A firewall filters traffic at the border, before it ever gets in. Anti-malware deals with malicious software that's already arrived, or is trying to run.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 — the honest truth ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The honest truth
+        <span class="disc-sub">if you could only keep one shield, which would defend against the most?</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One last question, and it's a genuine one to sit with, not a puzzle with one hidden card underneath it. If you could only ever keep one shield running, which would defend against the most threats? Here's the honest tally, counted straight from the defence stack you just built.</p>
+      <div class="board">
+        <div class="ht-list" id="tally6"></div>
+        <button class="loop-btn primary" id="revealTruth6" type="button">Read the honest truth ▶</button>
+        <p class="fork-note" id="truthNote6" aria-live="polite" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">Authentication touches the most cards here by raw count — four threats out of eight. That's real, and worth noticing. Press "Read the honest truth" to see the fuller picture.</div>
+        <button class="nudge-btn" data-nudge="n6a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n6a">There's no single hidden right answer to find here — it's an honest question worth sitting with, not a puzzle with one card underneath it that you're meant to land on.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirty-sixth time</h2>
+    <p>You met six kinds of malicious software, each one identified by a single behaviour rather than the damage it does, and sorted eight real threats onto the pile that names what they actually attack — the system, or the person using it. You tapped your way through five phishing messages built to look ordinary, and found every sender mismatch, every manufactured deadline, every link that led somewhere other than it claimed. You watched a fake letter and a fake signpost arrive at the exact same fake bank page by two entirely different roads. You built a defence stack pairing real protections against the threats they actually counter, several of them taking more than one shield at once, nothing ever marked wrong. And you sat with an honest, ungraded question about which single shield does the most work — and found out that the real answer is less about any one card, and more about two habits that outperform all of them.</p>
+    <p class="soft">Whenever you're ready, the next discoveries turn to systems that act entirely on their own — sensors, rules and machinery running unattended. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="35-money-made-of-maths.html">← Module 35 · Money Made of Maths</a>
+    <a class="nav-link next" href="37-machines-that-act-alone.html">Module 37 · Machines that Act Alone →</a>
+  </nav>
+
+  <footer>Module 36 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
