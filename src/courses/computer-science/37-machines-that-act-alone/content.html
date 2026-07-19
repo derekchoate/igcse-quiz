@@ -1,0 +1,240 @@
+
+  <section class="hero">
+    <h1>A sensor takes a reading. A microprocessor compares it to a number you chose. An actuator acts on the result. <span class="lit">That loop, running on its own, is every automated system on Earth.</span></h1>
+    <p>Tonight you build that loop yourself, for a real greenhouse from Module 20 — pick the rule, press "Let it live," and watch a sensor, a rule and a motor run an entire day and night without you touching anything again. You'll add a second rule running alongside the first on the same clock, catch the exact moment a loop's own action changes what it reads next, sort real machines by the only three-part check that actually makes something a robot, and weigh automation honestly in a setting that's genuinely yours.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Every rule you dial in below is your own choice — there's no hidden correct number waiting to be found. Where there is something to sort, a placement that doesn't hold up gets a warm redirect, never a red cross. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 — wire the greenhouse ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Wire the greenhouse
+        <span class="disc-sub">set one rule, press "Let it live," and watch it run a whole day and night unattended</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Below is the smallest complete automated system there is: a <strong>sensor</strong> that takes a reading, a <strong>microprocessor</strong> that compares that reading to a stored value you set, and an <strong>actuator</strong> that acts on the result. Tap the microprocessor's dial until it shows a rule you like — any value works, this is genuinely your choice — then press "Let it live" repeatedly to step the greenhouse through a full day and night, one reading at a time. Nobody touches the fan after that. The microprocessor just keeps comparing.</p>
+      <div class="board">
+        <div class="aw-devices">
+          <div class="aw-device">
+            <span class="aw-device-label">Sensor</span>
+            <span class="aw-device-name">Temperature</span>
+          </div>
+          <span class="aw-arrow" aria-hidden="true">→</span>
+          <div class="aw-device aw-device-rule">
+            <span class="aw-device-label">Microprocessor</span>
+            <button type="button" class="aw-rule-btn" id="ruleBtn1"></button>
+          </div>
+          <span class="aw-arrow" aria-hidden="true">→</span>
+          <div class="aw-device">
+            <span class="aw-device-label">Actuator</span>
+            <span class="aw-device-name">Fan</span>
+          </div>
+        </div>
+        <button type="button" class="loop-btn primary" id="runBtn1">Let it live ▶</button>
+        <div class="aw-timeline" id="timeline1" aria-live="polite"></div>
+        <p class="fork-note" id="note1" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Leave the dial on whatever it's already showing and just press "Let it live" eight times, once per reading. Each press appends the next reading and whatever the fan did about it — nothing more is needed from you than that. By the last tick you'll have watched a full day and night run entirely by the rule you set, once, at the start.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">The dial is yours to set before the first press — tap it to cycle through a few sensible rules. Once you press "Let it live" the first time, the rule locks in for the rest of the run, the same way a real greenhouse's rule wouldn't rewrite itself mid-afternoon.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">The microprocessor never "decides" anything in the way a person decides — every single tick, it does the exact same small job: compare this reading to the stored value, and switch the fan accordingly. That's the whole loop, repeated.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 — two rules at once ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Two rules at once
+        <span class="disc-sub">a second sensor, a second rule, a second actuator — running on the exact same clock</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>The greenhouse doesn't stop at temperature — the soil needs watching too. Set both rules below, then press "Let it live" once and step through the same day and night again. This time two loops are running side by side, on the same clock, and neither one has ever heard of the other's sensor.</p>
+      <div class="board">
+        <div class="aw-two">
+          <p class="aw-track-label">Rule 1 — temperature and the fan</p>
+          <div class="aw-devices">
+            <div class="aw-device">
+              <span class="aw-device-label">Sensor</span>
+              <span class="aw-device-name">Temperature</span>
+            </div>
+            <span class="aw-arrow" aria-hidden="true">→</span>
+            <div class="aw-device aw-device-rule">
+              <span class="aw-device-label">Microprocessor</span>
+              <button type="button" class="aw-rule-btn" id="ruleBtn2a"></button>
+            </div>
+            <span class="aw-arrow" aria-hidden="true">→</span>
+            <div class="aw-device">
+              <span class="aw-device-label">Actuator</span>
+              <span class="aw-device-name">Fan</span>
+            </div>
+          </div>
+          <p class="aw-track-label">Rule 2 — soil moisture and the valve</p>
+          <div class="aw-devices">
+            <div class="aw-device">
+              <span class="aw-device-label">Sensor</span>
+              <span class="aw-device-name">Moisture</span>
+            </div>
+            <span class="aw-arrow" aria-hidden="true">→</span>
+            <div class="aw-device aw-device-rule">
+              <span class="aw-device-label">Microprocessor</span>
+              <button type="button" class="aw-rule-btn" id="ruleBtn2b"></button>
+            </div>
+            <span class="aw-arrow" aria-hidden="true">→</span>
+            <div class="aw-device">
+              <span class="aw-device-label">Actuator</span>
+              <span class="aw-device-name">Valve</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="loop-btn primary" id="runBtn2">Let it live ▶</button>
+        <div class="aw-timeline" id="timeline2" aria-live="polite"></div>
+        <p class="fork-note" id="note2" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Leave both dials where they are and press "Let it live" eight times. Watch the fan switch on partway through the morning, while the valve stays off until the soil itself reads dry enough, much later in the afternoon — two separate rules, reacting to two separate readings, on the exact same clock.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Each rule only ever looks at its own sensor. The fan's rule has never heard of moisture, and the valve's rule has never heard of temperature — they just happen to be running at the same time.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">If the fan and the valve switch on at different ticks, that isn't a fault — it's two independent loops, each comparing only its own reading to its own stored value, interleaved on one shared clock.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 — the feedback idea ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The feedback idea
+        <span class="disc-sub">this time, the fan's own draught quietly changes what the sensor reads next</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Run the fan's loop one more time — same shape as Discovery 1 — except this run is honest about something Discovery 1 quietly left out: a running fan actually cools the room a little, so the very next reading is a touch lower than the outside air alone would explain. Set a rule, press "Let it live" all the way through, then press "Notice what happened" and it'll point straight at the tick where that shows up for the rule you picked.</p>
+      <div class="board">
+        <div class="aw-devices">
+          <div class="aw-device">
+            <span class="aw-device-label">Sensor</span>
+            <span class="aw-device-name">Temperature</span>
+          </div>
+          <span class="aw-arrow" aria-hidden="true">→</span>
+          <div class="aw-device aw-device-rule">
+            <span class="aw-device-label">Microprocessor</span>
+            <button type="button" class="aw-rule-btn" id="ruleBtn3"></button>
+          </div>
+          <span class="aw-arrow" aria-hidden="true">→</span>
+          <div class="aw-device">
+            <span class="aw-device-label">Actuator</span>
+            <span class="aw-device-name">Fan</span>
+          </div>
+        </div>
+        <button type="button" class="loop-btn primary" id="runBtn3">Let it live ▶</button>
+        <div class="aw-timeline" id="timeline3" aria-live="polite"></div>
+        <button type="button" class="loop-btn" id="noticeBtn3" hidden>Notice what happened ▶</button>
+        <p class="fork-note" id="explainNote3" aria-live="polite" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Leave the dial on whatever it's already showing and press "Let it live" all the way through. Once every tick is revealed, press "Notice what happened" — it names the exact tick, for the rule you chose, where the fan had been running long enough that its own draught pulled the reading down further than the outside air alone would have.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Watch the temperature reading after the fan has already been on for a tick or two — not the very first reading, the ones after.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Somewhere along the run, a reading falls further than the outside air alone would explain. What else, still running from the tick before, could be pulling it down?</div>
+        <button class="nudge-btn" data-nudge="n3c" style="margin-top:10px">One more nudge?</button>
+        <div class="nudge" id="n3c">The fan's own action changed its own next reading. That loop — an actuator's effect quietly becoming part of the very input it reacts to — is what "feedback" means, and it's the same idea behind a thermostat, a shower that self-adjusts, or cruise control in a car.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 — is it a robot? ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Is it a robot?
+        <span class="disc-sub">sort seven machines by three checkable things — nothing about looks, nothing about how clever they sound</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A robot isn't defined by looking human, or by seeming clever — it's defined by three checkable things, all at once: a <strong>mechanical structure or framework</strong>, <strong>electrical components</strong> such as sensors, a microprocessor and actuators, and being <strong>programmable</strong>. Miss even one of the three and it isn't a robot, whatever else it does. Sort each machine below onto the pile it belongs on, using exactly that check.</p>
+      <div class="board">
+        <div class="sort-pool" id="pool4"></div>
+        <div class="sort-bins" id="bins4"></div>
+        <p class="fork-note" id="status4" aria-live="polite">Tap a machine to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Take the factory arm: a jointed mechanical body, electrical components (sensors, a microprocessor, motors), and it's programmable — a different pick-and-place routine loads in for each job. All three, so it sorts onto Robot. Now take the chatbot: no mechanical body anywhere, just code answering messages — one of the three is missing entirely, so it sorts onto Not a robot, however clever its replies sound.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Check the three off one at a time for each machine: does it have a physical body or framework? Does it have sensors, a microprocessor and actuators built in? Can it be reprogrammed to behave differently?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">The remote-control car has a body and a motor, but every single movement is a person's thumb, live, right now — that's not a stored program running on its own, so it's missing the third piece.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 — the honest ledger ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The honest ledger
+        <span class="disc-sub">weigh automation in one real setting you pick — sorted, then one open thought, nothing checked</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Pick one real setting you actually know — a factory floor, a farm, a clinic, your own kitchen, anywhere at all — and hold it in mind while you sort. Below are eight things people genuinely say about automation. Sort each one onto the pile it belongs on: a point in favour, or a point against.</p>
+      <div class="board">
+        <div class="own-box">
+          <label for="setting5">A real setting you know</label>
+          <textarea id="setting5" aria-label="A real setting you know"></textarea>
+        </div>
+        <div class="sort-pool" id="pool5"></div>
+        <div class="sort-bins" id="bins5"></div>
+        <p class="fork-note" id="status5" aria-live="polite">Tap a card to begin.</p>
+        <div class="own-box aw-reflect-box">
+          <label for="reflection5">One honest thought, nothing checked: in the setting you picked, is there a job automation genuinely shouldn't take over?</label>
+          <textarea id="reflection5" aria-label="One honest thought, nothing checked"></textarea>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Take "it can keep working through the night, without ever needing a break" — that's a plain benefit, so it sorts onto In favour. Take "it's expensive to design, build and install before it does a single useful thing" — that's a real cost, so it sorts onto Against. Every card sorts by that same one question: is this a point in favour, or a point against?</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Ask of each card: if you were the one paying for this system, would this line make you glad you built it, or worried about it?</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">A couple of these sound alike at first glance — the cost of building a system and the cost of running one are two different cards. Read each one slowly before sorting it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirty-seventh time</h2>
+    <p>You wired a real loop — a sensor, a rule you set yourself, and an actuator — and watched it run an entire day and night without touching it again. You added a second rule running on the same clock and watched two loops react on their own separate timetables, neither one waiting for the other. You reran the fan's loop and caught the exact tick where its own draught changed its next reading, closing the loop on itself — the same idea behind a thermostat or cruise control. You sorted machines by the only three-part check that actually defines a robot, with no bodies or faces involved anywhere in it. And you weighed automation honestly in a setting that's genuinely yours, four points in favour and four against, with no verdict handed down.</p>
+    <p class="soft">Whenever you're ready, the next discovery turns to machines that build their own rules from examples instead of being handed them outright — and one small ceremony waiting at the very end. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="36-the-defenders.html">← Module 36 · The Defenders</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 37 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
