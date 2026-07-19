@@ -1,0 +1,220 @@
+
+  <section class="hero">
+    <h1>The internet and the web are not the same thing. <span class="lit">One is roads. One is what gets delivered on them.</span></h1>
+    <p>And every address you type sets off a scavenger hunt you never see — a name gets turned into a number, a request goes out, and a page comes back together in front of you, all before you've finished blinking. Tonight you take that whole hidden trip apart, one stop at a time: what's actually the internet versus what's actually the web, what's hiding inside a URL, who translates a name into a number, what a padlock icon really promises, and what a website remembers about you after you leave.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Sorting something onto the wrong pile just gets you a warm nudge back, never a red cross. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Roads vs deliveries
+        <span class="disc-sub">sort six statements onto the internet pile or the World Wide Web pile</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's the distinction this whole module leans on, stated plainly before anything else depends on it. <strong>The internet is the infrastructure</strong> — the cables, satellites and routers physically carrying data from one device to another, the same way roads carry vehicles. <strong>The World Wide Web is the collection of websites and pages you reach through it</strong> — one particular way of using those roads, the same way a food delivery is one particular thing a road can carry. The internet was carrying data — email, files, all sorts — years before the web existed at all. Everything below is either a fact about the roads or a fact about one specific kind of delivery that travels on them.</p>
+      <div class="board">
+        <div class="sl-chip-pool" id="pool1"></div>
+        <div class="sl-bins" id="bins1"></div>
+        <p class="sl-status" id="status1" aria-live="polite">Tap a statement to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">"The cables, satellites and routers physically carrying data between devices" — there's no mention of a website or a browser anywhere in that sentence, only the physical carrying itself. That's the Internet pile. "The collection of websites and pages you reach by typing an address into a browser" — that one is specifically about browsing and websites, so it belongs on the World Wide Web pile.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Ask one question of each statement: is this about the physical wires and connections, or about browsing websites?</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">The internet existed years before the web did, and plenty besides the web still travels over it. If a statement would still be true even if nobody had ever invented a website, it belongs on the Internet pile.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Explode an address
+        <span class="disc-sub">pick or type a URL, watch it split into its parts, then run the whole hidden journey it sets off</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A URL — a uniform resource locator, a fancy name for a text-based address for a web page — can contain three things: the <strong>protocol</strong> (the set of rules the request will follow, HTTP or HTTPS), the <strong>domain name</strong> (which website you're asking for) and the <strong>page or file name</strong> (which exact page on that site you want). Pick one of the addresses below, or type your own, and watch it split into those three labelled parts.</p>
+      <div class="board">
+        <div class="ww-url-picks" id="urlPicks2"></div>
+        <div class="ww-url-input-row">
+          <label class="field-label" for="urlInput2">Or type your own address</label>
+          <input type="text" id="urlInput2" class="ww-url-input" placeholder="https://example.com/page" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="ww-url-parts" id="urlParts2" aria-live="polite"></div>
+      </div>
+      <p>Now the part you never see: typing that address and pressing go sets off a whole relay before a single pixel of the page appears. Press the button below to advance it one stop at a time — nothing here is timed, so take as long as you like on each stop, and tap any stop you've already reached to read its caption again.</p>
+      <div class="board">
+        <div class="ww-relay" id="relay2" role="list" aria-label="the address relay, six stops"></div>
+        <p class="ww-relay-caption" id="relayCaption2" aria-live="polite">Press "Advance the relay" to begin — nothing here is timed.</p>
+        <div class="sl-btn-row">
+          <button class="loop-btn primary" id="relayNextBtn2" type="button">Advance the relay ▶</button>
+          <button class="loop-btn ghost" id="relayResetBtn2" type="button" hidden>Run it again from the start ↺</button>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Take "https://campus-portal.edu.my/timetable" apart: everything before the :// is the protocol — https. Everything right after the // up to the next single slash is the domain name — campus-portal.edu.my. Everything from that next slash onward is the page or file name — /timetable. Now press "Advance the relay" once: stop 1 is simply your browser holding that address, not yet able to do anything with it, because a domain name means nothing to the network itself — only a number will do.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Look at what sits right after the two forward slashes // — everything up to the next single slash (or the end of the address, if there isn't one) is the domain name.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Press "Advance the relay" once at a time and actually read each caption before moving on — nothing you've revealed disappears, so you can tap back to any earlier stop and read it again whenever you like.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The phonebook nobody sees
+        <span class="disc-sub">look up three domain names and watch the phonebook fill in with the numbers behind them</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Stop 2 of that relay, in full — the part doing the actual translating. Your browser has a <em>name</em> (the domain), but back in Module 28 you saw that the network only ever moves data between <em>numbers</em> — IP addresses. A <strong>domain name server (DNS)</strong> is the phonebook that bridges the two: it holds a huge list of domain names, each one matched to the IP address of the web server that actually hosts it, and it hands that number back the moment it's asked. Look up all three domains below and watch the phonebook fill itself in.</p>
+      <div class="board">
+        <div class="sl-btn-row" id="lookupBtns3"></div>
+        <div class="ww-table-wrap">
+          <table class="ww-table" id="phoneTable3">
+            <thead><tr><th>Domain name</th><th>IP address</th></tr></thead>
+            <tbody id="phoneBody3"></tbody>
+          </table>
+        </div>
+        <p class="ww-relay-caption" id="phoneNote3" aria-live="polite">Nobody's looked anything up yet.</p>
+        <div class="chips" id="chips3"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Press "Look up campus-portal.edu.my" — the phonebook gains a row: campus-portal.edu.my → 203.0.113.5. That's the very address Module 28's router forwarded real packets to — now you've seen exactly where a number like that comes from in the first place. Only once that number exists can the browser send its request anywhere at all.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">The browser has a name but the network needs a number. Who translates?</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">Watch the first stop of the relay you built in the discovery above — the very first thing that has to happen, before a request can even be addressed.</div>
+        <button class="nudge-btn" data-nudge="n3c" style="margin-top:10px">One more nudge?</button>
+        <div class="nudge" id="n3c">The DNS server returns the IP address for the domain — only then can the real request actually begin.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The padlock
+        <span class="disc-sub">send the same login over HTTP and over HTTPS, then watch a snoop try to read each one</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p><strong>HTTP</strong> (hypertext transfer protocol) is the set of rules your browser and a web server use to ask for and send back pages. <strong>HTTPS</strong> (hypertext transfer protocol secure) is the exact same job, with one addition: everything exchanged gets locked, using the same public-padlock trick Module 15 built — a public key that only ever locks, and a private key, kept by the server alone, that's the only thing that ever unlocks it. Send the same login details both ways below, and watch what a snoop sitting on the wire actually manages to read each time.</p>
+      <div class="board">
+        <div class="ww-padlock-pair">
+          <div class="ww-padlock">
+            <p class="ww-padlock-label">Sent over HTTP</p>
+            <div class="lockbox" id="lockboxHttp">
+              <span class="lockbox-badge" id="lockboxBadgeHttp" aria-hidden="true"></span>
+              <span class="lockbox-text" id="lockboxTextHttp">user: mei_19 · pass: bandungraya</span>
+            </div>
+            <p class="fork-note" id="httpStatus" aria-live="polite">Not sent yet.</p>
+            <div class="lockbox-buttons">
+              <button class="loop-btn primary" id="sendHttpBtn" type="button">Send it over HTTP ▶</button>
+              <button class="loop-btn" id="snoopHttpBtn" type="button" hidden>Let the snoop try to read it ▶</button>
+            </div>
+          </div>
+          <div class="ww-padlock">
+            <p class="ww-padlock-label">Sent over HTTPS</p>
+            <div class="lockbox" id="lockboxHttps">
+              <span class="lockbox-badge" id="lockboxBadgeHttps" aria-hidden="true"></span>
+              <span class="lockbox-text" id="lockboxTextHttps">user: mei_19 · pass: bandungraya</span>
+            </div>
+            <p class="fork-note" id="httpsStatus" aria-live="polite">Not sent yet.</p>
+            <div class="lockbox-buttons">
+              <button class="loop-btn primary" id="sendHttpsBtn" type="button">Send it over HTTPS ▶</button>
+              <button class="loop-btn" id="snoopHttpsBtn" type="button" hidden>Let the snoop try to read it ▶</button>
+            </div>
+          </div>
+        </div>
+        <p class="ww-padlock-note" id="padlockNote" hidden></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Press "Send it over HTTP", then "Let the snoop try to read it" — the snoop reads "user: mei_19 · pass: bandungraya" instantly, exactly as typed, because HTTP never locks anything at all. Now press "Send it over HTTPS", then "Let the snoop try to read it" — this time the same snoop, watching the exact same wire, sees only scrambled ciphertext. The login was locked before it ever left the device, the same padlock trick as Module 15, and the snoop has no private key to undo it.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Try the HTTP journey first, and read exactly what the snoop manages to see.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Now try the HTTPS journey the same way, with the very same message, and compare what the snoop sees this time.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The memory of websites
+        <span class="disc-sub">two kinds of wristband, then sort six real uses onto the honest pile or the watch-it pile</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A <strong>cookie</strong> is a small piece of text a website asks your browser to remember on its behalf — it isn't a program, it can't run anything and it can't infect anything on its own; it's just a note. Think of it as a wristband handed out the moment you arrive. A <strong>session cookie</strong> is a wristband stamped "today only" — it evaporates the instant you close the tab. A <strong>persistent cookie</strong> is stamped with a real expiry date, sometimes weeks or months away, and survives long after the tab is gone. Press the button below and watch the difference for yourself.</p>
+      <div class="board">
+        <div class="ww-wristbands">
+          <div class="ww-wristband" id="wristbandSession">
+            <p class="ww-wristband-label">Session cookie</p>
+            <p class="ww-wristband-state" id="wristbandSessionState">On your wrist — issued the moment this tab opened.</p>
+          </div>
+          <div class="ww-wristband" id="wristbandPersistent">
+            <p class="ww-wristband-label">Persistent cookie</p>
+            <p class="ww-wristband-state" id="wristbandPersistentState">On your wrist too — stamped with an expiry 19 days from now.</p>
+          </div>
+        </div>
+        <button class="loop-btn primary" id="closeTabBtn5" type="button">Close the tab ▶</button>
+        <p class="fork-note" id="tabStatus5" aria-live="polite"></p>
+      </div>
+      <p>Cookies do real, everyday jobs — but a few uses are worth knowing about rather than worrying about. Tap a statement below, then tap the pile you think it belongs on.</p>
+      <div class="board">
+        <div class="sl-chip-pool" id="pool5"></div>
+        <div class="sl-bins" id="bins5"></div>
+        <p class="sl-status" id="status5" aria-live="polite">Tap a statement to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">"Keeping the items in your basket there while you keep browsing the same store" — that's a site remembering something about your own visit, for your own benefit. That's Everyday, honest use. "An advertiser's cookie that follows which other websites you visit afterwards, building a profile of your interests" — that one isn't about this site remembering you for you; it's about tracking you elsewhere. That's Worth keeping an eye on.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Ask one question of each statement: is this the site remembering something about your own visit, purely to help you — or is it following you somewhere else?</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Logging in, a shopping basket and remembered settings all stay on the one site that set them. Tracking crosses from one site to others you never directly visited — that's the tell.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirty-fourth time</h2>
+    <p>You sorted six statements onto two piles and landed on the exact distinction Cambridge cares about most here: the internet is the infrastructure, the web is the collection of pages travelling over it. You took a real address apart into its protocol, domain and page name, then ran the entire hidden relay a single "go" sets off — browser, DNS lookup, IP returned, request, packets, page — one pausable stop at a time. You looked up three domains and watched the phonebook nobody sees do its one job: turning a name into a number. You sent the same login over HTTP and HTTPS and watched a snoop succeed once and fail once — and you learned exactly what that padlock does and doesn't hide. And you sorted six real cookie uses onto an honest pile and a watch-it pile, without ever needing to be afraid of the word "cookie" itself.</p>
+    <p class="soft">Whenever you're ready, the next discoveries turn to a currency with no bank, no vault and no country — kept honest by everyone watching everyone, and by mathematics that makes lying spectacularly expensive. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="33-circuits-from-sentences.html">← Module 33 · Circuits from Sentences</a>
+    <a class="nav-link next" href="35-money-made-of-maths.html">Module 35 · Money Made of Maths →</a>
+  </nav>
+
+  <footer>Module 34 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>

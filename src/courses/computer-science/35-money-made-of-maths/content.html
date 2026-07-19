@@ -1,0 +1,164 @@
+
+  <section class="hero">
+    <h1>A currency with no bank, no vault, no country. <span class="lit">Kept honest by everyone watching everyone.</span></h1>
+    <p>A digital currency is money that only ever exists as data — no coins, no notes, nothing physical ever changes hands. Handing someone a banknote proves a trade happened just by existing in their hand afterwards. A digital currency has no such object, so it needs something else to prove the same thing: a record everyone trusts. Tonight you build that record from scratch, break it on purpose, and watch exactly why breaking it turns out to be spectacularly hard to get away with.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Playing the villain in a couple of these discoveries is the whole point, not a slip-up — there's nothing here to get wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The one book
+        <span class="disc-sub">a village fund, one bookkeeper, one ledger — quietly change an entry and see what stops you</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A small village fund keeps a shared ledger of <strong>IOUs</strong> — short for "I owe you", a running note of who owes what to whom. Arun has kept the fund's one and only book since it started. Below are the four entries in it right now. Each has a "quietly change this entry" button next to it — press one and watch what happens.</p>
+      <div class="board">
+        <div class="mc-ledger" id="ledger1"></div>
+        <p class="fork-note" id="ledgerNote1" aria-live="polite">Nothing's been touched yet.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Press "Quietly change this entry" on "Priya lent Farah 20 credits." — it becomes "Priya lent Farah 80 credits." instantly. No warning appears, no second opinion gets consulted, nothing turns red. Arun's book is the only copy of the truth that exists, so whatever Arun's book says, that's simply what happened now — there's no way for anyone to even notice, let alone object.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Pick any one of the four entries and press its "quietly change this entry" button.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Once you've changed one, ask yourself: is there anything, anywhere, that could catch this? If the answer is no, you've found the trust problem this whole module is about.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Everyone keeps the book
+        <span class="disc-sub">the same ledger, copied to three villagers — try the same fraud and see who notices</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One obvious fix: stop trusting a single book. Give everyone their own copy of the exact same ledger, kept independently, and let anyone compare copies whenever they like. Below, Arun, Priya and Wei Ling each hold an identical copy of the same four entries. Try the same trick as before — quietly change one entry on Arun's copy only — then ask everyone to compare.</p>
+      <div class="board">
+        <div class="mc-copies" id="copies2"></div>
+        <button class="loop-btn primary" id="tamperBtn2" type="button">Quietly change Arun's copy ▶</button>
+        <button class="loop-btn" id="compareBtn2" type="button" hidden>Ask everyone to compare copies ▶</button>
+        <p class="fork-note" id="compareNote2" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Press "Quietly change Arun's copy" — his copy now says "Priya lent Farah 80 credits.", while Priya's and Wei Ling's copies still both say 20. Press "Ask everyone to compare copies" and the disagreement is right there: two independent copies agree with each other, and Arun's is the odd one out. Nobody needed a referee — the disagreement itself is the tell. Back in Module 34, packets crossed a network with no single company owning the whole thing; this is the same idea applied to a record instead of a delivery.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Change only Arun's copy — leave the other two exactly as they are — then compare all three.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">With three independent copies, a lone tampered one doesn't quietly become the new truth — it just becomes the copy that disagrees with the other two.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Chained fingerprints
+        <span class="disc-sub">the same fund, redrawn as a blockchain — inspect how each block grips the one before it</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Real digital currency systems take "everyone keeps a copy" further, with a structure called a <strong>blockchain</strong>. Transactions get grouped into <strong>blocks</strong>, added one after another to form a <strong>chain</strong>. Every block, except the very first, stores a <strong>fingerprint</strong> of the block before it — a short code calculated from that block's contents, so any change to those contents produces a completely different fingerprint. Storing that fingerprint is how one block <strong>grips</strong> the one before it: as long as the stored copy still matches the earlier block's own fingerprint, nothing has moved. Below is the fund's own history, redrawn as a chain of five blocks. Inspect each one and check its grip on the block before it.</p>
+      <div class="board">
+        <div class="mc-chain" id="chain3"></div>
+        <div class="chips" id="chips3"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Press "Inspect block 2" — its fingerprint is 8D4E-11A0, and it stores a copy of block 1's fingerprint, 3F2A-9B1C, right alongside it. Block 1's own fingerprint (shown on block 1) is also 3F2A-9B1C — they match, so block 2's grip on block 1 is intact. Every block below works exactly the same way, right down the chain.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Inspect block 1 first — notice it has nothing before it to grip, since it's where the chain starts.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">For every other block, compare its "stored copy of the previous block's fingerprint" against the fingerprint actually printed on that previous block. Matching is the whole game.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Be the villain
+        <span class="disc-sub">sneak into block 3, quietly change its entry, and watch the grip fail down the chain</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Now do to the chain what you did to Arun's lone book back in the first discovery — except this time, watch what a fingerprint does about it. The chain below is the same five blocks. Sneak into block 3 and change its entry, then compare what happens next.</p>
+      <div class="board">
+        <div class="mc-chain" id="chain4"></div>
+        <button class="loop-btn primary" id="tamperBtn4" type="button">Sneak into block 3 and change the entry ▶</button>
+        <button class="loop-btn" id="revealBtn4" type="button" hidden>Compare block 4's stored fingerprint with block 3's new one ▶</button>
+        <p class="fork-note" id="cascadeNote4" aria-live="polite"></p>
+        <div class="mc-copies" id="othersPanel4" hidden></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Press "Sneak into block 3 and change the entry" — its transaction becomes "Wei Ling sends Priya 90 credits." and its fingerprint recalculates to 9E30-77FA. Press "Compare block 4's stored fingerprint with block 3's new one" — block 4 is still holding its original stored copy, C71B-5602, and that no longer matches block 3's new fingerprint at all. Block 4's grip on block 3 has failed — and since block 5 grips block 4 the exact same way, block 5 stops verifying too, without you touching it at all. Meanwhile, the other villagers' copies of the whole chain never changed, so they still show block 3's original entry — they simply disagree with yours.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">After your edit, compare block 4's stored fingerprint with block 3's new one.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">They no longer match. What would you have to redo, and on how many copies, to make block 4 look like it always agreed with your edit?</div>
+        <button class="nudge-btn" data-nudge="n4c" style="margin-top:10px">One more nudge?</button>
+        <div class="nudge" id="n4c">Every block after it — on most copies of the chain out there — faster than everyone else adds new, honest blocks on top. That's why tampering fails: not because it's forbidden, but because catching up is a race nobody wins.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Sort it out
+        <span class="disc-sub">sort six claims about digital currency onto the fact pile or the hype pile</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Digital currency attracts a lot of talk, and not all of it holds up. Below are six claims — some are straightforward fact, matched to exactly what you've just built; the rest are hype, sanded down from things people say that don't survive contact with how a chain of fingerprints actually behaves. Sort each one onto its pile.</p>
+      <div class="board">
+        <div class="sl-chip-pool" id="pool5"></div>
+        <div class="sl-bins" id="bins5"></div>
+        <p class="sl-status" id="status5" aria-live="polite">Tap a claim to begin.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">"A digital currency only ever exists electronically — there's no coin or note behind it" — that's exactly the definition this module opened with. Fact pile. "Once a block's been added, quietly editing an old transaction rewrites history with nobody able to tell" — you just spent a whole discovery watching the opposite happen: editing block 3 broke its grip on block 4 immediately, and that's precisely what got noticed. Hype pile.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">For each claim, ask: does this match something you actually watched happen in the last four discoveries, or does it contradict it?</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">A blockchain is the mechanism — the chain of gripped, fingerprinted blocks. A digital currency is one thing that mechanism can track. They're not the same word for the same thing.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirty-fifth time</h2>
+    <p>You watched a lone bookkeeper rewrite a village fund's only ledger with nothing to stop him, then handed that same ledger to three independent villagers and watched a lone tampered copy simply become the odd one out. You redrew the fund's history as a chain of five blocks, each one storing a fingerprint of the block before it — its grip on the past — and inspected every link to confirm it held. Then you played the villain yourself: snuck into block 3, changed its entry, and watched its grip on block 4 fail instantly, cascading to block 5 without you touching it at all, while every other villager's copy calmly carried on disagreeing with yours. And you sorted six real claims about digital currency onto a fact pile and a hype pile — fact from hype, and not a single number attached to any of it.</p>
+    <p class="soft">Whenever you're ready, the next discoveries turn to the people actively trying to break into systems like this one, and the defences built to stop them. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="34-the-web-beneath-the-web.html">← Module 34 · The Web Beneath the Web</a>
+    <a class="nav-link next" href="36-the-defenders.html">Module 36 · The Defenders →</a>
+  </nav>
+
+  <footer>Module 35 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
