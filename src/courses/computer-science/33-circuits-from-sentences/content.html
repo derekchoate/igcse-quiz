@@ -1,0 +1,202 @@
+
+  <section class="hero">
+    <h1>Now wire the six machines together. <span class="lit">A safety alarm, a vending machine, a greenhouse fan — every rule you can say in a sentence, you can build in gates.</span></h1>
+    <p>Module 32 gave you six machines that each answer one small yes/no question on their own. Tonight you wire two of them together at a time, so a circuit can answer a bigger question — the kind a real sentence actually asks. Flip switches, watch the glow travel from one gate to the next, and watch a target table light up row by row as your circuit starts answering it correctly. There's no separate building step and checking step here — every switch flip and every gate you choose updates everything live, all the way to the lamp.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. A row that hasn't lit yet is simply a row you haven't reproduced yet — never a mistake, never something to fix in a hurry. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Wire your first pair
+        <span class="disc-sub">(A AND B) OR C — flip every switch and watch the glow travel all the way to the lamp</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Here's how every circuit on this page is built, stated plainly before anything depends on it: the first two switches always meet <strong>Gate 1</strong> first. Whatever Gate 1 decides travels down one wire and becomes one of <strong>Gate 2</strong>'s own two inputs, alongside the third switch. Gate 2's answer is the one lamp at the very end — the circuit's single output. That ordering never changes anywhere in this module, so once it's in your fingers here, it's true everywhere below.</p>
+      <p>It's tempting to picture one big gate that looks at all three switches at once — but Cambridge draws no such gate. Every gate you'll ever meet takes at most two inputs (NOT, back in Module 32, takes exactly one). A third input always means a <em>second</em> gate, chained on, never a single three-input machine. Below, Gate 1 is AND and Gate 2 is OR — so the whole circuit reads <strong>(A AND B) OR C</strong>. Flip A, B and C in every combination and watch the notebook fill itself in, eight rows, same binary-counting order as Module 32's byte.</p>
+      <div class="board gm-board" id="board1">
+        <div class="chain-host" id="chain1"></div>
+        <div class="gm-table-wrap" id="table1"></div>
+        <p class="chips-label">Work through all eight rows, in counting order if you like…</p>
+        <div class="chips" id="chips1"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Leave A, B and C all off — Gate 1 (AND) sees 0 and 0, gives 0; Gate 2 (OR) sees that 0 alongside C's 0, gives 0. The lamp stays dark, row 000 fills in as 0. Now switch only C on — Gate 1 still gives 0 (A and B are still off), but Gate 2 now sees 0 OR 1, gives 1 — the lamp lights, row 001 fills in as 1. Switch A and B on too, leaving C on — Gate 1 finally gives 1 (both A and B are true), and Gate 2 sees 1 OR 1, gives 1 — row 111. Watch the middle bulb between the two gates as you go: it's Gate 1's entire answer, carried down one wire into Gate 2.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">There are eight possible switch combinations, 000 through 111 — work through them in that counting order and you'll never wonder if you've missed one.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Gate 1 always answers first, using only A and B — it never even sees C. Whatever it says becomes one of Gate 2's two inputs, alongside C. Gate 2 is the only gate that ever sees the lamp.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Sentence to circuit
+        <span class="disc-sub">"the alarm sounds if the door opens while armed, or the smoke sensor fires" — translate clause by clause</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Real rules read like this: <em>"The alarm sounds if the door opens while the system is armed, or if the smoke sensor fires."</em> Every joining word in a sentence like that is quietly telling you which gate to reach for. "While" means both things have to be true together — that's AND. "Or" means either one alone is enough — that's OR. Door and Armed are joined by "while", so they meet at Gate 1; Smoke only joins in afterwards, with "or", so it meets Gate 1's answer at Gate 2 — exactly the same slot order as Discovery 1.</p>
+      <p>Pick a gate for each slot below — any candidate, any time, changeable as often as you like. The target table already shows what the finished alarm should do; a row lights, in a warm amber glow, the moment your live circuit agrees with it for that exact switch combination. Change a gate and any row you've already tried re-checks itself immediately, with nothing to re-flip.</p>
+      <div class="board gm-board" id="board2">
+        <div class="chain-host" id="chain2"></div>
+        <div class="gm-table-wrap" id="table2"></div>
+        <p class="chain-progress" id="progress2" aria-live="polite">0 of 8 rows lit so far.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Door and Armed are joined by "while" — pick AND for Gate 1. Smoke joins in afterwards with "or" — pick OR for Gate 2. Now switch Door and Armed on together, Smoke left off: the target table's row for 110 already reads 1, and your live circuit now agrees, so that row lights amber. Work through the rest of the eight rows the same way — flip switches, watch which rows already agree — and the whole table lines up.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Underline the joining words in the sentence: while, or.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">"While" means both must be true at once. Which gate is that?</div>
+        <button class="nudge-btn" data-nudge="n2c" style="margin-top:10px">One more nudge?</button>
+        <div class="nudge" id="n2c">AND for (Door, Armed) at Gate 1, then OR the Smoke input in at Gate 2.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Circuit to table
+        <span class="disc-sub">a greenhouse fan controller with no notes attached — try it until its table tells the whole story</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Someone wired up a greenhouse's fan controller and left no documentation — just the circuit itself, with a temperature sensor (Hot), a humidity sensor (Damp) and a manual override (Manual) feeding it. The gate symbols are right there on the diagram this time, nothing hidden — but seeing a gate's name doesn't hand you every row of its table for free. The only way to know exactly when this fan runs is to actually try every combination and watch what the lamp does.</p>
+      <div class="board gm-board" id="board3">
+        <div class="chain-host" id="chain3"></div>
+        <div class="gm-table-wrap" id="table3"></div>
+        <p class="chips-label">Work through all eight rows…</p>
+        <div class="chips" id="chips3"></div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Work out Gate 1 (XOR) on Hot and Damp first: XOR lights only when its two inputs disagree, so Hot off/Damp on gives Gate 1 a 1. Feed that 1 into Gate 2 (AND) alongside Manual — if Manual is also on, AND gives 1, and the fan runs. If Manual is off, AND gives 0 no matter what Gate 1 said. Try that exact combination, then keep going through the rest.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">Work out what XOR does to Hot and Damp first — it lights only when the two sensors disagree — then feed that answer into the AND gate alongside Manual.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">The final lamp can only light when Manual is on AND Gate 1's answer is 1 — so anywhere Manual is off, that whole row is 0 immediately, no matter what Hot and Damp are doing.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Table to circuit
+        <span class="disc-sub">a vending machine's finished results table, no sentence attached — work the gates out from the numbers alone</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>This time there's no sentence to translate — only a canteen vending machine's finished "free item" table, already printed below. Three inputs: exact change inserted (Change), loyalty card tapped (Loyalty), item actually in stock (Stock). No one's telling you the joining words this time; the table's own pattern is the only evidence you get. Pick gates for both slots and watch which rows already agree with the printed target — then use the ones that don't to work out what needs to change.</p>
+      <div class="board gm-board" id="board4">
+        <div class="chain-host" id="chain4"></div>
+        <div class="gm-table-wrap" id="table4"></div>
+        <p class="chain-progress" id="progress4" aria-live="polite">0 of 8 rows lit so far.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Compare any two rows where only Stock differs, everything else the same — say Change=1, Loyalty=0, Stock=0 versus Stock=1. If the target flips from 0 to 1 purely because Stock switched on, Stock alone is deciding the row whenever the rest agrees — that's Gate 2 needing Stock as one input, and needing BOTH its inputs true to light, which is AND. Now look only at rows where Stock is 1: the target is 1 whenever Change is on, or Loyalty is on, or both — only both off gives 0. That's Gate 1 needing just one of its two inputs, which is OR. Pick OR for Gate 1 and AND for Gate 2, and watch every row light up.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Find two rows that only differ in the Stock column, everything else the same — what does Stock alone do to the answer?</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Whenever Stock is 0, the whole row is 0, no matter what Change or Loyalty say — that's Gate 2 being AND. Whenever Stock is 1, the answer follows Change and Loyalty exactly like Gate 1's job — check whether it needs both of them or just one, and that tells you Gate 1.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Circuit to expression
+        <span class="disc-sub">read the wiring backwards, into brackets</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>One more direction round the triangle: given a wired circuit, identify the expression it represents. It's tempting to write the brackets in whatever order feels natural on the page — but brackets have to mirror the <em>wiring</em>, not habit. Whatever meets at Gate 1 always gets its own bracket first; only Gate 2's other input joins outside that bracket, never inside it. The circuit below is fixed — feel free to flip P, Q and R and watch its notebook fill in if that helps — but the actual challenge is picking the expression that matches the wiring, from the options underneath.</p>
+      <div class="board gm-board" id="board5">
+        <div class="chain-host" id="chain5"></div>
+        <div class="gm-table-wrap" id="table5"></div>
+        <p class="chips-label">Pick the expression that matches the wiring…</p>
+        <div class="expr-option-row" id="expr5" role="group" aria-label="Pick the matching expression"></div>
+        <p class="expr-status" id="exprStatus5"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">P and Q meet at Gate 1 first — its shape is a bubbled OR, which is NOR — so that pair becomes (P NOR Q), in its own brackets, exactly as wired. That whole bracket then meets R at Gate 2, whose shape (OR with the extra curved line) is XOR. So the full expression is (P NOR Q) XOR R — brackets first around whatever Gate 1 sees, everything else outside.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Whatever the wiring shows meeting at Gate 1, wrap that pair in its own brackets first, before anything else.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Gate 2's shape is entirely separate from Gate 1's — a bubbled OR (NOR) and an OR with a second curved line behind it (XOR) are two different gates just for looking similar at a glance. Check each gate's own symbol on its own merits.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The commission
+        <span class="disc-sub">one problem statement, all the way to a finished circuit, table and expression — the whole syllabus triangle, solved in one sitting</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A canteen kiosk needs its "Order Ready" light wired up: <em>"Light it if a hot food item was selected and stock is available, or if the order was drinks-only."</em> Three inputs — HotFood, StockOK, DrinkOnly. This one asks for everything you've built across the last five discoveries: pick the gates that match the sentence, watch the target table fill in row by row, and once it's fully lit, read your own finished wiring back into its expression underneath.</p>
+      <p>It's tempting to simplify once the pattern looks obvious — but Cambridge wants the circuit built exactly as the sentence describes it, gate for gate, clause for clause. A simplified circuit isn't read as an equivalent answer, it's read as a different one, even on the rare occasion its truth table comes out identical.</p>
+      <div class="board gm-board" id="board6">
+        <div class="chain-host" id="chain6"></div>
+        <div class="gm-table-wrap" id="table6"></div>
+        <p class="chain-progress" id="progress6" aria-live="polite">0 of 8 rows lit so far.</p>
+        <p class="chips-label">Once the table's lighting up, pick the matching expression…</p>
+        <div class="expr-option-row" id="expr6" role="group" aria-label="Pick the matching expression"></div>
+        <p class="expr-status" id="exprStatus6"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">HotFood and StockOK are joined by "and" — pick AND for Gate 1. DrinkOnly joins in afterwards with "or" — pick OR for Gate 2. Flip HotFood and StockOK on together, DrinkOnly off: the target says 1, and your circuit now agrees, so that row lights. Work through the rest of the eight rows, then read the finished wiring back into (HotFood AND StockOK) OR DrinkOnly — the exact shape the sentence described the whole time.</div>
+        <button class="nudge-btn" data-nudge="n6a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n6a">Underline the joining words again: and, or.</div>
+        <button class="nudge-btn" data-nudge="n6b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n6b">HotFood and StockOK meet first — that's Gate 1. DrinkOnly joins in afterwards — that's Gate 2.</div>
+        <button class="nudge-btn" data-nudge="n6c" style="margin-top:10px">One more nudge?</button>
+        <div class="nudge" id="n6c">Once every row lights, read the two gates back into brackets: whatever met at Gate 1 gets its own bracket, and DrinkOnly sits outside it, joined on by Gate 2's own symbol.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a thirty-third time</h2>
+    <p>You spent tonight moving in all three directions around the same triangle. Sentence to circuit: "while" and "or" turned into AND and OR, wired in the order the sentence actually joined them, door and armed first, smoke folded in after. Circuit to table: a fan controller you'd never seen before gave up its whole behaviour to nothing but patient testing, exactly like Module 32's notebooks. Table to circuit: numbers alone, with no sentence attached, still pointed straight at the two gates hiding inside them. Circuit to expression: wiring read backwards into brackets that match the gates, not just habit. And the commission folded all four of those into one client's kiosk, start to finish, without a shortcut taken anywhere along the way.</p>
+    <p class="soft">Whenever you're ready, the next discoveries leave circuits behind for a while and head out onto the network — the difference between the internet and the web, and the scavenger hunt every address you type quietly sets off. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="32-the-logic-machines.html">← Module 32 · The Logic Machines</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 33 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>

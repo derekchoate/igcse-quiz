@@ -273,7 +273,7 @@
     pulse(basket);
     swReadouts();
     if(swDealt===17){
-      awardStar("d4","3 full rounds, 2 left in your hand — that's 17 DIV 5 and 17 MOD 5, both read straight off the same deal.");
+      awardStar("d4","3 full rounds, 2 left in your hand — that's DIV(17, 5) and MOD(17, 5), both read straight off the same deal.");
     }
   }
   function swReset(){
@@ -289,11 +289,11 @@
   /* ═══ D5: predict, then run ═══ */
   $("#prCode5a").innerHTML=
     '<div class="pcline"><span class="kw">DECLARE</span> Total : <span class="typ">INTEGER</span></div>'+
-    '<div class="pcline">Total <span class="arrow">←</span> 14 <span class="kw">MOD</span> 4</div>'+
+    '<div class="pcline">Total <span class="arrow">←</span> <span class="kw">MOD</span>(14, 4)</div>'+
     '<div class="pcline"><span class="kw">OUTPUT</span> Total</div>';
   $("#prCode5b").innerHTML=
     '<div class="pcline"><span class="kw">DECLARE</span> Total : <span class="typ">INTEGER</span></div>'+
-    '<div class="pcline">Total <span class="arrow">←</span> 14 <span class="kw">DIV</span> 4</div>'+
+    '<div class="pcline">Total <span class="arrow">←</span> <span class="kw">DIV</span>(14, 4)</div>'+
     '<div class="pcline"><span class="kw">OUTPUT</span> Total</div>';
   $("#prCode5c").innerHTML=
     '<div class="pcline"><span class="kw">DECLARE</span> Average : <span class="typ">REAL</span></div>'+
@@ -313,6 +313,6 @@
       awardStar("d5","All three predicted and run. Same DECLARE, ← and OUTPUT moves as Discovery 1 — this time doing real arithmetic, MOD, DIV and REAL division included.");
     }
   }
-  $("#prRun5a").addEventListener("click",()=>prRun("a","2","14 MOD 4 is the leftover after grouping 14 into fours: three fours make 12, with 2 left over."));
-  $("#prRun5b").addEventListener("click",()=>prRun("b","3","14 DIV 4 counts the whole groups of four that fit in 14 — three of them, with 2 spare that DIV quietly drops."));
+  $("#prRun5a").addEventListener("click",()=>prRun("a","2","MOD(14, 4) is the leftover after grouping 14 into fours: three fours make 12, with 2 left over."));
+  $("#prRun5b").addEventListener("click",()=>prRun("b","3","DIV(14, 4) counts the whole groups of four that fit in 14 — three of them, with 2 spare that DIV quietly drops."));
   $("#prRun5c").addEventListener("click",()=>prRun("c","3.5","7 / 2 is ordinary division, and Average was declared REAL, so the decimal point survives."));
