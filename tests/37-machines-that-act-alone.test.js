@@ -53,7 +53,7 @@ function sortAllLedger() {
 
 describe("Module 35: Machines that Act Alone", () => {
   beforeEach(() => {
-    loadModule("35-machines-that-act-alone.html");
+    loadModule("37-machines-that-act-alone.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
