@@ -8,7 +8,7 @@ const {
 
 describe("Module 30: The Logic Machines", () => {
   beforeEach(() => {
-    loadModule("30-the-logic-machines.html");
+    loadModule("32-the-logic-machines.html");
   });
 
   test("starts at zero stars, with no discovery pre-completed", () => {
