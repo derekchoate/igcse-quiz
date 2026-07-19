@@ -8,7 +8,7 @@
   </section>
 
   <section class="cpu-intro">
-    <p class="fork-note">A quick convention, stated once so nothing has to be guessed later: parts with a <strong>solid</strong> edge below are registers — tiny stores that each hold exactly one value at a time, living inside the CPU. The part with a <strong>dashed</strong> edge is memory (RAM) — outside the CPU entirely. It's joined to the CPU by a link you'll meet later in the course. Right now every part except memory is still unmet — dimmed and unlabelled. Match each job below to reveal it.</p>
+    <p class="fork-note">A quick convention for the diagram below, stated once so nothing has to be guessed later: parts with a <strong>solid</strong> edge are the CPU's own registers; the part with a <strong>dashed</strong> edge is memory (RAM) — outside the CPU entirely, joined to it by a link you'll meet later in the course. Right now every part except memory is still unmet — dimmed and unlabelled. Match each job below to reveal it.</p>
     <div class="cpu-mount" id="cpuMountMachine"></div>
   </section>
 
@@ -49,7 +49,7 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Meet the fetch trio: PC, MAR and MDR — three parts that always work as a team. <strong>PC</strong> (Program Counter) holds the address of the <em>next</em> instruction to fetch — never the instruction itself, just where to find it. <strong>MAR</strong> (Memory Address Register) holds an address too, but a different one: the location in memory the CPU is <em>about to</em> read from or write to, right now. <strong>MDR</strong> (Memory Data Register) holds the actual data or instruction — whatever has just travelled in from memory, or is about to travel out. It never holds an address. Three registers, three jobs: next, where, and what. Tap a job, then tap the part it belongs to.</p>
+      <p>Meet the fetch trio: PC, MAR and MDR — three registers that always work as a team. (A <strong>register</strong> is a tiny store built into the CPU itself, holding exactly one value at a time — much smaller than memory, but far quicker to use.) <strong>PC</strong> (Program Counter) holds the address of the <em>next</em> instruction to fetch — never the instruction itself, just where to find it. <strong>MAR</strong> (Memory Address Register) holds an address too, but a different one: the location in memory the CPU is <em>about to</em> read from or write to, right now. <strong>MDR</strong> (Memory Data Register) holds the actual data or instruction — whatever has just travelled in from memory, or is about to travel out. It never holds an address. Three registers, three jobs: next, where, and what. Tap a job, then tap the part it belongs to.</p>
       <div class="board">
         <div class="def-pool" id="defPool2"></div>
         <div class="term-bins" id="termBins2"></div>
