@@ -30,13 +30,13 @@
    a dimmed class rather than building/rebuilding boxes. */
 
 const CPU_PARTS = [
-  { key: "cu", label: "CU", kind: "tag" },
-  { key: "alu", label: "ALU", kind: "tag" },
-  { key: "pc", label: "PC" },
-  { key: "mar", label: "MAR" },
-  { key: "mdr", label: "MDR" },
-  { key: "cir", label: "CIR" },
-  { key: "acc", label: "ACC" }
+  { key: "cu", label: "CU", full: "Control Unit", kind: "tag" },
+  { key: "alu", label: "ALU", full: "Arithmetic Logic Unit", kind: "tag" },
+  { key: "pc", label: "PC", full: "Program Counter" },
+  { key: "mar", label: "MAR", full: "Memory Address Register" },
+  { key: "mdr", label: "MDR", full: "Memory Data Register" },
+  { key: "cir", label: "CIR", full: "Current Instruction Register" },
+  { key: "acc", label: "ACC", full: "Accumulator" }
 ];
 
 function makeCpuBoard(mountId, opts) {
@@ -59,23 +59,32 @@ function makeCpuBoard(mountId, opts) {
   const row2 = document.createElement("div"); row2.className = "cpu-row cpu-row-exec";
 
   const boxes = {};
-  function makeBox(parent, key, label, kind) {
+  function makeBox(parent, key, label, full, kind) {
     const el = document.createElement("div");
     el.className = "cpu-" + (kind || "box");
     el.dataset.key = key;
     const l = document.createElement("span"); l.className = "cpu-label"; l.textContent = label;
+    el.appendChild(l);
+    if (full) {
+      const f = document.createElement("span"); f.className = "cpu-full"; f.textContent = full;
+      el.appendChild(f);
+    }
     const v = document.createElement("span"); v.className = "cpu-val"; v.textContent = "—";
-    el.appendChild(l); el.appendChild(v);
+    el.appendChild(v);
     parent.appendChild(el);
     boxes[key] = { el: el, label: l, val: v, name: label };
   }
-  makeBox(row1, "pc", "PC");
-  makeBox(row1, "mar", "MAR");
-  makeBox(row1, "mdr", "MDR");
-  makeBox(row1, "cir", "CIR");
-  makeBox(row2, "cu", "CU", "tag");
-  makeBox(row2, "alu", "ALU", "tag");
-  makeBox(row2, "acc", "ACC");
+  function partBox(parent, key) {
+    const p = CPU_PARTS.find(x => x.key === key);
+    makeBox(parent, p.key, p.label, p.full, p.kind);
+  }
+  partBox(row1, "pc");
+  partBox(row1, "mar");
+  partBox(row1, "mdr");
+  partBox(row1, "cir");
+  partBox(row2, "cu");
+  partBox(row2, "alu");
+  partBox(row2, "acc");
   frame.appendChild(row1);
   frame.appendChild(row2);
   board.appendChild(frame);
@@ -86,7 +95,7 @@ function makeCpuBoard(mountId, opts) {
   board.appendChild(link);
 
   const memRow = document.createElement("div"); memRow.className = "cpu-row cpu-row-mem";
-  makeBox(memRow, "mem", "Memory (RAM) — outside the CPU", "node");
+  makeBox(memRow, "mem", "RAM", "Memory — outside the CPU", "node");
   board.appendChild(memRow);
 
   const bus = document.createElement("div");
