@@ -57,6 +57,10 @@
 /* ── D1/D2/D3/D5: pool of chips + sockets to sort them into (Module 18's
    makeSortBoard pattern, reused here — see module.js) ── */
 .sort-pool{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:16px}
+/* D3 and D5 have longer pools (nine and eight cards, vs six elsewhere) —
+   two columns keep them from reading as one long scroll before the bins
+   appear. */
+.sort-pool.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sort-chip{
   font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
   border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;

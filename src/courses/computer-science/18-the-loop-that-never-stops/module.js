@@ -13,6 +13,11 @@
    awardStar, makeChips and makeCpuBoard are all in scope. */
 
   /* ═══ D1: remember the crew? — three-question warm-up ═══ */
+  const PART_LABELS = {
+    CU: "CU — Control Unit", ALU: "ALU — Arithmetic Logic Unit", PC: "PC — Program Counter",
+    MAR: "MAR — Memory Address Register", MDR: "MDR — Memory Data Register",
+    CIR: "CIR — Current Instruction Register", ACC: "ACC — Accumulator"
+  };
   const QUIZ1 = [
     { id: "q1", text: "Decides what each instruction means and sends out the signals to match.", choices: ["CU", "ALU", "CIR"], ans: "CU" },
     { id: "q2", text: "Holds the address of the NEXT instruction to fetch.", choices: ["PC", "MAR", "MDR"], ans: "PC" },
@@ -26,7 +31,7 @@
     const btns = document.createElement("div"); btns.className = "quiz-btns";
     q.choices.forEach(choice => {
       const b = document.createElement("button");
-      b.type = "button"; b.className = "loop-btn quiz-choice"; b.textContent = choice;
+      b.type = "button"; b.className = "loop-btn quiz-choice"; b.textContent = PART_LABELS[choice];
       b.addEventListener("click", () => {
         if (row.classList.contains("solved")) return;
         if (choice === q.ans) {
