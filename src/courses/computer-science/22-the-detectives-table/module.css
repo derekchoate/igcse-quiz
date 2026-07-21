@@ -1,0 +1,113 @@
+/* Module 20 — The Detective's Table: lesson-specific styling only.
+   meta.uses is empty — no existing kit covers a numeric trace grid (rule of
+   two: this is the first module that needs one), so the pseudocode look
+   (`.pcline`/`.kw`/`.arrow`/`.str`, mirroring Modules 10-12) and the whole
+   trace-grid mechanic's styling live here, hand-rolled, same choice every
+   earlier module made for patterns no shared kit covers yet. D4/D5's
+   "name the bug" / "what's it for" picker mirrors Module 12 D5's bug-picker
+   almost exactly (`.pick-*` here instead of `.bug-*`, same shape). */
+
+:root{
+  --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+}
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+.fork-note{font-size:14px;color:var(--ink-soft);margin:8px 0 12px;text-align:center}
+
+/* ── pseudocode look ── */
+.pcline{font-family:var(--mono);font-size:14.5px;line-height:1.7;padding:5px 10px;border-radius:8px;white-space:pre-wrap;word-break:break-word}
+.pcline.cur{background:rgba(255,184,77,.12);box-shadow:inset 0 0 0 1px rgba(255,184,77,.4)}
+.kw{color:var(--teal)}
+.arrow{color:var(--glow);font-weight:700}
+.str{color:#E6B98A}
+
+/* ── the two-panel trace board: code on the left, grid on the right.
+   min() widths let flex-wrap stack them automatically once the viewport
+   can't fit both at a sane width — reinforced by the explicit media query
+   below rather than relied on alone. ── */
+.trace-panels{display:flex;flex-wrap:wrap;gap:16px}
+.trace-code{flex:1 1 210px;min-width:0;background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:10px 6px;overflow-x:auto}
+.trace-table-wrap{flex:1 1 230px;min-width:0}
+
+/* ── the trace grid: a CSS-grid table, row-label column + one column per
+   variable/OUTPUT. --tg-cols is set inline per discovery (module.js) so
+   the same rules serve every grid regardless of column count. ── */
+.trace-grid{--tg-cols:3;display:flex;flex-direction:column;gap:5px;background:#121A32;border:1px solid var(--card-edge);border-radius:10px;padding:8px;overflow-x:auto}
+.tg-row{display:grid;grid-template-columns:76px repeat(var(--tg-cols),minmax(48px,1fr));gap:5px;align-items:stretch}
+.tg-rowlabel{display:flex;align-items:center;font-family:'Sora',sans-serif;font-size:11.5px;color:var(--ink-soft);padding-right:2px;line-height:1.25}
+.tg-cell{
+  font-family:var(--mono);font-size:14px;min-height:40px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;background:#0E1730;border:1px solid var(--card-edge);color:var(--ink-soft);
+  transition:border-color .25s,background .25s,color .25s,box-shadow .25s;
+}
+.tg-colhead{
+  background:none;border:none;color:var(--teal);
+  font-family:'Sora',sans-serif;font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.3px;min-height:22px;
+}
+.tg-dash{opacity:.4}
+button.tg-fillable{font:inherit;cursor:pointer}
+.tg-locked{opacity:.3;cursor:default}
+.tg-unlocked{border-color:var(--teal);color:var(--ink)}
+.tg-unlocked:hover{border-color:var(--glow)}
+.tg-unlocked:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+/* the one cell currently waiting on a pick — its pad is already open, so
+   this highlight is the only cue pointing at it, never motion or sound */
+.tg-active{
+  border-width:2px;border-color:var(--teal);background:rgba(123,196,180,.14);
+  box-shadow:0 0 0 3px rgba(123,196,180,.22);
+}
+.tg-filled{
+  border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow);
+  box-shadow:0 0 10px rgba(255,184,77,.25);cursor:default;
+}
+
+.trace-status{margin-top:10px;font-size:14.5px;color:var(--ink-soft);text-align:center;min-height:40px}
+
+/* ── the number pad: a small set of candidate values, revealed once a box
+   is tapped. A wrong tap leaves the box exactly as quiet as before and
+   just updates the status line — the pad itself never marks anything. ── */
+.trace-pad{margin-top:10px;padding:12px;background:#121A32;border:1px dashed var(--card-edge);border-radius:10px}
+.tg-pad-label{font-size:13.5px;color:var(--ink-soft);margin-bottom:8px;text-align:center}
+.tg-pad-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tg-pad-btn{
+  font-family:var(--mono);font-size:15px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:8px;
+  padding:8px 15px;cursor:pointer;min-width:44px;transition:border-color .2s;
+}
+.tg-pad-btn:hover{border-color:var(--teal)}
+.tg-pad-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* ── D4/D5: "name the bug" / "what's it for" picker (mirrors Module 12
+   D5's bug-picker) ── */
+.pick-wrap{margin-top:16px}
+.pick-options{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:10px 0}
+.pick-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1px solid var(--card-edge);color:var(--ink);border-radius:12px;
+  padding:9px 16px;cursor:pointer;text-align:left;max-width:280px;transition:all .22s;
+}
+.pick-btn:hover{border-color:var(--teal)}
+.pick-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.pick-btn.chosen{border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow)}
+.pick-btn:disabled{opacity:.5;cursor:default}
+
+/* ── shared nudge tweak ── */
+.nudge code{font-family:var(--mono);font-size:14px;color:var(--ink)}
+
+/* ── mobile tightening at ~380px: force the two-panel board to stack
+   (code above, grid below) and shrink cells so the widest grid (D3/D5,
+   3 columns + row-label) doesn't overflow ── */
+@media (max-width:640px){
+  .trace-panels{flex-direction:column}
+  .trace-code{flex-basis:auto}
+  .trace-table-wrap{flex-basis:auto}
+}
+@media (max-width:420px){
+  .tg-row{grid-template-columns:60px repeat(var(--tg-cols),minmax(40px,1fr));gap:4px}
+  .tg-cell{min-height:36px;font-size:12.5px}
+  .tg-rowlabel{font-size:10.5px}
+  .tg-pad-btn{padding:7px 12px;font-size:14px}
+  .pcline{font-size:13px;padding:4px 6px}
+}
