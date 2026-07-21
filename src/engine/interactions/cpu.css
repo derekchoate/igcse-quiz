@@ -34,12 +34,12 @@
 }
 .cpu-box, .cpu-node{border:1.5px solid var(--card-edge)}
 .cpu-node{border-style:dashed}
-.cpu-tag{border:1.5px dashed var(--card-edge);flex-direction:row;align-items:center;justify-content:center;gap:6px;padding:8px}
+.cpu-tag{border:1.5px dashed var(--card-edge);padding:8px}
 .cpu-label{font-family:'Sora',sans-serif;font-size:12px;letter-spacing:.4px;color:var(--teal)}
+.cpu-full{font-family:'Atkinson Hyperlegible',sans-serif;font-size:11px;line-height:1.25;color:var(--ink-soft)}
 .cpu-val{font-family:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;font-size:14.5px;color:var(--ink);word-break:break-word}
 .cpu-box.changed, .cpu-node.changed{border-color:var(--glow);box-shadow:0 0 12px rgba(255,184,77,.35);background:rgba(255,184,77,.08)}
 .cpu-tag.active{border-color:var(--glow);border-style:solid;color:var(--glow);box-shadow:0 0 12px rgba(255,184,77,.3)}
-.cpu-tag .cpu-label{margin:0}
 
 /* not-yet-taught parts (Module 16 reveal mode): present in the DOM so the
    layout never re-flows, but visibly not "met" yet */

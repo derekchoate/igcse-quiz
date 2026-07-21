@@ -161,15 +161,15 @@
   let rdCount = 0;
   const rdChips = makeChips($("#chips4"), ["raw", "tamed", "range"],
     () => awardStar("d4", "RANDOM() always hands back a decimal between 0 and 1 — never more, never less — and ROUND is what tames that decimal into a whole number you can actually use."),
-    k => ({ raw: "Saw RANDOM()'s raw decimal", tamed: "Tamed it with ROUND", range: "Rolled enough to trust the 0–6 range" }[k]),
+    k => ({ raw: "Saw RANDOM()'s raw decimal", tamed: "Tamed it with ROUND", range: "Rolled enough to trust the 1–6 range" }[k]),
     (label, remaining) => "Noticed ✦ — " + remaining + " more to go.");
   function rdRoll(){
     rdCount++;
     const raw = Math.random(); // stands in for RANDOM() — a decimal between 0 and 1 inclusive
-    const tamed = Math.round(raw * 6); // stands in for ROUND(RANDOM() * 6, 0)
+    const tamed = Math.round(raw * 5) + 1; // stands in for ROUND(RANDOM() * 5, 0) + 1
     $("#rdRaw4").textContent = raw.toFixed(3);
     $("#rdTamed4").textContent = String(tamed);
-    $("#rdStatus4").textContent = "Roll " + rdCount + ": RANDOM() handed back " + raw.toFixed(3) + " — always somewhere between 0 and 1. ROUND(RANDOM() * 6, 0) turned that into a clean whole number: " + tamed + ".";
+    $("#rdStatus4").textContent = "Roll " + rdCount + ": RANDOM() handed back " + raw.toFixed(3) + " — always somewhere between 0 and 1. ROUND(RANDOM() * 5, 0) + 1 turned that into a clean whole number: " + tamed + ".";
     rdChips("raw");
     rdChips("tamed");
     if (rdCount >= 8) rdChips("range");

@@ -52,6 +52,12 @@ button.tg-fillable{font:inherit;cursor:pointer}
 .tg-unlocked{border-color:var(--teal);color:var(--ink)}
 .tg-unlocked:hover{border-color:var(--glow)}
 .tg-unlocked:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+/* the one cell currently waiting on a pick — its pad is already open, so
+   this highlight is the only cue pointing at it, never motion or sound */
+.tg-active{
+  border-width:2px;border-color:var(--teal);background:rgba(123,196,180,.14);
+  box-shadow:0 0 0 3px rgba(123,196,180,.22);
+}
 .tg-filled{
   border-color:var(--glow);background:rgba(255,184,77,.14);color:var(--glow);
   box-shadow:0 0 10px rgba(255,184,77,.25);cursor:default;

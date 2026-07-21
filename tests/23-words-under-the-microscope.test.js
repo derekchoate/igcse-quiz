@@ -118,13 +118,13 @@ describe("Module 21: Words Under the Microscope", () => {
   });
 
   describe("discovery 4: dice inside the machine", () => {
-    test("a roll always shows a raw decimal between 0 and 1, and a tamed whole number between 0 and 6", () => {
+    test("a roll always shows a raw decimal between 0 and 1, and a tamed whole number between 1 and 6", () => {
       document.getElementById("rdRoll4").click();
       const raw = parseFloat(document.getElementById("rdRaw4").textContent);
       const tamed = parseInt(document.getElementById("rdTamed4").textContent, 10);
       expect(raw).toBeGreaterThanOrEqual(0);
       expect(raw).toBeLessThanOrEqual(1);
-      expect(tamed).toBeGreaterThanOrEqual(0);
+      expect(tamed).toBeGreaterThanOrEqual(1);
       expect(tamed).toBeLessThanOrEqual(6);
     });
 
