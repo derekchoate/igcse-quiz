@@ -42,13 +42,18 @@
   /* ═══ the trace grid itself ═══
      cfg: { codeEl, gridEl, statusEl, padEl, columns:[{key,label}],
             rows:[{ label, line, hint?, cells:{ key:{value,options,hint?} } }],
-            introStatus, doneMessage, onComplete() }
+            doneMessage, onComplete() }
      A row's `cells` only lists columns that actually change that row —
      every other column renders as a static dash, never a repeated number,
-     which is the house rule this whole module teaches. */
+     which is the house rule this whole module teaches. Exactly one cell
+     is ever "active" at a time (left-to-right, then row by row): its box
+     carries a visible highlight and its number pad is already open, so
+     there is nothing to tap before picking a value — only the pad choice
+     itself is a decision. */
   function makeTraceGrid(cfg) {
     const columns = cfg.columns;
     let activeRow = 0;
+    let activeBtn = null;
 
     cfg.gridEl.innerHTML = "";
     cfg.gridEl.style.setProperty("--tg-cols", String(columns.length));
@@ -99,21 +104,45 @@
       rowEls.push({ row, cellEls });
     });
 
-    function unlockRow(ri) {
+    function firstUnfilledCell(ri) {
       const entry = rowEls[ri];
-      Object.keys(entry.cellEls).forEach(key => {
-        const b = entry.cellEls[key];
-        b.disabled = false;
-        b.classList.remove("tg-locked");
-        b.classList.add("tg-unlocked");
-        b.textContent = "?";
-      });
-      highlightLine(cfg.codeEl, entry.row.line);
+      for (const col of columns) {
+        const b = entry.cellEls[col.key];
+        if (b && !b.classList.contains("tg-filled")) return { col, btn: b };
+      }
+      return null;
     }
 
-    function rowComplete(ri) {
-      const entry = rowEls[ri];
-      return Object.keys(entry.cellEls).every(key => entry.cellEls[key].classList.contains("tg-filled"));
+    function activateCell(ri, col, btn) {
+      if (activeBtn) {
+        activeBtn.classList.remove("tg-active");
+        activeBtn.removeAttribute("aria-current");
+      }
+      btn.disabled = false;
+      btn.classList.remove("tg-locked");
+      btn.classList.add("tg-unlocked", "tg-active");
+      btn.textContent = "?";
+      btn.setAttribute("aria-current", "true");
+      btn.setAttribute("aria-label", col.label + " at " + rowEls[ri].row.label + " — the active box, pick its value below");
+      activeBtn = btn;
+      highlightLine(cfg.codeEl, rowEls[ri].row.line);
+      openPad(rowEls[ri].row, col, btn);
+    }
+
+    function advance() {
+      const found = firstUnfilledCell(activeRow);
+      if (found) {
+        activateCell(activeRow, found.col, found.btn);
+        return;
+      }
+      if (activeRow === cfg.rows.length - 1) {
+        activeBtn = null;
+        cfg.statusEl.textContent = cfg.doneMessage;
+        cfg.onComplete();
+        return;
+      }
+      activeRow += 1;
+      advance();
     }
 
     function closePad() {
@@ -146,36 +175,25 @@
     }
 
     function pickValue(row, col, val, btn) {
-      const ri = cfg.rows.indexOf(row);
       const cellDef = row.cells[col.key];
       if (val === cellDef.value) {
         btn.textContent = String(val);
-        btn.classList.remove("tg-unlocked");
+        btn.classList.remove("tg-unlocked", "tg-active");
         btn.classList.add("tg-filled");
         btn.disabled = true;
+        btn.removeAttribute("aria-current");
         btn.setAttribute("aria-label", col.label + " at " + row.label + " — " + val + ", consistent with the trace");
         const r = btn.getBoundingClientRect();
         sparks(r.left + r.width / 2, r.top);
         closePad();
-        if (rowComplete(ri)) {
-          if (ri === cfg.rows.length - 1) {
-            cfg.statusEl.textContent = cfg.doneMessage;
-            cfg.onComplete();
-          } else {
-            activeRow = ri + 1;
-            unlockRow(activeRow);
-            cfg.statusEl.textContent = "That row's consistent. Tap " + cfg.rows[activeRow].label + "'s box to keep going.";
-          }
-        } else {
-          cfg.statusEl.textContent = "Tap the next box in " + row.label + ".";
-        }
+        if (btn === activeBtn) activeBtn = null;
+        advance();
       } else {
         cfg.statusEl.textContent = cellDef.hint || row.hint || ("Look again at " + row.label + " — that's not quite what this line does.");
       }
     }
 
-    unlockRow(0);
-    cfg.statusEl.textContent = cfg.introStatus;
+    advance();
   }
 
   /* ═══ D1: a 4-liner, two variables ═══ */
@@ -197,7 +215,6 @@
       },
       { label: "Line 4 · OUTPUT", line: 4, cells: { OUTPUT: { value: 15, options: [15, 10, 5, 25] } } }
     ],
-    introStatus: "Tap Line 1's box to begin.",
     doneMessage: "All four lines traced — every column only ever earned a number on the line that actually changed it.",
     onComplete: () => awardStar("d1", "Every column only got a new number on the line that actually changed it — that's a real trace table, not a guess.")
   });
@@ -215,15 +232,18 @@
     columns: [{ key: "Count", label: "Count" }, { key: "Total", label: "Total" }, { key: "OUTPUT", label: "OUTPUT" }],
     rows: [
       { label: "Line 1", line: 1, cells: { Total: { value: 0, options: [0, 1, 4, 10] } } },
-      { label: "Lap 1", line: 3, cells: { Count: { value: 1, options: [1, 0, 2, 4] }, Total: { value: 1, options: [1, 0, 4, 10] } } },
-      { label: "Lap 2", line: 3, cells: { Count: { value: 2, options: [2, 1, 3, 4] }, Total: { value: 3, options: [3, 1, 2, 10] } } },
-      { label: "Lap 3", line: 3, cells: { Count: { value: 3, options: [3, 2, 4, 1] }, Total: { value: 6, options: [6, 3, 9, 10] } } },
-      { label: "Lap 4", line: 3, cells: { Count: { value: 4, options: [4, 3, 5, 1] }, Total: { value: 10, options: [10, 6, 14, 4] } } },
+      { label: "Lap 1 · FOR", line: 2, cells: { Count: { value: 1, options: [1, 0, 2, 4] } } },
+      { label: "Lap 1 · Total", line: 3, cells: { Total: { value: 1, options: [1, 0, 4, 10] } } },
+      { label: "Lap 2 · FOR", line: 2, cells: { Count: { value: 2, options: [2, 1, 3, 4] } } },
+      { label: "Lap 2 · Total", line: 3, cells: { Total: { value: 3, options: [3, 1, 2, 10] } } },
+      { label: "Lap 3 · FOR", line: 2, cells: { Count: { value: 3, options: [3, 2, 4, 1] } } },
+      { label: "Lap 3 · Total", line: 3, cells: { Total: { value: 6, options: [6, 3, 9, 10] } } },
+      { label: "Lap 4 · FOR", line: 2, cells: { Count: { value: 4, options: [4, 3, 5, 1] } } },
+      { label: "Lap 4 · Total", line: 3, cells: { Total: { value: 10, options: [10, 6, 14, 4] } } },
       { label: "Line 5 · OUTPUT", line: 5, cells: { OUTPUT: { value: 10, options: [10, 4, 6, 14] } } }
     ],
-    introStatus: "Tap Line 1's box to begin.",
-    doneMessage: "All four laps traced — Count and Total moved in lockstep, right through to OUTPUT.",
-    onComplete: () => awardStar("d2", "Count and Total marched in the same rhythm, lap after lap — every column filling in together is exactly what a FOR loop's own trace looks like.")
+    doneMessage: "All four laps traced — Count settling on the FOR line, Total catching up on the line beneath it, lap after lap, right through to OUTPUT.",
+    onComplete: () => awardStar("d2", "Count and Total marched in the same rhythm, lap after lap — Count getting its new number where the loop itself sets it, Total getting its new number where the loop's body uses it.")
   });
 
   /* ═══ D3: an IF inside the loop ═══ */
@@ -243,24 +263,25 @@
     rows: [
       { label: "Line 1", line: 1, cells: { Total: { value: 0, options: [0, 1, 5, 15] } } },
       {
-        label: "Lap 1 (Num 1)", line: 3, cells: { Num: { value: 1, options: [1, 0, 2, 5] } },
+        label: "Lap 1 (Num 1) · FOR", line: 2, cells: { Num: { value: 1, options: [1, 0, 2, 5] } },
         hint: "Look again at Lap 1 — MOD(1, 2) is 1, not 0, so THEN never fires and Total has nothing new to show."
       },
-      { label: "Lap 2 (Num 2)", line: 5, cells: { Num: { value: 2, options: [2, 1, 3, 5] }, Total: { value: 2, options: [2, 0, 3, 6] } } },
+      { label: "Lap 2 (Num 2) · FOR", line: 2, cells: { Num: { value: 2, options: [2, 1, 3, 5] } } },
+      { label: "Lap 2 (Num 2) · Total", line: 5, cells: { Total: { value: 2, options: [2, 0, 3, 6] } } },
       {
-        label: "Lap 3 (Num 3)", line: 3, cells: { Num: { value: 3, options: [3, 2, 4, 5] } },
+        label: "Lap 3 (Num 3) · FOR", line: 2, cells: { Num: { value: 3, options: [3, 2, 4, 5] } },
         hint: "Look again at Lap 3 — MOD(3, 2) is 1, not 0, so this lap leaves Total's box dark too."
       },
-      { label: "Lap 4 (Num 4)", line: 5, cells: { Num: { value: 4, options: [4, 3, 5, 2] }, Total: { value: 6, options: [6, 2, 10, 4] } } },
+      { label: "Lap 4 (Num 4) · FOR", line: 2, cells: { Num: { value: 4, options: [4, 3, 5, 2] } } },
+      { label: "Lap 4 (Num 4) · Total", line: 5, cells: { Total: { value: 6, options: [6, 2, 10, 4] } } },
       {
-        label: "Lap 5 (Num 5)", line: 3, cells: { Num: { value: 5, options: [5, 4, 3, 1] } },
+        label: "Lap 5 (Num 5) · FOR", line: 2, cells: { Num: { value: 5, options: [5, 4, 3, 1] } },
         hint: "Look again at Lap 5 — MOD(5, 2) is 1, not 0, so Total stays exactly where it was after Lap 4."
       },
       { label: "Line 8 · OUTPUT", line: 8, cells: { OUTPUT: { value: 6, options: [6, 2, 15, 10] } } }
     ],
-    introStatus: "Tap Line 1's box to begin.",
-    doneMessage: "All five laps traced — three of them left Total dark, and every one of those rows still belonged there.",
-    onComplete: () => awardStar("d3", "Three of those laps left Total's column dark — and the row still belonged there. A trace table records every lap, whether or not that lap's variable moved.")
+    doneMessage: "All five laps traced — three of them never earned a Total row at all, and each FOR row still belonged there regardless.",
+    onComplete: () => awardStar("d3", "Three of those laps never got a Total row — and the FOR row still belonged there, proving the lap ran. A trace table records every lap, whether or not that lap's Total ever moved.")
   });
 
   /* ═══ D4: the broken algorithm — trace, then name the bug ═══ */
@@ -276,13 +297,16 @@
     columns: [{ key: "Num", label: "Num" }, { key: "Total", label: "Total" }, { key: "OUTPUT", label: "OUTPUT" }],
     rows: [
       { label: "Line 1", line: 1, cells: { Total: { value: 0, options: [0, 1, 4, 15] } } },
-      { label: "Lap 1", line: 3, cells: { Num: { value: 1, options: [1, 0, 2, 4] }, Total: { value: 1, options: [1, 0, 4, 15] } } },
-      { label: "Lap 2", line: 3, cells: { Num: { value: 2, options: [2, 1, 3, 4] }, Total: { value: 3, options: [3, 1, 2, 15] } } },
-      { label: "Lap 3", line: 3, cells: { Num: { value: 3, options: [3, 2, 4, 1] }, Total: { value: 6, options: [6, 3, 9, 15] } } },
-      { label: "Lap 4", line: 3, cells: { Num: { value: 4, options: [4, 3, 5, 1] }, Total: { value: 10, options: [10, 6, 14, 15] } } },
+      { label: "Lap 1 · FOR", line: 2, cells: { Num: { value: 1, options: [1, 0, 2, 4] } } },
+      { label: "Lap 1 · Total", line: 3, cells: { Total: { value: 1, options: [1, 0, 4, 15] } } },
+      { label: "Lap 2 · FOR", line: 2, cells: { Num: { value: 2, options: [2, 1, 3, 4] } } },
+      { label: "Lap 2 · Total", line: 3, cells: { Total: { value: 3, options: [3, 1, 2, 15] } } },
+      { label: "Lap 3 · FOR", line: 2, cells: { Num: { value: 3, options: [3, 2, 4, 1] } } },
+      { label: "Lap 3 · Total", line: 3, cells: { Total: { value: 6, options: [6, 3, 9, 15] } } },
+      { label: "Lap 4 · FOR", line: 2, cells: { Num: { value: 4, options: [4, 3, 5, 1] } } },
+      { label: "Lap 4 · Total", line: 3, cells: { Total: { value: 10, options: [10, 6, 14, 15] } } },
       { label: "Line 5 · OUTPUT", line: 5, cells: { OUTPUT: { value: 10, options: [10, 15, 6, 14] } } }
     ],
-    introStatus: "Tap Line 1's box to begin.",
     doneMessage: "Traced exactly as written — OUTPUT prints 10, not the 15 the intention promised. Time to name the bug below.",
     onComplete: () => { $("#pick4").hidden = false; }
   });
@@ -336,15 +360,16 @@
     columns: [{ key: "Guess", label: "Guess" }, { key: "Biggest", label: "Biggest" }, { key: "OUTPUT", label: "OUTPUT" }],
     rows: [
       { label: "Line 1", line: 1, cells: { Biggest: { value: 0, options: [0, 7, 15, 3] } } },
-      { label: "Guess 1", line: 5, cells: { Guess: { value: 7, options: [7, 0, 15, 3] }, Biggest: { value: 7, options: [7, 0, 15, 3] } } },
-      { label: "Guess 2", line: 10, cells: { Guess: { value: 15, options: [15, 7, 3, 0] }, Biggest: { value: 15, options: [15, 7, 3, 0] } } },
+      { label: "Guess 1", line: 2, cells: { Guess: { value: 7, options: [7, 0, 15, 3] } } },
+      { label: "Guess 1 · Biggest", line: 5, cells: { Biggest: { value: 7, options: [7, 0, 15, 3] } } },
+      { label: "Guess 2", line: 7, cells: { Guess: { value: 15, options: [15, 7, 3, 0] } } },
+      { label: "Guess 2 · Biggest", line: 10, cells: { Biggest: { value: 15, options: [15, 7, 3, 0] } } },
       {
-        label: "Guess 3", line: 13, cells: { Guess: { value: 3, options: [3, 15, 7, 0] } },
+        label: "Guess 3", line: 12, cells: { Guess: { value: 3, options: [3, 15, 7, 0] } },
         hint: "Look again at Guess 3 — 3 > 15 is false, so THEN never fires and Biggest has nothing new to show."
       },
       { label: "Line 17 · OUTPUT", line: 17, cells: { OUTPUT: { value: 15, options: [15, 7, 3, 22] } } }
     ],
-    introStatus: "Tap Line 1's box to begin.",
     doneMessage: "Traced cold, start to finish — OUTPUT prints 15. Time to say what this program's actually for.",
     onComplete: () => { $("#pick5").hidden = false; }
   });
