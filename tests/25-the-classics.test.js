@@ -81,7 +81,7 @@ describe("Module 23: The Classics", () => {
 
     test("the optional trap-array toggle is exploratory only, never required for the star", () => {
       const toggle = document.querySelector("#trapBar3 button");
-      expect(document.getElementById("trapReadout3").textContent).toMatch(/happens to still work here/i);
+      expect(document.getElementById("trapReadout3").textContent).toMatch(/still works too/i);
       toggle.click();
       expect(document.getElementById("trapReadout3").textContent).toMatch(/it would report.*0/i);
       expect(isDiscoveryDone("d3")).toBe(false);
