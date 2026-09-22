@@ -91,7 +91,7 @@
           statusEl.textContent = "That one's matched. " + (CHECKS.length - pairsDone) + " to go.";
         }
       } else {
-        statusEl.textContent = "Not that one yet — that description belongs to a different check. Have another look at exactly what it's describing.";
+        statusEl.textContent = "Not that one yet. That description belongs to a different check. Have another look at what it's describing.";
         clearSel();
       }
     }
@@ -253,7 +253,7 @@
     });
 
     meetBtn.addEventListener("click", () => {
-      status3b.textContent = "Meet the person who typed it: she's 12, not 21. Nothing about the number 21 is invalid — it's simply untrue, and the gate had no way to know, because validation only ever checks a value's shape against a rule, never a value's truth against reality.";
+      status3b.textContent = "Meet the person who typed it: she's 12, not 21. Nothing about the number 21 is invalid — it's simply untrue. The gate had no way to know. Validation only ever checks a value's shape against a rule. It never checks a value's truth against reality.";
       meetBtn.disabled = true;
       verifyIntro.style.display = "";
       verifyRow.style.display = "";
@@ -268,12 +268,12 @@
       note.style.minHeight = "0";
       verifyRow.parentNode.insertBefore(note, verifyRow.nextSibling);
       doubleBtn.addEventListener("click", () => {
-        note.textContent = (note.textContent ? note.textContent + " " : "") + "Double entry: the same field gets typed twice, by two different people, or the same person twice. “21” typed once and “12” typed the second time wouldn't match — the mismatch itself is the flag, with no need for either entry to be independently proven true.";
+        note.textContent = (note.textContent ? note.textContent + " " : "") + "Double entry: the same field gets typed twice — by two different people, or the same person twice. “21” typed once and “12” typed the second time wouldn't match. The mismatch itself is the flag. Neither entry needs to be independently proven true.";
         chips3("doubleEntry");
         doubleBtn.disabled = true;
       });
       visualBtn.addEventListener("click", () => {
-        note.textContent = (note.textContent ? note.textContent + " " : "") + "Visual check: a human simply looks at the entered value next to its real source — the actual birth certificate, in this case — and 21 sitting beside a document that clearly says 12 is something a person would catch on sight.";
+        note.textContent = (note.textContent ? note.textContent + " " : "") + "Visual check: a human looks at the entered value next to its real source — the actual birth certificate, in this case. 21 sits beside a document that clearly says 12. That's something a person would catch on sight.";
         chips3("visualCheck");
         visualBtn.disabled = true;
       });
