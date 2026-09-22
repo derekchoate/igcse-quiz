@@ -1,0 +1,241 @@
+
+  <section class="hero">
+    <h1>Five little algorithms run the world's paperwork. <span class="lit">You already have every piece they're made of.</span></h1>
+    <p>You know this setup already — one name, numbered compartments. This time there are six of them.</p>
+    <p>The FOR loop that sweeps across them stays exactly the same each time. What changes is the job it's given:</p>
+    <ol class="job-list">
+      <li>Totalling watches a running sum grow.</li>
+      <li>Counting only reacts when a condition is true.</li>
+      <li>Challenging crowns a champion.</li>
+      <li>Searching checks compartment after compartment for one value.</li>
+      <li>Swapping nudges neighbours past each other, until the whole row settles into order.</li>
+    </ol>
+    <p>Same idea, same FOR loop underneath, five completely different jobs. That's the whole trick of this module.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Step through at your own pace or let it run. A search that finds nothing is still a real result, not a miss. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The running total
+        <span class="disc-sub">watch Total grow, one compartment at a time</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Six rounds of a mobile game, scores logged in <span class="kw" style="font-family:var(--mono)">Scores : ARRAY[1:6] OF INTEGER</span>. <span class="kw" style="font-family:var(--mono)">Total</span> starts at 0. Every lap of the loop adds one more compartment onto it — <span class="kw" style="font-family:var(--mono)">Total ← Total + Scores[Index]</span>.</p>
+      <p>Press Step to add one compartment at a time. Or press Run to send it through every compartment. Either way, watch Total climb.</p>
+      <div class="board">
+        <div class="decl-code" id="code1"></div>
+        <div class="pgh-wall" id="wall1"></div>
+        <div class="op-readout" id="readout1"></div>
+        <div class="loop-bar" id="bar1"></div>
+        <p class="op-status" id="status1" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">Press Step: Index is 1, Scores[1] is 62, so Total ← 0 + 62 = 62. Press Step again: Index is 2, Scores[2] is 45, so Total ← 62 + 45 = 107. Total never gets reset partway through. It just keeps absorbing one more compartment every lap, until all six are in. Once the loop ends, Average appears too. It's the final Total divided by 6 — the number of compartments that went in.</div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Before the loop starts, Total is 0 — not empty, not undefined, a real zero. That's why adding a compartment onto Total is safe from the very first lap.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Watch the readout after every Step. Total only grows — one compartment's value at a time. The compartment it just added is exactly the one that lit up.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Counting with a condition
+        <span class="disc-sub">how many of these six scores are over 50?</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Same compartments, different job. This time Count only moves when a condition is true: <span class="kw" style="font-family:var(--mono)">IF Scores[Index] &gt; 50</span>. A compartment that fails the condition still gets visited. The loop never skips one. It just doesn't earn Count anything.</p>
+      <p>Step or Run through all six and see how many clear 50.</p>
+      <div class="board">
+        <div class="decl-code" id="code2"></div>
+        <div class="pgh-wall" id="wall2"></div>
+        <div class="op-readout" id="readout2"></div>
+        <div class="loop-bar" id="bar2"></div>
+        <p class="op-status" id="status2" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">Index 1: Scores[1] is 62. 62 &gt; 50 is true, so Count ← 0 + 1 = 1. Index 2: Scores[2] is 45. 45 &gt; 50 is false — THEN never fires, Count stays 1. Index 3: Scores[3] is 78, true again, Count becomes 2. Keep going, and the loop visits every compartment exactly once. Count only climbs on the ones that meet the condition. By the end, it settles on 4.</div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Every compartment gets checked, even the ones that fail — the loop doesn't jump over anything. It's Count that stays still on a failing compartment, not the loop.</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Compare this to Discovery 1: Total added something on every single lap, no exceptions. Count only adds 1 on the laps where the IF is true. That's the entire difference between the two jobs.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Champion and Challenger
+        <span class="disc-sub">a champion, and five challengers who each get one shot</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Champion starts out as whatever sits in the very first compartment. No contest needed — it simply holds the title until someone beats it.</p>
+      <p>Every compartment after it steps up as a Challenger. If it's bigger than the current Champion, it takes the crown. If not, the Champion keeps the title, and the loop moves on.</p>
+      <p>Step or Run through all five challengers and see who's left standing.</p>
+      <div class="board">
+        <div class="decl-code" id="code3"></div>
+        <div class="pgh-wall" id="wall3"></div>
+        <div class="op-readout" id="readout3"></div>
+        <div class="loop-bar" id="bar3"></div>
+        <p class="op-status" id="status3" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">Champion ← Scores[1] = 62, crowned with no contest. Challenger 45 (compartment 2): 45 &gt; 62 is false — Champion stays 62. Challenger 78 (compartment 3): 78 &gt; 62 is true — new Champion, 78. Challenger 51: 51 &gt; 78 is false, no change. Challenger 90: 90 &gt; 78 is true — Champion becomes 90. Challenger 33: 33 &gt; 90 is false. Final Champion: 90 — it only ever changes hands when a challenger genuinely beats whoever currently holds it.</div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">The very first compartment never has to prove anything. It becomes Champion right away, before any comparing starts.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">From compartment 2 on, ask one question each lap: is this challenger bigger than the current Champion? Only "yes" changes anything.</div>
+      </div>
+      <div class="extra-box">
+        <p class="extra-label">Optional extra — a classic trap</p>
+        <p>What if, to save a step, Champion had started at 0 instead of Scores[1]? With these compartments, it still works — every score here is already above 0. Flip the toggle below to all-negative numbers, and watch that shortcut fall apart.</p>
+        <div class="step-bar" id="trapBar3" style="margin:10px 0"></div>
+        <div class="op-readout" id="trapReadout3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The patient finger
+        <span class="disc-sub">search the compartments for a value — and find out what "not there" looks like</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Type a Target below. Then press Step or Run to send a finger through the compartments, one at a time. At each one, it asks the same question: is this the Target? The instant it matches, the finger stops — no need to check what's left.</p>
+      <p>If it checks the last compartment without a match, that's not a mistake. It's a complete, useful answer. The value genuinely isn't there. The only way to know that for certain is to check every compartment.</p>
+      <p>Try a Target that's in the compartments, then one that isn't.</p>
+      <div class="board">
+        <div class="decl-code" id="code4"></div>
+        <div class="pgh-wall" id="wall4"></div>
+        <div class="op-input">
+          <label for="targetInput4">Target to search for (try 19 first — then a number you can see in the compartments)</label>
+          <input id="targetInput4" type="number" inputmode="numeric" placeholder="e.g. 19" value="19">
+        </div>
+        <div class="loop-bar" id="bar4"></div>
+        <p class="op-status" id="status4" aria-live="polite">Type a Target, then press Step or Run to send the finger through the compartments.</p>
+      </div>
+      <p class="chips-label">Try both…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">Search for 78: the finger checks compartment 1 (62 — no), compartment 2 (45 — no), compartment 3 (78 — yes!). It stops right there. Found becomes TRUE, and the finger never touches compartments 4, 5 or 6. There's no need — the answer's already in hand. Now search for 19: the finger checks all six compartments — 62, 45, 78, 51, 90, 33. None of them is 19. Found stays FALSE. That's not a failed search — it's a complete one. The only way to be sure 19 isn't there was to check every last compartment.</div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Pick a number you can already see in one of the six compartments. Search for that first, and watch the finger stop the moment it matches.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Now pick a number that definitely isn't in the compartments. Reset first. Then run that search all the way to the last compartment. Read what the status line says when it finishes.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Bubbles rise
+        <span class="disc-sub">scramble a short row yourself, then watch neighbours swap their way to order</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Five compartments this time. This job does something new: it compares two <em>neighbours</em>. It swaps them if the left one is bigger than the right.</p>
+      <p>Press Shuffle to scramble the row into your own mess. Then press Step or Run. Each pass sweeps left to right once. A "swaps this pass" tally counts how many neighbour-swaps happened.</p>
+      <p>Watch that tally across passes. It has something to tell you about when the row is finally sorted.</p>
+      <div class="board">
+        <div class="decl-code" id="code5"></div>
+        <div class="pgh-wall" id="wall5"></div>
+        <div class="bubble-stats" id="stats5"></div>
+        <div class="loop-bar" id="bar5"></div>
+        <p class="op-status" id="status5" aria-live="polite"></p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">Say the row reads 4, 1, 5, 2, 3. Compare compartments 1 and 2: 4 &gt; 1, so they swap — 1, 4, 5, 2, 3. Compare 2 and 3: 4 &gt; 5 is false, no swap. Compare 3 and 4: 5 &gt; 2, swap — 1, 4, 2, 5, 3. Compare 4 and 5: 5 &gt; 3, swap — 1, 4, 2, 3, 5. That's Pass 1 done, 3 swaps. Keep running passes, and the biggest values keep bubbling rightward. Eventually, a whole pass goes by with the swap tally sitting at 0. Nothing to fix means the row is already sorted. That's the exact signal that stops the algorithm.</div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Watch the swap tally on the last pass you run, not just the row itself.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Zero swaps happened on that pass. What must be true of every neighbouring pair on the whole row for that to happen?</div>
+        <button class="nudge-btn" data-nudge="n5c" style="margin-top:10px">One more nudge?</button>
+        <div class="nudge" id="n5c">Already in order — that's the signal to stop. The algorithm knows the row is sorted without ever "seeing" the whole thing at once. One pass with nothing to swap is proof enough.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 6 ══════════ -->
+  <section class="disc" id="d6">
+    <button class="disc-head" aria-expanded="false" data-toggle="d6">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Assemble one
+        <span class="disc-sub">drag these eight lines back into order and rebuild the max-finder from Module 24</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Eight lines of the find-the-largest program from Module 24 sit shuffled in the bank on the right.</p>
+      <p>Drag each one onto the line number it belongs at, on the left. Or tap a line, then tap the slot. Either way, it snaps into place the moment it's right. A line in the wrong slot just bounces back, with a pointer — nothing about it counts against you.</p>
+      <div class="board">
+        <div class="asm-board">
+          <div class="asm-col">
+            <div class="asm-col-label">The program, line by line</div>
+            <div class="asm-slots" id="asmSlots6"></div>
+          </div>
+          <div class="asm-col">
+            <div class="asm-col-label">Shuffled lines</div>
+            <div class="asm-bank" id="asmBank6"></div>
+          </div>
+        </div>
+        <p class="op-status" id="status6" aria-live="polite">Drag a line across, or tap one and then the slot it belongs in.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex6">Show me one first</button>
+        <div class="nudge" id="ex6">Line 1 has to be "Largest ← Scores[1]". Nothing later can compare against a champion that doesn't exist yet — so this always comes first. Line 2 starts the sweep: "FOR Index ← 2 TO 5". It begins at 2 because compartment 1 is already spoken for. Lines 3–6 are the IF/THEN/update/ENDIF block that only replaces Largest when something bigger turns up. Line 7 closes the loop: "NEXT Index". Line 8, "OUTPUT Largest", only makes sense once the sweep is completely finished — it has to be last.</div>
+        <button class="nudge-btn" data-nudge="n6a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n6a">Start with the two lines you can place with total confidence. One sets up the very first champion — that one has to come first. The other prints the final answer — that one has to come last.</div>
+        <button class="nudge-btn" data-nudge="n6b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n6b">The IF, THEN, the update line, and ENDIF always travel together, as one block, in that order. Place the FOR line just before that block starts. Place NEXT Index just after it ends.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a twenty-fifth time</h2>
+    <p>Five little algorithms, and every single one of them was the same FOR loop wearing a different job. Totalling just kept adding. Counting added a condition before it would move.</p>
+    <p>The champion-and-challenger game only ever changed hands when something genuinely beat it. The patient finger stopped the instant it found a match. When it didn't, checking every last compartment was the entire point — not a failure of one.</p>
+    <p>And the bubbles: neighbours compared, sometimes swapped. One whole pass with nothing left to swap was proof, all by itself, that the row was done. You even took the very first of those apart and rebuilt it, line by line, from a shuffled pile.</p>
+    <p class="soft">These five patterns show up again and again in real programs. You'll meet them wearing new costumes for the rest of this course.</p>
+    <p class="soft">(One small aside, just for interest. Once compartments are already sorted, cleverer ways exist to search them — faster than checking one at a time. Not part of 0478. Not something you need to build here. Just worth knowing they're out there.)</p>
+    <p class="soft">Whenever you're ready, the next discovery is a change of scene. It's about the rules that decide whether an item is even allowed in at all. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="24-many-boxes-one-name.html">← Module 24 · Many Boxes, One Name</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 25 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
