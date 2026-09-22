@@ -29,7 +29,7 @@
 
     const seen = new Set();
     const check1 = makeChips($("#chips1"), [1, 2, 3],
-      () => awardStar("d1", "Three different names, one unchanged machine — that's the entire point of a procedure: write the steps once, reuse them for every argument that comes along."),
+      () => awardStar("d1", "Three different names, one unchanged machine. That's the entire point of a procedure: write the steps once, then reuse them for every argument that comes along."),
       n => (n === 1 ? "Called it once" : n === 2 ? "Called it with a second name" : "Called it with a third name"),
       (label, remaining) => label + " — " + remaining + " more name" + (remaining === 1 ? "" : "s") + " to try.");
 
@@ -66,7 +66,7 @@
       '<div class="pcline"><span class="kw">ENDFUNCTION</span></div>';
 
     const check2 = makeChips($("#chips2"), ["used", "discarded"],
-      () => awardStar("d2", "You watched the same kind of value take two different paths after RETURN — used, and printed; discarded, and gone — and either one is completely legal pseudocode."),
+      () => awardStar("d2", "You watched the same value take two different paths after RETURN. Used, it got printed. Discarded, it was simply gone. Either way, it's completely legal pseudocode."),
       k => (k === "used" ? "Used the returned value" : "Watched a discarded value quietly disappear"),
       (label, remaining) => label + " — " + remaining + " more to try.");
 
@@ -77,7 +77,7 @@
 
     callProc.addEventListener("click", () => {
       const name = currentName();
-      status2a.textContent = 'CALL Greet("' + name + '") runs — OUTPUT "Hello, ' + name + '!" happens right there, inside the machine. Nothing comes back to you; it already did the whole job itself.';
+      status2a.textContent = 'CALL Greet("' + name + '") runs. OUTPUT "Hello, ' + name + '!" happens right there, inside the machine. Nothing comes back to you — it already did the whole job itself.';
       chuteRow.style.display = "none";
       status2b.textContent = "";
     });
@@ -85,7 +85,7 @@
     callFunc.addEventListener("click", () => {
       const name = currentName();
       const initial = name.charAt(0).toUpperCase();
-      status2a.textContent = 'Initial("' + name + '") runs and reaches RETURN UCASE(SUBSTRING(Name, 1, 1)) — a value is sent back onto the conveyor. Nothing has been output yet. It’s simply sitting there, waiting for whoever called it to decide what happens next.';
+      status2a.textContent = 'Initial("' + name + '") runs and reaches RETURN UCASE(SUBSTRING(Name, 1, 1)). A value is sent back onto the conveyor. Nothing has been output yet. It’s just sitting there, waiting for whoever called it to decide what happens next.';
       chuteVal.textContent = 'On the conveyor: "' + initial + '" — not shown anywhere yet.';
       chuteRow.style.display = "";
       status2b.textContent = "";
@@ -100,7 +100,7 @@
     });
     discardBtn.addEventListener("click", () => {
       const v = useBtn.dataset.val || "?";
-      status2b.textContent = 'The chute delivered "' + v + '" onto the conveyor, and then... nothing picked it up. It’s simply gone now — a function’s whole promise is that it delivers a value, never that anything happens with it. Discarding a function’s return value is completely legal pseudocode; it’s just rarely useful.';
+      status2b.textContent = 'The chute delivered "' + v + '" onto the conveyor. Then... nothing picked it up. It’s simply gone now. A function only promises to deliver a value — never that anything happens with it. Discarding a function’s return value is completely legal pseudocode. It’s just rarely useful.';
       check2("discarded");
     });
   })();
@@ -117,7 +117,7 @@
       '<div class="pcline"><span class="kw">ENDPROCEDURE</span></div>';
 
     const check3 = makeChips($("#chips3"), ["ordered", "swapped"],
-      () => awardStar("d3", "Same machine, same two steps, both times — only the order the arguments arrived in changed, and that alone was enough to turn a sensible sentence into polite chaos."),
+      () => awardStar("d3", "Same machine, same two steps, both times. Only the order the arguments arrived in changed. That alone was enough to turn a sensible sentence into polite chaos."),
       k => (k === "ordered" ? "Called it with the hoppers as they start" : "Called it after swapping the hoppers"),
       (label, remaining) => label + " — " + remaining + " more to try.");
 
@@ -151,7 +151,7 @@
       '<div class="pcline"><span class="kw">ENDPROCEDURE</span></div>';
 
     const check4 = makeChips($("#chips4"), ["started", "stopped", "triedRead"],
-      () => awardStar("d4", "You watched Local get born and vanish with a single run of its machine, watched FactoryCount keep its value on the floor between runs, and found out — twice, two different ways — that a local variable is never reachable from outside its own machine."),
+      () => awardStar("d4", "You watched Local get born and vanish with a single run of its machine. You watched FactoryCount keep its value on the floor, between runs. And you found out — twice, in two different ways — that a local variable is never reachable from outside its own machine."),
       k => (k === "started" ? "Started the machine" : k === "stopped" ? "Stopped it, and watched the case empty" : "Tried reading Local from the floor"),
       (label, remaining) => label + " — " + remaining + " more to try.");
 
@@ -160,7 +160,7 @@
       running = true;
       caseVal.textContent = "Local ← 1";
       caseEl.classList.add("bb-case-live");
-      status4a.textContent = "The machine started — Local was just born inside the glass case, value 1. FactoryCount on the floor hasn't moved yet, because the machine hasn't finished running.";
+      status4a.textContent = "The machine started. Local was just born inside the glass case, value 1. FactoryCount on the floor hasn't moved yet — the machine hasn't finished running.";
       startBtn.disabled = true; stopBtn.disabled = false;
       check4("started");
     });
@@ -172,16 +172,16 @@
       factoryVal.textContent = String(factoryCount);
       caseVal.textContent = "— empty —";
       caseEl.classList.remove("bb-case-live");
-      status4a.textContent = "The machine finished — FactoryCount ticked up to " + factoryCount + " on the factory floor, and Local vanished the instant the machine stopped. It only ever belonged to that one run.";
+      status4a.textContent = "The machine finished. FactoryCount ticked up to " + factoryCount + " on the factory floor. Local vanished the instant the machine stopped — it only ever belonged to that one run.";
       startBtn.disabled = false; stopBtn.disabled = true;
       check4("stopped");
     });
 
     readBtn.addEventListener("click", () => {
       if (running) {
-        status4b.textContent = "You're standing on the factory floor, outside the machine entirely. Local is alive in there right now — but the floor was never given a way to see inside the glass case. It's simply not something you can reach from out here.";
+        status4b.textContent = "You're standing on the factory floor, outside the machine entirely. Local is alive in there right now. But the floor was never given a way to see inside the glass case. It's simply not something you can reach from out here.";
       } else {
-        status4b.textContent = "There's no Local out here to read. It only ever exists while its machine is running, inside that machine's own glass case — and right now there isn't one running.";
+        status4b.textContent = "There's no Local out here to read. It only ever exists while its machine is running, inside that machine's own glass case. And right now, there isn't one running.";
       }
       check4("triedRead");
     });
@@ -250,7 +250,7 @@
         placed++; selected = null;
         if (placed === BLUEPRINTS.length) {
           status.textContent = "All six sorted — every blueprint found its pile.";
-          awardStar("d5", "All six sorted using nothing but one word on the header line — RETURNS present means Function, RETURNS absent means Procedure, every single time.");
+          awardStar("d5", "All six sorted, using nothing but one word on the header line. RETURNS present means Function, and RETURNS absent means Procedure — every single time.");
         } else {
           status.textContent = "That's the one. " + (BLUEPRINTS.length - placed) + " more to go.";
         }
