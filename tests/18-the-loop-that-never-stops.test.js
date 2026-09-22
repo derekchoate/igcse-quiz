@@ -9,7 +9,7 @@ function quizRowByText(text) {
   return Array.from(document.querySelectorAll(".quiz-row")).find(r => r.querySelector(".quiz-text").textContent === text);
 }
 function quizChoice(row, label) {
-  return Array.from(row.querySelectorAll(".quiz-choice")).find(b => b.textContent === label);
+  return Array.from(row.querySelectorAll(".quiz-choice")).find(b => b.textContent.startsWith(label));
 }
 function crankButton(mountId) {
   return document.querySelector("#" + mountId + " .cpu-crank");
