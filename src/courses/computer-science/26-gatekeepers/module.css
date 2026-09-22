@@ -1,0 +1,142 @@
+/* Module 24 — Gatekeepers: lesson-specific styling only.
+   meta.uses is ["chips"] — chips.css/.js comes from that kit. No shared kit
+   covers a meaning-matching board, a predict-then-reveal queue, a probe
+   input, or a corruptible barcode, so the pseudocode look (`.pcline`/`.kw`/
+   `.arrow`), the `.board`/`.btn`/`.loop-bar`/`.op-*` shells and the barcode
+   visuals are hand-rolled here, mirroring Modules 14/22/23 exactly (same
+   choice they made, rule of two) so the house style stays identical without
+   a shared kit that would need to serve four unrelated shapes of board. */
+
+:root{
+  --mono:ui-monospace,'Cascadia Code',Menlo,Consolas,'Liberation Mono',monospace;
+}
+
+.board{background:#121A32;border:1px solid var(--card-edge);border-radius:14px;padding:20px 16px;margin:18px 0}
+
+/* ── pseudocode look, mirrors Modules 10-12/20/22/23 ── */
+.decl-code{background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:8px 8px;margin-bottom:14px}
+.pcline{font-family:var(--mono);font-size:14.5px;line-height:1.6;padding:5px 10px;border-radius:8px;white-space:pre-wrap;word-break:break-word}
+.kw{color:var(--teal)}
+.arrow{color:var(--glow);font-weight:700}
+.muted{color:var(--ink-soft)}
+
+.btn{font-family:'Sora',sans-serif;font-size:15px;color:#3A2606;background:var(--glow);border:1px solid var(--glow);border-radius:999px;padding:10px 20px;cursor:pointer;transition:all .25s}
+.btn:hover{background:var(--glow-deep);border-color:var(--glow-deep)}
+.btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.btn.ghost{background:none;color:var(--ink-soft);border-color:var(--card-edge);font-size:14px;padding:8px 16px;border-width:1px;border-style:solid}
+.btn.ghost:hover{border-color:var(--teal);color:var(--teal);background:none}
+
+/* ── shared free-text input, mirrors Module 10/21/22/23's op-input ── */
+.op-input{display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.op-input label{font-family:'Sora',sans-serif;font-size:13px;color:var(--teal);text-transform:uppercase;letter-spacing:.5px}
+.op-input input{font:inherit;font-family:'Atkinson Hyperlegible',sans-serif;font-size:15px;background:#1A2440;color:var(--ink);border:1px solid var(--card-edge);border-radius:10px;padding:10px 12px;width:100%;max-width:100%}
+.op-input input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.op-input input:disabled{opacity:.6}
+
+.op-readout{font-family:var(--mono);font-size:15.5px;background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:12px 14px;margin:10px 0;text-align:center;line-height:1.6}
+.op-status{margin-top:10px;font-size:14.5px;color:var(--ink-soft);text-align:center;min-height:20px}
+
+/* ── loop-style buttons (Probe / Reveal / Next / Reset), mirrors Module 12/20/22/23 ── */
+.loop-bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:14px 0}
+.loop-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;cursor:pointer;transition:all .22s;
+  margin:4px 6px 4px 0;
+}
+.loop-btn:hover{border-color:var(--teal)}
+.loop-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.loop-btn.primary{background:var(--glow);color:#3A2606;border-color:var(--glow)}
+.loop-btn.ghost{background:none}
+.loop-btn:disabled{opacity:.5;cursor:default}
+
+/* ── D1: equip the gate — a meaning-matching board.
+   Same two-column visual language as Module 23's D6 reassembly board and
+   Module 9's line-pairing engine (drag or tap-then-tap, one pointer path
+   for mouse/touch/pen), hand-rolled here under gt- names rather than the
+   shared matcher kit because that kit hardcodes its own discovery id. ── */
+.gt-board{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.gt-col{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.gt-col-label{font-family:'Sora',sans-serif;font-size:11.5px;color:var(--teal);letter-spacing:.4px;text-transform:uppercase;margin-bottom:2px}
+.gt-slots{display:flex;flex-direction:column;gap:8px}
+.gt-slot{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:#141d38;border:1px solid var(--card-edge);border-radius:10px;padding:9px 11px;cursor:pointer;transition:all .22s}
+.gt-slot:hover{border-color:var(--teal)}
+.gt-slot:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.gt-slot-num{font-family:'Sora',sans-serif;font-size:13.5px;font-weight:600;color:var(--ink)}
+.gt-hint{margin-top:4px;font-size:13px;color:var(--ink-soft)}
+.gt-hint.gt-hint-filled{color:var(--glow)}
+.gt-slot.sel{border-color:var(--glow);box-shadow:0 0 0 1px rgba(255,184,77,.35)}
+.gt-slot.drop-ok{border-color:var(--glow);background:rgba(255,184,77,.1);box-shadow:0 0 0 2px rgba(255,184,77,.45)}
+.gt-slot.filled{border-color:var(--glow);background:rgba(255,184,77,.06);cursor:default}
+.gt-bank{display:flex;flex-direction:column;gap:8px}
+.gt-chip{font-family:'Atkinson Hyperlegible',sans-serif;font-size:13.5px;line-height:1.4;text-align:left;background:#121A32;border:1px solid var(--card-edge);color:var(--ink);border-radius:10px;padding:9px 11px;cursor:grab;transition:border-color .2s,background .2s,color .2s,opacity .2s;touch-action:none;user-select:none;-webkit-user-select:none}
+.gt-chip:hover{border-color:var(--teal)}
+.gt-chip:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.gt-chip.sel{border-color:var(--glow);background:rgba(255,184,77,.12);color:var(--glow)}
+.gt-chip.dragging{opacity:.3;cursor:grabbing}
+.gt-chip.used{display:none}
+.gt-ghost{position:fixed;left:0;top:0;z-index:200;pointer-events:none;transition:none;opacity:.96;color:var(--glow);background:#1E2A4E;border-color:var(--glow);box-shadow:0 10px 28px rgba(0,0,0,.55)}
+
+/* ── D2: release the queue — a small badge strip plus a single card ── */
+.gt-queue{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:12px 0}
+.gt-badge{
+  min-width:26px;height:26px;padding:0 6px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Sora',sans-serif;font-size:12.5px;color:var(--ink-soft);
+  background:#141d38;border:1px solid var(--card-edge);transition:all .22s;
+}
+.gt-badge-cur{border-color:var(--teal);box-shadow:0 0 8px rgba(123,196,180,.35);color:var(--ink)}
+.gt-badge-admit{border-color:var(--glow);background:rgba(255,184,77,.16);color:var(--glow)}
+.gt-badge-hold{border-color:var(--ink-soft);background:rgba(141,151,176,.14);color:var(--ink-soft)}
+
+.gt-card{background:#0E1730;border:1px solid var(--card-edge);border-radius:10px;padding:14px 16px;text-align:center}
+.gt-card-label{font-family:'Sora',sans-serif;font-size:12px;color:var(--teal);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.gt-card-val{font-family:var(--mono);font-size:19px;margin-bottom:10px}
+.gt-predict-row,.gt-next-row,.gt-verify-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:6px}
+
+.predict-btn{
+  font-family:'Sora',sans-serif;font-size:14px;background:#1A2440;
+  border:1.5px solid var(--card-edge);color:var(--ink-soft);
+  border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .22s;
+}
+.predict-btn:hover{border-color:var(--teal)}
+.predict-btn:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.predict-btn.sel{border-color:var(--teal);background:rgba(123,196,180,.14);color:var(--teal)}
+.predict-btn:disabled{opacity:.75;cursor:default}
+
+/* ── D5: barcode digits, reused unchanged from Module 14 so the reprise is
+   visually the same object, not a new-looking prop ── */
+.barcode-digits{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:6px 0 12px}
+.barcode-digit{
+  font-family:var(--mono);font-size:17px;font-weight:600;color:var(--ink);
+  background:#1A2440;border:1.5px solid var(--card-edge);border-radius:8px;
+  width:30px;height:40px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color .22s, background .22s, color .22s;
+}
+.barcode-digit:hover{border-color:var(--teal)}
+.barcode-digit:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.barcode-digit.changed{border-color:var(--glow);color:var(--glow);background:rgba(255,184,77,.1)}
+.barcode-digit.check{
+  border:2.5px solid var(--teal);color:var(--teal);cursor:default;
+  background:rgba(123,196,180,.1);
+}
+
+/* ── shared nudge tweak ── */
+.nudge code{font-family:var(--mono);font-size:14px;color:var(--ink)}
+.nudge{font-size:15px}
+
+/* ── mobile tightening at ~380px: stack the matching board, shrink
+   barcode digits and badges so nothing overflows a narrow screen ── */
+@media (max-width:640px){
+  .gt-board{flex-direction:column}
+  .gt-col{flex-basis:auto}
+}
+@media (max-width:420px){
+  .barcode-digit{width:24px;height:34px;font-size:15px}
+  .pcline{font-size:12.5px;padding:4px 8px}
+  .loop-btn,.predict-btn{font-size:13px;padding:8px 13px}
+  .gt-chip{font-size:12.5px}
+  .gt-hint{font-size:12px}
+  .gt-card-val{font-size:17px}
+  .gt-badge{min-width:22px;height:22px;font-size:11.5px}
+}
