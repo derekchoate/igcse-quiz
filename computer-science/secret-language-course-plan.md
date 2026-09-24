@@ -40,7 +40,7 @@ Two interleaved strands so theory never stacks up unrelieved:
 
 Suggested rhythm: alternate S and M modules. Prerequisites are marked per module; everything else is free order — and telling him so is part of the pedagogy.
 
-Milestone celebrations (no certificates, just moments): after M6 ("you can now read any file's raw bytes"), after M22 ("you can now predict what a program does before running it"), after M32 ("you have covered every dot point Cambridge can ask about").
+Milestone celebrations (no certificates, just moments): after M6 ("you can now read any file's raw bytes"), after M24 ("you can now predict what a program does before running it"), after M34 ("you have covered every dot point Cambridge can ask about").
 
 | # | Module | Strand | Syllabus ref |
 |---|--------|--------|--------------|
@@ -59,27 +59,29 @@ Milestone celebrations (no certificates, just moments): after M6 ("you can now r
 | 13 | The Journey of a Message (packets & switching) | S | 2.1 |
 | 14 | Did It Arrive Intact? (transmission methods & error detection) | S | 2.1–2.2 |
 | 15 | Locked Letters (encryption) | S | 2.3 |
-| 16 | X-Ray the Machine (Von Neumann, FDE cycle, registers) | S | 3.1 |
-| 17 | Faster, Smaller, Everywhere (CPU performance, instruction sets, embedded) | S | 3.1 |
-| 18 | Senses and Voices (input/output devices, sensors) | S | 3.2 |
-| 19 | Where Things Live (primary/secondary/virtual storage, cloud) | S | 3.3 |
-| 20 | The Detective's Table (trace tables) | M | 7.3 |
-| 21 | Words Under the Microscope (string handling & library routines) | M | 8.1 |
-| 22 | Many Boxes, One Name (arrays 1D & 2D) | M | 8.2 |
-| 23 | The Classics (linear/binary search, bubble sort, totalling, counting, max/min/avg) | M | 7.5 |
-| 24 | Gatekeepers (validation, verification, test data) | M | 7.6 |
-| 25 | Building Blocks (procedures, functions, scope) | M | 8.1 |
-| 26 | Talking to the Network (NIC, MAC, IP, routers) | S | 3.4 |
-| 27 | The Software Layers (system vs application, OS, interrupts) | S | 4.1 |
-| 28 | From Human to Machine (languages, translators, IDEs) | S | 4.2 |
-| 29 | Filing Cabinets that Answer Back (databases & SQL) | M | 9.1 |
-| 30 | The Logic Machines (gates & truth tables) | M | 10.1 |
-| 31 | Circuits from Sentences (logic circuits & expressions) | M | 10.1 |
-| 32 | The Web Beneath the Web (internet vs WWW, URLs, HTTPS, browsers, cookies) | S | 5.1 |
-| 33 | Money Made of Maths (digital currency & blockchain) | S | 5.2 |
-| 34 | The Defenders (cyber threats & protections) | S | 5.3 |
-| 35 | Machines that Act Alone (automated systems & robotics) | S | 6.1–6.2 |
-| 36 | Machines that Learn (AI, expert systems, ML) + reading files (8.3) capstone | M/S | 6.3, 8.3 |
+| 16 | Meet the Machine (CPU components, registers) | S | 3.1 |
+| 17 | One Shared Cabinet (Von Neumann, buses) | S | 3.1 |
+| 18 | The Loop That Never Stops (fetch–decode–execute cycle) | S | 3.1 |
+| 19 | Faster, Smaller, Everywhere (CPU performance, instruction sets, embedded) | S | 3.1 |
+| 20 | Senses and Voices (input/output devices, sensors) | S | 3.2 |
+| 21 | Where Things Live (primary/secondary/virtual storage, cloud) | S | 3.3 |
+| 22 | The Detective's Table (trace tables) | M | 7.3 |
+| 23 | Words Under the Microscope (string handling & library routines) | M | 8.1 |
+| 24 | Many Boxes, One Name (arrays 1D & 2D) | M | 8.2 |
+| 25 | The Classics (linear search, bubble sort, totalling, counting, max/min/avg) | M | 7.5 |
+| 26 | Gatekeepers (validation, verification, test data) | M | 7.6 |
+| 27 | Building Blocks (procedures, functions, scope) | M | 8.1 |
+| 28 | Talking to the Network (NIC, MAC, IP, routers) | S | 3.4 |
+| 29 | The Software Layers (system vs application, OS, interrupts) | S | 4.1 |
+| 30 | From Human to Machine (languages, translators, IDEs) | S | 4.2 |
+| 31 | Filing Cabinets that Answer Back (databases & SQL) | M | 9.1 |
+| 32 | The Logic Machines (gates & truth tables) | M | 10.1 |
+| 33 | Circuits from Sentences (logic circuits & expressions) | M | 10.1 |
+| 34 | The Web Beneath the Web (internet vs WWW, URLs, HTTPS, browsers, cookies) | S | 5.1 |
+| 35 | Money Made of Maths (digital currency & blockchain) | S | 5.2 |
+| 36 | The Defenders (cyber threats & protections) | S | 5.3 |
+| 37 | Machines that Act Alone (automated systems & robotics) | S | 6.1–6.2 |
+| 38 | Machines that Learn (AI, expert systems, ML) + reading files (8.3) capstone | M/S | 6.3, 8.3 |
 
 ---
 
@@ -496,7 +498,7 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 **Hook:** "The last module. Two ways to make a machine seem clever: give it every rule, or give it every example. Then: one small ceremony."
 **Goal:** State AI's characteristics; name the four expert-system components and their roles; define machine learning as a program adapting its own processes/data; use OPENFILE/READFILE/WRITEFILE/CLOSEFILE in pseudocode.
 **Signature interaction:** A working toy expert system — a "what garden bird is that?" identifier (a nod to a shared interest) whose four components are visible glass boxes: he watches a question travel interface → inference engine → rule base → knowledge base and back. Then he ADDS a rule and a fact himself and watches the system get smarter — the difference between rules-given and learning is then shown as a second panel where a tiny pattern-matcher improves from examples he feeds it.
-**Discoveries:** (1) Tour the four boxes: each component's one job; (2) Ask it something: trace a full inference; (3) Teach it: add a rule + fact, re-ask, watch the new answer — expert systems grow by *being given* knowledge; (4) The other way: feed the mini pattern-matcher examples and watch its guesses improve — machine learning grows by *adapting itself*; name the distinction; (5) Files, the last piece: the system saves its knowledge base with WRITEFILE and reloads with READFILE — pseudocode file handling as the natural need to *keep what was learned*; (6) **The ceremony:** a final screen assembles every module's star into one constellation, with one line: "36 discoveries. No marks were ever given. You taught yourself a subject." Then — only now, and gently — a single optional door marked "curious what the exam looks like?" that opens the conversation about past papers on his terms.
+**Discoveries:** (1) Tour the four boxes: each component's one job; (2) Ask it something: trace a full inference; (3) Teach it: add a rule + fact, re-ask, watch the new answer — expert systems grow by *being given* knowledge; (4) The other way: feed the mini pattern-matcher examples and watch its guesses improve — machine learning grows by *adapting itself*; name the distinction; (5) Files, the last piece: the system saves its knowledge base with WRITEFILE and reloads with READFILE — pseudocode file handling as the natural need to *keep what was learned*; (6) **The ceremony:** a final screen assembles every module's star into one constellation, with one line: "38 modules. No marks were ever given. You taught yourself a subject." Then — only now, and gently — a single optional door marked "curious what the exam looks like?" that opens the conversation about past papers on his terms.
 **Nudge sample (expert system):** ① "The engine gave no answer. Which box was missing something?" ② "The rules were fine — check what facts the knowledge base holds." ③ "No fact matched. Add one and the same rules suddenly work: knowledge base = facts, rule base = how to use them."
 **Watch for:** Expert system components' jobs swapped (inference engine vs rule base is the exam favourite); ML described as "programmed to be smart" (the adaptation is the definition); forgetting CLOSEFILE.
 
@@ -511,4 +513,4 @@ Binary via glowing bulb-switches; challenges auto-detected by state-matching; de
 - **Estimated build order for maximum early payoff:** M2 → M9 → M10 → M22 (the trace-table module is the highest-value single build in the course) → then alternate strands per the map.
 - **Cambridge-accuracy guardrails baked into plans:** 1-based SUBSTRING; MOD/DIV names; no binary search (not in 0478); logic circuits built *without simplification*, ≤3 inputs; pseudocode-only solutions on Paper 2; 1024-based storage units. Verify any module touching pseudocode against the current syllabus appendix (2026–28, v5 Dec 2025) before building, since operator names were revised in v4.
 
-*36 modules · Topics 1–10 complete · Paper 1 and Paper 2 both fully covered.*
+*38 modules · Topics 1–10 complete · Paper 1 and Paper 2 both fully covered.*

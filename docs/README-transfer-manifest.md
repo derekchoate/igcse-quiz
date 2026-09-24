@@ -21,7 +21,7 @@ Nothing here is code — these are the markdown docs. Your `src/`, `dist/`, `too
 - `catalogue-amendments-english-adjudicated.md` — **English** audit, adjudicated + applied.
 
 **`computer-science/`**
-- `secret-language-course-plan.md` — CS 0478, 36 modules.
+- `secret-language-course-plan.md` — CS 0478, 38 modules.
 - `the-bridge-phase-2-plan.md` — exam-prep architecture (applies to every course).
 
 **`maths/`**

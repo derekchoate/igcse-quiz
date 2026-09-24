@@ -1,0 +1,274 @@
+
+  <section class="hero">
+    <h1>Your device has two names. <span class="lit">One is burned in forever. One is only ever borrowed.</span></h1>
+    <p>Before a device can join any network, it needs a <strong>network interface card</strong>, or <strong>NIC</strong>. No <strong>NIC</strong> means no wifi, no cable, no network.</p>
+    <p>The factory gives every <strong>NIC</strong> one address. It uses the hexadecimal shorthand from Module 2. That address never changes.</p>
+    <p>When you join a network, the network gives your device a second address. Your device keeps it only while it stays connected.</p>
+    <p>Tonight you build a small passport office and watch both addresses get issued. Then you move your device between networks. You find out which address follows you and which one stays behind.</p>
+    <div class="promise">
+      <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Engrave, join, move, forward — none of it can be done badly. Take a nudge whenever you fancy one. Stars can never be taken away.
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 1 ══════════ -->
+  <section class="disc open" id="d1">
+    <button class="disc-head" aria-expanded="true" data-toggle="d1">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The engraving
+        <span class="disc-sub">a MAC address, stamped at manufacture, read in hex</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>A <strong>MAC address</strong> (media access control address) belongs to the <strong>NIC</strong> itself. The factory gives it to the <strong>NIC</strong>. It has six pairs of hex digits, the same shorthand you decoded in Module 2.</p>
+      <p>Two halves make up a <strong>MAC address</strong>:</p>
+      <p>1. The first three pairs are the <strong>manufacturer code</strong>. It names the company that made this <strong>NIC</strong>.</p>
+      <p>2. The last three pairs are the <strong>serial code</strong>. It names this one exact unit, so no two <strong>NIC</strong>s ever share an address.</p>
+      <p>Press the button to engrave your device's <strong>NIC</strong>. Then sort each half onto the label it belongs to.</p>
+      <div class="board">
+        <div class="tn-passport">
+          <div class="tn-page" id="macPage1">
+            <div class="tn-page-label">PASSPORT — PAGE 1 · MAC ADDRESS</div>
+            <div class="tn-page-val" id="macDisplay1">— not engraved yet —</div>
+          </div>
+        </div>
+        <button class="loop-btn primary" id="engraveBtn1" type="button">Engrave the MAC at manufacture</button>
+        <div id="macMatch1" hidden>
+          <p class="tn-sub-label">Now sort the two halves…</p>
+          <div class="tn-frag-pool" id="fragPool1"></div>
+          <div class="tn-label-bins" id="labelBins1"></div>
+          <p class="tn-status" id="status1" aria-live="polite">Tap a half to begin.</p>
+        </div>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
+        <div class="nudge" id="ex1">
+          <p>Press "Engrave the MAC". The passport's first page fills in: 3C:4D:BE:07:F2:A7. You saw the same six pairs in Module 2's <strong>MAC address</strong> example.</p>
+          <p>Tap the half "3C:4D:BE", then tap "Manufacturer code". That half names the company that built this <strong>NIC</strong>.</p>
+          <p>Tap "07:F2:A7", then tap "Serial code". That half makes this one unit different from every other <strong>NIC</strong> that company built.</p>
+        </div>
+        <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n1a">Press the engrave button first. The <strong>MAC address</strong> must be on the page before you can sort it.</div>
+        <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n1b">Read the halves left to right. The first three pairs name the maker. The last three pairs name this one <strong>NIC</strong>. First half: <strong>manufacturer code</strong>. Second half: <strong>serial code</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 2 ══════════ -->
+  <section class="disc" id="d2">
+    <button class="disc-head" aria-expanded="false" data-toggle="d2">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The visa
+        <span class="disc-sub">join a network and receive an IP — allocated, not engraved</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>An <strong>IP address</strong> (internet protocol address) is a different kind of address. Your hardware does not carry it. The network you join hands it out the moment you join.</p>
+      <p>An <strong>IP address</strong> comes in two kinds:</p>
+      <p>1. A <strong>dynamic</strong> <strong>IP address</strong> is one the network reissues when it needs to. That is why it can change. Most devices get this kind.</p>
+      <p>2. A <strong>static</strong> <strong>IP address</strong> is fixed, and the network never reissues it to anyone else. A printer everyone needs to find gets this kind. So does a server that must answer at the same place every time.</p>
+      <p>Request both kinds below. Watch how each one behaves.</p>
+      <div class="board">
+        <div class="tn-passport">
+          <div class="tn-page" id="ipPage2">
+            <div class="tn-page-label">PASSPORT — PAGE 2 · IP ADDRESS</div>
+            <div class="tn-page-val" id="ipDisplay2">— not issued yet —</div>
+          </div>
+        </div>
+        <div class="tn-btn-row">
+          <button class="loop-btn primary" id="reqDynamicBtn2" type="button">Ask for a dynamic IP</button>
+          <button class="loop-btn" id="reqStaticBtn2" type="button">Ask for a static IP</button>
+        </div>
+        <p class="tn-status" id="ipLog2" aria-live="polite">Neither kind has been requested yet.</p>
+      </div>
+      <p class="chips-label">Try requesting…</p>
+      <div class="chips" id="chips2"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
+        <div class="nudge" id="ex2">
+          <p>Press "Ask for a dynamic IP". You get, say, 192.168.68.104. Press it again. A different address comes back: 192.168.68.117.</p>
+          <p>The network lends a <strong>dynamic</strong> <strong>IP address</strong> for as long as you need it. It is free to reissue it.</p>
+          <p>Now press "Ask for a static IP" as often as you like. You get 192.168.1.10 every time. A <strong>static</strong> <strong>IP address</strong> never moves. That is why you ask for one on purpose.</p>
+        </div>
+        <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n2a">Press the dynamic button two or three times. Watch the passport's second page. Does the number stay the same, or change?</div>
+        <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n2b">Now press the static button a few times. One button keeps giving you a new number. The other never does. That is the whole difference between <strong>dynamic</strong> and <strong>static</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 3 ══════════ -->
+  <section class="disc" id="d3">
+    <button class="disc-head" aria-expanded="false" data-toggle="d3">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Move house
+        <span class="disc-sub">a new network, a new IP, the same MAC — discover which page actually changes</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Connect to Home Wi-Fi below. Then move the same device to the mall's Wi-Fi. That is a different network entirely.</p>
+      <p>Watch both passport pages as you move. Then pick the page that changed.</p>
+      <div class="board">
+        <div class="tn-passport tn-passport-two">
+          <div class="tn-page" id="macPage3">
+            <div class="tn-page-label">PAGE 1 · MAC ADDRESS</div>
+            <div class="tn-page-val" id="macVal3">— connect first —</div>
+          </div>
+          <div class="tn-page" id="ipPage3">
+            <div class="tn-page-label">PAGE 2 · IP ADDRESS</div>
+            <div class="tn-page-val" id="ipVal3">— connect first —</div>
+          </div>
+        </div>
+        <p class="tn-status" id="netStatus3" aria-live="polite">Not connected to any network yet.</p>
+        <div class="tn-btn-row">
+          <button class="loop-btn primary" id="connectBtn3" type="button">Connect to Home Wi-Fi</button>
+          <button class="loop-btn" id="moveBtn3" type="button" disabled>Move to the mall's Wi-Fi</button>
+        </div>
+        <div id="whichChanged3" hidden>
+          <p class="tn-sub-label">Which page just changed?</p>
+          <div class="tn-btn-row">
+            <button class="loop-btn ghost" id="pickMac3" type="button">Page 1 — MAC address</button>
+            <button class="loop-btn ghost" id="pickIp3" type="button">Page 2 — IP address</button>
+          </div>
+        </div>
+        <p class="tn-status" id="status3" aria-live="polite"></p>
+      </div>
+      <p class="chips-label">Along the way…</p>
+      <div class="chips" id="chips3"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
+        <div class="nudge" id="ex3">
+          <p>Press "Connect to Home Wi-Fi". Page 1 shows 3C:4D:BE:07:F2:A7. Page 2 shows 192.168.1.42.</p>
+          <p>Press "Move to the mall's Wi-Fi". Page 2 changes to 10.20.55.13. A different network handed out a different number.</p>
+          <p>Look at Page 1. It still shows 3C:4D:BE:07:F2:A7. Nothing touched it.</p>
+          <p>Tap "Page 2 — IP address" as your answer. The new network stamped that page.</p>
+        </div>
+        <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n3a">After you move, compare the passport's two pages side by side.</div>
+        <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n3b">
+          <p>The factory engraved one page once. Nothing here can touch it.</p>
+          <p>Whichever network you stand inside stamps the other page fresh.</p>
+          <p>Which page is more likely to change when the network changes?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 4 ══════════ -->
+  <section class="disc" id="d4">
+    <button class="disc-head" aria-expanded="false" data-toggle="d4">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">Running out of numbers
+        <span class="disc-sub">IPv4's 4.3 billion addresses, and why IPv6 isn't just a longer version of the same idea</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Same idea, new costume. An <strong>IPv4</strong> address is 32 bulbs. That is four of Module 1's bytes, end to end. It allows exactly 2<sup>32</sup> different addresses.</p>
+      <p>When designers made it, that number looked bottomless. Then phones, laptops, watches, doorbells and fridges all wanted their own address. The world quietly ran out of room.</p>
+      <p><strong>IPv6</strong> is not <strong>IPv4</strong> with a few extra digits added. It has 128 bulbs, which is sixteen bytes. Designers built it from scratch at a much larger scale, so this never has to happen again.</p>
+      <p>Reveal both address spaces below.</p>
+      <div class="board">
+        <div class="tn-btn-row">
+          <button class="loop-btn primary" id="showIpv4Btn4" type="button">Show IPv4's whole address space</button>
+          <button class="loop-btn" id="showIpv6Btn4" type="button">Show IPv6's whole address space</button>
+        </div>
+        <div class="tn-reveal" id="ipv4Reveal4" hidden>
+          <div class="tn-reveal-label">IPv4 — 32 bulbs</div>
+          <div class="tn-reveal-num">4,294,967,296 addresses</div>
+          <div class="tn-reveal-note">roughly 4.3 billion — fewer than the number of phones on Earth today</div>
+        </div>
+        <div class="tn-reveal" id="ipv6Reveal4" hidden>
+          <div class="tn-reveal-label">IPv6 — 128 bulbs</div>
+          <div class="tn-reveal-num">340,282,366,920,938,463,463,374,607,431,768,211,456 addresses</div>
+          <div class="tn-reveal-note">roughly 340 undecillion — a number 39 digits long. That is enough for every grain of sand on Earth, many times over.</div>
+        </div>
+      </div>
+      <p class="chips-label">Reveal both…</p>
+      <div class="chips" id="chips4"></div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
+        <div class="nudge" id="ex4">
+          <p>Press "Show IPv4's whole address space". You see 4,294,967,296. That is 2<sup>32</sup>, four bytes' worth of bulbs. It is all the room <strong>IPv4</strong> will ever have.</p>
+          <p>Press "Show IPv6's whole address space". The number is so large that it needs a name most people have never heard: undecillion. Designers gave <strong>IPv6</strong> sixteen bytes instead of four.</p>
+          <p><strong>IPv6</strong> is not a bigger <strong>IPv4</strong>. It is a different design. It is big enough that running out is no longer a realistic worry.</p>
+        </div>
+        <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n4a">Reveal <strong>IPv4</strong> first. It is an ordinary-looking number, a few billion. You could imagine running out if enough devices asked for one.</div>
+        <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n4b">Now reveal <strong>IPv6</strong>. Compare the two numbers by length alone. One has ten digits. The other has thirty-nine. That gap is the reason <strong>IPv6</strong> exists.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ DISCOVERY 5 ══════════ -->
+  <section class="disc" id="d5">
+    <button class="disc-head" aria-expanded="false" data-toggle="d5">
+      <span class="disc-star" aria-hidden="true">✦</span>
+      <span class="disc-title">The postmaster
+        <span class="disc-sub">operate the router yourself and forward three packets between networks</span>
+      </span>
+      <span class="chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="disc-body">
+      <p>Back to Module 13's packets, header and all. This time, something has to push each packet from your home network onto the wider network.</p>
+      <p>That is the job of a <strong>router</strong>. It reads the destination address in a packet's header. Then it sends the packet on, in the right direction.</p>
+      <p>A <strong>router</strong> does not build the message. It does not store the message. It only forwards it.</p>
+      <p>A <strong>router</strong> also connects your whole home network to the wider network. It is usually the box that hands out the IPs from Discovery 2.</p>
+      <p>Three packets wait on your home network. Each one has an address somewhere on the wider network. Operate the <strong>router</strong> and forward them, one at a time.</p>
+      <div class="board">
+        <div class="tn-net-map">
+          <div class="tn-net-zone">
+            <div class="tn-net-zone-label">Home network</div>
+            <div class="tn-packet-queue" id="queue5"></div>
+          </div>
+          <div class="tn-router" id="routerNode5">ROUTER</div>
+          <div class="tn-net-zone">
+            <div class="tn-net-zone-label">The wider network</div>
+            <div class="tn-packet-queue" id="delivered5"></div>
+          </div>
+        </div>
+        <button class="loop-btn primary" id="forwardBtn5" type="button">Forward the next packet ▶</button>
+        <p class="tn-status" id="routerNote5" aria-live="polite">Three packets are queued and waiting for the router.</p>
+      </div>
+      <div class="nudge-zone">
+        <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
+        <div class="nudge" id="ex5">
+          <p>Press "Forward the next packet". The <strong>router</strong> reads packet 1's header (To: 203.0.113.5, From: 192.168.1.42). It sends the packet straight across into the wider network, where it lands.</p>
+          <p>Press the button twice more. Packets 2 and 3 follow, one at a time.</p>
+          <p>The <strong>router</strong> never looked at the payload. It never changed it. Every time, its whole job was to read one destination address and send the packet on.</p>
+        </div>
+        <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
+        <div class="nudge" id="n5a">Press the forward button once. Watch what the <strong>router</strong> reads before it moves the packet. It is the same header field from Module 13.</div>
+        <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
+        <div class="nudge" id="n5b">Keep pressing until all three packets cross into the wider network. The <strong>router</strong> does the same single job for every packet. It has no exceptions and no special cases.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ REFLECTION ══════════ -->
+  <section class="reflect" id="reflect" hidden>
+    <h2>Notice what just happened — a twenty-eighth time</h2>
+    <p>You engraved a <strong>MAC address</strong> and sorted its two halves. One half is the maker's <strong>manufacturer code</strong>. The other is a one-of-a-kind <strong>serial code</strong>. Both stay fixed from the moment of manufacture.</p>
+    <p>You asked a network for a <strong>dynamic</strong> <strong>IP address</strong> and a <strong>static</strong> one. You felt the difference between an address the network reissues and one it pins down on purpose.</p>
+    <p>You moved a device between two networks. The <strong>IP address</strong> page changed. The <strong>MAC address</strong> page never flickered.</p>
+    <p>You saw why 4.3 billion <strong>IPv4</strong> addresses once looked bottomless and later ran short. You saw why designers built <strong>IPv6</strong> at a much larger scale.</p>
+    <p>And you acted as a <strong>router</strong> three times. You forwarded real packets using only the destination address in each header.</p>
+    <p class="soft">Whenever you're ready, the next discovery moves indoors. It covers the layers of software between your tap on a screen and the electronics doing the work. It also covers the quiet system of interruptions that keeps everything responsive. No rush at all — the stars keep.</p>
+  </section>
+
+  <div class="index-nav">
+    <a class="nav-link" href="index.html">↑ All modules</a>
+  </div>
+
+  <nav class="module-nav" aria-label="module navigation">
+    <a class="nav-link prev" href="27-building-blocks.html">← Module 27 · Building Blocks</a>
+    <span class="nav-soft">More discoveries are still being written.</span>
+  </nav>
+
+  <footer>Module 28 of 38 · Made for one particular learner · No marks were given in the making of this page.</footer>
