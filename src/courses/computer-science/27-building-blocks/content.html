@@ -1,7 +1,12 @@
 
   <section class="hero">
     <h1>Real programs aren't one long scroll. <span class="lit">They're built from named, reusable blocks.</span></h1>
-    <p>Every discovery so far has lived inside one long stretch of steps. Tonight that changes: picture a small workshop of machines, each one built once and reused as many times as a program needs. A <strong>procedure</strong> is a machine with input hoppers — its <strong>parameters</strong> — that simply does something. A <strong>function</strong> is the same idea with one extra part: an output chute that sends a value back out, via <span class="kw" style="font-family:var(--mono)">RETURN</span>. The main program is a conveyor that visits these machines in order, a bit like the loops from Module 12 — except here each stop is a whole named block, not just one line repeating. And a variable declared inside a machine lives only inside its own glass case, born the moment the machine starts, gone the moment it stops.</p>
+    <p>Every discovery so far has lived inside one long stretch of steps. Tonight that changes.</p>
+    <p>Picture a small workshop of machines. Each one is built once, then reused as many times as a program needs.</p>
+    <p>A <strong>procedure</strong> is a machine with input hoppers. Those hoppers are called <strong>parameters</strong>. A procedure simply does something.</p>
+    <p>A <strong>function</strong> is the same idea, with one extra part: an output chute. The chute sends a value back out, using <span class="kw" style="font-family:var(--mono)">RETURN</span>.</p>
+    <p>The main program is a conveyor. It visits these machines in order, a bit like the loops from Module 12. But here, each stop is a whole named block — not just one line repeating.</p>
+    <p>A variable declared inside a machine lives only inside its own glass case. It's born the moment the machine starts. It's gone the moment the machine stops.</p>
     <div class="promise">
       <strong>Same deal as always:</strong> no marks, no timer, no wrong answers, nothing to hand in. Swapped hoppers and vanished variables are just things the workshop does — never you getting something wrong. Take a nudge whenever you fancy one. Stars can never be taken away.
     </div>
@@ -17,7 +22,10 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>A <strong>procedure</strong> is a named, reusable block of steps. Cambridge writes one like this: <code>PROCEDURE Greet(Name : STRING)</code>, then its steps, then <code>ENDPROCEDURE</code>. The <code>Name : STRING</code> inside the brackets is a <strong>parameter</strong> — a hopper built into the machine's design, waiting to receive a value. Every time you actually run the machine, you pour a real value into that hopper — that's called an <strong>argument</strong>. Cambridge writes "run this machine, with this value in its hopper" as <code>CALL Greet("Amir")</code>. Feed a name into the hopper below and press the button. Then try it again with a different name, and a third time with another — same machine, same steps, every time.</p>
+      <p>A <strong>procedure</strong> is a named, reusable block of steps. Cambridge writes one like this: <code>PROCEDURE Greet(Name : STRING)</code>, then its steps, then <code>ENDPROCEDURE</code>.</p>
+      <p>The <code>Name : STRING</code> inside the brackets is a <strong>parameter</strong>. It's a hopper built into the machine's design, waiting to receive a value.</p>
+      <p>Every time you run the machine, you pour a real value into that hopper. That's called an <strong>argument</strong>. Cambridge writes "run this machine, with this value in its hopper" as <code>CALL Greet("Amir")</code>.</p>
+      <p>Feed a name into the hopper below and press the button. Then try it again with a different name, and a third time with another. Same machine, same steps, every time.</p>
       <div class="board">
         <div class="decl-code" id="code1"></div>
         <div class="bb-machine">
@@ -37,11 +45,11 @@
       <div class="chips" id="chips1"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex1">Show me one first</button>
-        <div class="nudge" id="ex1">Type "Amir" and press the button: <code>CALL Greet("Amir")</code> appears on the conveyor, followed by what the machine actually did — output "Hello, Amir!". Clear the box, type "Priya", press it again: same machine, same two steps inside it, a completely different result, because Name is a hopper that accepts whatever argument you pour in. A third name — maybe your own — and you've called one machine three times without writing it out three times.</div>
+        <div class="nudge" id="ex1">Type "Amir" and press the button. <code>CALL Greet("Amir")</code> appears on the conveyor. Below it: what the machine actually did — output "Hello, Amir!". Clear the box and type "Priya". Press it again — same machine, same two steps inside it, but a different result. That's because Name is a hopper: it accepts whatever <strong>argument</strong> you pour in. Now try a third name, maybe your own. You've called one machine three times, without ever writing it out three times.</div>
         <button class="nudge-btn" data-nudge="n1a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n1a">Type any name at all and press the call button — watch what appears in the pseudocode-style line above the conveyor, then what actually gets printed below it.</div>
+        <div class="nudge" id="n1a">Type any name at all and press the call button. Watch what appears in the pseudocode-style line above the conveyor. Then look at what actually gets printed below it.</div>
         <button class="nudge-btn" data-nudge="n1b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n1b">The hopper itself is named Name — but the real word you type in is called an argument, not a parameter. Name is a permanent part of the machine's design; whatever you actually type is a one-off value poured in for this particular call.</div>
+        <div class="nudge" id="n1b">The hopper itself is named Name. But the real word you type in is called an <strong>argument</strong>, not a <strong>parameter</strong>. Name is a permanent part of the machine's design. Whatever you actually type is just a one-off value, poured in for this one call.</div>
       </div>
     </div>
   </section>
@@ -56,7 +64,11 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>A procedure can only ever <em>do</em> something — <span class="kw" style="font-family:var(--mono)">OUTPUT</span>, mostly. A <strong>function</strong> is built almost the same way, except it also has an output chute: a value comes back out and lands on the conveyor, for whoever called it to use however they like. Cambridge writes the header with <code>RETURNS &lt;data type&gt;</code>, and the last thing inside is usually <code>RETURN &lt;value&gt;</code> — the value sent back. One more rule, stated exactly: you never write <code>CALL</code> in front of a function. A function is only ever called from inside an expression — <code>OUTPUT Initial(Name)</code>, never <code>CALL Initial(Name)</code>. Below is a function built from the same two tools as Module 23's monogram: <code>SUBSTRING</code> and <code>UCASE</code>, but this time the answer comes back through a chute instead of being printed straight away.</p>
+      <p>A procedure can only ever <em>do</em> something — mostly <span class="kw" style="font-family:var(--mono)">OUTPUT</span>. A <strong>function</strong> is built almost the same way, but with one extra part: an output chute.</p>
+      <p>A value comes back out of that chute and lands on the conveyor. Whoever called the function can use that value however they like.</p>
+      <p>Cambridge writes the header with <code>RETURNS &lt;data type&gt;</code>. The last thing inside is usually <code>RETURN &lt;value&gt;</code> — the value sent back.</p>
+      <p>One more rule, stated exactly: you never write <code>CALL</code> in front of a function. Instead, a function is always called from inside an expression, like <code>OUTPUT Initial(Name)</code>. Never <code>CALL Initial(Name)</code>.</p>
+      <p>Below is a function built from the same two tools as Module 23's monogram: <code>SUBSTRING</code> and <code>UCASE</code>. This time, though, the answer comes back through a chute instead of being printed straight away.</p>
       <div class="board">
         <div class="decl-code" id="code2proc"></div>
         <div class="decl-code" id="code2func"></div>
@@ -82,11 +94,11 @@
       <div class="chips" id="chips2"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex2">Show me one first</button>
-        <div class="nudge" id="ex2">Feed in "Mei Ling" and press the function button: <code>RETURN UCASE(SUBSTRING(Name, 1, 1))</code> sends "M" back onto the conveyor — nothing has been printed yet. Press "OUTPUT the returned value" and "M" finally appears, because <code>OUTPUT Initial(Name)</code> is a complete statement using the function's answer. Reset and try "Just move on" instead: "M" arrived on the conveyor and nothing ever collected it — perfectly legal, just quietly pointless.</div>
+        <div class="nudge" id="ex2">Feed in "Mei Ling" and press the function button. <code>RETURN UCASE(SUBSTRING(Name, 1, 1))</code> sends "M" back onto the conveyor. Nothing has been printed yet. Press "OUTPUT the returned value" and "M" finally appears. That's because <code>OUTPUT Initial(Name)</code> is a complete statement, using the function's answer. Now reset and try "Just move on" instead. "M" arrives on the conveyor, but nothing ever collects it. That's perfectly legal — just quietly pointless.</div>
         <button class="nudge-btn" data-nudge="n2a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n2a">Call the function first and read exactly what the machine's chute delivers, before deciding what to do with it.</div>
+        <div class="nudge" id="n2a">Call the function first. Read exactly what the machine's chute delivers. Then decide what to do with it.</div>
         <button class="nudge-btn" data-nudge="n2b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n2b">A function's RETURN doesn't print anything by itself — something outside has to use the value, by outputting it, storing it, or comparing it. Otherwise it simply goes nowhere.</div>
+        <div class="nudge" id="n2b">A function's RETURN doesn't print anything by itself. Something outside has to use the value — by outputting it, storing it, or comparing it. Otherwise, it simply goes nowhere.</div>
       </div>
     </div>
   </section>
@@ -101,7 +113,10 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>A machine with two hoppers fills them in the exact order you hand values over — the first argument lands in the first hopper, the second in the second, no exceptions. <code>PROCEDURE Introduce(Name : STRING, Job : STRING)</code> has two hoppers that both happen to accept the same data type, <span class="kw" style="font-family:var(--mono)">STRING</span> — which means nothing stops you handing the arguments over in the wrong order. The machine has no way to know what a value is supposed to <em>mean</em>, only which hopper it landed in. Set what's in each hopper below, call the machine, then swap what's sitting in each one and call it again.</p>
+      <p>A machine with two hoppers fills them in the exact order you hand values over. The first <strong>argument</strong> lands in the first hopper. The second lands in the second. No exceptions.</p>
+      <p><code>PROCEDURE Introduce(Name : STRING, Job : STRING)</code> has two hoppers. Both happen to accept the same data type, <span class="kw" style="font-family:var(--mono)">STRING</span>. Nothing stops you handing the <strong>arguments</strong> over in the wrong order.</p>
+      <p>The machine has no way to know what a value is supposed to <em>mean</em>. It only knows which hopper it landed in.</p>
+      <p>Set what's in each hopper below, then call the machine. Swap what's sitting in each one, and call it again.</p>
       <div class="board">
         <div class="decl-code" id="code3"></div>
         <div class="bb-hoppers2">
@@ -118,11 +133,11 @@
       <div class="chips" id="chips3"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex3">Show me one first</button>
-        <div class="nudge" id="ex3">Leave the hoppers as Priya / a chef and press call: <code>CALL Introduce("Priya", "a chef")</code> → "Priya works as a chef." — makes perfect sense. Now swap the hoppers and call again: <code>CALL Introduce("a chef", "Priya")</code> → "a chef works as Priya." Nothing crashed, nothing errored — Introduce has no idea Name was supposed to mean a person and Job a job. It just filled its two hoppers, in order, exactly as told. That's the polite chaos: perfectly legal pseudocode, comically wrong meaning.</div>
+        <div class="nudge" id="ex3">Leave the hoppers as Priya / a chef, and press call. <code>CALL Introduce("Priya", "a chef")</code> → "Priya works as a chef." That makes perfect sense. Now swap the hoppers and call again. <code>CALL Introduce("a chef", "Priya")</code> → "a chef works as Priya." Nothing crashed. Nothing errored. Introduce has no idea Name was supposed to mean a person, and Job a job. It just filled its two hoppers, in order, exactly as told. That's the polite chaos: perfectly legal pseudocode, with a comically wrong meaning.</div>
         <button class="nudge-btn" data-nudge="n3a" style="margin-top:10px">Want a nudge?</button>
         <div class="nudge" id="n3a">Call the machine once with the hoppers exactly as they start — read the sentence it produces.</div>
         <button class="nudge-btn" data-nudge="n3b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n3b">Now swap the two hoppers and call it again. The machine runs its steps exactly the same way both times — only the order the arguments arrived in has changed.</div>
+        <div class="nudge" id="n3b">Now swap the two hoppers and call it again. The machine runs its steps exactly the same way both times — only the order the <strong>arguments</strong> arrived in has changed.</div>
       </div>
     </div>
   </section>
@@ -137,7 +152,11 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Cambridge's rule, stated exactly: a variable <span class="kw" style="font-family:var(--mono)">DECLARE</span>d inside a procedure or function is <strong>local</strong> — it lives inside that machine's glass case, born the moment the machine starts, belonging to that one machine alone. A variable declared out in the open, outside every machine, is <strong>global</strong> — it sits on the factory floor, reachable from anywhere, for as long as the whole program runs. (Some other languages default variables to global unless told otherwise — Cambridge pseudocode never does; where a variable is declared decides everything.) Below, <code>FactoryCount</code> is global; <code>Local</code> is declared inside <code>RunMachine</code>, so it only ever exists in the glass case. Start the machine, stop it, then try reading <code>Local</code> from out on the floor.</p>
+      <p>Cambridge's rule, stated exactly: a variable <span class="kw" style="font-family:var(--mono)">DECLARE</span>d inside a procedure or function is <strong>local</strong>. It lives inside that machine's glass case. It's born the moment the machine starts. It belongs to that one machine alone.</p>
+      <p>A variable declared out in the open, outside every machine, is <strong>global</strong>. It sits on the factory floor, reachable from anywhere. It stays there for as long as the whole program runs.</p>
+      <p>Some other languages default variables to global, unless told otherwise. Cambridge pseudocode never does — where a variable is declared decides everything.</p>
+      <p>Below, <code>FactoryCount</code> is <strong>global</strong>. <code>Local</code> is declared inside <code>RunMachine</code>, so it only ever exists in the glass case.</p>
+      <p>Start the machine, then stop it. Then try reading <code>Local</code> from out on the floor.</p>
       <div class="board">
         <div class="decl-code" id="code4"></div>
         <div class="bb-floor">
@@ -163,9 +182,9 @@
       <div class="chips" id="chips4"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
-        <div class="nudge" id="ex4">Press Start: Local is born inside the glass case at 1 — but FactoryCount on the floor hasn't moved yet, because the machine hasn't finished. Press "Try to read Local" while it's still running: even though Local is alive right now, the floor was never given a way to see into the case — simply not reachable from out here. Press Stop: FactoryCount ticks up to 1, and Local disappears from the case entirely. Try to read Local again: still nothing — this time because it's genuinely gone, not just unreachable.</div>
+        <div class="nudge" id="ex4">Press Start. Local is born inside the glass case, at 1. But FactoryCount on the floor hasn't moved yet — the machine hasn't finished. Press "Try to read Local" while it's still running. Local is alive right now. But the floor was never given a way to see into the case. It's simply not reachable from out here. Press Stop. FactoryCount ticks up to 1, and Local disappears from the case entirely. Try to read Local again — still nothing. This time, it's because Local is genuinely gone, not just unreachable.</div>
         <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
-        <div class="nudge" id="n4a">Start the machine and watch the glass case fill. Before pressing Stop, try reading Local from the floor — does the machine need to have stopped for that to come up empty?</div>
+        <div class="nudge" id="n4a">Start the machine and watch the glass case fill. Before pressing Stop, try reading Local from the floor. Does the machine need to have stopped for that to come up empty?</div>
         <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
         <div class="nudge" id="n4b">Local is born and dies with one single run of the machine. FactoryCount, out on the floor, keeps its value between runs. Start and stop the machine a second time and compare how each one behaves.</div>
       </div>
@@ -182,7 +201,9 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p>Procedures and functions are built almost identically — the one tell that never lies is the header line. If it says <code>RETURNS &lt;data type&gt;</code>, it's a function, and somewhere inside there'll be a <code>RETURN</code>. If it doesn't, it's a procedure. Tap a blueprint below, then tap the pile you think it belongs on — a mismatched pick just bounces back so you can look again; nothing here is ever marked wrong.</p>
+      <p>Procedures and functions are built almost identically. The one tell that never lies is the header line.</p>
+      <p>If it says <code>RETURNS &lt;data type&gt;</code>, it's a <strong>function</strong> — and somewhere inside, there'll be a <code>RETURN</code>. If it doesn't, it's a <strong>procedure</strong>.</p>
+      <p>Tap a blueprint below, then tap the pile you think it belongs on. A mismatched pick just bounces back, so you can look again. Nothing here is ever marked wrong.</p>
       <div class="board">
         <div class="bb-pool" id="pool5"></div>
         <div class="bb-piles" id="piles5"></div>
@@ -190,11 +211,11 @@
       </div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex5">Show me one first</button>
-        <div class="nudge" id="ex5">ShowMenu has no RETURNS anywhere in its header — Procedure pile. Double(N : INTEGER) RETURNS INTEGER — the header says RETURNS, so Function pile, no need to even read the body. Same tell, every single time: RETURNS present → Function; RETURNS absent → Procedure.</div>
+        <div class="nudge" id="ex5">ShowMenu has no RETURNS anywhere in its header — Procedure pile. Double(N : INTEGER) RETURNS INTEGER — the header says RETURNS, so Function pile. No need to even read the body. Same tell, every single time: RETURNS present means Function. RETURNS absent means Procedure.</div>
         <button class="nudge-btn" data-nudge="n5a" style="margin-top:10px">Want a nudge?</button>
         <div class="nudge" id="n5a">Ignore everything except the very first line of each blueprint — the header. You're looking for one word.</div>
         <button class="nudge-btn" data-nudge="n5b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n5b">RETURNS is the whole tell. It doesn't matter how many parameters a blueprint has or what it's named — RETURNS on the header line means Function, every time; its absence means Procedure, every time.</div>
+        <div class="nudge" id="n5b">RETURNS is the whole tell. It doesn't matter how many <strong>parameters</strong> a blueprint has, or what it's named. RETURNS on the header line means Function, every time. Its absence means Procedure, every time.</div>
       </div>
     </div>
   </section>
@@ -202,8 +223,13 @@
   <!-- ══════════ REFLECTION ══════════ -->
   <section class="reflect" id="reflect" hidden>
     <h2>Notice what just happened — a twenty-seventh time</h2>
-    <p>You built a procedure with one hopper and called it three times without ever rewriting it, feeling exactly what "reusable" buys you. You turned that same idea into a function, watched a value travel back through RETURN onto the conveyor, and saw for yourself that a returned value is only ever used if something outside the machine chooses to use it. You fed two hoppers in order, then swapped the arguments and met the polite chaos of a machine that has no idea what its values are supposed to mean. You watched a local variable get born inside a glass case and vanish the moment its machine stopped, right alongside a global variable on the factory floor that kept its value the whole time. And you sorted six blueprints into two piles using nothing but one header word.</p>
-    <p class="soft">Whenever you're ready, the next discovery moves back out to hardware — the two names every device on a network carries, one burned in forever, one borrowed for the afternoon. No rush at all — the stars keep.</p>
+    <p>You built a <strong>procedure</strong> with one hopper, and called it three times without ever rewriting it. That's exactly what "reusable" buys you.</p>
+    <p>You turned that same idea into a <strong>function</strong>. You watched a value travel back through <span class="kw" style="font-family:var(--mono)">RETURN</span> onto the conveyor. Then you saw for yourself: a returned value is only used if something outside the machine chooses to use it.</p>
+    <p>You fed two hoppers in order, then swapped the <strong>arguments</strong>. You met the polite chaos of a machine that has no idea what its values are supposed to mean.</p>
+    <p>You watched a <strong>local</strong> variable get born inside a glass case. Then you watched it vanish, the moment its machine stopped. Right alongside it, a <strong>global</strong> variable on the factory floor kept its value the whole time.</p>
+    <p>And you sorted six blueprints into two piles, using nothing but one header word.</p>
+    <p class="soft">Whenever you're ready, the next discovery moves back out to hardware. It's about the two names every device on a network carries — one burned in forever, one borrowed for the afternoon.</p>
+    <p class="soft">No rush at all — the stars keep.</p>
   </section>
 
   <div class="index-nav">

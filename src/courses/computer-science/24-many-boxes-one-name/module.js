@@ -1,5 +1,5 @@
 
-  /* ================= Module 22 — Many Boxes, One Name =================
+  /* ================= Module 24 — Many Boxes, One Name =================
    Signature interaction: a pigeonhole wall — an array rendered as a row of
    physical compartments, each carrying its own 1-based index. D1 fills it
    by hand; D2 hands the reaching over to a FOR loop; D3 pushes the index
@@ -7,11 +7,11 @@
    simply isn't a compartment there (ghost cells, dashed and muted, never
    red, never an error state). D4/D5 grow the wall into a [row, column]
    grid — a small cinema seating plan — and D6 traces a find-the-largest
-   sweep across a filled wall, deliberately mirroring Module 20's trace-grid
-   mechanic and class names, since that's the exact skill Module 23 builds
+   sweep across a filled wall, deliberately mirroring Module 22's trace-grid
+   mechanic and class names, since that's the exact skill Module 25 builds
    on next. No existing kit covers a wall of compartments, a [row,column]
    grid, or a numeric trace grid, so all three are hand-rolled here (rule of
-   two — Module 20 made the identical call for its own trace grid). Runs
+   two — Module 22 made the identical call for its own trace grid). Runs
    inside the shared engine IIFE, so $, $$, awardStar, toast, sparks,
    makeChips, makeCycler and reduceMotion are all in scope. */
 
@@ -50,7 +50,7 @@
   }
   renderWall1();
 
-  /* ═══ D2: the loop meets the wall — FOR Index ← 1 TO 5 ═══ */
+  /* ═══ D2: the loop does the reaching — FOR Index ← 1 TO 5 ═══ */
   (function () {
     const codeEl = $("#code2"), wallEl = $("#wall2"), statusEl = $("#status2"), barEl = $("#bar2");
     const values = {};
@@ -126,7 +126,7 @@
     reset();
   })();
 
-  /* ═══ D3: reach past the wall — Scores[6] and beyond ═══ */
+  /* ═══ D3: past the last compartment — Scores[6] and beyond ═══ */
   (function () {
     const SCORES3 = { 1: 12, 2: 7, 3: 30, 4: 4, 5: 19 };
     const IDX_MIN = 1, IDX_MAX = 7, IDX_UPPER = 5;
@@ -332,7 +332,7 @@
     resetSweep();
   })();
 
-  /* ═══ D6: mini-trace — find the largest, bridges to Module 23 ═══ */
+  /* ═══ D6: mini-trace — find the largest, bridges to Module 25 ═══ */
   (function () {
     const SCORES6 = { 1: 7, 2: 3, 3: 15, 4: 9, 5: 20 };
     const wallEl = $("#wall6");
@@ -355,13 +355,17 @@
       });
     }
 
-    /* Compact trace grid — same shape as Module 20's makeTraceGrid: rows
-       unlock top to bottom, tapping an unlocked box opens a small pad of
-       candidate values, a correct pick glows amber, a wrong one leaves the
-       box exactly as quiet as before with a soft "look again" pointer. */
+    /* Trace grid — same mechanic as Module 22's makeTraceGrid: exactly one
+       cell is ever "active" (left-to-right, then row by row), its box
+       highlighted and its number pad already open, so there's nothing to
+       tap before picking a value — only the pad choice itself is a
+       decision. A correct pick glows amber and auto-advances to the next
+       cell; a wrong one leaves the box exactly as quiet as before with a
+       soft "look again" pointer. */
     function makeTraceGrid(cfg) {
       const columns = cfg.columns;
       let activeRow = 0;
+      let activeBtn = null;
 
       cfg.gridEl.innerHTML = "";
       cfg.gridEl.style.setProperty("--tg-cols", String(columns.length));
@@ -412,21 +416,47 @@
         rowEls.push({ row, cellEls });
       });
 
-      function unlockRow(ri) {
+      function firstUnfilledCell(ri) {
         const entry = rowEls[ri];
-        Object.keys(entry.cellEls).forEach(key => {
-          const b = entry.cellEls[key];
-          b.disabled = false;
-          b.classList.remove("tg-locked");
-          b.classList.add("tg-unlocked");
-          b.textContent = "?";
-        });
-        highlightLine(cfg.codeEl, entry.row.line);
+        for (const col of columns) {
+          const b = entry.cellEls[col.key];
+          if (b && !b.classList.contains("tg-filled")) return { col, btn: b };
+        }
+        return null;
       }
-      function rowComplete(ri) {
-        const entry = rowEls[ri];
-        return Object.keys(entry.cellEls).every(key => entry.cellEls[key].classList.contains("tg-filled"));
+
+      function activateCell(ri, col, btn) {
+        if (activeBtn) {
+          activeBtn.classList.remove("tg-active");
+          activeBtn.removeAttribute("aria-current");
+        }
+        btn.disabled = false;
+        btn.classList.remove("tg-locked");
+        btn.classList.add("tg-unlocked", "tg-active");
+        btn.textContent = "?";
+        btn.setAttribute("aria-current", "true");
+        btn.setAttribute("aria-label", col.label + " at " + rowEls[ri].row.label + " — the active box, pick its value below");
+        activeBtn = btn;
+        highlightLine(cfg.codeEl, rowEls[ri].row.line);
+        openPad(rowEls[ri].row, col, btn);
       }
+
+      function advance() {
+        const found = firstUnfilledCell(activeRow);
+        if (found) {
+          activateCell(activeRow, found.col, found.btn);
+          return;
+        }
+        if (activeRow === cfg.rows.length - 1) {
+          activeBtn = null;
+          cfg.statusEl.textContent = cfg.doneMessage;
+          cfg.onComplete();
+          return;
+        }
+        activeRow += 1;
+        advance();
+      }
+
       function closePad() {
         cfg.padEl.hidden = true;
         cfg.padEl.innerHTML = "";
@@ -455,35 +485,25 @@
         cfg.statusEl.textContent = "Pick the value for " + col.label + " — " + row.label + ".";
       }
       function pickValue(row, col, val, btn) {
-        const ri = cfg.rows.indexOf(row);
         const cellDef = row.cells[col.key];
         if (val === cellDef.value) {
           btn.textContent = String(val);
-          btn.classList.remove("tg-unlocked");
+          btn.classList.remove("tg-unlocked", "tg-active");
           btn.classList.add("tg-filled");
           btn.disabled = true;
+          btn.removeAttribute("aria-current");
           btn.setAttribute("aria-label", col.label + " at " + row.label + " — " + val + ", consistent with the trace");
           const r = btn.getBoundingClientRect();
           sparks(r.left + r.width / 2, r.top);
           closePad();
-          if (rowComplete(ri)) {
-            if (ri === cfg.rows.length - 1) {
-              cfg.statusEl.textContent = cfg.doneMessage;
-              cfg.onComplete();
-            } else {
-              activeRow = ri + 1;
-              unlockRow(activeRow);
-              cfg.statusEl.textContent = "That row's consistent. Tap " + cfg.rows[activeRow].label + "'s box to keep going.";
-            }
-          } else {
-            cfg.statusEl.textContent = "Tap the next box in " + row.label + ".";
-          }
+          if (btn === activeBtn) activeBtn = null;
+          advance();
         } else {
           cfg.statusEl.textContent = cellDef.hint || row.hint || ("Look again at " + row.label + " — that's not quite what this line does.");
         }
       }
-      unlockRow(0);
-      cfg.statusEl.textContent = cfg.introStatus;
+
+      advance();
     }
 
     renderCode($("#code6"), [
@@ -502,19 +522,20 @@
       rows: [
         { label: "Line 1", line: 1, cells: { Largest: { value: 7, options: [7, 0, 3, 20] } } },
         {
-          label: "Lap Index 2", line: 3, cells: { Index: { value: 2, options: [2, 1, 3, 5] } },
+          label: "Lap Index 2 · FOR", line: 2, cells: { Index: { value: 2, options: [2, 1, 3, 5] } },
           hint: "Look again at Lap 2 — Scores[2] is 3, and 3 > 7 is false, so THEN never fires and Largest has nothing new to show."
         },
-        { label: "Lap Index 3", line: 5, cells: { Index: { value: 3, options: [3, 2, 4, 5] }, Largest: { value: 15, options: [15, 7, 3, 20] } } },
+        { label: "Lap Index 3 · FOR", line: 2, cells: { Index: { value: 3, options: [3, 2, 4, 5] } } },
+        { label: "Lap Index 3 · Largest", line: 5, cells: { Largest: { value: 15, options: [15, 7, 3, 20] } } },
         {
-          label: "Lap Index 4", line: 3, cells: { Index: { value: 4, options: [4, 3, 5, 2] } },
+          label: "Lap Index 4 · FOR", line: 2, cells: { Index: { value: 4, options: [4, 3, 5, 2] } },
           hint: "Look again at Lap 4 — Scores[4] is 9, and 9 > 15 is false, so Largest stays exactly where it was after Lap 3."
         },
-        { label: "Lap Index 5", line: 5, cells: { Index: { value: 5, options: [5, 4, 3, 2] }, Largest: { value: 20, options: [20, 15, 9, 7] } } },
+        { label: "Lap Index 5 · FOR", line: 2, cells: { Index: { value: 5, options: [5, 4, 3, 2] } } },
+        { label: "Lap Index 5 · Largest", line: 5, cells: { Largest: { value: 20, options: [20, 15, 9, 7] } } },
         { label: "Line 8 · OUTPUT", line: 8, cells: { OUTPUT: { value: 20, options: [20, 15, 9, 7] } } }
       ],
-      introStatus: "Tap Line 1's box to begin.",
       doneMessage: "All five laps traced — OUTPUT prints 20, the biggest value that was ever sitting on the wall.",
-      onComplete: () => awardStar("d6", "The exact shape of Module 23's whole toolkit: sweep the wall once, keep the best answer seen so far, and only replace it when something actually beats it.")
+      onComplete: () => awardStar("d6", "The exact shape of Module 25's whole toolkit: sweep the wall once, keep the best answer seen so far, and only replace it when something actually beats it.")
     });
   })();

@@ -1,7 +1,7 @@
 
   /* ================= Module 23 — The Classics =================
    Signature interaction: the pigeonhole wall from Module 22, with different
-   algorithm "lenses" clipped onto the same six-compartment wall — a running
+   algorithm jobs applied to the same six-compartment wall — a running
    total, a conditional count, a challenger-vs-champion max-finder and a
    patient search finger (D1-D4), plus a five-compartment bubble-sort row
    (D5) and a shuffled-pseudocode reassembly of Module 22's own max-finder
@@ -12,7 +12,7 @@
    so $, $$, awardStar, toast, sparks, makeChips, makeCycler and reduceMotion
    are all in scope. */
 
-  /* ═══ shared wall data for D1-D4: one wall, four lenses ═══ */
+  /* ═══ shared wall data for D1-D4: one wall, four jobs ═══ */
   const SCORES = { 1: 62, 2: 45, 3: 78, 4: 51, 5: 90, 6: 33 };
   const WALL_N = 6;
 
@@ -72,7 +72,7 @@
         const avg = fmtAvg(total / WALL_N);
         readoutEl.innerHTML = "Total = <b>" + total + "</b><br>Average = <b>" + avg + "</b>";
         statusEl.textContent = "Index is now 7 — the loop finishes. Total = " + total + ", every compartment added exactly once. Average = Total ÷ 6 = " + avg + ".";
-        awardStar("d1", "Total never got reset partway through — it just kept absorbing one more compartment every lap until all six were in.");
+        awardStar("d1", "Total never got reset partway through. It just kept absorbing one more compartment every lap, until all six were in.");
         return;
       }
       const before = total;
@@ -98,7 +98,7 @@
       stepBtn.disabled = false; runBtn.disabled = false;
       renderCode(); renderWall();
       readoutEl.innerHTML = "Total so far = <b>0</b>";
-      statusEl.textContent = "Tap Step for one lap at a time, or Run to send the loop round the whole wall.";
+      statusEl.textContent = "Tap Step for one lap at a time, or Run to send the loop through every compartment.";
     }
     reset();
   })();
@@ -152,7 +152,7 @@
         renderCode(); renderWall();
         readoutEl.innerHTML = "Count = <b>" + count + "</b>";
         statusEl.textContent = "Index is now 7 — the loop finishes. Every compartment was visited, but Count only climbed on the ones over 50. Final Count = " + count + ".";
-        awardStar("d2", "Every compartment got checked — the loop never skips one — but Count only ever moved on the compartments that actually met the condition.");
+        awardStar("d2", "Every compartment got checked. The loop never skips one. But Count only moved on the compartments that met the condition.");
         return;
       }
       const val = SCORES[index];
@@ -179,12 +179,12 @@
       stepBtn.disabled = false; runBtn.disabled = false;
       renderCode(); renderWall();
       readoutEl.innerHTML = "Count so far = <b>0</b>";
-      statusEl.textContent = "Tap Step for one lap at a time, or Run to send the loop round the whole wall.";
+      statusEl.textContent = "Tap Step for one lap at a time, or Run to send the loop through every compartment.";
     }
     reset();
   })();
 
-  /* ═══ D3: king of the wall — champion vs challenger ═══ */
+  /* ═══ D3: champion and challenger — a running max-finder ═══ */
   (function () {
     const codeEl = $("#code3"), wallEl = $("#wall3"), readoutEl = $("#readout3"), statusEl = $("#status3"), barEl = $("#bar3");
     let challenger = 2, champion = SCORES[1], champIdx = 1, finished = false, running = false, timer = null;
@@ -232,7 +232,7 @@
         renderCode(); renderWall();
         readoutEl.innerHTML = "Champion = <b>" + champion + "</b>";
         statusEl.textContent = "Challenger is now 7 — every compartment has had its shot. Champion stays " + champion + " — nobody managed to beat it after it was crowned.";
-        awardStar("d3", "Champion only ever changed hands when a challenger genuinely beat whoever currently held the title — never on a whim, never by resetting.");
+        awardStar("d3", "Champion only ever changed hands when a challenger genuinely beat it. Never by chance. Never by resetting.");
         return;
       }
       const val = SCORES[challenger];
@@ -269,15 +269,15 @@
     const trapBtn = document.createElement("button");
     trapBtn.type = "button"; trapBtn.className = "btn ghost";
     $("#trapBar3").appendChild(trapBtn);
-    trapReadout.innerHTML = "This wall's smallest score is still above 0, so starting Champion at 0 happens to still work here too — nothing to catch yet. Flip to the all-negative wall to find the trap.";
+    trapReadout.innerHTML = "The smallest score here is still above 0. So starting Champion at 0 still works too — nothing to catch yet. Flip to all-negative numbers to find the trap.";
     makeCycler(trapBtn, ["normal", "negative"],
-      v => v === "normal" ? "This wall (everyday numbers)" : "All-negative wall (optional)",
+      v => v === "normal" ? "Everyday numbers" : "All-negative numbers (optional)",
       v => {
         if (v === "normal") {
-          trapReadout.innerHTML = "This wall's smallest score is still above 0, so starting Champion at 0 happens to still work here too — nothing to catch yet. Flip to the all-negative wall to find the trap.";
+          trapReadout.innerHTML = "The smallest score here is still above 0. So starting Champion at 0 still works too — nothing to catch yet. Flip to all-negative numbers to find the trap.";
         } else {
           const correct = Math.max.apply(null, Object.keys(NEG3).map(k => NEG3[k]));
-          trapReadout.innerHTML = "Correct champion (starting at Scores[1]): <b>" + correct + "</b>. If Champion had started at 0 instead: it would report <b>0</b> — but 0 isn't even one of the six numbers on this wall.";
+          trapReadout.innerHTML = "Correct champion (starting at Scores[1]): <b>" + correct + "</b>. If Champion had started at 0 instead, it would report <b>0</b>. But 0 isn't even one of these six numbers.";
         }
       });
   })();
@@ -288,8 +288,8 @@
     let idx = 1, target = null, found = false, finished = false, started = false, foundIdx = null, running = false, timer = null;
 
     const chips4 = makeChips($("#chips4"), ["found", "notfound"],
-      () => awardStar("d4", "The finger stopping the instant it matched, and checking every compartment when it didn't — both of those are the algorithm working exactly as intended."),
-      k => ({ found: "Found a Target that's on the wall", notfound: "Searched for a Target that isn't on the wall" }[k]),
+      () => awardStar("d4", "The finger stops the instant it finds a match. When it doesn't, it checks every compartment instead. Both are the algorithm working exactly as intended."),
+      k => ({ found: "Found a Target that's in the compartments", notfound: "Searched for a Target that isn't in the compartments" }[k]),
       (label, remaining) => "Noticed ✦ — " + remaining + " more to go.");
 
     const stepBtn = mkBtn("loop-btn", "Step one compartment ▸");
@@ -354,7 +354,7 @@
         if (found) {
           statusEl.textContent = "Compartment " + thisIdx + " matched — Found is TRUE, and the finger stops right there. No need to check what's left.";
         } else {
-          statusEl.textContent = "The finger checked every compartment — 1 through 6 — and " + target + " never matched. Found stays FALSE. That's not a mistake — the value genuinely isn't sitting in this wall, and now that's certain, because every single compartment got checked.";
+          statusEl.textContent = "The finger checked every compartment — 1 through 6 — and " + target + " never matched. Found stays FALSE. That's not a mistake. The value genuinely isn't there. Now that's certain, because every single compartment got checked.";
         }
         chips4(found ? "found" : "notfound");
       }
@@ -375,7 +375,7 @@
       targetInput.disabled = false;
       stepBtn.disabled = false; runBtn.disabled = false;
       renderCode(); renderWall();
-      statusEl.textContent = "Type a Target, then press Step or Run to send the finger along the wall.";
+      statusEl.textContent = "Type a Target, then press Step or Run to send the finger through the compartments.";
     }
     reset();
   })();
@@ -453,7 +453,7 @@
           lastCompare = null; lastSwap = false;
           renderCode(); renderWall(); renderStats();
           statusEl.textContent = "Pass " + passNum + " finished with 0 swaps — every neighbouring pair is already in the right order. That's the signal: the row is sorted, so the algorithm stops right here.";
-          awardStar("d5", "Zero swaps on a whole pass means nothing was out of place — that's how the algorithm knows it's done without ever needing to look at the whole row at once.");
+          awardStar("d5", "Zero swaps on a whole pass means nothing was out of place. That's how the algorithm knows it's done — without ever checking the whole row at once.");
           return;
         }
         passNum++; j = 1; swapsThisPass = 0; swappedThisPass = false;
@@ -562,7 +562,7 @@
         pairsDone++;
         if (pairsDone === ASM_LINES.length) {
           statusEl.textContent = "All eight lines back in order — that's the exact program from Module 22, rebuilt from a shuffled pile.";
-          awardStar("d6", "You didn't just recognise this program — you reconstructed it, line by line, from nothing but a shuffled pile and the logic that had to connect them.");
+          awardStar("d6", "You didn't just recognise this program. You reconstructed it, line by line — from a shuffled pile and the logic that had to connect it.");
         } else {
           statusEl.textContent = "That line's in place. " + (ASM_LINES.length - pairsDone) + " to go.";
         }
