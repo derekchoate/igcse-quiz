@@ -48,13 +48,13 @@
         const r = btn.getBoundingClientRect(); sparks(r.left + r.width / 2, r.top);
         placed++; selected = null;
         if (placed === FRAGMENTS.length) {
-          status.textContent = "Both halves sorted — a maker's code, and a serial that makes this one NIC unique.";
-          awardStar("d1", "Engraved, split and sorted — a manufacturer code naming who built this NIC, and a serial code that makes this one exact unit unlike any other, permanent from the moment of manufacture.");
+          status.textContent = "Both halves sorted. One names the maker. One makes this NIC unique.";
+          awardStar("d1", "Engraved, split and sorted. The manufacturer code names who built this NIC. The serial code makes this one unit unlike any other. Both are permanent from manufacture.");
         } else {
           status.textContent = "That's the one. One more half to go.";
         }
       } else {
-        toast("Not that label — have another look: does this half name the maker, or make this one unit unique?");
+        toast("Not that label. Have another look. Does this half name the maker, or make this one unit unique?");
         btn.classList.remove("sel"); selected = null;
         status.textContent = "Tap a half to try again.";
       }
@@ -161,7 +161,7 @@
     let dynIndex = 0;
 
     const check2 = makeChips($("#chips2"), ["dynamic", "static"],
-      () => awardStar("d2", "You felt the whole difference yourself: a dynamic IP handed back a new number nearly every time you asked, and a static IP never once moved."),
+      () => awardStar("d2", "You felt the difference yourself. A dynamic IP gave you a new number nearly every time. A static IP never moved."),
       k => (k === "dynamic" ? "a dynamic IP" : "a static IP"),
       (label, remaining) => "Requested " + label + " — " + remaining + " more to try.");
 
@@ -175,12 +175,12 @@
       const value = DYNAMIC_POOL[dynIndex % DYNAMIC_POOL.length];
       dynIndex++;
       stamp(value);
-      log.textContent = "The network handed back " + value + " — dynamic, and free to change again next time.";
+      log.textContent = "The network gave back " + value + ". It is dynamic, so it can change next time.";
       check2("dynamic");
     });
     statBtn.addEventListener("click", () => {
       stamp(STATIC_IP);
-      log.textContent = "The network handed back " + STATIC_IP + " — static, reserved on purpose, never reissued to anyone else.";
+      log.textContent = "The network gave back " + STATIC_IP + ". It is static, so the network reserves it and never reissues it.";
       check2("static");
     });
   })();
@@ -196,7 +196,7 @@
     let moved = false, identified = false;
 
     const check3 = makeChips($("#chips3"), ["connected", "moved", "identified"],
-      () => awardStar("d3", "You watched it happen with your own eyes: moving networks stamped a brand new IP page, and the MAC page — engraved once, at manufacture — never so much as flickered."),
+      () => awardStar("d3", "You watched it happen. Moving networks gave you a new IP page. The MAC page never changed, because the factory engraved it once."),
       k => (k === "connected" ? "Connected to a network" : k === "moved" ? "Moved to a new one" : "Identified which page changed"),
       (label, remaining) => label + " — " + remaining + " more to go.");
 
@@ -216,7 +216,7 @@
       moved = true;
       ipVal.textContent = MALL_IP;
       const r = ipPage.getBoundingClientRect(); sparks(r.left + r.width / 2, r.top);
-      netStatus.textContent = "Moved to the mall's Wi-Fi — a different network entirely.";
+      netStatus.textContent = "Moved to the mall's Wi-Fi. That is a different network.";
       moveBtn.disabled = true;
       whichChanged.hidden = false;
       check3("moved");
@@ -224,13 +224,13 @@
 
     pickMac.addEventListener("click", () => {
       if (!moved || identified) return;
-      toast("Look at Page 1 again — did the engraving itself actually move?");
+      toast("Look at Page 1 again. Did the engraving move?");
       status.textContent = "Compare both pages once more before picking.";
     });
     pickIp.addEventListener("click", () => {
       if (!moved || identified) return;
       identified = true;
-      status.textContent = "Right page — only the IP page was stamped fresh by the new network. The MAC page stayed exactly as it was engraved.";
+      status.textContent = "That's the page. The new network stamped a fresh IP. The MAC stayed exactly as engraved.";
       check3("identified");
     });
   })();
@@ -239,7 +239,7 @@
   (function () {
     const ipv4Reveal = $("#ipv4Reveal4"), ipv6Reveal = $("#ipv6Reveal4");
     const check4 = makeChips($("#chips4"), ["ipv4", "ipv6"],
-      () => awardStar("d4", "Two address spaces revealed side by side — IPv4's few billion, which the world quietly outgrew, and IPv6's number so large it needed a name most people have never heard."),
+      () => awardStar("d4", "Two address spaces, side by side. IPv4 has a few billion, and the world outgrew it. IPv6 has a number so large it needs a name most people have never heard."),
       k => (k === "ipv4" ? "IPv4's address space" : "IPv6's address space"),
       (label, remaining) => "Revealed " + label + " — " + remaining + " more to see.");
 
@@ -286,11 +286,11 @@
       card.classList.add("tn-delivered");
       delivered.appendChild(card);
       const r = card.getBoundingClientRect(); sparks(r.left + r.width / 2, r.top);
-      note.textContent = "The router read packet " + p.num + "'s header — destination " + p.to + " — and forwarded it straight across, untouched.";
+      note.textContent = "The router read packet " + p.num + "'s header. The destination was " + p.to + ". It forwarded the packet across, untouched.";
       nextIndex++;
       if (nextIndex === PACKETS.length) {
         forwardBtn.disabled = true;
-        awardStar("d5", "Three packets, three headers read, three forwards — a router never builds a message or stores it, it just sends each one on toward the address already written in its header.");
+        awardStar("d5", "Three packets, three headers read, three forwards. A router never builds or stores a message. It sends each packet on toward the address in its header.");
       }
     });
   })();

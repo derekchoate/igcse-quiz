@@ -1,7 +1,7 @@
 # The Bridge — Phase 2 Plan
 ### From understanding to examinable output · Cambridge IGCSE Computer Science 0478 (2026–2028)
 
-Companion to `secret-language-course-plan.md`. The 36 discovery modules build genuine understanding; this plan converts it into marks. Same learner, same design contract at its core — extended, with his consent, into territory the contract was originally built to avoid. That extension is done by **graded exposure with explicit consent gates**, never by surprise.
+Companion to `secret-language-course-plan.md`. The 38 discovery modules build genuine understanding; this plan converts it into marks. Same learner, same design contract at its core — extended, with his consent, into territory the contract was originally built to avoid. That extension is done by **graded exposure with explicit consent gates**, never by surprise.
 
 ---
 
@@ -14,8 +14,8 @@ Companion to `secret-language-course-plan.md`. The 36 discovery modules build ge
 - He controls pace and can exit anything cleanly.
 - Warm adult tone; he is treated as a capable adult throughout.
 
-**Evolves, each behind an explicit consent gate (a "door" he opens, continuing Module 36's metaphor):**
-- **The word "exam" becomes sayable** — after the Module 36 door, exam-shaped work is named honestly. Euphemism past that point would be infantilising and would undermine trust.
+**Evolves, each behind an explicit consent gate (a "door" he opens, continuing Module 38's metaphor):**
+- **The word "exam" becomes sayable** — after the Module 38 door, exam-shaped work is named honestly. Euphemism past that point would be infantilising and would undermine trust.
 - **Marks appear — reframed as intelligence, not judgement.** A mark scheme is "the examiner's phrasebook": a decoding target, information about what earns credit. His own attempts are never scored with a red number; instead he *harvests* marks he can evidence ("I can claim these 4 of 6 — here's why"), which keeps marking an active skill he performs rather than a verdict he receives.
 - **Time appears — as pace awareness first, pressure last.** Clocks arrive in three stages (see X3). No countdown ever turns red or beeps. The final stage — a real timed paper — is his choice, scheduled by him.
 - **Blank pages appear — with warm-up ramps.** Free composition is reached by fading scaffolds, never by cliff.
@@ -30,7 +30,7 @@ Companion to `secret-language-course-plan.md`. The 36 discovery modules build ge
 |--------|------|--------|------------|
 | R | Remembering (spaced retrieval) | Now — alongside Module 3 onwards | Exam day |
 | C | Composing (the blank-page bridge) | After Module 12 (all three loop types known) | Exam day |
-| X | Exam craft (command words, timing, stamina) | After the Module 36 door, or earlier if he opens it | Exam day |
+| X | Exam craft (command words, timing, stamina) | After the Module 38 door, or earlier if he opens it | Exam day |
 | P | Past papers (graded exposure) | After X1–X2 | Exam day |
 
 Indicative timeline for a June sitting: R from the first winter; C from roughly the course midpoint; X and P across the final 5–6 months; full timed papers only in the last 6–8 weeks, and only if the earlier P stages are comfortable. All dates flex to him — the timeline serves the learner, never the reverse.
@@ -41,7 +41,7 @@ Indicative timeline for a June sitting: R from the first winter; C from roughly 
 
 ### R1 · The Constellation Revisit (build: one HTML tool + a data file per module)
 **Purpose:** spaced retrieval without it ever feeling like being tested on the past.
-**Mechanic:** the constellation from Module 36's ceremony becomes a living object available from the start. Each completed module is a star; stars gently dim over time (visual only — *the star is never lost*, it softens, described in-tool as "resting"). Tapping a resting star offers "a two-minute visit": 2–3 challenges drawn from that module's pool, in the module's own mechanics. Completing the visit re-brightens the star. Intervals expand on success (2 days → 1 week → 3 weeks → 6 weeks…) and quietly contract when a visit was effortful — never announced as such.
+**Mechanic:** the constellation from Module 38's ceremony becomes a living object available from the start. Each completed module is a star; stars gently dim over time (visual only — *the star is never lost*, it softens, described in-tool as "resting"). Tapping a resting star offers "a two-minute visit": 2–3 challenges drawn from that module's pool, in the module's own mechanics. Completing the visit re-brightens the star. Intervals expand on success (2 days → 1 week → 3 weeks → 6 weeks…) and quietly contract when a visit was effortful — never announced as such.
 **Contract notes:** dimming must be framed and rendered as *resting*, warm not accusatory (no grey/red; a softer amber). Visits are capped at ~3 minutes. Skipping a visit has no consequence beyond the star continuing to rest.
 **Build spec:** each module exports a challenge pool (JSON block at file foot: id, prompt, mechanic type, answer state). The Revisit tool loads pools and schedules by a simple expanding-interval table. Persistence required — this is the tool that justifies adding the autosave/export layer across the whole course.
 **What Derek gets:** an export view showing per-topic brightness over time — his retention map, invisible to the learner as "data", visible to him as the night sky.
