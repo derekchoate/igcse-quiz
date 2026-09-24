@@ -131,11 +131,11 @@
       <span class="chev" aria-hidden="true">▾</span>
     </button>
     <div class="disc-body">
-      <p><span class="kw" style="font-family:var(--mono)">RANDOM()</span> takes no information in at all — it just hands back a decimal somewhere between 0 and 1, every single time. On its own that's an awkward number to actually use, so <span class="kw" style="font-family:var(--mono)">ROUND(value, places)</span> rounds it to a stated number of decimal places. Multiply RANDOM()'s decimal by 6 first and ROUND it to 0 places, and you've tamed it into a clean whole number between 0 and 6. Press Roll a few times and watch both numbers settle.</p>
+      <p><span class="kw" style="font-family:var(--mono)">RANDOM()</span> takes no information in at all — it just hands back a decimal somewhere between 0 and 1, every single time. On its own that's an awkward number to actually use, so <span class="kw" style="font-family:var(--mono)">ROUND(value, places)</span> rounds it to a stated number of decimal places. Multiply RANDOM()'s decimal by 5 first, ROUND it to 0 places, then add 1 — and you've tamed it into a clean whole number between 1 and 6, exactly like a real dice. Press Roll a few times and watch both numbers settle.</p>
       <div class="board">
         <div class="rd-readouts">
           <div class="rd-stat"><span class="rd-stat-label"><span class="kw">RANDOM</span>() — raw</span><span class="rd-stat-val" id="rdRaw4">—</span></div>
-          <div class="rd-stat"><span class="rd-stat-label"><span class="kw">ROUND</span>(<span class="kw">RANDOM</span>() * 6, 0) — tamed</span><span class="rd-stat-val" id="rdTamed4">—</span></div>
+          <div class="rd-stat"><span class="rd-stat-label"><span class="kw">ROUND</span>(<span class="kw">RANDOM</span>() * 5, 0) + 1 — tamed</span><span class="rd-stat-val" id="rdTamed4">—</span></div>
         </div>
         <p class="op-status" id="rdStatus4" aria-live="polite">Not rolled yet.</p>
         <div class="step-bar">
@@ -146,11 +146,11 @@
       <div class="chips" id="chips4"></div>
       <div class="nudge-zone">
         <button class="nudge-btn" data-nudge="ex4">Show me one first</button>
-        <div class="nudge" id="ex4">One roll might hand back RANDOM() = 0.714 — always a decimal, always somewhere between 0 and 1. Multiply that by 6 first: 0.714 × 6 = 4.284. Then ROUND(4.284, 0) rounds that to the nearest whole number — 4. Roll enough times and every whole number from 0 right up to 6 turns up sooner or later, never anything outside that range.</div>
+        <div class="nudge" id="ex4">One roll might hand back RANDOM() = 0.714 — always a decimal, always somewhere between 0 and 1. Multiply that by 5 first: 0.714 × 5 = 3.57. ROUND(3.57, 0) rounds that to the nearest whole number — 4. Add 1: 5. Roll enough times and every whole number from 1 right up to 6 turns up sooner or later, never anything outside that range — just like a real dice.</div>
         <button class="nudge-btn" data-nudge="n4a" style="margin-top:10px">Want a nudge?</button>
         <div class="nudge" id="n4a">Press Roll a few times and watch the raw number on top — it never drops below 0 or climbs above 1.</div>
         <button class="nudge-btn" data-nudge="n4b" style="margin-top:10px">Another nudge?</button>
-        <div class="nudge" id="n4b">RANDOM() alone gives an awkward decimal. Multiplying by 6 stretches that decimal across a 0-to-6 range, and ROUND(…, 0) is what actually rounds it down to a whole number — the same taming trick works for any range, not just this one.</div>
+        <div class="nudge" id="n4b">RANDOM() alone gives an awkward decimal. Multiplying by 5 stretches that decimal across a 0-to-5 range, ROUND(…, 0) is what actually rounds it to a whole number, and the final + 1 shifts it up to a proper 1-to-6 dice range — the same taming trick works for any range, not just this one.</div>
       </div>
     </div>
   </section>

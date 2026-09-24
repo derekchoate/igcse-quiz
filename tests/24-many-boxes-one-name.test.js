@@ -15,7 +15,7 @@ function seatAt(containerId, r, c) {
   return seats.find(el => el.querySelector(".pgh-seat-addr").textContent === "[" + r + "," + c + "]");
 }
 
-describe("Module 22: Many Boxes, One Name", () => {
+describe("Module 24: Many Boxes, One Name", () => {
   beforeEach(() => {
     loadModule("24-many-boxes-one-name.html");
   });
@@ -66,7 +66,7 @@ describe("Module 22: Many Boxes, One Name", () => {
     });
   });
 
-  describe("discovery 2: the loop meets the wall", () => {
+  describe("discovery 2: the loop does the reaching", () => {
     test("stepping once lights compartment 1 with Index * 10", () => {
       const stepBtn = Array.from(document.querySelectorAll("#bar2 .loop-btn")).find(b => b.textContent.match(/Step/));
       stepBtn.click();
@@ -83,7 +83,7 @@ describe("Module 22: Many Boxes, One Name", () => {
     });
   });
 
-  describe("discovery 3: reach past the wall", () => {
+  describe("discovery 3: past the last compartment", () => {
     test("a valid index reads back a real value", () => {
       expect(document.getElementById("readout3").textContent).toMatch(/12/);
     });
@@ -177,11 +177,11 @@ describe("Module 22: Many Boxes, One Name", () => {
       fillCell(0, "Largest", 7);
       fillCell(1, "Index", 2);
       fillCell(2, "Index", 3);
-      fillCell(2, "Largest", 15);
-      fillCell(3, "Index", 4);
-      fillCell(4, "Index", 5);
-      fillCell(4, "Largest", 20);
-      fillCell(5, "OUTPUT", 20);
+      fillCell(3, "Largest", 15);
+      fillCell(4, "Index", 4);
+      fillCell(5, "Index", 5);
+      fillCell(6, "Largest", 20);
+      fillCell(7, "OUTPUT", 20);
       expect(isDiscoveryDone("d6")).toBe(true);
       expect(starCount()).toBe("✦ 1");
     });
@@ -244,11 +244,11 @@ describe("Module 22: Many Boxes, One Name", () => {
     fillCell(0, "Largest", 7);
     fillCell(1, "Index", 2);
     fillCell(2, "Index", 3);
-    fillCell(2, "Largest", 15);
-    fillCell(3, "Index", 4);
-    fillCell(4, "Index", 5);
-    fillCell(4, "Largest", 20);
-    fillCell(5, "OUTPUT", 20);
+    fillCell(3, "Largest", 15);
+    fillCell(4, "Index", 4);
+    fillCell(5, "Index", 5);
+    fillCell(6, "Largest", 20);
+    fillCell(7, "OUTPUT", 20);
 
     expect(starCount()).toBe("✦ 6");
     expect(reflectVisible()).toBe(true);
